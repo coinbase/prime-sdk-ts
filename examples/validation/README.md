@@ -18,21 +18,27 @@ node examples/validation/validationExample.js
 ## What These Examples Demonstrate
 
 ### Example 1: Single Invalid Parameter
+
 Shows how a single invalid UUID is caught and reported with a clear error message.
 
 ### Example 2: Multiple Invalid Parameters
+
 Demonstrates how multiple validation errors are collected and reported together in a single exception.
 
 ### Example 3: Missing Required Parameters
+
 Shows validation of `undefined` and `null` parameters.
 
 ### Example 4: Whitespace-Only Parameters
+
 Demonstrates that whitespace-only strings are caught and reported as validation errors.
 
 ### Example 5: Valid Parameters
+
 Shows that valid UUIDs pass validation successfully (though they may still fail at the API level if resources don't exist).
 
 ### Example 6: Proper Error Handling
+
 Demonstrates the recommended pattern for handling both validation errors and API errors.
 
 ## Key Takeaways
@@ -72,7 +78,10 @@ Validation Error:
 Use the same error handling pattern in your application:
 
 ```javascript
-const { CoinbasePrimeClientException, CoinbasePrimeException } = require('@coinbase-sample/prime-sdk-ts');
+const {
+  CoinbasePrimeClientException,
+  CoinbasePrimeException,
+} = require('../../dist');
 
 async function yourFunction(portfolioId, orderId) {
   try {
@@ -84,13 +93,13 @@ async function yourFunction(portfolioId, orderId) {
       console.error('❌ Invalid request:', error.message);
       return { success: false, error: 'validation' };
     }
-    
+
     if (error instanceof CoinbasePrimeException) {
       // Server-side API error
       console.error('❌ API error:', error.statusCode);
       return { success: false, error: 'api' };
     }
-    
+
     // Unexpected error
     throw error;
   }
@@ -101,4 +110,3 @@ async function yourFunction(portfolioId, orderId) {
 
 - [Full Validation Documentation](../../docs/validation.md)
 - [Validation Implementation Summary](../../VALIDATION_IMPLEMENTATION_SUMMARY.md)
-

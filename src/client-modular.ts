@@ -62,12 +62,12 @@ export type { IWalletsService } from './wallets';
 // NOTE: Service-specific request/response types are NOT exported here.
 // For optimal tree-shaking, import them from their dedicated modules:
 //
-// import type { CreateOrderRequest } from '@coinbase-sample/prime-sdk-ts/orders';
-// import type { ListWalletsRequest } from '@coinbase-sample/prime-sdk-ts/wallets';
-// import type { GetActivityRequest } from '@coinbase-sample/prime-sdk-ts/activities';
+// import type { CreateOrderRequest } from '@coinbase/prime-sdk-ts/orders';
+// import type { ListWalletsRequest } from '@coinbase/prime-sdk-ts/wallets';
+// import type { GetActivityRequest } from '@coinbase/prime-sdk-ts/activities';
 //
 // Or import all service types at once:
-// import type * from '@coinbase-sample/prime-sdk-ts/types';
+// import type * from '@coinbase/prime-sdk-ts/types';
 //
 // This design ensures the modular client bundle stays minimal while
 // still providing access to all service interfaces for TypeScript support.

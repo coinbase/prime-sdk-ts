@@ -137,7 +137,7 @@ export class WalletsService implements IWalletsService {
       .requiredString((r) => r.depositType)
       .check();
 
-    let queryParams: Record<string, string | number> = {
+    const queryParams: Record<string, string | number> = {
       depositType: request.depositType,
     };
     if (request.networkType) {

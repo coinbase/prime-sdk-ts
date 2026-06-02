@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CoinbaseClient } from '@coinbase-sample/core-ts';
+import { CoinbaseClient } from '@coinbase/core-ts';
 
 import {
   API_BASE_PATH,

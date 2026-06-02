@@ -22,16 +22,16 @@
  */
 
 const {
-  PrimeClient,
+  CoinbasePrimeClientWithServices,
   CoinbasePrimeClientException,
   CoinbasePrimeException,
-} = require('@coinbase-sample/prime-sdk-ts');
+} = require('../../dist');
 
 // Example 1: Single Invalid Parameter
 async function singleInvalidParameter() {
   console.log('\n=== Example 1: Single Invalid Parameter ===\n');
 
-  const client = PrimeClient.fromEnv();
+  const client = CoinbasePrimeClientWithServices.fromEnv();
 
   try {
     await client.orders.getOrder({
@@ -52,7 +52,7 @@ async function singleInvalidParameter() {
 async function multipleInvalidParameters() {
   console.log('\n=== Example 2: Multiple Invalid Parameters ===\n');
 
-  const client = PrimeClient.fromEnv();
+  const client = CoinbasePrimeClientWithServices.fromEnv();
 
   try {
     await client.orders.getOrder({
@@ -74,7 +74,7 @@ async function multipleInvalidParameters() {
 async function missingRequiredParameters() {
   console.log('\n=== Example 3: Missing Required Parameters ===\n');
 
-  const client = PrimeClient.fromEnv();
+  const client = CoinbasePrimeClientWithServices.fromEnv();
 
   try {
     await client.orders.getOrder({
@@ -96,7 +96,7 @@ async function missingRequiredParameters() {
 async function whitespaceParameters() {
   console.log('\n=== Example 4: Whitespace-Only Parameters ===\n');
 
-  const client = PrimeClient.fromEnv();
+  const client = CoinbasePrimeClientWithServices.fromEnv();
 
   try {
     await client.onchainAddressBook.deleteOnchainAddressBook({
@@ -118,7 +118,7 @@ async function whitespaceParameters() {
 async function validParameters() {
   console.log('\n=== Example 5: Valid Parameters ===\n');
 
-  const client = PrimeClient.fromEnv();
+  const client = CoinbasePrimeClientWithServices.fromEnv();
 
   try {
     // These are valid UUIDs - validation passes
@@ -146,7 +146,7 @@ async function validParameters() {
 async function properErrorHandling(portfolioId, orderId) {
   console.log('\n=== Example 6: Proper Error Handling ===\n');
 
-  const client = PrimeClient.fromEnv();
+  const client = CoinbasePrimeClientWithServices.fromEnv();
 
   try {
     const order = await client.orders.getOrder({ portfolioId, orderId });

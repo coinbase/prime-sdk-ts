@@ -42,13 +42,12 @@ type BaseListAdvancedTransfersResponse = Brand<
   'ListAdvancedTransfersResponse'
 >;
 
-export type ListAdvancedTransfersResponse =
-  BaseListAdvancedTransfersResponse &
-    PaginatedResponseMethods<
-      ListAdvancedTransfersRequest & BasePaginatedRequest,
-      BaseListAdvancedTransfersResponse,
-      AdvancedTransfer
-    >;
+export type ListAdvancedTransfersResponse = BaseListAdvancedTransfersResponse &
+  PaginatedResponseMethods<
+    ListAdvancedTransfersRequest & BasePaginatedRequest,
+    BaseListAdvancedTransfersResponse,
+    AdvancedTransfer
+  >;
 
 export type CreateAdvancedTransferRequest = {
   portfolioId: string;

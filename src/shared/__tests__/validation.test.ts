@@ -65,7 +65,7 @@ describe('validation', () => {
 
       expect(() => validator.check()).toThrow(CoinbasePrimeClientException);
       expect(() => validator.check()).toThrow(
-        /Request validation failed:\n  - portfolioId: must be a valid UUID \(received: 'bad-id'\)\n  - orderId: is required/
+        /Request validation failed:\n {2}- portfolioId: must be a valid UUID \(received: 'bad-id'\)\n {2}- orderId: is required/
       );
     });
 

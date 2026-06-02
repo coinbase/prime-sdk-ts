@@ -37,9 +37,7 @@
 // #docs operationId: PrimeRESTAPI_EditOrder
 // #docs operationName: Edit Order
 
-const {
-  CoinbasePrimeClientWithServices,
-} = require('@coinbase-sample/prime-sdk-ts');
+const { CoinbasePrimeClientWithServices } = require('../../dist');
 
 const client = CoinbasePrimeClientWithServices.fromEnv();
 const portfolioId = process.env.PORTFOLIO_ID;
