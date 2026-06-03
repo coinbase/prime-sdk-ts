@@ -489,7 +489,9 @@ export class FinancingService implements IFinancingService {
     request: GetCrossMarginRiskParametersRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetCrossMarginRiskParametersResponse> {
-    validate(request).requiredUUID((r) => r.entityId).check();
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
 
     const response = await this.client.request({
       url: `entities/${request.entityId}/cross_margin/risk_parameters`,
@@ -503,7 +505,9 @@ export class FinancingService implements IFinancingService {
     request: GetCrossMarginPrimeOverviewRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetCrossMarginPrimeOverviewResponse> {
-    validate(request).requiredUUID((r) => r.entityId).check();
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
 
     // This endpoint is on the v2 API path; use a relative URL that resolves
     // correctly against the v1 base URL for both auth signing and HTTP dispatch.
@@ -519,7 +523,9 @@ export class FinancingService implements IFinancingService {
     request: SetFundingSettingsRequest,
     options?: CoinbaseCallOptions
   ): Promise<SetFundingSettingsResponse> {
-    validate(request).requiredUUID((r) => r.entityId).check();
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
 
     const {
       entityId,
@@ -550,7 +556,9 @@ export class FinancingService implements IFinancingService {
     request: ListMarketDataRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListMarketDataResponse> {
-    validate(request).requiredUUID((r) => r.entityId).check();
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
 
     const paginationParams = getQueryParams(this.client, request);
     const { limit, cursor, sortDirection, entityId, ...queryParams } = request;

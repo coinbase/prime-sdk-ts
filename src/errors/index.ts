@@ -17,7 +17,7 @@ import {
   CoinbaseClientException,
   CoinbaseError,
   CoinbaseResponse,
-} from '@coinbase-sample/core-ts';
+} from '@coinbase/core-ts';
 
 export class CoinbasePrimeClientException extends CoinbaseClientException {
   constructor(message: string) {

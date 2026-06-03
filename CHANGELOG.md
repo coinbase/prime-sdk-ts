@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.11.0] - 2026-JUN-02
+
+### Changed
+
+- **Breaking:** Package renamed from `@coinbase-sample/prime-sdk-ts` to `@coinbase/prime-sdk-ts`. Update all import paths (including subpaths `/manual`, `/modular`, `/services`, `/client`, `/types`).
+- Dependency updated from `@coinbase-sample/core-ts` to `@coinbase/core-ts@^0.4.0`.
+- Repository moved to `coinbase/prime-sdk-ts` on GitHub.
+
 ## [0.10.0] - 2026-MAY-12
 
 ### Added
@@ -7,6 +15,7 @@
 #### 🆕 New API Endpoints
 
 **Financing Service**
+
 - **`getCrossMarginRiskParameters()`**: Get current Cross Margin (XM) risk parameters for an entity, including per-tier ratios, volatility thresholds, liquidity add-ons, and offset credit matrices (`GET /entities/{entityId}/cross_margin/risk_parameters`)
 - **`getCrossMarginPrimeOverview()`**: Get full live cross-margin margin information for an entity, including margin summary, control status, margin level, and equity breakdowns (`GET /v2/entities/{entityId}/cross_margin/prime`)
 - **`setFundingSettings()`**: Set FCM funding configuration for an entity — designates a funding portfolio and configures auto-conversion, auto-loans, and auto-return of excess margin (`POST /entities/{entityId}/funding_settings`)
@@ -15,6 +24,7 @@
 #### 📝 New & Updated Models
 
 **New Models**
+
 - **`ActiveLiquidationSummary`**: Summary of the active or most recent XM liquidation (ID, status, shortfall amount)
 - **`GetCrossMarginRiskParametersResponse`**: Response for get cross margin risk parameters
 - **`GetCrossMarginPrimeOverviewResponse`**: Response for get prime cross margin overview
@@ -35,6 +45,7 @@
 - **`ValidatorUnstakePreview`**: Per-validator breakdown for an unstake preview (address, estimated amount, time)
 
 **Updated Models**
+
 - **`CrossMarginOverview`**: Added `activeLiquidation` field (`ActiveLiquidationSummary`)
 - **`NetworkDetails`**: Added `minWithdrawalAmount`, `maxWithdrawalAmount`, `minDepositAmount` fields
 - **`PreviewUnstakeResponse`**: Added `walletId`, `walletAddress`, `currentTimestamp`, and `validators` (per-validator breakdown)
@@ -42,6 +53,7 @@
 - **`RFQ`** (request body): Added `quoteDurationMs` optional field (quote timeout in milliseconds, 1–30000)
 
 #### 🔢 New Enums
+
 - **`PrimeXMControlStatus`**: `TRADES_AND_WITHDRAWALS`, `TRADES_ONLY`, `SESSION_LOCKED`
 - **`PrimeXMMarginLevel`**: `HEALTHY_THRESHOLD`, `WARNING_THRESHOLD`, `URGENT_MARGIN_CALL_THRESHOLD`, `LIQUIDATION_THRESHOLD`, `DEFICIT_THRESHOLD`
 - **`PrimeXMMarginRequirementType`**: `MARGIN_REQUIREMENT_TYPE_DMR_PLUS_PMR`, `MARGIN_REQUIREMENT_TYPE_IPMR_PLUS_IFMR`
@@ -51,6 +63,7 @@
 - **`UserRole`**: Added `BUSINESS_MANAGER` value
 
 #### 🔧 Tooling
+
 - **`generateTypes.js`**: Now strips `Beta` / `PrimeBeta` prefixes from all generated model and enum names so beta API types are named consistently with stable types (e.g. `BetaPrimeXMControlStatus` → `PrimeXMControlStatus`)
 
 ### ⚠️ Breaking Changes
@@ -63,21 +76,25 @@
 
 #### 🆕 New API Endpoints
 
-**Advanced Transfers Service** *(new service)*
+**Advanced Transfers Service** _(new service)_
+
 - **`listAdvancedTransfers()`**: List advanced transfers for a portfolio with optional state/type/time/referenceId filtering and cursor pagination (`GET /portfolios/{portfolioId}/advanced_transfers`)
 - **`createAdvancedTransfer()`**: Create a new advanced transfer (e.g. blind match settlement) (`POST /portfolios/{portfolioId}/advanced_transfers`)
 - **`cancelAdvancedTransfer()`**: Cancel an advanced transfer by ID (`POST /portfolios/{portfolioId}/advanced_transfers/{advancedTransferId}/cancel`)
 - **`listAdvancedTransferTransactions()`**: List transactions associated with an advanced transfer (`GET /portfolios/{portfolioId}/advanced_transfers/{advancedTransferId}/transactions`)
 
 **Futures Service**
+
 - **`getEntityEquity()`**: Get FCM equity data for an entity (`GET /entities/{entityId}/futures/equity`)
 
 **Transactions Service**
+
 - **`getTransactionTravelRuleData()`**: Retrieve travel rule data for a specific transaction (`GET /portfolios/{portfolioId}/transactions/{transactionId}/travel_rule`)
 
 #### 📝 New & Updated Models
 
 **New Models**
+
 - **`AdvancedTransfer`**: Represents an advanced transfer between portfolios
 - **`BlindMatchMetadata`**: Metadata for blind match operations
 - **`CancelAdvancedTransferResponse`**: Response for cancelling an advanced transfer
@@ -94,6 +111,7 @@
 - **`ValidatorAllocation`**: Validator address and amount for ETH V2 staking operations
 
 **Updated Models**
+
 - **`Fill`**: Additional fields for FCM and commission details
 - **`Order`**: Additional fields for FCM order data
 - **`Product`**: Added `productType`, `futureProductDetails`, and `perpetualDetails` fields
@@ -101,6 +119,7 @@
 - **`EntityUser`** / **`PortfolioUser`**: Additional user fields
 
 #### 🔢 New Enums
+
 - **`AdvancedTransferState`**, **`AdvancedTransferType`**
 - **`ContractExpiryType`**, **`ExpiringContractStatus`**
 - **`FcmMarginHealthState`**, **`FcmTradingSessionState`**, **`FcmTradingSessionClosedReason`**
@@ -128,6 +147,7 @@
 #### 🆕 New API Endpoints
 
 **Futures Service**
+
 - **`getEntityEquity()`**: Get FCM equity data for an entity
 
 #### 📝 New & Updated Models
@@ -153,11 +173,13 @@
 #### 🆕 New API Endpoints
 
 **Transactions Service**
+
 - **`submitDepositTravelRule()`**: Submit travel rule data for an existing deposit transaction
   - Provide originator and beneficiary information for travel rule compliance
   - Supports self-transfer flag and ownership verification opt-out
 
 **Staking Service**
+
 - **`getStakingStatus()`**: Get staking status for a wallet
   - Retrieve estimated completion times for active staking requests
   - Returns validator staking information with status details
@@ -169,6 +191,7 @@
 #### ✅ Request Validation
 
 **Comprehensive Input Validation Across All Services**
+
 - Added client-side validation for required path parameters (UUIDs) across all services
 - Added validation for required query parameters (e.g., `productId`, `startTime`, `endTime`, `granularity` in `listProductCandles`)
 - Added validation for required body parameters in create/update endpoints
@@ -181,18 +204,21 @@
 #### 🆕 New API Endpoints
 
 **Futures Service**
+
 - **`getFcmSettings()`**: Get FCM settings for an entity
   - Retrieve target derivatives excess configuration
 - **`setFcmSettings()`**: Update FCM settings for an entity
   - Set target derivatives excess amount
 
 **Financing Service**
+
 - **`listTFObligations()`**: List Trade Finance obligations for an entity
   - Retrieve trade finance loans with amount due, notional amounts, and due dates
 - **`listFinancingEligibleAssets()`**: List assets eligible for Trade Finance
   - Get all assets with their asset and liability adjustment factors
 
 **Staking Service**
+
 - **`previewUnstake()`**: Preview an unstaking operation
   - Get estimated amount that would be unstaked before initiating (ETH only)
 - **`getUnstakingStatus()`**: Get unstaking status for a wallet
@@ -201,15 +227,18 @@
 #### 📝 New Request Fields
 
 **Transactions**
+
 - `listPortfolioTransactions()` now supports:
   - `getNetworkUnifiedTransactions`: Flag to retrieve all transactions across all networks for a given symbol
   - `travelRuleStatus`: Filter by travel rule status (Alpha)
 
 **Activities**
+
 - `listEntityActivities()` and `listPortfolioActivities()` now support:
   - `getNetworkUnifiedActivities`: Flag to retrieve all activities across all networks for a given symbol
 
 **Wallets**
+
 - `listWallets()` now supports:
   - `getNetworkUnifiedWallets`: Flag to retrieve all wallets across all networks for a given symbol
 
@@ -228,6 +257,7 @@
 #### 🆕 New API Endpoints
 
 **Products Service**
+
 - **`listProductCandles()`**: Get historical candle data for a product (Beta)
   - Retrieve time-series market data with open, high, low, close, and volume
   - Support for multiple granularities (1min, 5min, 15min, 30min, 1hr, 2hr, 4hr, 6hr, 1day)
@@ -240,18 +270,22 @@
 #### 🆕 New API Endpoints
 
 **Staking Service**
+
 - **`queryTransactionValidators()`**: Query ETH 0x02 validators associated with wallet-level stake transactions
 
 **Financing Service**
+
 - **`getCrossMarginOverview()`**: Retrieve live Cross Margin (XM) data for XM customers
 
 **Orders Service**
+
 - **`editOrder()`**: Edit an existing open order (Beta)
   - Modify limit price, base quantity, quote value, and other order parameters
 
 ### Changed
 
 #### 📝 NPM Scripts
+
 - **`fetch-spec`**: New script to download the latest OpenAPI spec from Coinbase Prime API
 - **`update-spec`**: Enhanced to include fetching the latest spec before generating types
 
@@ -266,6 +300,7 @@
 ### Added
 
 #### 📚 Comprehensive Service Examples
+
 - **Complete SDK Examples**: Added 50+ working examples across all services
   - Full CRUD operations for portfolios, futures, orders, transactions, and more
   - Consistent error handling and multiline console output formatting
@@ -276,12 +311,14 @@
 ### Added
 
 #### 🚀 New Modular Client Architecture
+
 - **CoinbasePrimeClientWithServices**: New client with lazy-loaded service getters for optimal bundle size
   - Services accessed via clean `client.services.method()` syntax
   - Lazy initialization reduces initial bundle size by up to 75%
   - Built-in tree-shaking for unused services
 
 #### 📦 Modular Export System
+
 - **Multiple Entry Points**: Optimized imports for different use cases
   - `@coinbase-sample/prime-sdk-ts/manual` - Manual service instantiation (comprehensive exports)
   - `@coinbase-sample/prime-sdk-ts/modular` - Lazy-loaded services (minimal bundle)
@@ -289,11 +326,12 @@
   - `@coinbase-sample/prime-sdk-ts/client` - Client classes only (97% smaller bundles)
   - `@coinbase-sample/prime-sdk-ts/types` - Types only (0kb runtime, perfect for shared libraries)
 
-#### 🏗️ Enhanced Configuration System  
+#### 🏗️ Enhanced Configuration System
+
 - **Unified Configuration**: `CoinbasePrimeClientConfig` interface for both clients
   - Extends `CoinbaseHttpClientRetryOptions` with Prime-specific pagination options
   - Consistent configuration across traditional and modular clients
-- **Environment Factories**: 
+- **Environment Factories**:
   - `CoinbasePrimeClient.fromEnv()` - Load credentials from environment variables
   - `CoinbasePrimeClientWithServices.fromEnv()` - Enhanced client with env loading
 - **Shared Utilities**: `createCredentialsFromEnv()` with automatic `.env` file support
@@ -301,6 +339,7 @@
 ### Changed
 
 #### 🔧 Developer Experience
+
 - **Consistent API**: Both clients now use the same configuration interface
 - **Factory Methods**: Convenient creation patterns for common scenarios
 - **Enhanced Documentation**: Comprehensive guides for different import strategies
@@ -313,22 +352,30 @@
 ### Migration Guide
 
 #### Backward Compatibility
+
 **No migration required!** Existing code continues to work unchanged:
 
 ```typescript
 // This still works exactly the same in 0.6.3
-import { CoinbasePrimeClient, OrdersService } from '@coinbase-sample/prime-sdk-ts';
+import {
+  CoinbasePrimeClient,
+  OrdersService,
+} from '@coinbase-sample/prime-sdk-ts';
 
 const client = new CoinbasePrimeClient(credentials);
 const orders = new OrdersService(client);
 ```
 
 #### New Optimization Options (Optional)
+
 If you want to optimize bundle size, you can choose from new entry points:
 
 ```typescript
 // Option 1: Manual client (similar API, comprehensive exports)
-import { CoinbasePrimeClient, OrdersService } from '@coinbase-sample/prime-sdk-ts/manual';
+import {
+  CoinbasePrimeClient,
+  OrdersService,
+} from '@coinbase-sample/prime-sdk-ts/manual';
 
 // Option 2: Modular client (new, 75% smaller initial bundle)
 import { CoinbasePrimeClientWithServices } from '@coinbase-sample/prime-sdk-ts/modular';
@@ -336,15 +383,16 @@ const client = CoinbasePrimeClientWithServices.fromEnv();
 client.orders.createOrder(request); // Lazy-loaded service
 
 // Option 3: Services only (85% smaller bundles)
-import {CoinbasePrimeClient } from '@coinbase-sample/prime-sdk-ts/client-only'
+import { CoinbasePrimeClient } from '@coinbase-sample/prime-sdk-ts/client-only';
 import { OrdersService } from '@coinbase-sample/prime-sdk-ts/services';
-
 ```
 
 #### Bundle Size Optimization
+
 Users can now choose their import strategy based on bundle size requirements:
+
 - **Full SDK**: `@coinbase-sample/prime-sdk-ts` (~100kb)
-- **Manual Client**: `@coinbase-sample/prime-sdk-ts/manual` (~90kb)  
+- **Manual Client**: `@coinbase-sample/prime-sdk-ts/manual` (~90kb)
 - **Modular Client**: `@coinbase-sample/prime-sdk-ts/modular` (~25kb)
 - **Services Only**: `@coinbase-sample/prime-sdk-ts/services` (~15kb)
 

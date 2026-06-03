@@ -32,7 +32,7 @@ import {
   PreviewUnstakeResponse as internalPreviewUnstakeResponse,
   GetUnstakingStatusResponse as internalGetUnstakingStatusResponse,
   GetStakingStatusResponse as internalGetStakingStatusResponse,
-} from 'src/model/';
+} from '../model/';
 
 export type CreateStakeRequest = StakingInitiateRequest & {
   portfolioId: string;

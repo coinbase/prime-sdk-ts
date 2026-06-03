@@ -33,4 +33,4 @@ export {
   CoinbaseResponse,
   TransformRequestFn,
   TransformResponseFn,
-} from '@coinbase-sample/core-ts';
+} from '@coinbase/core-ts';

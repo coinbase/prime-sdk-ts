@@ -17,7 +17,7 @@ import type {
   CoinbaseHttpClientRetryOptions,
   CoinbaseHttpRequestOptions,
   CoinbaseResponse,
-} from '@coinbase-sample/core-ts';
+} from '@coinbase/core-ts';
 
 /**
  * Configuration options for Prime SDK clients.
@@ -30,11 +30,10 @@ import type {
  * have different type constraints between core-ts and Prime SDK.
  */
 
-export interface CoinbasePrimeClientConfig
-  extends Omit<
-    CoinbaseHttpClientRetryOptions,
-    'defaultLimit' | 'maxPages' | 'maxItems'
-  > {
+export interface CoinbasePrimeClientConfig extends Omit<
+  CoinbaseHttpClientRetryOptions,
+  'defaultLimit' | 'maxPages' | 'maxItems'
+> {
   // Prime-specific pagination options (may override core-ts defaults)
   defaultLimit?: number;
   maxPages?: number;

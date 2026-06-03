@@ -65,16 +65,13 @@ export class AdvancedTransfersService implements IAdvancedTransfersService {
     request: ListAdvancedTransfersRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListAdvancedTransfersResponse> {
-    validate(request).requiredUUID((r) => r.portfolioId).check();
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
 
     const paginationParams = getQueryParams(this.client, request);
-    const {
-      limit,
-      cursor,
-      sortDirection,
-      portfolioId,
-      ...queryParams
-    } = request;
+    const { limit, cursor, sortDirection, portfolioId, ...queryParams } =
+      request;
     const finalQueryParams = {
       ...paginationParams,
       ...queryParams,
@@ -101,7 +98,9 @@ export class AdvancedTransfersService implements IAdvancedTransfersService {
     request: CreateAdvancedTransferRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateAdvancedTransferResponse> {
-    validate(request).requiredUUID((r) => r.portfolioId).check();
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
 
     const { portfolioId, advancedTransfer } = request;
     const response = await this.client.request({

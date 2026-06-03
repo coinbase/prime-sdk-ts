@@ -1,6 +1,6 @@
 {
-  "name": "@coinbase-sample/prime-sdk-ts",
-  "version": "0.10.0",
+  "name": "@coinbase/prime-sdk-ts",
+  "version": "0.11.0",
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",
   "exports": {
@@ -39,8 +39,9 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "build": "tsc",
-    "lint": "eslint . --ext .js,.ts",
-    "format": "prettier --write \"**/*.{js,ts,tsx,json,css,md}\"",
+    "lint": "eslint . --ext .js,.ts,.mjs",
+    "format": "prettier --write \"**/*.{js,mjs,ts,tsx,json,css,md}\"",
+    "check:lockfile": "node -e \"if(require('fs').readFileSync('package-lock.json','utf8').includes('cbhq.net')){console.error('package-lock.json must not reference cbhq.net');process.exit(1)}\"",
     "fetch-spec": "curl -o apiSpec/prime-public-api-spec.yaml https://api.prime.coinbase.com/v1/openapi.yaml",
     "gen-types": "openapi-generator generate -i apiSpec/prime-public-api-spec.yaml -g typescript-node --global-property models -o apiSpec/types --additional-properties=supportsES6=true --additional-properties=snapshot=true && cd apiSpec && node generateTypes.js",
     "replace-model": "rm -r src/model && cp -r apiSpec/types/processed src/model",
@@ -51,27 +52,38 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:coinbase-samples/prime-sdk-ts.git"
+    "url": "git@github.com:coinbase/prime-sdk-ts.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "sa@coinbase.com",
   "license": "ISC",
-  "description": "",
+  "description": "Coinbase Prime API TypeScript SDK",
+  "bugs": {
+    "url": "https://github.com/coinbase/prime-sdk-ts/issues"
+  },
+  "homepage": "https://github.com/coinbase/prime-sdk-ts#readme",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.5",
+    "@eslint/js": "^9.35.0",
     "@types/jest": "^29.5.12",
     "@types/node": "^22.14.0",
-    "@typescript-eslint/eslint-plugin": "^8.49.0",
-    "@typescript-eslint/parser": "^8.49.0",
-    "dotenv": "^17.2.3",
-    "eslint": "^9.39.1",
+    "@typescript-eslint/eslint-plugin": "^8.59.2",
+    "@typescript-eslint/parser": "^8.59.2",
+    "dotenv": "^17.4.2",
+    "eslint": "^9.35.0",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.4",
-    "js-yaml": "^4.1.1",
-    "prettier": "^3.7.4",
-    "ts-jest": "^29.1.2",
-    "typescript": "^5.9.3"
+    "eslint-plugin-prettier": "^5.5.5",
+    "globals": "^17.6.0",
+    "js-yaml": "^4.2.0",
+    "prettier": "^3.8.3",
+    "ts-jest": "^29.4.11",
+    "typescript": "^6.0.3"
   },
   "dependencies": {
-    "@coinbase-sample/core-ts": "^0.3.0"
+    "@coinbase/core-ts": "^0.4.0"
   }
 }

@@ -215,7 +215,6 @@ export function createPaginatedResponse<
       progressCallback?: (page: number, totalItems: number) => void
     ) {
       const allData: TData[] = [];
-      let currentResponse = this;
       let pageCount = 1;
       let totalItems = 0;
 
@@ -232,31 +231,31 @@ export function createPaginatedResponse<
         );
       }
 
-      // Add current page data
-      const currentData = this.__dataExtractor(currentResponse as any);
-      allData.push(...currentData);
-      totalItems += currentData.length;
-
-      progressCallback?.(pageCount, totalItems);
-
-      // Fetch remaining pages
-      while (
-        currentResponse.hasNext() &&
-        pageCount < (this.__config.maxPages ?? DEFAULT_MAX_PAGES) &&
-        totalItems < (this.__config.maxItems ?? DEFAULT_MAX_ITEMS)
-      ) {
-        const nextResponse = await currentResponse.next(this.__config);
-
-        if (!nextResponse) break;
-
-        pageCount++;
-        const nextData = this.__dataExtractor(nextResponse as any);
-        allData.push(...nextData);
-        totalItems += nextData.length;
+      const collectFromPage = async (
+        page: TResponse & PaginatedResponseMethods<TRequest, TResponse, TData>
+      ): Promise<void> => {
+        const currentData = this.__dataExtractor(page as any);
+        allData.push(...currentData);
+        totalItems += currentData.length;
 
         progressCallback?.(pageCount, totalItems);
-        currentResponse = nextResponse;
-      }
+
+        if (
+          page.hasNext() &&
+          pageCount < (this.__config.maxPages ?? DEFAULT_MAX_PAGES) &&
+          totalItems < (this.__config.maxItems ?? DEFAULT_MAX_ITEMS)
+        ) {
+          const nextResponse = await page.next(this.__config);
+          if (nextResponse) {
+            pageCount++;
+            await collectFromPage(nextResponse);
+          }
+        }
+      };
+
+      await collectFromPage(
+        this as TResponse & PaginatedResponseMethods<TRequest, TResponse, TData>
+      );
 
       return allData;
     },
@@ -317,7 +316,7 @@ export function getQueryParams(
   client: IPrimeApiClient,
   request: BasePaginatedRequest
 ): Record<string, string | number | string[]> {
-  let queryParams: Record<string, string | number | string[]> = {};
+  const queryParams: Record<string, string | number | string[]> = {};
   if (request.limit) {
     queryParams.limit = request.limit;
   }
