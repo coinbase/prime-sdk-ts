@@ -18,10 +18,7 @@
  *  Do not edit the class manually.
  */
 
-/**
- * SetFundingSettingsRequest sets FCM funding configuration for an entity (creates a PCS proposal). entity_id is also bound from the URL path.
- */
-export type SetFundingSettingsRequest = {
+export type UpdateFundingSettingsRequest = {
   /**
    * Set the Derivatives Funding Portfolio that will be used to fund FCM margin calls and receive excess margin sweeps. Only one portfolio per entity.
    */

@@ -19,55 +19,55 @@
  */
 
 /**
- * XM 2.0 risk parameters for an asset tier
+ * XM 2.0 risk parameters for an asset tier.
  */
 export type CrossMarginRiskParameters = {
   /**
-   * Asset tier identifier
+   * Asset tier identifier.
    */
   assetTier?: string;
   /**
-   * Base ratio for long positions
+   * Base ratio for long positions.
    */
   baseRatioLong?: string;
   /**
-   * Base ratio for short positions
+   * Base ratio for short positions.
    */
   baseRatioShort?: string;
   /**
-   * Volatility rate for long positions
+   * Volatility rate for long positions.
    */
   volatilityRateLong?: string;
   /**
-   * Volatility rate for short positions
+   * Volatility rate for short positions.
    */
   volatilityRateShort?: string;
   /**
-   * Volatility low threshold
+   * Volatility low threshold.
    */
   volatilityLowThreshold?: string;
   /**
-   * Volatility high threshold
+   * Volatility high threshold.
    */
   volatilityHighThreshold?: string;
   /**
-   * Liquidity A for long positions
+   * Liquidity A for long positions.
    */
   liquidityALong?: string;
   /**
-   * Liquidity A for short positions
+   * Liquidity A for short positions.
    */
   liquidityAShort?: string;
   /**
-   * Liquidity B for short positions
+   * Liquidity B for short positions.
    */
   liquidityBShort?: string;
   /**
-   * Liquidity threshold
+   * Liquidity threshold.
    */
   liquidityThreshold?: string;
   /**
-   * Basis offset credit rate
+   * Basis offset credit rate.
    */
   basisOffsetCreditRate?: string;
 };

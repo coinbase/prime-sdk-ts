@@ -18,10 +18,7 @@
  *  Do not edit the class manually.
  */
 
-/**
- * SetFundingSettingsResponse returns PCS activity metadata after the proposal is created.
- */
-export type SetFundingSettingsResponse = {
+export type UpdateFundingSettingsResponse = {
   /**
    * Identifier for the created activity / proposal
    */

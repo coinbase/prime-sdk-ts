@@ -18,11 +18,11 @@
  *  Do not edit the class manually.
  */
 
-import { PrimeXMMarginLevel } from './enums/PrimeXMMarginLevel';
 import { PrimeXMMarginThresholdType } from './enums/PrimeXMMarginThresholdType';
+import { XMMarginLevel } from './enums/XMMarginLevel';
 
 export type PrimeXMMarginThreshold = {
-  marginLevel?: PrimeXMMarginLevel;
+  marginLevel?: XMMarginLevel;
   thresholdType?: PrimeXMMarginThresholdType;
   thresholdValue?: string;
 };
