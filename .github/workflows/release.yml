@@ -2,6 +2,9 @@ name: publish @coinbase/prime-sdk-ts
 
 on:
   workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
