@@ -19,12 +19,12 @@
  */
 
 import { CrossMarginPrimeMarginSummary } from './CrossMarginPrimeMarginSummary';
-import { PrimeXMControlStatus } from './enums/PrimeXMControlStatus';
-import { PrimeXMMarginLevel } from './enums/PrimeXMMarginLevel';
+import { XMControlStatus } from './enums/XMControlStatus';
+import { XMMarginLevel } from './enums/XMMarginLevel';
 
 export type GetCrossMarginPrimeOverviewResponse = {
-  controlStatus?: PrimeXMControlStatus;
-  marginLevel?: PrimeXMMarginLevel;
+  controlStatus?: XMControlStatus;
+  marginLevel?: XMMarginLevel;
   /**
    * When margin metrics were evaluated.
    */

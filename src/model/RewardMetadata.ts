@@ -18,8 +18,10 @@
  *  Do not edit the class manually.
  */
 
+import { CustomStablecoinRewardDetails } from './CustomStablecoinRewardDetails';
 import { RewardSubtype } from './enums/RewardSubtype';
 
 export type RewardMetadata = {
   subtype?: RewardSubtype;
+  customStablecoinRewardDetails?: CustomStablecoinRewardDetails;
 };
