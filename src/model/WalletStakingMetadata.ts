@@ -19,11 +19,11 @@
  */
 
 /**
- * - TRADES_AND_WITHDRAWALS: Allowed to trade and withdraw. See XM Margin Methodology for full description of when trading and withdrawals are enabled or disabled.  - TRADES_ONLY: Allowed to trade but not withdraw. See XM Margin Methodology for full description of when trading and withdrawals are enabled or disabled.  - SESSION_LOCKED: Not allowed to trade or withdraw. See XM Margin Methodology for full description of when trading and withdrawals are enabled or disabled.
+ * WalletStakingMetadata contains optional metadata for wallet staking requests. external_id tags the discrete TWS transaction stake/unstake create; automatic reward crediting (e.g. SOL inflation) does not produce one. StakingClaimRewardsRequest intentionally omits this field; add metadata to claim rewards only if a supported network\'s claim flow creates a discrete TWS transaction clients need to tag.
  */
-export enum PrimeXMControlStatus {
-  XmControlStatusUnspecified = 'XM_CONTROL_STATUS_UNSPECIFIED',
-  TradesAndWithdrawals = 'TRADES_AND_WITHDRAWALS',
-  TradesOnly = 'TRADES_ONLY',
-  SessionLocked = 'SESSION_LOCKED',
-}
+export type WalletStakingMetadata = {
+  /**
+   * An optional custom identifier (up to 255 bytes) to attach to the transaction. This is not a searchable transaction field. Retries with the same idempotency_key must use the same external_id; a differing value on retry will be silently ignored.
+   */
+  externalId?: string;
+};
