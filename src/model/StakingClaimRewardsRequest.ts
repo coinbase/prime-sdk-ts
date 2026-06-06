@@ -20,6 +20,9 @@
 
 import { WalletClaimRewardsInputs } from './WalletClaimRewardsInputs';
 
+/**
+ * StakingClaimRewardsRequest represents a request to claim staking rewards. Intentionally omits WalletStakingMetadata; see WalletStakingMetadata for rationale.
+ */
 export type StakingClaimRewardsRequest = {
   /**
    * The client generated idempotency key for requested execution. Any subsequent requests with the same key will return the original response
