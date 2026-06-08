@@ -38,6 +38,42 @@ jobs:
           npm install @openapitools/openapi-generator-cli -g
           ln -s "$(which openapi-generator-cli)" /usr/local/bin/openapi-generator
 
+      - name: Resolve target branch
+        id: branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          EXISTING_BRANCH=$(gh pr list \
+            --state open \
+            --json headRefName \
+            --jq '[.[] | select(.headRefName | startswith("auto/update-spec"))] | .[0].headRefName // empty')
+
+          if [ -n "$EXISTING_BRANCH" ]; then
+            echo "branch=$EXISTING_BRANCH" >> "$GITHUB_OUTPUT"
+            echo "has_open_pr=true" >> "$GITHUB_OUTPUT"
+            echo "Using existing open PR branch: $EXISTING_BRANCH"
+          else
+            echo "branch=auto/update-spec" >> "$GITHUB_OUTPUT"
+            echo "has_open_pr=false" >> "$GITHUB_OUTPUT"
+            echo "No open PR found; will use branch auto/update-spec"
+          fi
+
+      - name: Checkout target branch
+        run: |
+          BRANCH="${{ steps.branch.outputs.branch }}"
+          HAS_OPEN_PR="${{ steps.branch.outputs.has_open_pr }}"
+
+          if [ "$HAS_OPEN_PR" = "true" ]; then
+            git fetch origin "$BRANCH"
+            git checkout "$BRANCH"
+            git pull --ff-only origin "$BRANCH"
+          elif git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null 2>&1; then
+            git fetch origin main "$BRANCH"
+            git checkout -B "$BRANCH" origin/main
+          else
+            git checkout -b "$BRANCH"
+          fi
+
       - name: Restore package-lock.json
         run: git checkout -- package-lock.json
 
@@ -53,28 +89,26 @@ jobs:
             echo "has_changes=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Create branch, commit, and open PR
+      - name: Commit, push, and open or update PR
         if: steps.diff.outputs.has_changes == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          BRANCH="auto/update-spec-$(date +%Y-%m-%d)"
-
-          # Skip if branch already exists on remote
-          if git ls-remote --exit-code --heads origin "$BRANCH" >/dev/null 2>&1; then
-            echo "Branch $BRANCH already exists, skipping."
-            exit 0
-          fi
+          BRANCH="${{ steps.branch.outputs.branch }}"
+          HAS_OPEN_PR="${{ steps.branch.outputs.has_open_pr }}"
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout -b "$BRANCH"
           git add -A
           git commit -m "chore: update API spec and regenerate types"
           git push -u origin "$BRANCH"
 
-          gh pr create \
-            --title "chore: update API spec and regenerate types" \
-            --body "Automated update from the live OpenAPI spec at https://api.prime.coinbase.com/v1/openapi.yaml" \
-            --base main \
-            --head "$BRANCH"
+          if [ "$HAS_OPEN_PR" = "true" ]; then
+            echo "Updated existing PR on branch $BRANCH"
+          else
+            gh pr create \
+              --title "chore: update API spec and regenerate types" \
+              --body "Automated update from the live OpenAPI spec at https://api.prime.coinbase.com/v1/openapi.yaml" \
+              --base main \
+              --head "$BRANCH"
+          fi
