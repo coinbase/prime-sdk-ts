@@ -19,6 +19,7 @@
  */
 
 import { WalletStakeInputs } from './WalletStakeInputs';
+import { WalletStakingMetadata } from './WalletStakingMetadata';
 
 /**
  * StakingInitiateRequest represents a request to initiate a staking operation.
@@ -29,4 +30,5 @@ export type StakingInitiateRequest = {
    */
   idempotencyKey: string;
   inputs?: WalletStakeInputs;
+  metadata?: WalletStakingMetadata;
 };
