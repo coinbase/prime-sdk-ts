@@ -28,21 +28,41 @@ import {
 } from './types';
 
 export interface IOnchainAddressBookService {
+  /**
+   * List Onchain Address Groups
+   *
+   * Lists all onchain address groups for a given portfolio ID
+   */
   listOnchainAddressBook(
     request: ListOnchainAddressBookRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListOnchainAddressBookResponse>;
 
+  /**
+   * Create Onchain Address Book Entry
+   *
+   * Creates an entry to the portfolio's onchain address groups.
+   */
   createOnchainAddressBookEntry(
     request: CreateOnchainAddressBookEntryRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateOnchainAddressBookEntryResponse>;
 
+  /**
+   * Update Onchain Address Book Entry
+   *
+   * Updates an entry to the portfolio's onchain address groups.
+   */
   updateOnchainAddressBookEntry(
     request: UpdateOnchainAddressBookEntryRequest,
     options?: CoinbaseCallOptions
   ): Promise<UpdateOnchainAddressBookEntryResponse>;
 
+  /**
+   * Delete Onchain Address Group
+   *
+   * Deletes an entry in the portfolio's onchain address groups.
+   */
   deleteOnchainAddressBook(
     request: DeleteOnchainAddressBookEntryRequest,
     options?: CoinbaseCallOptions

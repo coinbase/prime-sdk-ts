@@ -43,9 +43,11 @@
     "format": "prettier --write \"**/*.{js,mjs,ts,tsx,json,css,md}\"",
     "check:lockfile": "node -e \"if(require('fs').readFileSync('package-lock.json','utf8').includes('cbhq.net')){console.error('package-lock.json must not reference cbhq.net');process.exit(1)}\"",
     "fetch-spec": "curl -o apiSpec/prime-public-api-spec.yaml https://api.prime.coinbase.com/v1/openapi.yaml",
-    "gen-types": "openapi-generator generate -i apiSpec/prime-public-api-spec.yaml -g typescript-node --global-property models -o apiSpec/types --additional-properties=supportsES6=true --additional-properties=snapshot=true && cd apiSpec && node generateTypes.js",
+    "promote-titles": "node apiSpec/promoteTitles.js",
+    "gen-doc-comments": "node apiSpec/generateDocComments.js",
+    "gen-types": "npm run promote-titles && openapi-generator generate -i apiSpec/.prime-public-api-spec.augmented.yaml -g typescript-node --global-property models -o apiSpec/types --additional-properties=supportsES6=true --additional-properties=snapshot=true && cd apiSpec && node generateTypes.js",
     "replace-model": "rm -r src/model && cp -r apiSpec/types/processed src/model",
-    "update-spec": "npm run fetch-spec && npm run gen-types && npm run replace-model"
+    "update-spec": "npm run fetch-spec && npm run promote-titles && npm run gen-types && npm run replace-model && npm run gen-doc-comments"
   },
   "files": [
     "dist/"
@@ -77,6 +79,7 @@
     "eslint": "^9.35.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-tsdoc": "^0.5.2",
     "globals": "^17.6.0",
     "js-yaml": "^4.2.0",
     "prettier": "^3.8.3",

@@ -25,6 +25,11 @@ import {
 } from '../shared/paginatedResponse';
 
 export interface IInvoicesService {
+  /**
+   * List Invoices
+   *
+   * Retrieve a list of invoices belonging to an entity.
+   */
   listInvoices(
     request: ListInvoicesRequest,
     options?: CoinbaseCallOptions

@@ -30,11 +30,21 @@ import {
 } from '../shared/paginatedResponse';
 
 export interface IProductsService {
+  /**
+   * List Portfolio Products
+   *
+   * List tradable products for a given portfolio.
+   */
   listProducts(
     request: ListProductsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListProductsResponse>;
 
+  /**
+   * Get Public Product Candles (Beta)
+   *
+   * Get rates for a single product by product ID, grouped in buckets. This feature is in beta please reach out to your Coinbase Prime account manager for more information.
+   */
   listProductCandles(
     request: ListProductCandlesRequest,
     options?: CoinbaseCallOptions

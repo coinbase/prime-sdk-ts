@@ -1,5 +1,6 @@
 import { defineConfig, globalIgnores } from 'eslint/config';
 import prettier from 'eslint-plugin-prettier';
+import tsdoc from 'eslint-plugin-tsdoc';
 import globals from 'globals';
 import tsParser from '@typescript-eslint/parser';
 import path from 'node:path';
@@ -35,6 +36,7 @@ export default defineConfig([
 
     plugins: {
       prettier,
+      tsdoc,
     },
 
     languageOptions: {
@@ -47,6 +49,7 @@ export default defineConfig([
 
     rules: {
       'prettier/prettier': 'error',
+      'tsdoc/syntax': 'warn',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
     },

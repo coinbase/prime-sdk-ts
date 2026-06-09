@@ -38,31 +38,61 @@ import {
 } from '../shared/paginatedResponse';
 
 export interface IWalletsService {
+  /**
+   * List Portfolio Wallets
+   *
+   * List all wallets associated with a given portfolio.
+   */
   listWallets(
     request: ListWalletsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListWalletsResponse>;
 
+  /**
+   * Get Wallet by Wallet ID
+   *
+   * Retrieve a specific wallet by Wallet ID.
+   */
   getWallet(
     request: GetWalletRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetWalletResponse>;
 
+  /**
+   * Get Wallet Deposit Instructions
+   *
+   * Retrieve a specific wallet's deposit instructions.
+   */
   getWalletDepositInstructions(
     request: GetWalletDepositInstructionsRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetWalletDepositInstructionsResponse>;
 
+  /**
+   * List Wallet Addresses
+   *
+   * Returns all deposit addresses associated with a wallet
+   */
   listWalletAddresses(
     request: ListWalletAddressesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListWalletAddressesResponse>;
 
+  /**
+   * Create Wallet
+   *
+   * Create a wallet. Note: The first ONCHAIN wallet for each network family must be created through the Prime UI.
+   */
   createWallet(
     request: CreateWalletRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateWalletResponse>;
 
+  /**
+   * Create Wallet Deposit Address
+   *
+   * Creates a new deposit address for a wallet. Only applicable to wallets that support multiple deposit addresses on a given network
+   */
   createWalletDepositAddress(
     request: CreateWalletDepositAddressRequest,
     options?: CoinbaseCallOptions

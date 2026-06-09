@@ -24,10 +24,20 @@ import {
 } from './types';
 
 export interface IPaymentMethodsService {
+  /**
+   * List Entity Payment Methods
+   *
+   * Retrieve all payment methods for a given entity.
+   */
   listEntityPaymentMethods(
     request: ListEntityPaymentMethodsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListEntityPaymentMethodsResponse>;
+  /**
+   * Get Entity Payment Method
+   *
+   * Get payment method details by id for a given entity.
+   */
   getPaymentMethod(
     request: GetPaymentMethodRequest,
     options?: CoinbaseCallOptions

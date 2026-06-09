@@ -43,46 +43,91 @@ import {
 } from './types';
 
 export interface ITransactionsService {
+  /**
+   * Get Transaction by Transaction ID
+   *
+   * Retrieve a specific transaction by its transaction ID.
+   */
   getTransaction(
     request: GetTransactionRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetTransactionResponse>;
 
+  /**
+   * List Portfolio Transactions
+   *
+   * List transactions for a given portfolio.
+   */
   listPortfolioTransactions(
     request: ListPortfolioTransactionsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioTransactionsResponse>;
 
+  /**
+   * List Wallet Transactions
+   *
+   * Retrieve transactions for a given wallet.
+   */
   listWalletTransactions(
     request: ListWalletTransactionsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListWalletTransactionsResponse>;
 
+  /**
+   * Create Conversion
+   *
+   * Perform a conversion between 2 assets.
+   */
   createConversion(
     request: CreateConversionRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateConversionResponse>;
 
+  /**
+   * Create Transfer
+   *
+   * Create a wallet transfer.
+   */
   createTransfer(
     request: CreateTransferRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateTransferResponse>;
 
+  /**
+   * Create Withdrawal
+   *
+   * Create a withdrawal.
+   */
   createWithdrawal(
     request: CreateWithdrawalRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateWithdrawalResponse>;
 
+  /**
+   * Create Onchain Transaction
+   *
+   * Create an onchain transaction.
+   */
   createOnchainTransaction(
     request: CreateOnchainTransactionRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateOnchainTransactionResponse>;
 
+  /**
+   * Submit Deposit Travel Rule Data
+   *
+   * Submit travel rule data for an existing deposit transaction.
+   */
   submitDepositTravelRule(
     request: SubmitDepositTravelRuleRequest,
     options?: CoinbaseCallOptions
   ): Promise<SubmitDepositTravelRuleResponse>;
 
+  /**
+   * Get Transaction Travel Rule Data
+   *
+   * (Beta) Get fulfilled travel rule data for a transaction.
+   */
   getTransactionTravelRuleData(
     request: GetTransactionTravelRuleDataRequest,
     options?: CoinbaseCallOptions

@@ -42,56 +42,111 @@ import {
 } from './types';
 
 export interface IFuturesService {
+  /**
+   * List Entity Futures Sweeps
+   *
+   * Retrieve fcm sweeps in open status, including pending and processing sweeps.
+   */
   listEntitySweeps(
     request: ListEntityFuturesSweepsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListEntityFuturesSweepsResponse>;
 
+  /**
+   * Get Entity FCM Balance
+   *
+   * Retrieve fcm balance for a given entity.
+   */
   getEntityBalance(
     request: GetEntityFuturesBalanceRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetEntityFuturesBalanceResponse>;
 
+  /**
+   * Get Entity Positions
+   *
+   * Retrieve all active fcm positions for a given entity.
+   */
   getEntityPositions(
     request: GetEntityFuturesPositionsRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetEntityFuturesPositionsResponse>;
 
+  /**
+   * Schedule Entity Futures Sweep
+   *
+   * Schedule a sweep for a given entity from FCM wallet to USD Spot wallet. Only one pending sweep is allowed at a time per entity.
+   */
   scheduleEntitySweep(
     request: ScheduleEntityFuturesSweepRequest,
     options?: CoinbaseCallOptions
   ): Promise<ScheduleEntityFuturesSweepResponse>;
 
+  /**
+   * Set Auto Sweep
+   *
+   * Set auto sweep for a given entity.
+   */
   updateEntityAutoSweep(
     request: UpdateEntityFuturesAutoSweepRequest,
     options?: CoinbaseCallOptions
   ): Promise<UpdateEntityFuturesAutoSweepResponse>;
 
+  /**
+   * Cancel Entity Futures Sweep
+   *
+   * Cancel the pending sweep for a given entity. A user will only be able to have one pending sweep at a time. If the sweep is not found, a 404 will be returned.
+   */
   cancelEntitySweep(
     request: CancelEntitySweepRequest,
     options?: CoinbaseCallOptions
   ): Promise<CancelEntitySweepResponse>;
 
+  /**
+   * Get FCM Risk Limits
+   *
+   * Retrieve the risk limits for a given entity.
+   */
   getRiskLimits(
     request: GetEntityFuturesRiskLimitsRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetEntityFuturesRiskLimitsResponse>;
 
+  /**
+   * Get FCM Margin Call Details
+   *
+   * Retrieve the margin call details for a given entity.
+   */
   getMarginCallDetails(
     request: GetEntityFuturesMarginCallDetailsRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetEntityFuturesMarginCallDetailsResponse>;
 
+  /**
+   * Get FCM Settings
+   *
+   * Get settings related to FCM.
+   */
   getFcmSettings(
     request: GetFcmSettingsRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetFcmSettingsResponse>;
 
+  /**
+   * Set FCM Settings
+   *
+   * Update settings related to FCM.
+   */
   setFcmSettings(
     request: SetFcmSettingsRequest,
     options?: CoinbaseCallOptions
   ): Promise<SetFcmSettingsResponse>;
 
+  /**
+   * Get FCM Equity
+   *
+   * Retrieve the equity data for a given entity.
+   */
   getEntityEquity(
     request: GetEntityFcmEquityRequest,
     options?: CoinbaseCallOptions

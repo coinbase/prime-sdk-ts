@@ -34,21 +34,41 @@ import {
 } from '../shared/paginatedResponse';
 
 export interface IBalancesService {
+  /**
+   * List Portfolio Balances
+   *
+   * List all balances for a specific portfolio.
+   */
   listPortfolioBalances(
     request: ListPortfolioBalancesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioBalancesResponse>;
 
+  /**
+   * Get Wallet Balance
+   *
+   * Query balance for a specific wallet.
+   */
   getWalletBalance(
     request: GetWalletBalanceRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetWalletBalanceResponse>;
 
+  /**
+   * List Onchain Wallet Balances
+   *
+   * Query balances for a specific onchain wallet.
+   */
   listOnchainWalletBalances(
     request: ListOnchainWalletBalancesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListOnchainWalletBalancesResponse>;
 
+  /**
+   * List Entity Balances
+   *
+   * List all balances for a specific entity.
+   */
   listEntityBalances(
     request: ListEntityBalancesRequest,
     options?: CoinbaseCallOptions

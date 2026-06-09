@@ -33,21 +33,41 @@ import {
 } from './types';
 
 export interface IAdvancedTransfersService {
+  /**
+   * List Advanced Transfers
+   *
+   * List advanced transfers for a given portfolio. This API is currently not available to all clients. Please reach out to Prime Operations with any questions.
+   */
   listAdvancedTransfers(
     request: ListAdvancedTransfersRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListAdvancedTransfersResponse>;
 
+  /**
+   * Create Advanced Transfer
+   *
+   * Create advanced transfer for a given portfolio. This API is currently not available to all clients. Please reach out to Prime Operations with any questions.
+   */
   createAdvancedTransfer(
     request: CreateAdvancedTransferRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateAdvancedTransferResponse>;
 
+  /**
+   * Cancel Advanced Transfer
+   *
+   * Cancel advanced transfer for a given portfolio. This API is currently not available to all clients. Please reach out to Prime Operations with any questions.
+   */
   cancelAdvancedTransfer(
     request: CancelAdvancedTransferRequest,
     options?: CoinbaseCallOptions
   ): Promise<CancelAdvancedTransferResponse>;
 
+  /**
+   * List transactions associated with an Advanced Transfer
+   *
+   * List transactions associated with an Advanced Transfer. This API is currently not available to all clients. Please reach out to Prime Operations with any questions.
+   */
   listAdvancedTransferTransactions(
     request: ListAdvancedTransferTransactionsRequest,
     options?: CoinbaseCallOptions

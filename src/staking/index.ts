@@ -42,41 +42,86 @@ import {
 } from './types';
 
 export interface IStakingService {
+  /**
+   * Request to stake or delegate a wallet
+   *
+   * Creates an execution request to stake or delegate funds to a validator
+   */
   createStake(
     request: CreateStakeRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateStakeResponse>;
+  /**
+   * Request to unstake a wallet
+   *
+   * Creates an execution request to unstake delegated or staked funds in a wallet
+   */
   createUnstake(
     request: CreateUnstakeRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateUnstakeResponse>;
+  /**
+   * Request to stake currency in a portfolio
+   *
+   * Creates an execution request to stake funds across a portfolio.  This will stake funds in one or more wallets in the portfolio, with a total bondable balance up to the requested stake amount.
+   */
   createPortfolioStake(
     request: CreatePortfolioStakeRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreatePortfolioStakeResponse>;
+  /**
+   * Request to unstake currency across a portfolio
+   *
+   * Creates an execution request to unstake funds across a portfolio.  This will unstake funds in one or more wallets in the portfolio, with a total bonded balance up to the requested unstake amount.
+   */
   createPortfolioUnstake(
     request: CreatePortfolioUnstakeRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreatePortfolioUnstakeResponse>;
+  /**
+   * List Transaction Validators
+   *
+   * List ETH 0x02 validators associated with wallet-level stake transactions for a given portfolio. It will not return data for unstake transactions, portfolio stake transactions, transactions which staked different currencies, or which staked to Ethereum 0x01 validators.
+   */
   queryTransactionValidators(
     request: QueryTransactionValidatorsRequest,
     options?: CoinbaseCallOptions
   ): Promise<QueryTransactionValidatorsResponse>;
+  /**
+   * Claim Wallet Staking Rewards (Alpha)
+   *
+   * Request to claim staking rewards. This feature is in alpha. Please reach out to your Coinbase Prime account manager for more information
+   */
   claimRewards(
     request: ClaimRewardsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ClaimRewardsResponse>;
 
+  /**
+   * Preview Unstake
+   *
+   * Previews an unstaking request with the given amount and returns the estimated amount that would be unstaked. This feature currently only supports ETH.
+   */
   previewUnstake(
     request: PreviewUnstakeRequest,
     options?: CoinbaseCallOptions
   ): Promise<PreviewUnstakeResponse>;
 
+  /**
+   * Get Unstaking Status
+   *
+   * Get unstaking estimates for a wallet. Returns estimated completion times for active unstaking requests.
+   */
   getUnstakingStatus(
     request: GetUnstakingStatusRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetUnstakingStatusResponse>;
 
+  /**
+   * Get Staking Status
+   *
+   * Get staking status for a wallet. Returns estimated completion times for active staking requests.
+   */
   getStakingStatus(
     request: GetStakingStatusRequest,
     options?: CoinbaseCallOptions
