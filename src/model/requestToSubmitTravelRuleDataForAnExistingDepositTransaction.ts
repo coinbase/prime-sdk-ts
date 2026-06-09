@@ -23,6 +23,12 @@ import { TravelRuleParty } from './TravelRuleParty';
 export type RequestToSubmitTravelRuleDataForAnExistingDepositTransaction = {
   originator?: TravelRuleParty;
   beneficiary?: TravelRuleParty;
+  /**
+   * True if user owns the counterparty address (self-transfer) If false, beneficiary is required
+   */
   isSelf?: boolean;
+  /**
+   * True to skip wallet ownership verification
+   */
   optOutOfOwnershipVerification?: boolean;
 };

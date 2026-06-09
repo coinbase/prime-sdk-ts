@@ -22,6 +22,9 @@ import { BlockchainAddress } from './BlockchainAddress';
 import { PaginatedResponse } from './PaginatedResponse';
 
 export type ListWalletAddressesResponse = {
+  /**
+   * Addresses
+   */
   addresses: Array<BlockchainAddress>;
   pagination: PaginatedResponse;
 };

@@ -23,6 +23,9 @@ import { PaginatedResponse } from './PaginatedResponse';
 import { Web3Balance } from './Web3Balance';
 
 export type ListWeb3WalletBalancesResponse = {
+  /**
+   * List of balances in the onchain wallet
+   */
   balances?: Array<Web3Balance>;
   pagination?: PaginatedResponse;
   /**

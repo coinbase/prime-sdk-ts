@@ -24,15 +24,30 @@ import { OrderSide } from './enums/OrderSide';
  * based off PostOrderPreviewRequest
  */
 export type RFQ = {
+  /**
+   * The ID of the product being traded for the order (e.g. `BTC-USD`)
+   */
   productId: string;
   side: OrderSide;
   /**
    * A client-generated order ID used for reference purposes (note: order will be rejected if this ID is not unique among all currently active orders)
    */
   clientQuoteId: string;
+  /**
+   * Order size in base asset units (either `base_quantity` or `quote_value` is required)
+   */
   baseQuantity?: string;
+  /**
+   * Order size in quote asset units, i.e. the amount the user wants to spend (when buying) or receive (when selling); the quantity in base units will be determined based on the market liquidity and indicated `quote_value` (either `base_quantity` or `quote_value` is required)
+   */
   quoteValue?: string;
+  /**
+   * The limit price
+   */
   limitPrice: string;
+  /**
+   * The currency in which the settlement will be made
+   */
   settlCurrency?: string;
   /**
    * Optional quote timeout in milliseconds. Defaults to 3000 ms (3 seconds) if not specified. Maximum allowed value is 30000 ms (30 seconds); requests with a larger value are rejected. Mirrors FIX tag 8090 (QuoteRequestGoodForMs).

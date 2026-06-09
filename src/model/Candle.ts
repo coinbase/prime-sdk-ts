@@ -19,6 +19,9 @@
  */
 
 export type Candle = {
+  /**
+   * Timestamp for the start of the candle period
+   */
   timestamp?: Date;
   /**
    * Opening price for the period

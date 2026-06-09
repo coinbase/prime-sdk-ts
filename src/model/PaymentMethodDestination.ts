@@ -19,5 +19,8 @@
  */
 
 export type PaymentMethodDestination = {
+  /**
+   * The payment method id to pay out
+   */
   paymentMethodId?: string;
 };

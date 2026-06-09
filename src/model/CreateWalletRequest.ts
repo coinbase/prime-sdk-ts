@@ -23,9 +23,18 @@ import { NetworkFamily } from './enums/NetworkFamily';
 import { WalletType } from './enums/WalletType';
 
 export type CreateWalletRequest = {
+  /**
+   * The name of the wallet
+   */
   name: string;
+  /**
+   * The asset stored in the wallet. Should not be specified when wallet_type is ONCHAIN
+   */
   symbol: string;
   walletType?: WalletType;
+  /**
+   * idem
+   */
   idempotencyKey?: string;
   networkFamily?: NetworkFamily;
   network?: Network;

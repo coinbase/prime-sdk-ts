@@ -23,11 +23,26 @@ import { WalletType } from './enums/WalletType';
 import { WalletVisibility } from './enums/WalletVisibility';
 
 export type Wallet = {
+  /**
+   * The unique UUID for the wallet
+   */
   id?: string;
+  /**
+   * The name of the wallet
+   */
   name?: string;
+  /**
+   * The asset stored in the wallet
+   */
   symbol?: string;
   type?: WalletType;
+  /**
+   * The UTC timestamp when this wallet was created
+   */
   createdAt?: Date;
+  /**
+   * The active address of the wallet
+   */
   address?: string;
   visibility?: WalletVisibility;
   network?: Network;

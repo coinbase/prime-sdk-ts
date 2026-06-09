@@ -21,6 +21,9 @@
 import { OrderSide } from './enums/OrderSide';
 
 export type AcceptQuoteRequest = {
+  /**
+   * The ID of the product being traded for the order (e.g. `BTC-USD`)
+   */
   productId: string;
   side: OrderSide;
   /**

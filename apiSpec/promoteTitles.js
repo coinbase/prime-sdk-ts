@@ -23,37 +23,98 @@ const augmentedSpecPath = path.join(
   '.prime-public-api-spec.augmented.yaml'
 );
 
-function promotePropertyTitles(schemas) {
-  if (!schemas) {
-    return 0;
+const PLACEHOLDER_TITLE_PATTERN = /^\s*next:\s*\d+\s*$/i;
+
+function isPromotableTitle(title) {
+  if (typeof title !== 'string') {
+    return false;
   }
 
-  let promoted = 0;
+  if (title.trim().length === 0) {
+    return false;
+  }
 
-  for (const schema of Object.values(schemas)) {
-    if (!schema || typeof schema !== 'object' || !schema.properties) {
-      continue;
+  return !PLACEHOLDER_TITLE_PATTERN.test(title);
+}
+
+const SCHEMA_CHILD_KEYS = new Set([
+  'properties',
+  'items',
+  'allOf',
+  'anyOf',
+  'oneOf',
+  'additionalProperties',
+]);
+
+function walkSchemaNode(node, promoted) {
+  if (!node || typeof node !== 'object') {
+    return;
+  }
+
+  if (Array.isArray(node)) {
+    for (const item of node) {
+      walkSchemaNode(item, promoted);
     }
+    return;
+  }
 
-    for (const property of Object.values(schema.properties)) {
+  if (node.properties && typeof node.properties === 'object') {
+    for (const property of Object.values(node.properties)) {
       if (
         property &&
         typeof property === 'object' &&
         property.title &&
-        !property.description
+        !property.description &&
+        isPromotableTitle(property.title)
       ) {
         property.description = property.title;
-        promoted++;
+        promoted.count++;
+      }
+
+      walkSchemaNode(property, promoted);
+    }
+  }
+
+  if (node.items) {
+    walkSchemaNode(node.items, promoted);
+  }
+
+  for (const combinator of ['allOf', 'anyOf', 'oneOf']) {
+    if (Array.isArray(node[combinator])) {
+      for (const subSchema of node[combinator]) {
+        walkSchemaNode(subSchema, promoted);
       }
     }
   }
 
-  return promoted;
+  if (
+    node.additionalProperties &&
+    typeof node.additionalProperties === 'object'
+  ) {
+    walkSchemaNode(node.additionalProperties, promoted);
+  }
+
+  for (const [key, value] of Object.entries(node)) {
+    if (SCHEMA_CHILD_KEYS.has(key)) {
+      continue;
+    }
+
+    walkSchemaNode(value, promoted);
+  }
+}
+
+function promotePropertyTitles(spec) {
+  const promoted = { count: 0 };
+
+  walkSchemaNode(spec.paths, promoted);
+  walkSchemaNode(spec.components, promoted);
+
+  return promoted.count;
 }
 
 function main() {
   const spec = yaml.load(fs.readFileSync(sourceSpecPath, 'utf8'));
-  const promoted = promotePropertyTitles(spec.components?.schemas);
+  const promoted = promotePropertyTitles(spec);
 
   fs.writeFileSync(augmentedSpecPath, yaml.dump(spec), 'utf8');
 

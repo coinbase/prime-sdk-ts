@@ -19,7 +19,16 @@
  */
 
 export type NaturalPersonName = {
+  /**
+   * Given/first name
+   */
   firstName?: string;
+  /**
+   * optional middle name (currently unused)
+   */
   middleName?: string;
+  /**
+   * Family/last name
+   */
   lastName?: string;
 };

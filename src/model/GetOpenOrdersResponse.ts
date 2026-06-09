@@ -22,6 +22,9 @@ import { Order } from './Order';
 import { PaginatedResponse } from './PaginatedResponse';
 
 export type GetOpenOrdersResponse = {
+  /**
+   * Requested orders
+   */
   orders?: Array<Order>;
   pagination?: PaginatedResponse;
 };

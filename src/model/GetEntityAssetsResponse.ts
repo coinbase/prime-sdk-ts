@@ -21,5 +21,8 @@
 import { Asset } from './Asset';
 
 export type GetEntityAssetsResponse = {
+  /**
+   * List of assets
+   */
   assets?: Array<Asset>;
 };

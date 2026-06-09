@@ -22,8 +22,17 @@ import { NetworkFamily } from './enums/NetworkFamily';
 import { WalletType } from './enums/WalletType';
 
 export type CreateWalletResponse = {
+  /**
+   * The id of activity
+   */
   activityId?: string;
+  /**
+   * The name of the wallet
+   */
   name?: string;
+  /**
+   * The asset stored in the wallet
+   */
   symbol?: string;
   walletType?: WalletType;
   networkFamily?: NetworkFamily;

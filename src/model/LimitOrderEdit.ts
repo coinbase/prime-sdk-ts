@@ -19,12 +19,36 @@
  */
 
 export type LimitOrderEdit = {
+  /**
+   * New price for the edited order
+   */
   price?: string;
+  /**
+   * New size for the edited order
+   */
   size?: string;
+  /**
+   * New display size for the edited order
+   */
   displaySize?: string;
+  /**
+   * New stop price for the edited order
+   */
   stopPrice?: string;
+  /**
+   * New stop limit price for the edited order
+   */
   stopLimitPrice?: string;
+  /**
+   * New end time for the edited order
+   */
   endTime?: Date;
+  /**
+   * Time when the edit was accepted
+   */
   acceptTime?: Date;
+  /**
+   * Client order id of the order being replaced
+   */
   clientOrderId?: string;
 };

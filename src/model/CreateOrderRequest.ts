@@ -24,16 +24,40 @@ import { PegOffsetType } from './enums/PegOffsetType';
 import { TimeInForceType } from './enums/TimeInForceType';
 
 export type CreateOrderRequest = {
+  /**
+   * The ID of the product being traded for the order (e.g. `BTC-USD`)
+   */
   productId: string;
   side: OrderSide;
+  /**
+   * A client-generated order ID used for reference purposes
+   */
   clientOrderId: string;
   type: OrderType;
+  /**
+   * Order size in base asset units (either `base_quantity` or `quote_value` is required)
+   */
   baseQuantity?: string;
+  /**
+   * Order size in quote asset units, i.e. the amount the user wants to spend (when buying) or receive (when selling); the quantity in base units will be determined based on the market liquidity and indicated `quote_value` (either `base_quantity` or `quote_value` is required)
+   */
   quoteValue?: string;
+  /**
+   * The limit price (required for TWAP, VWAP, LIMIT, and STOP_LIMIT orders)
+   */
   limitPrice?: string;
+  /**
+   * The start time of the order in UTC (TWAP only)
+   */
   startTime?: Date;
+  /**
+   * The expiry time of the order in UTC (TWAP, VWAP, LIMIT, and STOP_LIMIT GTD only)
+   */
   expiryTime?: Date;
   timeInForce?: TimeInForceType;
+  /**
+   * An optional self trade prevention id (in the form of a UUID). The value is only honored for certain clients who are permitted to specify a custom self trade prevention id
+   */
   stpId?: string;
   /**
    * Optionally specify a display size. This is the maximum order size that will show up on venue order books. Specifying a value here effectively makes a LIMIT order into an \"iceberg\" style order. This property only applies to LIMIT orders and will be ignored for other order types.
@@ -41,14 +65,26 @@ export type CreateOrderRequest = {
   displayQuoteSize?: string;
   displayBaseSize?: string;
   isRaiseExact?: boolean;
+  /**
+   * Historical percentage of volume
+   */
   historicalPov?: string;
+  /**
+   * Specifies the stop price at which the order activates. The order is activated if the last trade price on Coinbase Exchange crosses the stop price specified on the order
+   */
   stopPrice?: string;
+  /**
+   * The currency in which the settlement will be made
+   */
   settlCurrency?: string;
   /**
    * Post-only flag - when true, the order will only be posted to the order book and not immediately matched. Only applicable to LIMIT orders with GTC or GTD time in force.
    */
   postOnly?: boolean;
   pegOffsetType?: PegOffsetType;
+  /**
+   * Offset value for PEG orders. 0 means peg to BBO. Only non-negative values are allowed (PEG orders only)
+   */
   offset?: string;
   /**
    * next: 23

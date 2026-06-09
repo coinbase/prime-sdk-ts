@@ -21,13 +21,34 @@
 import { TravelRuleParty } from './TravelRuleParty';
 
 export type GetTransactionTravelRuleDataResponse = {
+  /**
+   * Whether data requirements are fulfilled
+   */
   fulfilled: boolean;
+  /**
+   * Whether the transfer is to/from a self-owned wallet
+   */
   isSelf?: boolean;
   originator?: TravelRuleParty;
   beneficiary?: TravelRuleParty;
+  /**
+   * The crypto amount of the transaction (e.g. \"1.23 BTC\")
+   */
   amount?: string;
+  /**
+   * The currency of the crypto amount
+   */
   amountCurrency?: string;
+  /**
+   * The fiat amount of the transaction (e.g. \"123.45 USD\")
+   */
   fiatAmount?: string;
+  /**
+   * The currency of the fiat amount
+   */
   fiatAmountCurrency?: string;
+  /**
+   * The blockchain network for the transaction
+   */
   blockchainNetwork?: string;
 };

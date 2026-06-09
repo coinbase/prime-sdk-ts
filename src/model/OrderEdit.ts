@@ -19,13 +19,40 @@
  */
 
 export type OrderEdit = {
+  /**
+   * New price for the edited order
+   */
   price?: string;
+  /**
+   * New base quantity for the edited order, populated if order is in base size
+   */
   baseQuantity?: string;
+  /**
+   * New quote value for the edited order, populated if order is in quote size
+   */
   quoteValue?: string;
+  /**
+   * Display base size for the edited order, populated if order is in base size
+   */
   displayBaseSize?: string;
+  /**
+   * Display quote size for the edited order, populated if order is in quote size
+   */
   displayQuoteSize?: string;
+  /**
+   * New stop price for the edited order
+   */
   stopPrice?: string;
+  /**
+   * New expiry/end time for the edited order
+   */
   expiryTime?: Date;
+  /**
+   * Time when the edit was accepted
+   */
   acceptTime?: Date;
+  /**
+   * The new client order identifier that the order adopted after the replacement was successfully accepted
+   */
   clientOrderId?: string;
 };

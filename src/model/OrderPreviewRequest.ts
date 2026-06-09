@@ -24,18 +24,48 @@ import { PegOffsetType } from './enums/PegOffsetType';
 import { TimeInForceType } from './enums/TimeInForceType';
 
 export type OrderPreviewRequest = {
+  /**
+   * The ID of the product being traded for the order (e.g. `BTC-USD`)
+   */
   productId: string;
   side: OrderSide;
   type: OrderType;
+  /**
+   * Order size in base asset units (either `base_quantity` or `quote_value` is required)
+   */
   baseQuantity?: string;
+  /**
+   * Order size in quote asset units, i.e. the amount the user wants to spend (when buying) or receive (when selling); the quantity in base units will be determined based on the market liquidity and indicated `quote_value` (either `base_quantity` or `quote_value` is required)
+   */
   quoteValue?: string;
+  /**
+   * The limit price (required for TWAP, VWAP, LIMIT and STOP_LIMIT orders)
+   */
   limitPrice?: string;
+  /**
+   * The start time of the order in UTC (TWAP, VWAP only)
+   */
   startTime?: Date;
+  /**
+   * The expiry time of the order in UTC (TWAP, VWAP, LIMIT and STOP_LIMIT GTD only)
+   */
   expiryTime?: Date;
   timeInForce?: TimeInForceType;
+  /**
+   * Raise Exact order flag
+   */
   isRaiseExact?: boolean;
+  /**
+   * Historical percentage of volume
+   */
   historicalPov?: string;
+  /**
+   * Specifies the stop price at which the order activates. The order is activated if the last trade price on Coinbase Exchange crosses the stop price specified on the order
+   */
   stopPrice?: string;
+  /**
+   * The currency in which the settlement will be made
+   */
   settlCurrency?: string;
   /**
    * Specifies whether the order is treated as a post only order.
@@ -50,6 +80,9 @@ export type OrderPreviewRequest = {
    */
   displayBaseSize?: string;
   pegOffsetType?: PegOffsetType;
+  /**
+   * Offset value for PEG orders. 0 means peg to BBO. Only non-negative values are allowed (PEG orders only)
+   */
   offset?: string;
   /**
    * next: 21
