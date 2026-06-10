@@ -54,8 +54,8 @@ export type BaseListEntityActivitiesResponse = GetEntityActivitiesResponse;
 /**
  * Response from listEntityActivities.
  *
- * @property activities - Activities for the entity
- * @property pagination - Cursor pagination metadata (`nextCursor`, `hasNext`, `sortDirection`)
+ * - `activities` — Activities for the entity
+ * - `pagination` — Cursor pagination metadata (`nextCursor`, `hasNext`, `sortDirection`)
  */
 export type ListEntityActivitiesResponse = PaginatedListResponse<
   BaseListEntityActivitiesResponse,
@@ -71,8 +71,8 @@ export type ListPortfolioActivitiesRequest = Pagination &
 /**
  * Response from listPortfolioActivities.
  *
- * @property activities - Activities for the portfolio
- * @property pagination - Cursor pagination metadata (`nextCursor`, `hasNext`, `sortDirection`)
+ * - `activities` — Activities for the portfolio
+ * - `pagination` — Cursor pagination metadata (`nextCursor`, `hasNext`, `sortDirection`)
  */
 export type ListPortfolioActivitiesResponse = PaginatedListResponse<
   GetPortfolioActivitiesResponse,
