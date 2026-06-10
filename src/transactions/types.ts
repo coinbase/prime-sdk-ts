@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Brand } from '../shared/brand';
+import { Expand } from '../shared/brand';
 import { TransactionType, TravelRuleStatus } from '../model/enums/';
 import {
   GetPortfolioTransactionsResponse,
   GetWalletTransactionsResponse,
+  Transaction,
   GetTransactionResponse as internalGet,
   CreateConversionRequest as internalCreateConversion,
   CreateConversionResponse as internalCreateConversionResp,
@@ -33,7 +34,7 @@ import {
 } from '../model/';
 import { Pagination } from '../shared/pagination';
 import {
-  PaginatedResponseMethods,
+  PaginatedListResponse,
   BasePaginatedRequest,
 } from '../shared/paginatedResponse';
 
@@ -47,20 +48,11 @@ export type ListPortfolioTransactionsRequest = Pagination & {
   travelRuleStatus?: TravelRuleStatus[];
 };
 
-// Base response type
-type BaseListPortfolioTransactionsResponse = Brand<
+export type ListPortfolioTransactionsResponse = PaginatedListResponse<
   GetPortfolioTransactionsResponse,
-  'ListPortfolioTransactionsResponse'
+  ListPortfolioTransactionsRequest & BasePaginatedRequest,
+  Transaction
 >;
-
-// Extended response type with pagination methods
-export type ListPortfolioTransactionsResponse =
-  BaseListPortfolioTransactionsResponse &
-    PaginatedResponseMethods<
-      ListPortfolioTransactionsRequest & BasePaginatedRequest,
-      BaseListPortfolioTransactionsResponse,
-      any // Transaction type
-    >;
 
 export type ListWalletTransactionsRequest = Pagination & {
   portfolioId: string;
@@ -70,68 +62,46 @@ export type ListWalletTransactionsRequest = Pagination & {
   endTime?: string;
 };
 
-export type BaseListWalletTransactionsResponse = Brand<
+export type ListWalletTransactionsResponse = PaginatedListResponse<
   GetWalletTransactionsResponse,
-  'ListWalletTransactionsResponse'
+  ListWalletTransactionsRequest & BasePaginatedRequest,
+  Transaction
 >;
-
-export type ListWalletTransactionsResponse =
-  BaseListWalletTransactionsResponse &
-    PaginatedResponseMethods<
-      ListWalletTransactionsRequest & BasePaginatedRequest,
-      BaseListWalletTransactionsResponse,
-      any // Transaction type
-    >;
 
 export type GetTransactionRequest = {
   portfolioId: string;
   transactionId: string;
 };
 
-export type GetTransactionResponse = Brand<
-  internalGet,
-  'GetTransactionResponse'
->;
+export type GetTransactionResponse = Expand<internalGet>;
 
 export type CreateConversionRequest = internalCreateConversion & {
   portfolioId: string;
   walletId: string;
 };
 
-export type CreateConversionResponse = Brand<
-  internalCreateConversionResp,
-  'CreateConversionResponse'
->;
+export type CreateConversionResponse = Expand<internalCreateConversionResp>;
 
 export type CreateTransferRequest = CreateATransferBetweenTwoWallets & {
   portfolioId: string;
   walletId: string;
 };
 
-export type CreateTransferResponse = Brand<
-  CreateWalletTransferResponse,
-  'CreateTransferResponse'
->;
+export type CreateTransferResponse = Expand<CreateWalletTransferResponse>;
 
 export type CreateWithdrawalRequest = CreateWalletWithdrawalRequest & {
   portfolioId: string;
   walletId: string;
 };
 
-export type CreateWithdrawalResponse = Brand<
-  CreateWalletWithdrawalResponse,
-  'CreateWithdrawalResponse'
->;
+export type CreateWithdrawalResponse = Expand<CreateWalletWithdrawalResponse>;
 
 export type CreateOnchainTransactionRequest = internalCreate & {
   portfolioId: string;
   walletId: string;
 };
 
-export type CreateOnchainTransactionResponse = Brand<
-  internalCreateResp,
-  'CreateOnchainTransactionResponse'
->;
+export type CreateOnchainTransactionResponse = Expand<internalCreateResp>;
 
 export type SubmitDepositTravelRuleRequest =
   RequestToSubmitTravelRuleDataForAnExistingDepositTransaction & {
@@ -139,17 +109,13 @@ export type SubmitDepositTravelRuleRequest =
     transactionId: string;
   };
 
-export type SubmitDepositTravelRuleResponse = Brand<
-  internalSubmitTravelRuleResp,
-  'SubmitDepositTravelRuleResponse'
->;
+export type SubmitDepositTravelRuleResponse =
+  Expand<internalSubmitTravelRuleResp>;
 
 export type GetTransactionTravelRuleDataRequest = {
   portfolioId: string;
   transactionId: string;
 };
 
-export type GetTransactionTravelRuleDataResponse = Brand<
-  internalGetTransactionTravelRuleResp,
-  'GetTransactionTravelRuleDataResponse'
->;
+export type GetTransactionTravelRuleDataResponse =
+  Expand<internalGetTransactionTravelRuleResp>;

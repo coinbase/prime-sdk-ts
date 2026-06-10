@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Brand } from '../shared/brand';
 import {
   ListAggregateEntityPositionsResponse as ListAggregateEntityPositionsInt,
   ListEntityPositionsResponse as ListEntityPositionsInt,
+  Position,
 } from '../model/';
 import {
   BasePaginatedRequest,
-  PaginatedResponseMethods,
+  PaginatedListResponse,
 } from '../shared/paginatedResponse';
 import { Pagination } from '../shared/pagination';
 
@@ -28,31 +28,18 @@ export type ListAggregateEntityPositionsRequest = Pagination & {
   entityId: string;
 };
 
-export type BaseListAggregateEntityPositionsResponse = Brand<
+export type ListAggregateEntityPositionsResponse = PaginatedListResponse<
   ListAggregateEntityPositionsInt,
-  'ListAggregateEntityPositionsResponse'
+  ListAggregateEntityPositionsRequest & BasePaginatedRequest,
+  Position
 >;
-
-export type ListAggregateEntityPositionsResponse =
-  BaseListAggregateEntityPositionsResponse &
-    PaginatedResponseMethods<
-      ListAggregateEntityPositionsRequest & BasePaginatedRequest,
-      BaseListAggregateEntityPositionsResponse,
-      any // Position type
-    >;
 
 export type ListEntityPositionsRequest = Pagination & {
   entityId: string;
 };
 
-export type BaseListEntityPositionsResponse = Brand<
+export type ListEntityPositionsResponse = PaginatedListResponse<
   ListEntityPositionsInt,
-  'ListEntityPositionsResponse'
+  ListEntityPositionsRequest & BasePaginatedRequest,
+  Position
 >;
-
-export type ListEntityPositionsResponse = BaseListEntityPositionsResponse &
-  PaginatedResponseMethods<
-    ListEntityPositionsRequest & BasePaginatedRequest,
-    BaseListEntityPositionsResponse,
-    any // Position type
-  >;

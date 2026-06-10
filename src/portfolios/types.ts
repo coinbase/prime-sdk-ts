@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Brand } from '../shared/brand';
+import { Expand } from '../shared/brand';
 import {
   GetPortfolioResponse as internalGet,
   GetPortfoliosResponse,
@@ -29,29 +29,21 @@ export type GetPortfolioRequest = {
   portfolioId: string;
 };
 
-export type GetPortfolioResponse = Brand<internalGet, 'GetPortfolioResponse'>;
+export type GetPortfolioResponse = Expand<internalGet>;
 
 export type ListPortfoliosRequest = Record<string, never>;
 
-export type ListPortfoliosResponse = Brand<
-  GetPortfoliosResponse,
-  'ListPortfoliosResponse'
->;
+export type ListPortfoliosResponse = Expand<GetPortfoliosResponse>;
 
 export type GetPortfolioCreditRequest = {
   portfolioId: string;
 };
 
-export type GetPortfolioCreditResponse = Brand<
-  GetPostTradeCreditResponse,
-  'GetPortfolioCreditResponse'
->;
+export type GetPortfolioCreditResponse = Expand<GetPostTradeCreditResponse>;
 
 export type GetCounterpartyIdRequest = {
   portfolioId: string;
 };
 
-export type GetCounterpartyIdResponse = Brand<
-  internalGetCounterpartyIdResponse,
-  'GetCounterpartyIdResponse'
->;
+export type GetCounterpartyIdResponse =
+  Expand<internalGetCounterpartyIdResponse>;

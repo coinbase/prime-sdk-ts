@@ -13,14 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Brand } from '../shared/brand';
+import { Expand } from '../shared/brand';
 import { GetPortfolioCommissionResponse as internalGet } from '../model/';
 
 export type GetPortfolioCommissionRequest = {
   portfolioId: string;
 };
 
-export type GetPortfolioCommissionResponse = Brand<
-  internalGet,
-  'GetPortfolioCommissionResponse'
->;
+export type GetPortfolioCommissionResponse = Expand<internalGet>;

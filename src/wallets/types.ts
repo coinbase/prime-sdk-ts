@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Brand } from '../shared/brand';
+import { Expand } from '../shared/brand';
 import { WalletType, WalletDepositInstructionType } from '../model/enums/';
 import {
   GetWalletsResponse,
@@ -23,11 +23,12 @@ import {
   CreateWalletRequest as internalCreate,
   CreateWalletResponse as internalCreateResp,
   BlockchainAddress,
+  Wallet,
 } from '../model/';
 import { Pagination } from '../shared/pagination';
 import {
   BasePaginatedRequest,
-  PaginatedResponseMethods,
+  PaginatedListResponse,
 } from '../shared/paginatedResponse';
 
 export type ListWalletsRequest = Pagination & {
@@ -37,24 +38,18 @@ export type ListWalletsRequest = Pagination & {
   getNetworkUnifiedWallets?: boolean;
 };
 
-export type BaseListWalletsResponse = Brand<
+export type ListWalletsResponse = PaginatedListResponse<
   GetWalletsResponse,
-  'ListWalletsResponse'
+  ListWalletsRequest & BasePaginatedRequest,
+  Wallet
 >;
-
-export type ListWalletsResponse = BaseListWalletsResponse &
-  PaginatedResponseMethods<
-    ListWalletsRequest & BasePaginatedRequest,
-    BaseListWalletsResponse,
-    any // Wallet type
-  >;
 
 export type GetWalletRequest = {
   portfolioId: string;
   walletId: string;
 };
 
-export type GetWalletResponse = Brand<internalGet, 'GetWalletResponse'>;
+export type GetWalletResponse = Expand<internalGet>;
 
 export type GetWalletDepositInstructionsRequest = {
   portfolioId: string;
@@ -64,10 +59,7 @@ export type GetWalletDepositInstructionsRequest = {
   networkType?: string;
 };
 
-export type GetWalletDepositInstructionsResponse = Brand<
-  internalGetInstructs,
-  'GetWalletDepositInstructionsResponse'
->;
+export type GetWalletDepositInstructionsResponse = Expand<internalGetInstructs>;
 
 export type ListWalletAddressesRequest = {
   portfolioId: string;
@@ -78,26 +70,17 @@ export type ListWalletAddressesRequest = {
   limit?: number;
 };
 
-export type BaseListWalletAddressesResponse = Brand<
+export type ListWalletAddressesResponse = PaginatedListResponse<
   internalGetAddresses,
-  'ListWalletAddressesResponse'
+  ListWalletAddressesRequest & BasePaginatedRequest,
+  BlockchainAddress
 >;
-
-export type ListWalletAddressesResponse = BaseListWalletAddressesResponse &
-  PaginatedResponseMethods<
-    ListWalletAddressesRequest & BasePaginatedRequest,
-    BaseListWalletAddressesResponse,
-    any // Address type
-  >;
 
 export type CreateWalletRequest = internalCreate & {
   portfolioId: string;
 };
 
-export type CreateWalletResponse = Brand<
-  internalCreateResp,
-  'CreateWalletResponse'
->;
+export type CreateWalletResponse = Expand<internalCreateResp>;
 
 export type CreateWalletDepositAddressRequest = {
   portfolioId: string;
@@ -105,7 +88,4 @@ export type CreateWalletDepositAddressRequest = {
   networkId: string;
 };
 
-export type CreateWalletDepositAddressResponse = Brand<
-  BlockchainAddress,
-  'CreateWalletDepositAddressResponse'
->;
+export type CreateWalletDepositAddressResponse = Expand<BlockchainAddress>;

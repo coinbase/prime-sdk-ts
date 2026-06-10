@@ -13,18 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Brand } from '../shared/brand';
+import { Expand } from '../shared/brand';
 import { ActivityCategory, ActivityStatus } from '../model/enums/';
 import {
   GetActivityResponse as internalGet,
   GetEntityActivitiesResponse,
   GetPortfolioActivitiesResponse,
   GetPortfolioActivityResponse as internalGetPortAct,
+  Activity,
 } from '../model/';
 import { Pagination } from '../shared/pagination';
 import {
   BasePaginatedRequest,
-  PaginatedResponseMethods,
+  PaginatedListResponse,
 } from '../shared/paginatedResponse';
 
 export type ActivityFilters = Pagination & {
@@ -40,7 +41,7 @@ export type GetActivityRequest = {
   activityId: string;
 };
 
-export type GetActivityResponse = Brand<internalGet, 'GetActivityResponse'>;
+export type GetActivityResponse = Expand<internalGet>;
 
 export type ListEntityActivitiesRequest = Pagination &
   ActivityFilters & {
@@ -50,37 +51,38 @@ export type ListEntityActivitiesRequest = Pagination &
 
 export type BaseListEntityActivitiesResponse = GetEntityActivitiesResponse;
 
-export type ListEntityActivitiesResponse = BaseListEntityActivitiesResponse &
-  PaginatedResponseMethods<
-    ListEntityActivitiesRequest & BasePaginatedRequest,
-    BaseListEntityActivitiesResponse,
-    any // Activity type
-  >;
+/**
+ * Response from listEntityActivities.
+ *
+ * @property activities - Activities for the entity
+ * @property pagination - Cursor pagination metadata (`nextCursor`, `hasNext`, `sortDirection`)
+ */
+export type ListEntityActivitiesResponse = PaginatedListResponse<
+  BaseListEntityActivitiesResponse,
+  ListEntityActivitiesRequest & BasePaginatedRequest,
+  Activity
+>;
 
 export type ListPortfolioActivitiesRequest = Pagination &
   ActivityFilters & {
     portfolioId: string;
   };
 
-export type BaseListPortfolioActivitiesResponse = Brand<
+/**
+ * Response from listPortfolioActivities.
+ *
+ * @property activities - Activities for the portfolio
+ * @property pagination - Cursor pagination metadata (`nextCursor`, `hasNext`, `sortDirection`)
+ */
+export type ListPortfolioActivitiesResponse = PaginatedListResponse<
   GetPortfolioActivitiesResponse,
-  'ListPortfolioActivitiesResponse'
+  ListPortfolioActivitiesRequest & BasePaginatedRequest,
+  Activity
 >;
-
-export type ListPortfolioActivitiesResponse =
-  BaseListPortfolioActivitiesResponse &
-    PaginatedResponseMethods<
-      ListPortfolioActivitiesRequest & BasePaginatedRequest,
-      BaseListPortfolioActivitiesResponse,
-      any // Activity type
-    >;
 
 export type GetPortfolioActivitiesRequest = {
   portfolioId: string;
   activityId: string;
 };
 
-export type GetPortfolioActivityResponse = Brand<
-  internalGetPortAct,
-  'GetPortfolioActivityResponse'
->;
+export type GetPortfolioActivityResponse = Expand<internalGetPortAct>;

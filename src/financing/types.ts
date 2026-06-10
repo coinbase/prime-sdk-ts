@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Brand } from '../shared/brand';
+import { Expand } from '../shared/brand';
 import {
   GetExistingLocatesResponse,
   GetInterestAccrualsResponse,
@@ -39,7 +39,7 @@ import {
 } from '../model/';
 import { Pagination } from '../shared/pagination';
 import {
-  PaginatedResponseMethods,
+  PaginatedListResponse,
   BasePaginatedRequest,
 } from '../shared/paginatedResponse';
 
@@ -50,10 +50,7 @@ export type ListExistingLocatesRequest = {
   locateDate?: string;
 };
 
-export type ListExistingLocatesResponse = Brand<
-  GetExistingLocatesResponse,
-  'ListExistingLocatesResponse'
->;
+export type ListExistingLocatesResponse = Expand<GetExistingLocatesResponse>;
 
 export type ListInterestAccrualsRequest = {
   entityId: string;
@@ -62,10 +59,7 @@ export type ListInterestAccrualsRequest = {
   endDate?: string;
 };
 
-export type ListInterestAccrualsResponse = Brand<
-  GetInterestAccrualsResponse,
-  'ListInterestAccrualsResponse'
->;
+export type ListInterestAccrualsResponse = Expand<GetInterestAccrualsResponse>;
 
 export type ListPortfolioInterestAccrualsRequest = {
   portfolioId: string;
@@ -73,10 +67,8 @@ export type ListPortfolioInterestAccrualsRequest = {
   endDate?: string;
 };
 
-export type ListPortfolioInterestAccrualsResponse = Brand<
-  GetInterestAccrualsResponse,
-  'ListPortfolioInterestAccrualsResponse'
->;
+export type ListPortfolioInterestAccrualsResponse =
+  Expand<GetInterestAccrualsResponse>;
 
 export type ListMarginCallSummariesRequest = {
   entityId: string;
@@ -84,10 +76,8 @@ export type ListMarginCallSummariesRequest = {
   endDate?: string;
 };
 
-export type ListMarginCallSummariesResponse = Brand<
-  GetMarginSummariesResponse,
-  'ListMarginCallSummariesResponse'
->;
+export type ListMarginCallSummariesResponse =
+  Expand<GetMarginSummariesResponse>;
 
 export type ListMarginConversionsRequest = {
   portfolioId: string;
@@ -95,29 +85,23 @@ export type ListMarginConversionsRequest = {
   endDate?: string;
 };
 
-export type ListMarginConversionsResponse = Brand<
-  GetMarginConversionsResponse,
-  'ListMarginConversionsResponse'
->;
+export type ListMarginConversionsResponse =
+  Expand<GetMarginConversionsResponse>;
 
 export type GetEntityLocateAvailabilitiesRequest = {
   entityId: string;
   locateDate?: string;
 };
 
-export type GetEntityLocateAvailabilitiesResponse = Brand<
-  GetLocateAvailabilitiesResponse,
-  'GetEntityLocateAvailabilitiesResponse'
->;
+export type GetEntityLocateAvailabilitiesResponse =
+  Expand<GetLocateAvailabilitiesResponse>;
 
 export type GetMarginInformationRequest = {
   entityId: string;
 };
 
-export type GetMarginInformationResponse = Brand<
-  internalGetMarginInformationResponse,
-  'GetMarginInformationResponse'
->;
+export type GetMarginInformationResponse =
+  Expand<internalGetMarginInformationResponse>;
 
 export type GetPortfolioBuyingPowerRequest = {
   portfolioId: string;
@@ -125,39 +109,30 @@ export type GetPortfolioBuyingPowerRequest = {
   quoteCurrency: string;
 };
 
-export type GetPortfolioBuyingPowerResponse = Brand<
-  GetBuyingPowerResponse,
-  'GetPortfolioBuyingPowerResponse'
->;
+export type GetPortfolioBuyingPowerResponse = Expand<GetBuyingPowerResponse>;
 
 export type GetPortfolioCreditInformationRequest = {
   portfolioId: string;
 };
 
-export type GetPortfolioCreditInformationResponse = Brand<
-  GetPostTradeCreditResponse,
-  'GetPortfolioCreditInformationResponse'
->;
+export type GetPortfolioCreditInformationResponse =
+  Expand<GetPostTradeCreditResponse>;
 
 export type GetPortfolioWithdrawalPowerRequest = {
   portfolioId: string;
   symbol: string;
 };
 
-export type GetPortfolioWithdrawalPowerResponse = Brand<
-  GetWithdrawalPowerResponse,
-  'GetPortfolioWithdrawalPowerResponse'
->;
+export type GetPortfolioWithdrawalPowerResponse =
+  Expand<GetWithdrawalPowerResponse>;
 
 export type GetTieredPricingFeesRequest = {
   entityId: string;
   effectiveAt?: string;
 };
 
-export type GetTieredPricingFeesResponse = Brand<
-  GetTFTieredPricingFeesResponse,
-  'GetTieredPricingFeesResponse'
->;
+export type GetTieredPricingFeesResponse =
+  Expand<GetTFTieredPricingFeesResponse>;
 
 export type CreateNewLocatesRequest = {
   portfolioId: string;
@@ -166,71 +141,53 @@ export type CreateNewLocatesRequest = {
   locateDate?: string;
 };
 
-export type CreateNewLocatesResponse = Brand<
-  internalCreateNewLocatesResponse,
-  'CreateNewLocatesResponse'
->;
+export type CreateNewLocatesResponse = Expand<internalCreateNewLocatesResponse>;
 
 export type GetFcmMarginCallDetailsRequest = {
   entityId: string;
 };
 
-export type GetFcmMarginCallDetailsResponse = Brand<
-  internalGetFcmMarginCallDetailsResponse,
-  'GetFcmMarginCallDetailsResponse'
->;
+export type GetFcmMarginCallDetailsResponse =
+  Expand<internalGetFcmMarginCallDetailsResponse>;
 
 export type GetFcmRiskLimitsRequest = {
   entityId: string;
 };
 
-export type GetFcmRiskLimitsResponse = Brand<
-  internalGetFcmRiskLimitsResponse,
-  'GetFcmRiskLimitsResponse'
->;
+export type GetFcmRiskLimitsResponse = Expand<internalGetFcmRiskLimitsResponse>;
 
 export type GetCrossMarginOverviewRequest = {
   entityId: string;
 };
 
-export type GetCrossMarginOverviewResponse = Brand<
-  internalGetCrossMarginOverviewResponse,
-  'GetCrossMarginOverviewResponse'
->;
+export type GetCrossMarginOverviewResponse =
+  Expand<internalGetCrossMarginOverviewResponse>;
 
 export type ListTFObligationsRequest = {
   entityId: string;
 };
 
-export type ListTFObligationsResponse = Brand<
-  internalListTFObligationsResponse,
-  'ListTFObligationsResponse'
->;
+export type ListTFObligationsResponse =
+  Expand<internalListTFObligationsResponse>;
 
 export type ListFinancingEligibleAssetsRequest = Record<string, never>;
 
-export type ListFinancingEligibleAssetsResponse = Brand<
-  internalListFinancingEligibleAssetsResponse,
-  'ListFinancingEligibleAssetsResponse'
->;
+export type ListFinancingEligibleAssetsResponse =
+  Expand<internalListFinancingEligibleAssetsResponse>;
 
 export type GetCrossMarginRiskParametersRequest = {
   entityId: string;
 };
 
-export type GetCrossMarginRiskParametersResponse = Brand<
-  internalGetCrossMarginRiskParametersResponse,
-  'GetCrossMarginRiskParametersResponse'
->;
+export type GetCrossMarginRiskParametersResponse =
+  Expand<internalGetCrossMarginRiskParametersResponse>;
 
 export type GetCrossMarginPrimeOverviewRequest = {
   entityId: string;
 };
 
-export type GetCrossMarginPrimeOverviewResponse = Brand<
-  internalGetCrossMarginPrimeOverviewResponse,
-  'GetCrossMarginPrimeOverviewResponse'
->;
+export type GetCrossMarginPrimeOverviewResponse =
+  Expand<internalGetCrossMarginPrimeOverviewResponse>;
 
 export type SetFundingSettingsRequest = {
   entityId: string;
@@ -241,23 +198,15 @@ export type SetFundingSettingsRequest = {
   excessFundsTargetAmount: string;
 };
 
-export type SetFundingSettingsResponse = Brand<
-  internalSetFundingSettingsResponse,
-  'SetFundingSettingsResponse'
->;
+export type SetFundingSettingsResponse =
+  Expand<internalSetFundingSettingsResponse>;
 
 export type ListMarketDataRequest = Pagination & {
   entityId: string;
 };
 
-type BaseListMarketDataResponse = Brand<
+export type ListMarketDataResponse = PaginatedListResponse<
   internalGetMarketDataResponse,
-  'ListMarketDataResponse'
+  ListMarketDataRequest & BasePaginatedRequest,
+  MarketData
 >;
-
-export type ListMarketDataResponse = BaseListMarketDataResponse &
-  PaginatedResponseMethods<
-    ListMarketDataRequest & BasePaginatedRequest,
-    BaseListMarketDataResponse,
-    MarketData
-  >;

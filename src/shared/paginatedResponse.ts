@@ -17,6 +17,7 @@
 import { CoinbaseCallOptions, IPrimeApiClient } from '../clients';
 import { DEFAULT_MAX_ITEMS, DEFAULT_MAX_PAGES } from '../constants';
 import { SortDirection } from '../model/enums/SortDirection';
+import { Expand } from './brand';
 
 /**
  * Base type for paginated requests
@@ -94,6 +95,37 @@ export interface PaginatedResponseMethods<
     progressCallback?: (page: number, totalItems: number) => void
   ): Promise<TData[]>;
 }
+
+/**
+ * Public pagination helpers attached to list responses at runtime.
+ * Internal fields such as __apiCall are omitted from this type.
+ */
+export interface PaginationHelpers<
+  TRequest extends BasePaginatedRequest,
+  TResponse,
+  TData,
+> {
+  hasNext(): boolean;
+  getNextCursor(): string | undefined;
+  next(
+    options?: CoinbaseCallOptions
+  ): Promise<
+    (TResponse & PaginationHelpers<TRequest, TResponse, TData>) | null
+  >;
+  fetchAll(
+    options?: CoinbaseCallOptions,
+    progressCallback?: (page: number, totalItems: number) => void
+  ): Promise<TData[]>;
+}
+
+/**
+ * API list response payload plus pagination helpers, flattened for clearer IDE hovers.
+ */
+export type PaginatedListResponse<
+  TResponse,
+  TRequest extends BasePaginatedRequest,
+  TData,
+> = Expand<TResponse & PaginationHelpers<TRequest, TResponse, TData>>;
 
 /**
  * Validates that a number is a positive integer

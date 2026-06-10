@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Brand } from '../shared/brand';
+import { Expand } from '../shared/brand';
 import {
+  AddressBookEntry,
   GetPortfolioAddressBookResponse,
   CreatePortfolioAddressBookEntryRequest,
   CreatePortfolioAddressBookEntryResponse,
@@ -22,7 +23,7 @@ import {
 import { Pagination } from '../shared/pagination';
 import {
   BasePaginatedRequest,
-  PaginatedResponseMethods,
+  PaginatedListResponse,
 } from '../shared/paginatedResponse';
 
 export type ListAddressBooksRequest = Pagination & {
@@ -31,24 +32,16 @@ export type ListAddressBooksRequest = Pagination & {
   search?: string;
 };
 
-export type BaseListAddressBooksResponse = Brand<
+export type ListAddressBooksResponse = PaginatedListResponse<
   GetPortfolioAddressBookResponse,
-  'ListAddressBooksResponse'
+  ListAddressBooksRequest & BasePaginatedRequest,
+  AddressBookEntry
 >;
-
-export type ListAddressBooksResponse = BaseListAddressBooksResponse &
-  PaginatedResponseMethods<
-    ListAddressBooksRequest & BasePaginatedRequest,
-    BaseListAddressBooksResponse,
-    any // AddressBook type
-  >;
 
 export type CreateAddressBookRequest =
   CreatePortfolioAddressBookEntryRequest & {
     portfolioId: string;
   };
 
-export type CreateAddressBookResponse = Brand<
-  CreatePortfolioAddressBookEntryResponse,
-  'CreateAddressBookResponse'
->;
+export type CreateAddressBookResponse =
+  Expand<CreatePortfolioAddressBookEntryResponse>;

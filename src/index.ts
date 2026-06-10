@@ -248,7 +248,6 @@ export type {
   CreatePortfolioUnstakeResponse,
   QueryTransactionValidatorsRequest,
   QueryTransactionValidatorsResponse,
-  BaseQueryTransactionValidatorsResponse,
   ClaimRewardsRequest,
   ClaimRewardsResponse,
 } from './staking/types';

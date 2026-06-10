@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Brand } from '../shared/brand';
+import { Expand } from '../shared/brand';
 import {
   GetFcmBalanceResponse,
   GetFuturesSweepsResponse,
@@ -33,100 +33,70 @@ export type ListEntityFuturesSweepsRequest = {
   entityId: string;
 };
 
-export type ListEntityFuturesSweepsResponse = Brand<
-  GetFuturesSweepsResponse,
-  'ListEntityFuturesSweepsResponse'
->;
+export type ListEntityFuturesSweepsResponse = Expand<GetFuturesSweepsResponse>;
 
 export type GetEntityFuturesBalanceRequest = {
   entityId: string;
 };
 
-export type GetEntityFuturesBalanceResponse = Brand<
-  GetFcmBalanceResponse,
-  'GetEntityFuturesBalanceResponse'
->;
+export type GetEntityFuturesBalanceResponse = Expand<GetFcmBalanceResponse>;
 
 export type GetEntityFuturesPositionsRequest = {
   entityId: string;
   productId?: string;
 };
 
-export type GetEntityFuturesPositionsResponse = Brand<
-  GetPositionsResponse,
-  'GetEntityFuturesPositionsResponse'
->;
+export type GetEntityFuturesPositionsResponse = Expand<GetPositionsResponse>;
 
 export type UpdateEntityFuturesAutoSweepRequest = {
   entityId: string;
   autoSweep: boolean;
 };
 
-export type UpdateEntityFuturesAutoSweepResponse = Brand<
-  SetAutoSweepResponse,
-  'UpdateEntityFuturesAutoSweepResponse'
->;
+export type UpdateEntityFuturesAutoSweepResponse = Expand<SetAutoSweepResponse>;
 
 export type ScheduleEntityFuturesSweepRequest = ScheduleFuturesSweepRequest & {
   entityId: string;
 };
 
-export type ScheduleEntityFuturesSweepResponse = Brand<
-  ScheduleFuturesSweepResponse,
-  'ScheduleEntityFuturesSweepResponse'
->;
+export type ScheduleEntityFuturesSweepResponse =
+  Expand<ScheduleFuturesSweepResponse>;
 
 export type CancelEntitySweepRequest = {
   entityId: string;
 };
 
-export type CancelEntitySweepResponse = Brand<
-  CancelFuturesSweepResponse,
-  'CancelEntitySweepResponse'
->;
+export type CancelEntitySweepResponse = Expand<CancelFuturesSweepResponse>;
 
 export type GetEntityFuturesRiskLimitsRequest = {
   entityId: string;
 };
 
-export type GetEntityFuturesRiskLimitsResponse = Brand<
-  GetFcmRiskLimitsResponse,
-  'GetEntityFuturesRiskLimitsResponse'
->;
+export type GetEntityFuturesRiskLimitsResponse =
+  Expand<GetFcmRiskLimitsResponse>;
 
 export type GetEntityFuturesMarginCallDetailsRequest = {
   entityId: string;
 };
 
-export type GetEntityFuturesMarginCallDetailsResponse = Brand<
-  GetFcmMarginCallDetailsResponse,
-  'GetEntityFuturesMarginCallDetailsResponse'
->;
+export type GetEntityFuturesMarginCallDetailsResponse =
+  Expand<GetFcmMarginCallDetailsResponse>;
 
 export type GetFcmSettingsRequest = {
   entityId: string;
 };
 
-export type GetFcmSettingsResponse = Brand<
-  internalGetFcmSettingsResponse,
-  'GetFcmSettingsResponse'
->;
+export type GetFcmSettingsResponse = Expand<internalGetFcmSettingsResponse>;
 
 export type SetFcmSettingsRequest = {
   entityId: string;
   targetDerivativesExcess: string;
 };
 
-export type SetFcmSettingsResponse = Brand<
-  internalSetFcmSettingsResponse,
-  'SetFcmSettingsResponse'
->;
+export type SetFcmSettingsResponse = Expand<internalSetFcmSettingsResponse>;
 
 export type GetEntityFcmEquityRequest = {
   entityId: string;
 };
 
-export type GetEntityFcmEquityResponse = Brand<
-  internalGetFcmEquityResponse,
-  'GetEntityFcmEquityResponse'
->;
+export type GetEntityFcmEquityResponse = Expand<internalGetFcmEquityResponse>;

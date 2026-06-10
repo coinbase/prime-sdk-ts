@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Brand } from '../shared/brand';
+import { Expand } from '../shared/brand';
 import {
   GetEntityPaymentMethodsResponse,
   GetEntityPaymentMethodDetailsResponse,
@@ -23,17 +23,13 @@ export type ListEntityPaymentMethodsRequest = {
   entityId: string;
 };
 
-export type ListEntityPaymentMethodsResponse = Brand<
-  GetEntityPaymentMethodsResponse,
-  'ListEntityPaymentMethodsResponse'
->;
+export type ListEntityPaymentMethodsResponse =
+  Expand<GetEntityPaymentMethodsResponse>;
 
 export type GetPaymentMethodRequest = {
   entityId: string;
   paymentMethodId: string;
 };
 
-export type GetPaymentMethodResponse = Brand<
-  GetEntityPaymentMethodDetailsResponse,
-  'GetPaymentMethodResponse'
->;
+export type GetPaymentMethodResponse =
+  Expand<GetEntityPaymentMethodDetailsResponse>;
