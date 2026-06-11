@@ -228,7 +228,7 @@ export interface IFinancingService {
   ): Promise<ListFinancingEligibleAssetsResponse>;
 
   /**
-   * Get Cross Margin Risk Parameters (Beta)
+   * Get Cross Margin Risk Parameters
    *
    * Gets the current Cross Margin (XM) risk parameters for an entity.
    */
@@ -238,9 +238,9 @@ export interface IFinancingService {
   ): Promise<GetCrossMarginRiskParametersResponse>;
 
   /**
-   * Get Prime Cross Margin Overview (Beta)
+   * Get Prime Cross Margin Overview
    *
-   * Returns full live cross-margin (XM) margin information.
+   * Returns real time risk data from the cross margin model.
    */
   getCrossMarginPrimeOverview(
     request: GetCrossMarginPrimeOverviewRequest,
@@ -248,7 +248,7 @@ export interface IFinancingService {
   ): Promise<GetCrossMarginPrimeOverviewResponse>;
 
   /**
-   * Update Funding Settings (Beta)
+   * Update Funding Settings
    *
    * Sets FCM funding configuration for the entity and submits the desired configuration to Prime API for approval.
    */
@@ -258,9 +258,9 @@ export interface IFinancingService {
   ): Promise<SetFundingSettingsResponse>;
 
   /**
-   * Get Market Data (Beta)
+   * Get Market Data
    *
-   * Retrieves market data including volatility and average daily volume for an entity
+   * Retrieves market data including volatility and average daily volume for an entity.
    */
   listMarketData(
     request: ListMarketDataRequest,
