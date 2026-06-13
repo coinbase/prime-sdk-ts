@@ -55,6 +55,7 @@ export type { CrossMarginPrimeRiskNettingInfo } from './CrossMarginPrimeRiskNett
 export type { CrossMarginPrimeSpotEquityBreakdown } from './CrossMarginPrimeSpotEquityBreakdown';
 export type { CrossMarginPrimeXMPosition } from './CrossMarginPrimeXMPosition';
 export type { CrossMarginRiskParameters } from './CrossMarginRiskParameters';
+export type { CustomStablecoinAsset } from './CustomStablecoinAsset';
 export type { CustomStablecoinRewardDetails } from './CustomStablecoinRewardDetails';
 export type { DefiBalance } from './DefiBalance';
 export type { DestinationAlloc } from './DestinationAlloc';

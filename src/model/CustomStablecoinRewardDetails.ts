@@ -18,6 +18,8 @@
  *  Do not edit the class manually.
  */
 
+import { CustomStablecoinAsset } from './CustomStablecoinAsset';
+
 export type CustomStablecoinRewardDetails = {
   /**
    * ISO-formatted start date of the reward period (e.g. 2025-02-01T00:00:00Z)
@@ -27,4 +29,5 @@ export type CustomStablecoinRewardDetails = {
    * ISO-formatted end date of the reward period (e.g. 2025-02-28T00:00:00Z)
    */
   endDate?: string;
+  asset?: CustomStablecoinAsset;
 };
