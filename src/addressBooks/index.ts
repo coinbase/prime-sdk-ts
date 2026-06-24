@@ -29,11 +29,21 @@ import {
 } from '../shared/paginatedResponse';
 
 export interface IAddressBooksService {
+  /**
+   * Get Address Book
+   *
+   * Gets a list of address book addresses.
+   */
   listAddressBooks(
     request: ListAddressBooksRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListAddressBooksResponse>;
 
+  /**
+   * Create Address Book Entry
+   *
+   * Creates an entry for a portfolio's trusted addresses.
+   */
   createAddressBook(
     request: CreateAddressBookRequest,
     options?: CoinbaseCallOptions

@@ -22,6 +22,9 @@ import { Fill } from './Fill';
 import { PaginatedResponse } from './PaginatedResponse';
 
 export type GetOrderFillsResponse = {
+  /**
+   * Fills associated with the order
+   */
   fills?: Array<Fill>;
   pagination?: PaginatedResponse;
 };

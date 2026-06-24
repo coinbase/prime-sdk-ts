@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Brand } from '../shared/brand';
+import { Expand } from '../shared/brand';
 import {
   BasePaginatedRequest,
-  PaginatedResponseMethods,
+  PaginatedListResponse,
 } from '../shared/paginatedResponse';
 import {
   StakingInitiateResponse,
@@ -32,6 +32,7 @@ import {
   PreviewUnstakeResponse as internalPreviewUnstakeResponse,
   GetUnstakingStatusResponse as internalGetUnstakingStatusResponse,
   GetStakingStatusResponse as internalGetStakingStatusResponse,
+  TransactionValidator,
 } from '../model/';
 
 export type CreateStakeRequest = StakingInitiateRequest & {
@@ -39,10 +40,7 @@ export type CreateStakeRequest = StakingInitiateRequest & {
   walletId: string;
 };
 
-export type CreateStakeResponse = Brand<
-  StakingInitiateResponse,
-  'CreateStakeResponse'
->;
+export type CreateStakeResponse = Expand<StakingInitiateResponse>;
 
 // Staking Initiate Request is same for unstake, double check this when updating models if need to split
 export type CreateUnstakeRequest = StakingInitiateRequest & {
@@ -50,56 +48,39 @@ export type CreateUnstakeRequest = StakingInitiateRequest & {
   walletId: string;
 };
 
-export type CreateUnstakeResponse = Brand<
-  StakingUnstakeResponse,
-  'CreateUnstakeResponse'
->;
+export type CreateUnstakeResponse = Expand<StakingUnstakeResponse>;
 
 export type CreatePortfolioStakeRequest = PortfolioStakingInitiateRequest & {
   portfolioId: string;
 };
 
-export type CreatePortfolioStakeResponse = Brand<
-  PortfolioStakingInitiateResponse,
-  'CreatePortfolioStakeResponse'
->;
+export type CreatePortfolioStakeResponse =
+  Expand<PortfolioStakingInitiateResponse>;
 
 export type CreatePortfolioUnstakeRequest = PortfolioStakingUnstakeRequest & {
   portfolioId: string;
 };
 
-export type CreatePortfolioUnstakeResponse = Brand<
-  PortfolioStakingUnstakeResponse,
-  'CreatePortfolioUnstakeResponse'
->;
+export type CreatePortfolioUnstakeResponse =
+  Expand<PortfolioStakingUnstakeResponse>;
 
 export type QueryTransactionValidatorsRequest = BasePaginatedRequest & {
   portfolioId: string;
   transactionIds: string[];
 };
 
-export type BaseQueryTransactionValidatorsResponse = Brand<
+export type QueryTransactionValidatorsResponse = PaginatedListResponse<
   internalListTransactionValidatorsResponse,
-  'BaseQueryTransactionValidatorsResponse'
+  QueryTransactionValidatorsRequest,
+  TransactionValidator
 >;
-
-export type QueryTransactionValidatorsResponse =
-  BaseQueryTransactionValidatorsResponse &
-    PaginatedResponseMethods<
-      QueryTransactionValidatorsRequest,
-      BaseQueryTransactionValidatorsResponse,
-      any
-    >;
 
 export type ClaimRewardsRequest = internalStakingClaimRewardsRequest & {
   portfolioId: string;
   walletId: string;
 };
 
-export type ClaimRewardsResponse = Brand<
-  internalStakingClaimRewardsResponse,
-  'ClaimRewardsResponse'
->;
+export type ClaimRewardsResponse = Expand<internalStakingClaimRewardsResponse>;
 
 export type PreviewUnstakeRequest = {
   portfolioId: string;
@@ -107,27 +88,19 @@ export type PreviewUnstakeRequest = {
   amount: string;
 };
 
-export type PreviewUnstakeResponse = Brand<
-  internalPreviewUnstakeResponse,
-  'PreviewUnstakeResponse'
->;
+export type PreviewUnstakeResponse = Expand<internalPreviewUnstakeResponse>;
 
 export type GetUnstakingStatusRequest = {
   portfolioId: string;
   walletId: string;
 };
 
-export type GetUnstakingStatusResponse = Brand<
-  internalGetUnstakingStatusResponse,
-  'GetUnstakingStatusResponse'
->;
+export type GetUnstakingStatusResponse =
+  Expand<internalGetUnstakingStatusResponse>;
 
 export type GetStakingStatusRequest = {
   portfolioId: string;
   walletId: string;
 };
 
-export type GetStakingStatusResponse = Brand<
-  internalGetStakingStatusResponse,
-  'GetStakingStatusResponse'
->;
+export type GetStakingStatusResponse = Expand<internalGetStakingStatusResponse>;

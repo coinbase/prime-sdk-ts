@@ -23,7 +23,7 @@ import { CoinbasePrimeCredentials } from '../credentials';
  * If dotenv is not installed or .env file doesn't exist, falls back to
  * using environment variables set directly.
  *
- * @advanced For custom scenarios. Most users should use Client.fromEnv() instead.
+ * @remarks For custom scenarios. Most users should use Client.fromEnv() instead.
  * @example
  * ```typescript
  * // Basic usage (recommended)

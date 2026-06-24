@@ -19,11 +19,32 @@
  */
 
 export type DetailedAddress = {
+  /**
+   * Primary address line
+   */
   address1?: string;
+  /**
+   * Secondary address line (optional)
+   */
   address2?: string;
+  /**
+   * Tertiary address line (optional)
+   */
   address3?: string;
+  /**
+   * City name
+   */
   city?: string;
+  /**
+   * State or province
+   */
   state?: string;
+  /**
+   * ISO 3166-1 alpha-2 country code
+   */
   countryCode?: string;
+  /**
+   * Postal/ZIP code
+   */
   postalCode?: string;
 };

@@ -19,6 +19,11 @@ import { validate } from '../shared/validation';
 import { ListAssetsRequest, ListAssetsResponse } from './types';
 
 export interface IAssetsService {
+  /**
+   * List Assets
+   *
+   * List all assets available for a given entity.
+   */
   listAssets(
     request: ListAssetsRequest,
     options?: CoinbaseCallOptions

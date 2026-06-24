@@ -22,6 +22,9 @@ import { Fill } from './Fill';
 import { PaginatedResponse } from './PaginatedResponse';
 
 export type GetPortfolioFillsResponse = {
+  /**
+   * Fills associated with the portfolio
+   */
   fills?: Array<Fill>;
   pagination?: PaginatedResponse;
 };

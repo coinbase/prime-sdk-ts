@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Brand } from '../shared/brand';
-import { GetEntityUsersResponse } from '../model/';
+import { EntityUser, GetEntityUsersResponse } from '../model/';
 import {
   BasePaginatedRequest,
-  PaginatedResponseMethods,
+  PaginatedListResponse,
 } from '../shared/paginatedResponse';
 import { Pagination } from '../shared/pagination';
 
@@ -25,30 +24,18 @@ export type ListUsersRequest = Pagination & {
   entityId: string;
 };
 
-export type BaseListUsersResponse = Brand<
+export type ListUsersResponse = PaginatedListResponse<
   GetEntityUsersResponse,
-  'ListUsersResponse'
+  ListUsersRequest & BasePaginatedRequest,
+  EntityUser
 >;
-
-export type ListUsersResponse = BaseListUsersResponse &
-  PaginatedResponseMethods<
-    ListUsersRequest & BasePaginatedRequest,
-    BaseListUsersResponse,
-    any // User type
-  >;
 
 export type ListPortfolioUsersRequest = Pagination & {
   portfolioId: string;
 };
 
-export type BaseListPortfolioUsersResponse = Brand<
+export type ListPortfolioUsersResponse = PaginatedListResponse<
   GetEntityUsersResponse,
-  'ListPortfolioUsersResponse'
+  ListPortfolioUsersRequest & BasePaginatedRequest,
+  EntityUser
 >;
-
-export type ListPortfolioUsersResponse = BaseListPortfolioUsersResponse &
-  PaginatedResponseMethods<
-    ListPortfolioUsersRequest & BasePaginatedRequest,
-    BaseListPortfolioUsersResponse,
-    any // User type
-  >;

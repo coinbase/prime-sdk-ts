@@ -60,7 +60,7 @@ export class CoinbasePrimeClient
   /**
    * Create a client from environment variables
    * Requires PRIME_CREDENTIALS environment variable with JSON containing:
-   * { "AccessKey": "...", "SecretKey": "...", "Passphrase": "..." }
+   * \{ "AccessKey": "...", "SecretKey": "...", "Passphrase": "..." \}
    */
   static fromEnv(
     apiBaseUrl?: string,

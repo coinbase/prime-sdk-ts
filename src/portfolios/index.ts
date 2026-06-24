@@ -28,21 +28,41 @@ import {
 } from './types';
 
 export interface IPortfoliosService {
+  /**
+   * Get Portfolio by Portfolio ID
+   *
+   * Retrieve a given portfolio by its portfolio ID.
+   */
   getPortfolio(
     request: GetPortfolioRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetPortfolioResponse>;
 
+  /**
+   * Get Portfolio Credit Information
+   *
+   * Retrieve a portfolio's post-trade credit information.
+   */
   getPortfolioCredit(
     request: GetPortfolioCreditRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetPortfolioCreditResponse>;
 
+  /**
+   * Get Portfolio Counterparty ID
+   *
+   * Retrieve the counterparty ID for a given portfolio.
+   */
   getCounterpartyId(
     request: GetCounterpartyIdRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetCounterpartyIdResponse>;
 
+  /**
+   * List Portfolios
+   *
+   * List all portfolios for which the current API key has read access.
+   */
   listPortfolios(
     request: ListPortfoliosRequest,
     options?: CoinbaseCallOptions

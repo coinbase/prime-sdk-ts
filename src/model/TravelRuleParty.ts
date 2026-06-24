@@ -27,11 +27,20 @@ import { GoogleTypeDate } from './googleTypeDate';
  * Represents a party in a travel rule transfer (originator or beneficiary).
  */
 export type TravelRuleParty = {
+  /**
+   * Legal name (for entities or simple name format)
+   */
   name?: string;
   naturalPersonName?: NaturalPersonName;
   address?: DetailedAddress;
   walletType?: TravelRuleWalletType;
+  /**
+   * VASP identifier when wallet_type is VASP
+   */
   vaspId?: string;
+  /**
+   * VASP name fallback when vasp_id is unknown
+   */
   vaspName?: string;
   /**
    * Personal identifier for travel rule compliance. For individuals: passport number, national ID, driver\'s license. For institutions: LEI (Legal Entity Identifier).

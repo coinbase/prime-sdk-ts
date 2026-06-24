@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Brand } from '../shared/brand';
+import { Expand } from '../shared/brand';
 import { AdvancedTransferState, AdvancedTransferType } from '../model/enums';
 import {
   AdvancedTransfer,
@@ -24,7 +24,7 @@ import {
 } from '../model';
 import { Pagination } from '../shared/pagination';
 import {
-  PaginatedResponseMethods,
+  PaginatedListResponse,
   BasePaginatedRequest,
 } from '../shared/paginatedResponse';
 
@@ -37,44 +37,32 @@ export type ListAdvancedTransfersRequest = Pagination & {
   referenceId?: string;
 };
 
-type BaseListAdvancedTransfersResponse = Brand<
+export type ListAdvancedTransfersResponse = PaginatedListResponse<
   internalListAdvancedTransfersResponse,
-  'ListAdvancedTransfersResponse'
+  ListAdvancedTransfersRequest & BasePaginatedRequest,
+  AdvancedTransfer
 >;
-
-export type ListAdvancedTransfersResponse = BaseListAdvancedTransfersResponse &
-  PaginatedResponseMethods<
-    ListAdvancedTransfersRequest & BasePaginatedRequest,
-    BaseListAdvancedTransfersResponse,
-    AdvancedTransfer
-  >;
 
 export type CreateAdvancedTransferRequest = {
   portfolioId: string;
   advancedTransfer: AdvancedTransfer;
 };
 
-export type CreateAdvancedTransferResponse = Brand<
-  internalCreateAdvancedTransferResponse,
-  'CreateAdvancedTransferResponse'
->;
+export type CreateAdvancedTransferResponse =
+  Expand<internalCreateAdvancedTransferResponse>;
 
 export type CancelAdvancedTransferRequest = {
   portfolioId: string;
   advancedTransferId: string;
 };
 
-export type CancelAdvancedTransferResponse = Brand<
-  internalCancelAdvancedTransferResponse,
-  'CancelAdvancedTransferResponse'
->;
+export type CancelAdvancedTransferResponse =
+  Expand<internalCancelAdvancedTransferResponse>;
 
 export type ListAdvancedTransferTransactionsRequest = {
   portfolioId: string;
   advancedTransferId: string;
 };
 
-export type ListAdvancedTransferTransactionsResponse = Brand<
-  internalListAdvancedTransferTransactionsResponse,
-  'ListAdvancedTransferTransactionsResponse'
->;
+export type ListAdvancedTransferTransactionsResponse =
+  Expand<internalListAdvancedTransferTransactionsResponse>;

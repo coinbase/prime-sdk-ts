@@ -13,17 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Brand } from '../shared/brand';
+import { Expand } from '../shared/brand';
 import { PortfolioBalanceType, VisibilityStatus } from '../model/enums/';
 import {
   GetPortfolioBalancesResponse,
   GetWalletBalanceResponse as internalGetResp,
   ListWeb3WalletBalancesResponse,
   ListEntityBalancesResponse as internalListEntityBalances,
+  Web3Balance,
+  EntityBalance,
 } from '../model/';
 import {
   BasePaginatedRequest,
-  PaginatedResponseMethods,
+  PaginatedListResponse,
 } from '../shared/paginatedResponse';
 
 export type ListPortfolioBalancesRequest = {
@@ -32,20 +34,15 @@ export type ListPortfolioBalancesRequest = {
   balanceType?: PortfolioBalanceType;
 };
 
-export type ListPortfolioBalancesResponse = Brand<
-  GetPortfolioBalancesResponse,
-  'ListPortfolioBalancesResponse'
->;
+export type ListPortfolioBalancesResponse =
+  Expand<GetPortfolioBalancesResponse>;
 
 export type GetWalletBalanceRequest = {
   portfolioId: string;
   walletId: string;
 };
 
-export type GetWalletBalanceResponse = Brand<
-  internalGetResp,
-  'GetWalletBalanceResponse'
->;
+export type GetWalletBalanceResponse = Expand<internalGetResp>;
 
 export type ListOnchainWalletBalancesRequest = {
   portfolioId: string;
@@ -55,18 +52,11 @@ export type ListOnchainWalletBalancesRequest = {
   limit?: number;
 };
 
-export type BaseListOnchainWalletBalancesResponse = Brand<
+export type ListOnchainWalletBalancesResponse = PaginatedListResponse<
   ListWeb3WalletBalancesResponse,
-  'ListOnchainWalletBalancesResponse'
+  ListOnchainWalletBalancesRequest & BasePaginatedRequest,
+  Web3Balance
 >;
-
-export type ListOnchainWalletBalancesResponse =
-  BaseListOnchainWalletBalancesResponse &
-    PaginatedResponseMethods<
-      ListOnchainWalletBalancesRequest & BasePaginatedRequest,
-      BaseListOnchainWalletBalancesResponse,
-      any // OnchainWalletBalance type
-    >;
 
 export type ListEntityBalancesRequest = {
   entityId: string;
@@ -76,14 +66,8 @@ export type ListEntityBalancesRequest = {
   aggregationType?: PortfolioBalanceType;
 };
 
-export type BaseListEntityBalancesResponse = Brand<
+export type ListEntityBalancesResponse = PaginatedListResponse<
   internalListEntityBalances,
-  'ListEntityBalancesResponse'
+  ListEntityBalancesRequest & BasePaginatedRequest,
+  EntityBalance
 >;
-
-export type ListEntityBalancesResponse = BaseListEntityBalancesResponse &
-  PaginatedResponseMethods<
-    ListEntityBalancesRequest & BasePaginatedRequest,
-    BaseListEntityBalancesResponse,
-    any // EntityBalance type
-  >;

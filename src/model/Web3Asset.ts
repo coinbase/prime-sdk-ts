@@ -19,6 +19,9 @@
  */
 
 export type Web3Asset = {
+  /**
+   * Network this asset is on (ie \"ethereum-mainnet\")
+   */
   network?: string;
   /**
    * Contract Address of this asset (empty for native assets).

@@ -14,6 +14,21 @@
  * limitations under the License.
  */
 
-export type Brand<T, B> = T & {
-  __brand: B;
-};
+type Decrement = [never, 0, 1, 2];
+
+type ExpandDepth<T, Depth extends number> = Depth extends 0
+  ? T
+  : T extends (...args: infer A) => infer R
+    ? (...args: A) => R
+    : T extends Date
+      ? T
+      : T extends readonly (infer U)[]
+        ? readonly ExpandDepth<U, Depth>[]
+        : T extends Array<infer U>
+          ? ExpandDepth<U, Depth>[]
+          : T extends object
+            ? { [K in keyof T]: ExpandDepth<T[K], Decrement[Depth]> }
+            : T;
+
+/** Expands object types up to 2 levels for clearer IDE hovers. */
+export type Expand<T> = ExpandDepth<T, 2>;

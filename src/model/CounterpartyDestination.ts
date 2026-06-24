@@ -19,5 +19,8 @@
  */
 
 export type CounterpartyDestination = {
+  /**
+   * The counterparty ID to pay out
+   */
   counterpartyId?: string;
 };

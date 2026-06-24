@@ -35,13 +35,33 @@ import {
 } from '../shared/paginatedResponse';
 
 export interface IActivitiesService {
+  /**
+   * Get Activity by Activity ID
+   *
+   * Retrieve an activity by its activity ID - this endpoint can retrieve both portfolio and entity activities when passed the appropriate API key
+   */
   getActivity(request: GetActivityRequest): Promise<GetActivityResponse>;
+  /**
+   * Get Portfolio Activity by Activity ID
+   *
+   * Retrieve an activity by its activity ID
+   */
   getPortfolioActivity(
     request: GetPortfolioActivitiesRequest
   ): Promise<GetPortfolioActivityResponse>;
+  /**
+   * List Entity Activities
+   *
+   * List all activities associated with a given entity.
+   */
   listEntityActivities(
     request: ListEntityActivitiesRequest
   ): Promise<ListEntityActivitiesResponse>;
+  /**
+   * List Activities
+   *
+   * List all activities associated with a given portfolio.
+   */
   listPortfolioActivities(
     request: ListPortfolioActivitiesRequest
   ): Promise<ListPortfolioActivitiesResponse>;

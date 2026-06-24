@@ -22,6 +22,11 @@ import {
 } from './types';
 
 export interface ICommissionService {
+  /**
+   * Get Portfolio Commission
+   *
+   * Retrieve commission associated with a given portfolio.
+   */
   getPortfolioCommission(
     request: GetPortfolioCommissionRequest,
     options?: CoinbaseCallOptions

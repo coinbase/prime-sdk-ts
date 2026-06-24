@@ -25,6 +25,9 @@ export type AddressGroup = {
   id?: string;
   name?: string;
   networkType?: NetworkType;
+  /**
+   * A list of addresses within the group
+   */
   addresses?: Array<AddressEntry>;
   addedAt?: Date;
 };

@@ -13,14 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Brand } from '../shared/brand';
+import { Expand } from '../shared/brand';
 import { OrderSide, OrderStatus, OrderType } from '../model/enums/';
 import {
+  Fill,
   GetOpenOrdersResponse,
   GetOrderFillsResponse,
   GetOrderResponse as internalGet,
   GetOrdersResponse,
   GetPortfolioFillsResponse,
+  Order,
   GetOrderEditHistoryResponse as internalEditHistory,
   OrderPreviewRequest,
   PostOrderPreviewResponse,
@@ -36,7 +38,7 @@ import {
 import { Pagination } from '../shared/pagination';
 import {
   BasePaginatedRequest,
-  PaginatedResponseMethods,
+  PaginatedListResponse,
 } from '../shared/paginatedResponse';
 
 export type GetOrderRequest = {
@@ -44,7 +46,7 @@ export type GetOrderRequest = {
   orderId: string;
 };
 
-export type GetOrderResponse = Brand<internalGet, 'GetOrderResponse'>;
+export type GetOrderResponse = Expand<internalGet>;
 
 export type ListPortfolioFillsRequest = Pagination & {
   portfolioId: string;
@@ -52,17 +54,11 @@ export type ListPortfolioFillsRequest = Pagination & {
   endDate?: string;
 };
 
-export type BaseListPortfolioFillsResponse = Brand<
+export type ListPortfolioFillsResponse = PaginatedListResponse<
   GetPortfolioFillsResponse,
-  'ListPortfolioFillsResponse'
+  ListPortfolioFillsRequest & BasePaginatedRequest,
+  Fill
 >;
-
-export type ListPortfolioFillsResponse = BaseListPortfolioFillsResponse &
-  PaginatedResponseMethods<
-    ListPortfolioFillsRequest & BasePaginatedRequest,
-    BaseListPortfolioFillsResponse,
-    any // Fill type
-  >;
 
 export type ListPortfolioOrdersRequest = Pagination & {
   portfolioId: string;
@@ -74,34 +70,22 @@ export type ListPortfolioOrdersRequest = Pagination & {
   endDate?: string;
 };
 
-export type BaseListPortfolioOrdersResponse = Brand<
+export type ListPortfolioOrdersResponse = PaginatedListResponse<
   GetOrdersResponse,
-  'ListPortfolioOrdersResponse'
+  ListPortfolioOrdersRequest & BasePaginatedRequest,
+  Order
 >;
-
-export type ListPortfolioOrdersResponse = BaseListPortfolioOrdersResponse &
-  PaginatedResponseMethods<
-    ListPortfolioOrdersRequest & BasePaginatedRequest,
-    BaseListPortfolioOrdersResponse,
-    any // Order type
-  >;
 
 export type ListOrderFillsRequest = Pagination & {
   portfolioId: string;
   orderId: string;
 };
 
-export type BaseListOrderFillsResponse = Brand<
+export type ListOrderFillsResponse = PaginatedListResponse<
   GetOrderFillsResponse,
-  'ListOrderFillsResponse'
+  ListOrderFillsRequest & BasePaginatedRequest,
+  Fill
 >;
-
-export type ListOrderFillsResponse = BaseListOrderFillsResponse &
-  PaginatedResponseMethods<
-    ListOrderFillsRequest & BasePaginatedRequest,
-    BaseListOrderFillsResponse,
-    any // Fill type
-  >;
 
 export type ListOpenOrdersRequest = Pagination & {
   portfolioId: string;
@@ -112,65 +96,49 @@ export type ListOpenOrdersRequest = Pagination & {
   endDate?: string;
 };
 
-export type BaseListOpenOrdersResponse = Brand<
+export type ListOpenOrdersResponse = PaginatedListResponse<
   GetOpenOrdersResponse,
-  'ListOpenOrdersResponse'
+  ListOpenOrdersRequest & BasePaginatedRequest,
+  Order
 >;
-
-export type ListOpenOrdersResponse = BaseListOpenOrdersResponse &
-  PaginatedResponseMethods<
-    ListOpenOrdersRequest & BasePaginatedRequest,
-    BaseListOpenOrdersResponse,
-    any // Order type
-  >;
 
 export type CreateOrderPreviewRequest = OrderPreviewRequest & {
   portfolioId: string;
 };
 
-export type CreateOrderPreviewResponse = Brand<
-  PostOrderPreviewResponse,
-  'CreateOrderPreviewResponse'
->;
+export type CreateOrderPreviewResponse = Expand<PostOrderPreviewResponse>;
 
 export type CancelOrderRequest = {
   portfolioId: string;
   orderId: string;
 };
 
-export type CancelOrderResponse = Brand<internalCancel, 'CancelOrderResponse'>;
+export type CancelOrderResponse = Expand<internalCancel>;
 
 export type CreateOrderRequest = internalCreate & {
   portfolioId: string;
 };
-export type CreateOrderResponse = Brand<
-  internalCreateResp,
-  'CreateOrderResponse'
->;
+export type CreateOrderResponse = Expand<internalCreateResp>;
 
 export type CreateQuoteRequest = internalCreate & {
   portfolioId: string;
 };
 
-export type CreateQuoteResponse = Brand<QuoteResponse, 'CreateQuoteResponse'>;
+export type CreateQuoteResponse = Expand<QuoteResponse>;
 
 export type AcceptQuoteRequest = internalAcceptQuoteReq & {
   portfolioId: string;
 };
 
-export type AcceptQuoteResponse = Brand<
-  internalAcceptQuoteResp,
-  'AcceptQuoteResponse'
->;
+export type AcceptQuoteResponse = Expand<internalAcceptQuoteResp>;
 
 export type GetOrderEditHistoryRequest = {
   portfolioId: string;
   orderId: string;
 };
 
-export type GetOrderEditHistoryResponse = Brand<
-  Omit<internalEditHistory, 'orderEditHistory'>,
-  'GetOrderEditHistoryResponse'
+export type GetOrderEditHistoryResponse = Expand<
+  Omit<internalEditHistory, 'orderEditHistory'>
 >;
 
 export type EditOrderRequest = internalEditOrderRequest & {
@@ -178,7 +146,4 @@ export type EditOrderRequest = internalEditOrderRequest & {
   orderId: string;
 };
 
-export type EditOrderResponse = Brand<
-  internalEditOrderResponse,
-  'EditOrderResponse'
->;
+export type EditOrderResponse = Expand<internalEditOrderResponse>;

@@ -4,6 +4,7 @@ dist/
 node_modules/
 .idea/
 apiSpec/types
+apiSpec/.prime-public-api-spec.augmented.yaml
 example/test
 examples/test
 ai-docs/

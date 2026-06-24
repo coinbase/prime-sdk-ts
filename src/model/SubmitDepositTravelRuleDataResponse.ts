@@ -19,5 +19,8 @@
  */
 
 export type SubmitDepositTravelRuleDataResponse = {
+  /**
+   * Whether additional ownership verification is required
+   */
   ownershipVerificationRequired: boolean;
 };

@@ -30,10 +30,20 @@ import {
 } from '../shared/paginatedResponse';
 
 export interface IUsersService {
+  /**
+   * List Users
+   *
+   * List all users associated with a given entity.
+   */
   listUsers(
     request: ListUsersRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListUsersResponse>;
+  /**
+   * List Portfolio Users
+   *
+   * List all users associated with a given portfolio.
+   */
   listPortfolioUsers(
     request: ListPortfolioUsersRequest,
     options?: CoinbaseCallOptions

@@ -21,10 +21,25 @@
 import { WalletDepositInstructionType } from './enums/WalletDepositInstructionType';
 
 export type WalletFiatDepositInstructions = {
+  /**
+   * The id of the wallet
+   */
   id?: string;
+  /**
+   * The name of the wallet
+   */
   name?: string;
   type?: WalletDepositInstructionType;
+  /**
+   * The fiat account number
+   */
   accountNumber?: string;
+  /**
+   * The fiat routing number
+   */
   routingNumber?: string;
+  /**
+   * Reference code to be used as a memo/description
+   */
   referenceCode?: string;
 };

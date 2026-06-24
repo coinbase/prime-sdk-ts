@@ -26,11 +26,17 @@ import { TravelRuleParty } from './TravelRuleParty';
 export type TravelRuleData = {
   beneficiary?: TravelRuleParty;
   originator?: TravelRuleParty;
+  /**
+   * True if user owns the counterparty address (self-transfer)
+   */
   isSelf?: boolean;
   /**
    * True if Coinbase is being used as an intermediary for a customer transfer.
    */
   isIntermediary?: boolean;
+  /**
+   * True to skip wallet ownership verification
+   */
   optOutOfOwnershipVerification?: boolean;
   /**
    * Whether the originating VASP attests to verified wallet ownership. When true with is_intermediary, enables automatic VASP data enrichment from the legal entity.

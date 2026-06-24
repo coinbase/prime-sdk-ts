@@ -19,7 +19,16 @@
  */
 
 export type DefiBalance = {
+  /**
+   * Network this asset is on (ie \"ethereum-mainnet\")
+   */
   network?: string;
+  /**
+   * a set of rules and standards that define how data is exchanged (ie \"Aave V4 \")
+   */
   protocol?: string;
+  /**
+   * Total USD value
+   */
   netUsdValue?: string;
 };

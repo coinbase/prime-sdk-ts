@@ -19,6 +19,9 @@
  */
 
 export type CommissionDetailTotal = {
+  /**
+   * Total commission amount charged for the order This is the sum of all commission charged on the order
+   */
   totalCommission?: string;
   /**
    * CB fee
@@ -28,7 +31,13 @@ export type CommissionDetailTotal = {
    * Exchange fees
    */
   venueCommission?: string;
+  /**
+   * CES Commission
+   */
   cesCommission?: string;
+  /**
+   * Financing Commission
+   */
   financingCommission?: string;
   /**
    * NFA fees

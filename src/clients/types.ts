@@ -26,7 +26,7 @@ import type {
  * - CoinbasePrimeClient (traditional client)
  * - CoinbasePrimeClientWithServices (enhanced client)
  *
- * Note: We use Omit<> to cleanly override pagination properties that may
+ * Note: We use Omit to cleanly override pagination properties that may
  * have different type constraints between core-ts and Prime SDK.
  */
 

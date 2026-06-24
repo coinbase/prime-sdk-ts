@@ -13,12 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Brand } from '../shared/brand';
-import { GetPortfolioProductsResponse, GetCandlesResponse } from '../model/';
+import { Expand } from '../shared/brand';
+import {
+  GetPortfolioProductsResponse,
+  GetCandlesResponse,
+  Product,
+} from '../model/';
 import { CandlesGranularity } from '../model/enums/';
 import { Pagination } from '../shared/pagination';
 import {
-  PaginatedResponseMethods,
+  PaginatedListResponse,
   BasePaginatedRequest,
 } from '../shared/paginatedResponse';
 
@@ -26,17 +30,11 @@ export type ListProductsRequest = Pagination & {
   portfolioId: string;
 };
 
-export type BaseListProductsResponse = Brand<
+export type ListProductsResponse = PaginatedListResponse<
   GetPortfolioProductsResponse,
-  'ListProductsResponse'
+  ListProductsRequest & BasePaginatedRequest,
+  Product
 >;
-
-export type ListProductsResponse = BaseListProductsResponse &
-  PaginatedResponseMethods<
-    ListProductsRequest & BasePaginatedRequest,
-    BaseListProductsResponse,
-    any // Transaction type
-  >;
 
 export type ListProductCandlesRequest = {
   portfolioId: string;
@@ -46,7 +44,4 @@ export type ListProductCandlesRequest = {
   granularity: CandlesGranularity;
 };
 
-export type ListProductCandlesResponse = Brand<
-  GetCandlesResponse,
-  'ListProductCandlesResponse'
->;
+export type ListProductCandlesResponse = Expand<GetCandlesResponse>;

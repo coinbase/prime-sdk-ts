@@ -30,10 +30,20 @@ import {
 } from '../shared/paginatedResponse';
 
 export interface IPositionsService {
+  /**
+   * List Aggregate Entity Positions
+   *
+   * List paginated aggregate positions for a specific entity.
+   */
   listAggregateEntityPositions(
     request: ListAggregateEntityPositionsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListAggregateEntityPositionsResponse>;
+  /**
+   * List Entity Positions
+   *
+   * List paginated positions for a specific entity.
+   */
   listEntityPositions(
     request: ListEntityPositionsRequest,
     options?: CoinbaseCallOptions

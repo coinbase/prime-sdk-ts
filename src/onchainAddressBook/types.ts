@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Brand } from '../shared/brand';
+import { Expand } from '../shared/brand';
 import {
   ListOnchainAddressGroupsResponse as listInt,
   AddressGroup,
@@ -24,35 +24,26 @@ export type ListOnchainAddressBookRequest = {
   portfolioId: string;
 };
 
-export type ListOnchainAddressBookResponse = Brand<
-  listInt,
-  'ListOnchainAddressBookResponse'
->;
+export type ListOnchainAddressBookResponse = Expand<listInt>;
 
 export type CreateOnchainAddressBookEntryRequest = AddressGroup & {
   portfolioId: string;
 };
 
-export type CreateOnchainAddressBookEntryResponse = Brand<
-  ActivityCreationResponse,
-  'CreateOnchainAddressBookEntryResponse'
->;
+export type CreateOnchainAddressBookEntryResponse =
+  Expand<ActivityCreationResponse>;
 
 export type UpdateOnchainAddressBookEntryRequest = AddressGroup & {
   portfolioId: string;
 };
 
-export type UpdateOnchainAddressBookEntryResponse = Brand<
-  ActivityCreationResponse,
-  'UpdateOnchainAddressBookEntryResponse'
->;
+export type UpdateOnchainAddressBookEntryResponse =
+  Expand<ActivityCreationResponse>;
 
 export type DeleteOnchainAddressBookEntryRequest = {
   portfolioId: string;
   addressGroupId: string;
 };
 
-export type DeleteOnchainAddressBookEntryResponse = Brand<
-  ActivityCreationResponse,
-  'DeleteOnchainAddressBookEntryResponse'
->;
+export type DeleteOnchainAddressBookEntryResponse =
+  Expand<ActivityCreationResponse>;

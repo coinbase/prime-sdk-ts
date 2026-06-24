@@ -22,6 +22,9 @@ export type QuoteResponse = {
   quoteId?: string;
   expirationTime?: Date;
   bestPrice?: string;
+  /**
+   * total quote amount for previewing
+   */
   orderTotal?: string;
   priceInclusiveOfFees?: string;
   /**

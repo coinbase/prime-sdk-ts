@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Brand } from '../shared/brand';
+import { Expand } from '../shared/brand';
 import {
   CreateAllocationRequest as internalCreate,
   CreateAllocationResponse as internalResponse,
   CreateNetAllocationResponse as internalNetCreate,
+  Allocation,
   GetPortfolioAllocationsResponse,
   GetAllocationResponse as internalGet,
   GetAllocationsByClientNettingIdResponse,
@@ -26,28 +27,16 @@ import { OrderSide } from '../model/enums/';
 import { Pagination } from '../shared/pagination';
 import {
   BasePaginatedRequest,
-  PaginatedResponseMethods,
+  PaginatedListResponse,
 } from '../shared/paginatedResponse';
 
-export type CreateAllocationRequest = Brand<
-  internalCreate,
-  'CreateAllocationRequest'
->;
+export type CreateAllocationRequest = Expand<internalCreate>;
 
-export type CreateAllocationResponse = Brand<
-  internalResponse,
-  'CreateAllocationResponse'
->;
+export type CreateAllocationResponse = Expand<internalResponse>;
 
-export type CreateNetAllocationRequest = Brand<
-  internalCreate,
-  'CreateNetAllocationRequest'
->;
+export type CreateNetAllocationRequest = Expand<internalCreate>;
 
-export type CreateNetAllocationResponse = Brand<
-  internalNetCreate,
-  'CreateNetAllocationResponse'
->;
+export type CreateNetAllocationResponse = Expand<internalNetCreate>;
 
 export type ListPortfolioAllocationsRequest = Pagination & {
   portfolioId: string;
@@ -57,18 +46,11 @@ export type ListPortfolioAllocationsRequest = Pagination & {
   endDate?: string;
 };
 
-export type BaseListPortfolioAllocationsResponse = Brand<
+export type ListPortfolioAllocationsResponse = PaginatedListResponse<
   GetPortfolioAllocationsResponse,
-  'ListPortfolioAllocationsResponse'
+  ListPortfolioAllocationsRequest & BasePaginatedRequest,
+  Allocation
 >;
-
-export type ListPortfolioAllocationsResponse =
-  BaseListPortfolioAllocationsResponse &
-    PaginatedResponseMethods<
-      ListPortfolioAllocationsRequest & BasePaginatedRequest,
-      BaseListPortfolioAllocationsResponse,
-      any // Allocation type
-    >;
 
 export type ListNetAllocationsRequest = {
   portfolioId: string;
@@ -76,14 +58,12 @@ export type ListNetAllocationsRequest = {
   allocationId?: string;
 };
 
-export type ListNetAllocationsResponse = Brand<
-  GetAllocationsByClientNettingIdResponse,
-  'ListNetAllocationsResponse'
->;
+export type ListNetAllocationsResponse =
+  Expand<GetAllocationsByClientNettingIdResponse>;
 
 export type GetAllocationRequest = {
   portfolioId: string;
   allocationId: string;
 };
 
-export type GetAllocationResponse = Brand<internalGet, 'GetAllocationResponse'>;
+export type GetAllocationResponse = Expand<internalGet>;

@@ -21,5 +21,8 @@
 export type AddressEntry = {
   name?: string;
   address?: string;
+  /**
+   * List of compatible chain IDs for a given address, empty for Solana
+   */
   chainIds?: Array<string>;
 };

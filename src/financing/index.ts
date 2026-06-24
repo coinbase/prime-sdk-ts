@@ -68,95 +68,200 @@ import {
 } from './types';
 
 export interface IFinancingService {
+  /**
+   * List Existing Locates
+   *
+   * List locates for the portfolio
+   */
   listExistingLocates(
     request: ListExistingLocatesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListExistingLocatesResponse>;
+  /**
+   * List Interest Accruals
+   *
+   * Lists interest accruals for an entity between the specified date range given
+   */
   listInterestAccruals(
     request: ListInterestAccrualsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListInterestAccrualsResponse>;
+  /**
+   * List Interest Accruals For Portfolio
+   *
+   * Lists interest accruals between the specified date range for a specific portfolio ID
+   */
   listPortfolioInterestAccruals(
     request: ListPortfolioInterestAccrualsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioInterestAccrualsResponse>;
+  /**
+   * List Margin Call Summaries
+   *
+   * Lists the margin call history for a given entity ID.
+   */
   listMarginCallSummaries(
     request: ListMarginCallSummariesRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListMarginCallSummariesResponse>;
+  /**
+   * List Margin Conversions
+   *
+   * Lists conversions and short collateral requirement between specified date range. This endpoint is deprecated and will be removed in the future. Use /v1/entities/\{entity_id\}/margin_summaries instead.
+   */
   listMarginConversions(
     request: ListMarginConversionsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListMarginConversionsResponse>;
 
+  /**
+   * Get Entity Locate Availabilities
+   *
+   * Get currencies available to be located with their corresponding amount and rate.
+   */
   getEntityLocateAvailabilities(
     request: GetEntityLocateAvailabilitiesRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetEntityLocateAvailabilitiesResponse>;
+  /**
+   * Get Margin Information
+   *
+   * Gets real-time evaluation of the margin model based on current positions and spot rates.
+   */
   getMarginInformation(
     request: GetMarginInformationRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetMarginInformationResponse>;
+  /**
+   * Get Portfolio Buying Power
+   *
+   * Returns the size of a buy trade that can be performed based on existing holdings and available credit. The result will differ for different assets due to asset specific credit configurations and caps. Note that this result is changing based on asset price fluctuations, so may be rejected when submitted.
+   */
   getPortfolioBuyingPower(
     request: GetPortfolioBuyingPowerRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetPortfolioBuyingPowerResponse>;
+  /**
+   * Get Portfolio Credit Information
+   *
+   * Retrieve a portfolio's post-trade credit information.
+   */
   getPortfolioCreditInformation(
     request: GetPortfolioCreditInformationRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetPortfolioCreditInformationResponse>;
+  /**
+   * Get Portfolio Withdrawal Power
+   *
+   * Returns the nominal quantity of a given asset that can be withdrawn based on holdings and current portfolio equity.
+   */
   getPortfolioWithdrawalPower(
     request: GetPortfolioWithdrawalPowerRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetPortfolioWithdrawalPowerResponse>;
+  /**
+   * Get Trade Finance Tiered Pricing Fees
+   *
+   * Get trade finance tiered pricing fees for a given entity at a specific time, default to current time.
+   */
   getTieredPricingFees(
     request: GetTieredPricingFeesRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetTieredPricingFeesResponse>;
+  /**
+   * Get FCM Margin Call Details
+   *
+   * Retrieve the margin call details for a given entity.
+   */
   getFcmMarginCallDetails(
     request: GetFcmMarginCallDetailsRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetFcmMarginCallDetailsResponse>;
+  /**
+   * Get FCM Risk Limits
+   *
+   * Retrieve the risk limits for a given entity.
+   */
   getFcmRiskLimits(
     request: GetFcmRiskLimitsRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetFcmRiskLimitsResponse>;
 
+  /**
+   * List Existing Locates
+   *
+   * List locates for the portfolio
+   */
   createNewLocates(
     request: CreateNewLocatesRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateNewLocatesResponse>;
 
+  /**
+   * Get Exchange Cross Margin Overview
+   *
+   * Gets live data for Cross Margin (XM) for a specific XM customer
+   */
   getCrossMarginOverview(
     request: GetCrossMarginOverviewRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetCrossMarginOverviewResponse>;
 
+  /**
+   * List Trade Finance Obligations
+   *
+   * List trade finance obligations for a given entity.
+   */
   listTFObligations(
     request: ListTFObligationsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListTFObligationsResponse>;
 
+  /**
+   * List Financing Eligible Assets
+   *
+   * Get all assets eligible for Trade Finance with their adjustment factors.
+   */
   listFinancingEligibleAssets(
     request?: ListFinancingEligibleAssetsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListFinancingEligibleAssetsResponse>;
 
+  /**
+   * Get Cross Margin Risk Parameters
+   *
+   * Gets the current Cross Margin (XM) risk parameters for an entity.
+   */
   getCrossMarginRiskParameters(
     request: GetCrossMarginRiskParametersRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetCrossMarginRiskParametersResponse>;
 
+  /**
+   * Get Prime Cross Margin Overview
+   *
+   * Returns real time risk data from the cross margin model.
+   */
   getCrossMarginPrimeOverview(
     request: GetCrossMarginPrimeOverviewRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetCrossMarginPrimeOverviewResponse>;
 
+  /**
+   * Update Funding Settings
+   *
+   * Sets FCM funding configuration for the entity and submits the desired configuration to Prime API for approval.
+   */
   setFundingSettings(
     request: SetFundingSettingsRequest,
     options?: CoinbaseCallOptions
   ): Promise<SetFundingSettingsResponse>;
 
+  /**
+   * Get Market Data
+   *
+   * Retrieves market data including volatility and average daily volume for an entity.
+   */
   listMarketData(
     request: ListMarketDataRequest,
     options?: CoinbaseCallOptions

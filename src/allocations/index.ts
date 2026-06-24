@@ -35,26 +35,51 @@ import {
 } from '../shared/paginatedResponse';
 
 export interface IAllocationService {
+  /**
+   * Create Portfolio Allocations
+   *
+   * Create allocation for a given portfolio.
+   */
   createAllocation(
     request: CreateAllocationRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateAllocationResponse>;
 
+  /**
+   * Create Portfolio Net Allocations
+   *
+   * Create net allocation for a given portfolio.
+   */
   createNetAllocation(
     request: CreateNetAllocationRequest,
     options?: CoinbaseCallOptions
   ): Promise<CreateNetAllocationResponse>;
 
+  /**
+   * List Portfolio Allocations
+   *
+   * List historical allocations for a given portfolio.
+   */
   listPortfolioAllocations(
     request: ListPortfolioAllocationsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfolioAllocationsResponse>;
 
+  /**
+   * Get Net Allocations by Netting ID
+   *
+   * Retrieve an allocation by netting ID.
+   */
   listNetAllocations(
     request: ListNetAllocationsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListNetAllocationsResponse>;
 
+  /**
+   * Get Allocation by ID
+   *
+   * Retrieve an allocation by allocation ID.
+   */
   getAllocation(
     request: GetAllocationRequest,
     options?: CoinbaseCallOptions
