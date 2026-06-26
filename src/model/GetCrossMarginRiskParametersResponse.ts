@@ -23,23 +23,23 @@ import { TierPairRateEntry } from './TierPairRateEntry';
 
 export type GetCrossMarginRiskParametersResponse = {
   /**
-   * Current XM tier risk parameters for the entity\'s client tier
+   * Current XM tier risk parameters for the entity\'s client tier.
    */
   riskParameters?: Array<CrossMarginRiskParameters>;
   /**
-   * Offset credit rate matrix for long/short tier pairs
+   * Offset credit rate matrix for long/short tier pairs.
    */
   offsetCreditMatrixLongShort?: Array<TierPairRateEntry>;
   /**
-   * Offset credit rate matrix for long/long tier pairs
+   * Offset credit rate matrix for long/long tier pairs.
    */
   offsetCreditMatrixLongLong?: Array<TierPairRateEntry>;
   /**
-   * Offset credit rate matrix for short/short tier pairs
+   * Offset credit rate matrix for short/short tier pairs.
    */
   offsetCreditMatrixShortShort?: Array<TierPairRateEntry>;
   /**
-   * Margin period of risk (number of days)
+   * Margin period of risk (number of days).
    */
   marginPeriodOfRisk?: number;
 };

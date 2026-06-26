@@ -30,28 +30,28 @@ import { PrimeXMMarginRequirementType } from './enums/PrimeXMMarginRequirementTy
  */
 export type CrossMarginPrimeMarginSummary = {
   /**
-   * Cross Margin Margin Requirement (XMMR) notional
+   * Cross Margin Margin Requirement (XMMR) notional.
    */
   marginRequirement?: string;
   marginRequirementType?: PrimeXMMarginRequirementType;
   /**
-   * Equity notional
+   * Equity notional.
    */
   accountEquity?: string;
   /**
-   * Equity - XMMR (margin excess is > 0)
+   * Equity - XMMR (margin excess is > 0).
    */
   marginExcessShortfall?: string;
   /**
-   * Credit consumed from Cross Margin Credit Limit (XMCL)
+   * Credit consumed from Cross Margin Credit Limit (XMCL).
    */
   consumedCredit?: string;
   /**
-   * XM Credit Limit (XMCL) is the maximum notional USD of total fiat and digital asset loans
+   * XM Credit Limit (XMCL) is the maximum notional USD of total fiat and digital asset loans.
    */
   xmCreditLimit?: string;
   /**
-   * XM Margin Limit (XMML) is the maximum notional USD deficit
+   * XM Margin Limit (XMML) is the maximum notional USD deficit.
    */
   xmMarginLimit?: string;
   /**
@@ -59,11 +59,11 @@ export type CrossMarginPrimeMarginSummary = {
    */
   consumedMarginLimit?: string;
   /**
-   * Equity attributed by spot
+   * Equity attributed by spot.
    */
   spotEquity?: string;
   /**
-   * Equity attributed by futures
+   * Equity attributed by futures.
    */
   futuresEquity?: string;
   /**

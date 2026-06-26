@@ -18,20 +18,9 @@
  *  Do not edit the class manually.
  */
 
-/**
- * SetFundingSettingsResponse returns PCS activity metadata after the proposal is created.
- */
-export type SetFundingSettingsResponse = {
+export type CustomStablecoinAsset = {
   /**
-   * Identifier for the created activity / proposal
+   * The asset symbol (e.g. USDC, USDF)
    */
-  activityId?: string;
-  /**
-   * Type of the activity (e.g. PCS proposal type)
-   */
-  activityType?: string;
-  /**
-   * Number of approvals still required before the change applies
-   */
-  numApprovalsRemaining?: number;
+  symbol?: string;
 };

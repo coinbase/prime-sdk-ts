@@ -18,11 +18,16 @@
  *  Do not edit the class manually.
  */
 
-import { PrimeXMMarginThresholdType } from './enums/PrimeXMMarginThresholdType';
-import { XMMarginLevel } from './enums/XMMarginLevel';
+import { OrderSide } from './enums/OrderSide';
 
-export type PrimeXMMarginThreshold = {
-  marginLevel?: XMMarginLevel;
-  thresholdType?: PrimeXMMarginThresholdType;
-  thresholdValue?: string;
+/**
+ * ComboLeg describes a single leg within an options combo order.
+ */
+export type ComboLeg = {
+  /**
+   * The product identifier for the options instrument (e.g., \"BTC-28MAR25-50000-C\").
+   */
+  productId?: string;
+  quantity?: string;
+  side?: OrderSide;
 };

@@ -18,11 +18,15 @@
  *  Do not edit the class manually.
  */
 
-import { PrimeXMMarginThresholdType } from './enums/PrimeXMMarginThresholdType';
-import { XMMarginLevel } from './enums/XMMarginLevel';
-
-export type PrimeXMMarginThreshold = {
-  marginLevel?: XMMarginLevel;
-  thresholdType?: PrimeXMMarginThresholdType;
-  thresholdValue?: string;
-};
+/**
+ * ValidatorProvider enumerates the ETH validator service providers accepted for unstaking.
+ */
+export enum ValidatorProvider {
+  ValidatorProviderUnspecified = 'VALIDATOR_PROVIDER_UNSPECIFIED',
+  ValidatorProviderCoinbaseCloud = 'VALIDATOR_PROVIDER_COINBASE_CLOUD',
+  ValidatorProviderMavan = 'VALIDATOR_PROVIDER_MAVAN',
+  ValidatorProviderFigment = 'VALIDATOR_PROVIDER_FIGMENT',
+  ValidatorProviderCodefi = 'VALIDATOR_PROVIDER_CODEFI',
+  ValidatorProviderAttestant = 'VALIDATOR_PROVIDER_ATTESTANT',
+  ValidatorProviderGalaxy = 'VALIDATOR_PROVIDER_GALAXY',
+}

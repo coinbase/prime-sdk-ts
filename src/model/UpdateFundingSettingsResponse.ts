@@ -18,12 +18,17 @@
  *  Do not edit the class manually.
  */
 
-/**
- * - TRADES_AND_WITHDRAWALS: Allowed to trade and withdraw. See XM Margin Methodology for full description of when trading and withdrawals are enabled or disabled.  - TRADES_ONLY: Allowed to trade but not withdraw. See XM Margin Methodology for full description of when trading and withdrawals are enabled or disabled.  - SESSION_LOCKED: Not allowed to trade or withdraw. See XM Margin Methodology for full description of when trading and withdrawals are enabled or disabled.
- */
-export enum PrimeXMControlStatus {
-  XmControlStatusUnspecified = 'XM_CONTROL_STATUS_UNSPECIFIED',
-  TradesAndWithdrawals = 'TRADES_AND_WITHDRAWALS',
-  TradesOnly = 'TRADES_ONLY',
-  SessionLocked = 'SESSION_LOCKED',
-}
+export type UpdateFundingSettingsResponse = {
+  /**
+   * Identifier for the created activity / proposal
+   */
+  activityId?: string;
+  /**
+   * Type of the activity (e.g. PCS proposal type)
+   */
+  activityType?: string;
+  /**
+   * Number of approvals still required before the change applies
+   */
+  numApprovalsRemaining?: number;
+};

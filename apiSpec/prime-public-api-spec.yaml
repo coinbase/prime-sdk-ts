@@ -2834,6 +2834,18 @@ paths:
                   description: Specifies the stop price at which the order activates.
                     The order is activated if the last trade price on Coinbase Exchange
                     crosses the stop price specified on the order
+                offset:
+                  type: string
+                  description: New peg offset value for PEG orders. 0 means peg to
+                    BBO. Only non-negative values are allowed. The order's peg_offset_type
+                    is immutable and is reused server-side to interpret this value
+                    (PEG orders only)
+                wig_level:
+                  type: string
+                  description: "New WIG (Would if Good) level for PEG orders - the\
+                    \ best price a pegged order would be placed on venues, opposite\
+                    \ to limit_price. Cannot be added or removed post-placement (PEG\
+                    \ orders only)"
         required: true
       responses:
         "200":
@@ -3858,6 +3870,73 @@ paths:
               schema:
                 $ref: '#/components/schemas/coinbase.public_rest_api.CreateConversionResponse'
       x-codegen-request-body-name: body
+  /v1/portfolios/{portfolio_id}/wallets/{wallet_id}/cross-asset-withdrawals:
+    post:
+      tags:
+      - Transactions
+      summary: Create Cross-Asset Wallet Withdrawal
+      description: "Create a withdrawal where the source asset differs from the destination\
+        \ asset (e.g. USDC source, USDT-on-TRON destination)."
+      operationId: PrimeRESTAPI_CreateCrossAssetWalletWithdrawal
+      parameters:
+      - name: portfolio_id
+        in: path
+        description: The portfolio ID
+        required: true
+        schema:
+          type: string
+      - name: wallet_id
+        in: path
+        description: The source wallet ID (must hold source_currency_symbol)
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              required:
+              - blockchain_address
+              - destination_amount
+              - destination_currency_symbol
+              - idempotency_key
+              - source_currency_symbol
+              type: object
+              properties:
+                idempotency_key:
+                  type: string
+                  description: The idempotency key associated with the withdrawal
+                source_currency_symbol:
+                  type: string
+                  description: The currency symbol debited from the wallet (e.g. "USDC")
+                destination_currency_symbol:
+                  type: string
+                  description: The currency symbol delivered to the destination (e.g.
+                    "USDT")
+                destination_amount:
+                  type: string
+                  description: "Exact amount of destination_currency_symbol to deliver,\
+                    \ in whole units. The corresponding source amount debited from\
+                    \ the wallet is computed downstream."
+                blockchain_address:
+                  $ref: '#/components/schemas/coinbase.public_rest_api.BlockchainAddress'
+                travel_rule_data:
+                  $ref: '#/components/schemas/coinbase.public_rest_api.TravelRuleData'
+              description: |-
+                Create a cross-asset wallet withdrawal: source asset is debited from the
+                wallet and destination asset is delivered to the destination. The source
+                amount is computed downstream based on the use case. The relationship
+                between source and destination assets (bridge, swap, etc.) is an internal
+                implementation detail and is not exposed on the wire.
+        required: true
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.CreateCrossAssetWalletWithdrawalResponse'
+      x-codegen-request-body-name: body
   /v1/portfolios/{portfolio_id}/wallets/{wallet_id}/deposit_instructions:
     get:
       tags:
@@ -3974,8 +4053,8 @@ paths:
       tags:
       - Staking
       summary: Claim Wallet Staking Rewards (Alpha)
-      description: Request to claim staking rewards. This feature is in alpha. Please
-        reach out to your Coinbase Prime account manager for more information
+      description: Request to claim staking rewards. This feature is only for ETH
+        Pectra (0x02) validators.
       operationId: PrimeRESTAPI_StakingClaimRewards
       parameters:
       - name: portfolio_id
@@ -5440,6 +5519,18 @@ components:
       - THIRTY_MINUTES
       - TWO_HOURS
       - FOUR_HOURS
+    coinbase.public_rest_api.ComboLeg:
+      type: object
+      properties:
+        product_id:
+          type: string
+          description: "The product identifier for the options instrument (e.g., \"\
+            BTC-28MAR25-50000-C\")."
+        quantity:
+          type: string
+        side:
+          $ref: '#/components/schemas/coinbase.public_rest_api.OrderSide'
+      description: ComboLeg describes a single leg within an options combo order.
     coinbase.public_rest_api.Commission:
       type: object
       properties:
@@ -5649,6 +5740,37 @@ components:
           type: string
           description: The UUID of the conversion transaction
           example: e84255eb-2e21-439e-a1d0-f5dd1e1292b9
+    coinbase.public_rest_api.CreateCrossAssetWalletWithdrawalResponse:
+      type: object
+      properties:
+        activity_id:
+          type: string
+          description: The activity ID associated with the withdrawal (best-effort;
+            may be empty)
+        approval_url:
+          type: string
+          description: A URL to the activity in the Prime application (best-effort;
+            empty when activity_id is empty)
+        source_symbol:
+          type: string
+          description: The source currency symbol that was debited from the wallet
+        source_amount:
+          type: string
+          description: "The amount of source_symbol debited from the wallet, computed\
+            \ downstream based on the use case"
+        destination_symbol:
+          type: string
+          description: The destination currency symbol delivered to the destination
+        destination_amount:
+          type: string
+          description: The amount of destination_symbol delivered to the destination
+        blockchain_destination:
+          $ref: '#/components/schemas/coinbase.public_rest_api.BlockchainAddress'
+        transaction_id:
+          type: string
+          description: The id of the just created transaction
+      description: CreateCrossAssetWalletWithdrawalResponse is the response message
+        for the CreateCrossAssetWalletWithdrawal RPC.
     coinbase.public_rest_api.CreateNetAllocationResponse:
       type: object
       properties:
@@ -5723,6 +5845,12 @@ components:
           type: string
           description: Unique identifier for the created transaction
           example: 0bf7bf1e-bafa-4d7e-9312-fa0bf3b63f27
+    coinbase.public_rest_api.CreateOptionComboResponse:
+      type: object
+      properties:
+        combo_id:
+          title: combo id returned by deribit
+          type: string
     coinbase.public_rest_api.CreateOrderResponse:
       type: object
       properties:
@@ -6136,6 +6264,13 @@ components:
           description: Basis offset credit rate.
           example: "0.92"
       description: XM 2.0 risk parameters for an asset tier.
+    coinbase.public_rest_api.CustomStablecoinAsset:
+      title: Currency metadata of the custom stablecoin asset for the reward program
+      type: object
+      properties:
+        symbol:
+          type: string
+          description: "The asset symbol (e.g. USDC, USDF)"
     coinbase.public_rest_api.CustomStablecoinRewardDetails:
       title: Details for a custom stablecoin reward payout transaction
       type: object
@@ -6146,6 +6281,8 @@ components:
         end_date:
           type: string
           description: ISO-formatted end date of the reward period (e.g. 2025-02-28T00:00:00Z)
+        asset:
+          $ref: '#/components/schemas/coinbase.public_rest_api.CustomStablecoinAsset'
     coinbase.public_rest_api.DefiBalance:
       type: object
       properties:
@@ -9830,11 +9967,8 @@ components:
         Used for granular ETH V2 validator-level staking or unstaking operations.
     coinbase.public_rest_api.ValidatorProvider:
       type: string
-      description: |-
-        ValidatorProvider enumerates the ETH validator service providers that PPA accepts on
-        PortfolioStakingUnstakeRequest.validator_provider. The enum names map 1:1 to the display
-        names returned by ISS GetUsedValidators (service_provider field) and shown in the Prime
-        UI. Keep in sync with staking/internal/asset/ethereum.mapServiceProviderToDisplayName.
+      description: ValidatorProvider enumerates the ETH validator service providers
+        accepted for unstaking.
       default: VALIDATOR_PROVIDER_UNSPECIFIED
       enum:
       - VALIDATOR_PROVIDER_UNSPECIFIED

@@ -90,7 +90,7 @@ export interface IStakingService {
   /**
    * Claim Wallet Staking Rewards (Alpha)
    *
-   * Request to claim staking rewards. This feature is in alpha. Please reach out to your Coinbase Prime account manager for more information
+   * Request to claim staking rewards. This feature is only for ETH Pectra (0x02) validators.
    */
   claimRewards(
     request: ClaimRewardsRequest,
