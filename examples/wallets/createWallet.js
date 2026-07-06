@@ -35,7 +35,7 @@
 // #docs operationId: PrimeRESTAPI_CreateWallet
 // #docs operationName: Create Wallet
 
-const { CoinbasePrimeClientWithServices } = require('../../dist');
+const { CoinbasePrimeClientWithServices, WalletType } = require('../../dist');
 
 const client = CoinbasePrimeClientWithServices.fromEnv();
 const portfolioId = process.env.PORTFOLIO_ID;
@@ -43,7 +43,7 @@ const portfolioId = process.env.PORTFOLIO_ID;
 // Command line arguments with defaults
 const name = process.argv[2] || 'Example Wallet';
 const symbol = process.argv[3] || 'BTC';
-const walletType = process.argv[4] || 'TRADING';
+const walletType = process.argv[4] || WalletType.Trading;
 const networkFamily = process.argv[5];
 
 if (!portfolioId) {

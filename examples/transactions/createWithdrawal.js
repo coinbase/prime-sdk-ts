@@ -35,14 +35,18 @@
 // #docs operationId: PrimeRESTAPI_CreateWalletWithdrawal
 // #docs operationName: Create Withdrawal
 
-const { CoinbasePrimeClientWithServices } = require('../../dist');
+const {
+  CoinbasePrimeClientWithServices,
+  DestinationType,
+} = require('../../dist');
 
 const client = CoinbasePrimeClientWithServices.fromEnv();
 const portfolioId = process.env.PORTFOLIO_ID;
 const walletId = process.argv[2];
 const amount = process.argv[3] || '1.0';
 const currencySymbol = process.argv[4] || 'eth';
-const destinationType = process.argv[5] || 'DESTINATION_BLOCKCHAIN';
+const destinationType =
+  process.argv[5] || DestinationType.DestinationBlockchain;
 const destination = process.argv[6];
 
 if (!portfolioId) {
@@ -77,11 +81,11 @@ async function createWithdrawalExample() {
     };
 
     // Add destination details based on type
-    if (destinationType === 'DESTINATION_BLOCKCHAIN') {
+    if (destinationType === DestinationType.DestinationBlockchain) {
       request.blockchainAddress = { address: destination };
-    } else if (destinationType === 'DESTINATION_PAYMENT_METHOD') {
+    } else if (destinationType === DestinationType.DestinationPaymentMethod) {
       request.paymentMethod = { id: destination };
-    } else if (destinationType === 'DESTINATION_COUNTERPARTY') {
+    } else if (destinationType === DestinationType.DestinationCounterparty) {
       request.counterparty = { id: destination };
     }
 

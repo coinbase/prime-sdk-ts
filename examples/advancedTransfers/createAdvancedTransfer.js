@@ -32,7 +32,10 @@
 // #docs operationId: PrimeRESTAPI_CreateAdvancedTransfer
 // #docs operationName: Create Advanced Transfer
 
-const { CoinbasePrimeClientWithServices } = require('../../dist');
+const {
+  CoinbasePrimeClientWithServices,
+  AdvancedTransferType,
+} = require('../../dist');
 
 const client = CoinbasePrimeClientWithServices.fromEnv();
 const portfolioId = process.env.PORTFOLIO_ID;
@@ -49,7 +52,7 @@ async function createAdvancedTransferExample() {
     const request = {
       portfolioId,
       advancedTransfer: {
-        type: 'ADVANCED_TRANSFER_TYPE_BLIND_MATCH',
+        type: AdvancedTransferType.AdvancedTransferTypeBlindMatch,
       },
     };
 

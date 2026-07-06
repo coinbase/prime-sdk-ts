@@ -36,14 +36,17 @@
 // #docs operationId: PrimeRESTAPI_GetWalletDepositInstructions
 // #docs operationName: Get Wallet Deposit Instructions
 
-const { CoinbasePrimeClientWithServices } = require('../../dist');
+const {
+  CoinbasePrimeClientWithServices,
+  WalletDepositInstructionType,
+} = require('../../dist');
 
 const client = CoinbasePrimeClientWithServices.fromEnv();
 const portfolioId = process.env.PORTFOLIO_ID;
 const walletId = process.argv[2] || process.env.WALLET_ID;
 const networkId = process.argv[3];
 const networkType = process.argv[4];
-const depositType = 'CRYPTO';
+const depositType = WalletDepositInstructionType.Crypto;
 
 if (!portfolioId) {
   console.error('Error: PORTFOLIO_ID environment variable is required');

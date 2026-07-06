@@ -38,13 +38,17 @@
 // #docs operationId: PrimeRESTAPI_OrderPreview
 // #docs operationName: Post Order Preview
 
-const { CoinbasePrimeClientWithServices } = require('../../dist');
+const {
+  CoinbasePrimeClientWithServices,
+  OrderSide,
+  OrderType,
+} = require('../../dist');
 
 const client = CoinbasePrimeClientWithServices.fromEnv();
 const portfolioId = process.env.PORTFOLIO_ID;
 const productId = process.argv[2] || 'BTC-USD';
-const side = process.argv[3] || 'BUY';
-const type = process.argv[4] || 'LIMIT';
+const side = process.argv[3] || OrderSide.Buy;
+const type = process.argv[4] || OrderType.Limit;
 const baseQuantity = process.argv[5] || '0.001';
 const limitPrice = process.argv[6] || '130000';
 
@@ -61,7 +65,7 @@ async function createOrderPreviewExample() {
       Side: ${side}
       Type: ${type}
       Base Quantity: ${baseQuantity}
-      ${type === 'LIMIT' || type === 'STOP_LIMIT' ? `Limit Price: ${limitPrice}` : ''}
+      ${type === OrderType.Limit || type === OrderType.StopLimit ? `Limit Price: ${limitPrice}` : ''}
     `);
 
     const request = {
@@ -73,7 +77,7 @@ async function createOrderPreviewExample() {
     };
 
     // Add limit price for LIMIT and STOP_LIMIT orders
-    if (type === 'LIMIT' || type === 'STOP_LIMIT') {
+    if (type === OrderType.Limit || type === OrderType.StopLimit) {
       request.limitPrice = limitPrice;
     }
 
