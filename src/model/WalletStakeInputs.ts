@@ -30,4 +30,8 @@ export type WalletStakeInputs = {
    * Optional validator address, defaults to Coinbase validator. For SOL, must be the vote account address. Ignored for ETH.
    */
   validatorAddress?: string;
+  /**
+   * Optional delegation end date in ISO date format (e.g. 2026-07-15). Required for AVAX; minimum 14-day delegation period applies.
+   */
+  endDate?: string;
 };
