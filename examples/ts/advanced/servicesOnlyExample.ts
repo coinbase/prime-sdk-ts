@@ -24,18 +24,23 @@
  * - Dependency injection frameworks
  * - Lambda functions with cold start optimization
  *
+ * Published package imports (for consumers):
+ *   import { CoinbasePrimeClient, createCredentialsFromEnv } from '@coinbase/prime-sdk-ts/client';
+ *   import { OrdersService, WalletsService } from '@coinbase/prime-sdk-ts/services';
+ *
  * Usage:
  *   npm run example:ts examples/ts/advanced/servicesOnlyExample.ts
  */
 
 import { CoinbaseHttpRequestOptions, CoinbaseResponse } from '@coinbase/core-ts';
+// Local equivalents of @coinbase/prime-sdk-ts/client and @coinbase/prime-sdk-ts/services
 import {
+  CoinbasePrimeClient,
   CoinbasePrimeCredentials,
+  createCredentialsFromEnv,
   IPrimeApiClient,
-} from '../../../src';
-import { CoinbasePrimeClient } from '../../../src/client-only';
+} from '../../../src/client-only';
 import { OrdersService, WalletsService } from '../../../src/services';
-import { createCredentialsFromEnv } from '../../../src/shared/envUtils';
 
 class CustomPrimeClient implements IPrimeApiClient {
   private credentials: CoinbasePrimeCredentials;
@@ -49,7 +54,9 @@ class CustomPrimeClient implements IPrimeApiClient {
     this.baseUrl = baseUrl;
   }
 
-  async request(options: CoinbaseHttpRequestOptions): Promise<CoinbaseResponse> {
+  async request(
+    options: CoinbaseHttpRequestOptions
+  ): Promise<CoinbaseResponse> {
     const url = `${this.baseUrl}/${options.url}`;
 
     console.log(`Custom client making request to: ${url}`);

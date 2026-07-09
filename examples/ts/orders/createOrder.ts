@@ -20,12 +20,15 @@
  * This example demonstrates how to create a market order using the Orders service.
  *
  * Usage:
- *   npm run example:ts examples/ts/orders/createOrder.ts [side] [productId] [baseQuantity]
+ *   npm run example:ts examples/ts/orders/createOrder.ts [side] [productId] [baseQuantity] [type] [limitPrice]
  *
  * Examples:
  *   npm run example:ts examples/ts/orders/createOrder.ts
  *   npm run example:ts examples/ts/orders/createOrder.ts BUY BTC-USD 0.001
  *   npm run example:ts examples/ts/orders/createOrder.ts SELL ETH-USD 0.1
+ *
+ * Side values: BUY, SELL (or OrderSide member names: Buy, Sell)
+ * Type values: MARKET, LIMIT, ... (or OrderType member names: Market, Limit, ...)
  */
 
 // #docs operationId: PrimeRESTAPI_CreateOrder
@@ -38,11 +41,34 @@ import {
   OrderType,
 } from '../../../src';
 
+function parseEnumValue<T extends Record<string, string>>(
+  enumObject: T,
+  value: string | undefined,
+  fallback: T[keyof T]
+): T[keyof T] {
+  if (!value) {
+    return fallback;
+  }
+
+  const byKey = enumObject[value as keyof T];
+  if (byKey !== undefined) {
+    return byKey;
+  }
+
+  const byValue = Object.values(enumObject).find(
+    (member) => member === value
+  ) as T[keyof T] | undefined;
+  if (byValue !== undefined) {
+    return byValue;
+  }
+
+  const allowed = Object.values(enumObject).join(', ');
+  throw new Error(`Invalid value "${value}". Expected one of: ${allowed}`);
+}
+
 const client = CoinbasePrimeClientWithServices.fromEnv();
-const side = (process.argv[2] || OrderSide.Buy) as OrderSide;
 const productId = process.argv[3] || 'ADA-USD';
 const baseQuantity = process.argv[4] || '10';
-const type = (process.argv[5] || OrderType.Market) as OrderType;
 const limitPrice = process.argv[6];
 
 async function createOrderExample(): Promise<void> {
@@ -51,7 +77,11 @@ async function createOrderExample(): Promise<void> {
     console.error('Error: PORTFOLIO_ID environment variable is required');
     return;
   }
+
   try {
+    const side = parseEnumValue(OrderSide, process.argv[2], OrderSide.Buy);
+    const type = parseEnumValue(OrderType, process.argv[5], OrderType.Market);
+
     const order: CreateOrderRequest = {
       portfolioId,
       side,

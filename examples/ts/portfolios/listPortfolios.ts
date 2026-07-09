@@ -21,9 +21,6 @@
  *
  * Usage:
  *   npm run example:ts examples/ts/portfolios/listPortfolios.ts
- *
- * Example:
- *   npm run example:ts examples/ts/portfolios/listPortfolios.ts
  */
 
 // #docs operationId: PrimeRESTAPI_GetPortfolios
