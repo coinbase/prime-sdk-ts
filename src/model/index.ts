@@ -192,6 +192,8 @@ export type { QuoteResponse } from './QuoteResponse';
 export type { RFQProductDetails } from './RFQProductDetails';
 export type { RewardMetadata } from './RewardMetadata';
 export type { RiskAssessment } from './RiskAssessment';
+export type { RotateAPIKeyRequest } from './RotateAPIKeyRequest';
+export type { RotateAPIKeyResponse } from './RotateAPIKeyResponse';
 export type { RpcConfig } from './RpcConfig';
 export type { ScheduleFuturesSweepResponse } from './ScheduleFuturesSweepResponse';
 export type { SetAutoSweepResponse } from './SetAutoSweepResponse';

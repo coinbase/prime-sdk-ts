@@ -73,6 +73,29 @@ paths:
               schema:
                 $ref: '#/components/schemas/coinbase.public_rest_api.CreateNetAllocationResponse'
       x-codegen-request-body-name: body
+  /v1/api-keys/rotate:
+    post:
+      tags:
+      - API Key Management
+      summary: Rotate API Key
+      description: Generates a new API key with the same configuration as the invoking
+        key.
+      operationId: PrimeRESTAPI_RotateAPIKey
+      requestBody:
+        description: Request body for rotating an API key.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/coinbase.public_rest_api.RotateAPIKeyRequest'
+        required: true
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.RotateAPIKeyResponse'
+      x-codegen-request-body-name: body
   /v1/entities/{entity_id}/accruals:
     get:
       tags:
@@ -9115,6 +9138,31 @@ components:
       - RISK_MANAGEMENT_TYPE_UNSPECIFIED
       - RISK_MANAGEMENT_TYPE_MANAGED_BY_FCM
       - RISK_MANAGEMENT_TYPE_MANAGED_BY_VENUE
+    coinbase.public_rest_api.RotateAPIKeyRequest:
+      type: object
+      properties:
+        duration_seconds:
+          type: integer
+          description: How long the old key remains active after the new key is approved.
+            Set to 0 for immediate expiry on approval. Cannot extend beyond the original
+            key's expiry.
+          format: int64
+      description: Request body for rotating an API key.
+    coinbase.public_rest_api.RotateAPIKeyResponse:
+      type: object
+      properties:
+        encrypted_credentials:
+          type: string
+          description: "Base64-encoded encrypted payload containing new API key credentials.\
+            \ Wire format after base64 decode: version(1 byte) | salt(32 bytes) |\
+            \ nonce(12 bytes) | ciphertext+tag."
+        activity_id:
+          type: string
+          description: The Prime activity ID tracking the consensus approval for this
+            rotation. Use with the Activities endpoints to monitor approval status.
+      description: Response containing encrypted credentials for the newly created
+        API key. Decrypt using your current secret_key with HKDF-SHA256 + AES-256-GCM.
+        See the Rotate API Key guide for decryption instructions.
     coinbase.public_rest_api.RpcConfig:
       type: object
       properties:
