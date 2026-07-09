@@ -92,7 +92,7 @@ const order = await client.orders.createOrder({
 console.log(order.orderId);
 ```
 
-See the example folder for more robust examples for many of the available services and endpoints.
+See the `examples/js/` and `examples/ts/` folders for more robust examples for many of the available services and endpoints.
 
 ## 🔧 Configuration Options
 
@@ -240,7 +240,14 @@ npm run build
 
 ### Run Examples
 
-The SDK includes comprehensive examples in the `examples/` directory. Examples load the local build via `../../dist` (not the npm package name), so build first:
+The SDK includes comprehensive examples in the `examples/` directory, organized by language:
+
+- **JavaScript examples** (`examples/js/`) — CommonJS scripts that load the local build via `../../../dist`
+- **TypeScript examples** (`examples/ts/`) — TypeScript scripts that import from local source via `../../../src`
+
+#### JavaScript Examples
+
+JavaScript examples require a build first:
 
 ```bash
 npm run build
@@ -250,9 +257,24 @@ cp env.example .env
 # Edit .env with your actual entityId, portfolioId, and walletId
 
 # Run examples
-node examples/portfolios/listPortfolios.js
-node examples/orders/createOrder.js
-node examples/wallets/listWallets.js
+node examples/js/portfolios/listPortfolios.js
+node examples/js/orders/createOrder.js
+node examples/js/wallets/listWallets.js
+```
+
+#### TypeScript Examples
+
+TypeScript examples run directly against source with `tsx` — no build required:
+
+```bash
+# Set up environment (copy env.example to .env first)
+cp env.example .env
+
+# Run examples
+npm run example:ts examples/ts/portfolios/listPortfolios.ts
+npm run example:ts examples/ts/orders/createOrder.ts
+npm run example:ts examples/ts/wallets/listWallets.ts
+npm run example:ts examples/ts/activities/getActivity.ts <activityId>
 ```
 
 ## 🧪 TypeScript Support

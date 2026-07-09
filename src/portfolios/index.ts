@@ -64,7 +64,7 @@ export interface IPortfoliosService {
    * List all portfolios for which the current API key has read access.
    */
   listPortfolios(
-    request: ListPortfoliosRequest,
+    request?: ListPortfoliosRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListPortfoliosResponse>;
 }
