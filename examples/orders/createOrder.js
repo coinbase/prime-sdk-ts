@@ -31,14 +31,18 @@
 // #docs operationId: PrimeRESTAPI_CreateOrder
 // #docs operationName: Create Order
 
-const { CoinbasePrimeClientWithServices } = require('../../dist');
+const {
+  CoinbasePrimeClientWithServices,
+  OrderSide,
+  OrderType,
+} = require('../../dist');
 
 const client = CoinbasePrimeClientWithServices.fromEnv();
 const portfolioId = process.env.PORTFOLIO_ID;
-const side = process.argv[2] || 'BUY';
+const side = process.argv[2] || OrderSide.Buy;
 const productId = process.argv[3] || 'ADA-USD';
 const baseQuantity = process.argv[4] || '2';
-const type = process.argv[5] || 'MARKET';
+const type = process.argv[5] || OrderType.Market;
 const limitPrice = process.argv[6];
 
 if (!portfolioId) {

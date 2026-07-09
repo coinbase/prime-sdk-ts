@@ -40,14 +40,17 @@
 // #docs operationId: PrimeRESTAPI_CreateOnchainAddressGroup
 // #docs operationName: Create Onchain Address Book Entry
 
-const { CoinbasePrimeClientWithServices } = require('../../dist');
+const {
+  CoinbasePrimeClientWithServices,
+  NetworkType,
+} = require('../../dist');
 
 const client = CoinbasePrimeClientWithServices.fromEnv();
 const portfolioId = process.env.PORTFOLIO_ID;
 
 // Command line arguments with defaults
 const groupName = process.argv[2] || 'Example Address Group';
-const networkType = process.argv[3] || 'NETWORK_TYPE_EVM';
+const networkType = process.argv[3] || NetworkType.NetworkTypeEvm;
 const name = process.argv[4] || 'Example Address';
 const address = process.argv[5] || '0x0000000000000000000000000000000000000000';
 const chainIds = process.argv[6] ? process.argv[6].split(',') : ['1'];

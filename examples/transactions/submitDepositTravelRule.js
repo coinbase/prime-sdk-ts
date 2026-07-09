@@ -34,7 +34,10 @@
 // #docs operationId: PrimeRESTAPI_SubmitDepositTravelRuleData
 // #docs operationName: Submit Deposit Travel Rule Data
 
-const { CoinbasePrimeClientWithServices } = require('../../dist');
+const {
+  CoinbasePrimeClientWithServices,
+  TravelRuleWalletType,
+} = require('../../dist');
 
 const client = CoinbasePrimeClientWithServices.fromEnv();
 const portfolioId = process.env.PORTFOLIO_ID;
@@ -65,7 +68,7 @@ async function submitDepositTravelRuleExample() {
       // Originator information (the sender of the funds)
       originator: {
         name: 'John Doe',
-        walletType: 'TRAVEL_RULE_WALLET_TYPE_VASP',
+        walletType: TravelRuleWalletType.TravelRuleWalletTypeVasp,
         vaspName: 'Example Exchange',
         address: {
           address1: '123 Main St',
@@ -81,7 +84,7 @@ async function submitDepositTravelRuleExample() {
       // Beneficiary information (the receiver of the funds)
       beneficiary: {
         name: 'Your Company Name',
-        walletType: 'TRAVEL_RULE_WALLET_TYPE_VASP',
+        walletType: TravelRuleWalletType.TravelRuleWalletTypeVasp,
         vaspName: 'Coinbase Prime',
         address: {
           address1: '123 Unknown St',

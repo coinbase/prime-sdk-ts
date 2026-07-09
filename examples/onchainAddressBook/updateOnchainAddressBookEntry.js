@@ -39,7 +39,10 @@
 // #docs operationId: PrimeRESTAPI_UpdateOnchainAddressGroup
 // #docs operationName: Update Onchain Address Book Entry
 
-const { CoinbasePrimeClientWithServices } = require('../../dist');
+const {
+  CoinbasePrimeClientWithServices,
+  NetworkType,
+} = require('../../dist');
 
 const client = CoinbasePrimeClientWithServices.fromEnv();
 const portfolioId = process.env.PORTFOLIO_ID;
@@ -47,7 +50,7 @@ const portfolioId = process.env.PORTFOLIO_ID;
 // Command line arguments with defaults
 const id = process.argv[2];
 const name = process.argv[3] || 'Updated Address Group';
-const networkType = process.argv[4] || 'NETWORK_TYPE_EVM';
+const networkType = process.argv[4] || NetworkType.NetworkTypeEvm;
 const addressName = process.argv[5] || 'Updated Address';
 const address = process.argv[6] || '0x0000000000000000000000000000000000000000';
 const chainIds = process.argv[7] ? process.argv[7].split(',') : ['1'];
