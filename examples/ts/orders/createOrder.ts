@@ -41,7 +41,7 @@ import {
 const client = CoinbasePrimeClientWithServices.fromEnv();
 const side = (process.argv[2] || OrderSide.Buy) as OrderSide;
 const productId = process.argv[3] || 'ADA-USD';
-const baseQuantity = process.argv[4] || '2';
+const baseQuantity = process.argv[4] || '10';
 const type = (process.argv[5] || OrderType.Market) as OrderType;
 const limitPrice = process.argv[6];
 
