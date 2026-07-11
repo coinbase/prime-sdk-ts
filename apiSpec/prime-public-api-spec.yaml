@@ -82,7 +82,6 @@ paths:
         key.
       operationId: PrimeRESTAPI_RotateAPIKey
       requestBody:
-        description: Request body for rotating an API key.
         content:
           application/json:
             schema:
@@ -416,7 +415,6 @@ paths:
               required:
               - automatic_conversion_enabled
               - automatic_excess_return_enabled
-              - automatic_loan_enabled
               - designated_funding_portfolio_id
               - excess_funds_target_amount
               type: object
@@ -434,10 +432,8 @@ paths:
                     \ USDC)."
                 automatic_loan_enabled:
                   type: boolean
-                  description: "When true, Coinbase affiliates may initiate loans\
-                    \ on your behalf to meet FCM margin calls, per your Lending agreement.\
-                    \ Available to Portfolio Margin or Cross Margin clients only.\
-                    \ (Auto-Initiate Loans)"
+                  description: "Deprecated: Auto-Initiate Loans is now always enabled\
+                    \ for Financing customers. Any value sent for this field is ignored."
                 automatic_excess_return_enabled:
                   type: boolean
                   description: "When true, any FCM account balance above your margin\
@@ -9143,26 +9139,24 @@ components:
       properties:
         duration_seconds:
           type: integer
-          description: How long the old key remains active after the new key is approved.
-            Set to 0 for immediate expiry on approval. Cannot extend beyond the original
-            key's expiry.
+          description: "How long the old key remains active after the new key is approved,\
+            \ in seconds. Set to 0 for immediate expiry on approval. Cannot extend\
+            \ beyond the original key's expiry."
           format: int64
-      description: Request body for rotating an API key.
+          example: 3600
     coinbase.public_rest_api.RotateAPIKeyResponse:
       type: object
       properties:
         encrypted_credentials:
           type: string
-          description: "Base64-encoded encrypted payload containing new API key credentials.\
-            \ Wire format after base64 decode: version(1 byte) | salt(32 bytes) |\
-            \ nonce(12 bytes) | ciphertext+tag."
+          description: Base64-encoded encrypted payload containing the new API key
+            credentials. Decrypt using your current secret_key with HKDF-SHA256 +
+            AES-256-GCM.
         activity_id:
           type: string
           description: The Prime activity ID tracking the consensus approval for this
             rotation. Use with the Activities endpoints to monitor approval status.
-      description: Response containing encrypted credentials for the newly created
-        API key. Decrypt using your current secret_key with HKDF-SHA256 + AES-256-GCM.
-        See the Rotate API Key guide for decryption instructions.
+          example: e8bbed13-fa33-41de-86d5-4335d8f08166
     coinbase.public_rest_api.RpcConfig:
       type: object
       properties:
@@ -9785,6 +9779,8 @@ components:
           description: |-
             Account identifier for travel rule compliance.
             If not provided, defaults to portfolio ID.
+        vasp_address:
+          $ref: '#/components/schemas/coinbase.public_rest_api.DetailedAddress'
       description: Represents a party in a travel rule transfer (originator or beneficiary).
     coinbase.public_rest_api.TravelRuleStatus:
       title: Travel rule compliance status for a transaction

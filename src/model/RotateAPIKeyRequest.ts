@@ -18,12 +18,9 @@
  *  Do not edit the class manually.
  */
 
-/**
- * Request body for rotating an API key.
- */
 export type RotateAPIKeyRequest = {
   /**
-   * How long the old key remains active after the new key is approved. Set to 0 for immediate expiry on approval. Cannot extend beyond the original key\'s expiry.
+   * How long the old key remains active after the new key is approved, in seconds. Set to 0 for immediate expiry on approval. Cannot extend beyond the original key\'s expiry.
    */
   durationSeconds?: number;
 };

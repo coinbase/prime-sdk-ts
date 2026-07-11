@@ -28,9 +28,9 @@ export type UpdateFundingSettingsRequest = {
    */
   automaticConversionEnabled: boolean;
   /**
-   * When true, Coinbase affiliates may initiate loans on your behalf to meet FCM margin calls, per your Lending agreement. Available to Portfolio Margin or Cross Margin clients only. (Auto-Initiate Loans)
+   * Deprecated: Auto-Initiate Loans is now always enabled for Financing customers. Any value sent for this field is ignored.
    */
-  automaticLoanEnabled: boolean;
+  automaticLoanEnabled?: boolean;
   /**
    * When true, any FCM account balance above your margin requirements will be automatically swept back to your Derivatives funding portfolio. (Auto-Return Excess Margin)
    */

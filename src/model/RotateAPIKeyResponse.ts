@@ -18,12 +18,9 @@
  *  Do not edit the class manually.
  */
 
-/**
- * Response containing encrypted credentials for the newly created API key. Decrypt using your current secret_key with HKDF-SHA256 + AES-256-GCM. See the Rotate API Key guide for decryption instructions.
- */
 export type RotateAPIKeyResponse = {
   /**
-   * Base64-encoded encrypted payload containing new API key credentials. Wire format after base64 decode: version(1 byte) | salt(32 bytes) | nonce(12 bytes) | ciphertext+tag.
+   * Base64-encoded encrypted payload containing the new API key credentials. Decrypt using your current secret_key with HKDF-SHA256 + AES-256-GCM.
    */
   encryptedCredentials?: string;
   /**
