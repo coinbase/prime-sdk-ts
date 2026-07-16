@@ -18,21 +18,32 @@
  *  Do not edit the class manually.
  */
 
-/**
- * BlindMatchMetadata contains metadata specific to blind match advanced transfers.
- */
-export type BlindMatchMetadata = {
-  referenceId?: string;
+import { XMLiquidationStatus } from './enums/XMLiquidationStatus';
+
+export type XMLiquidationSummary = {
   /**
-   * The intended time of Transfer settlement in YYYYMMDD format. The Settlement Date represents the date contractually agreed upon by the transacting parties; actual settlement will occur upon completion of the transfer, which may differ from such agreed date.
+   * Financing liquidation UUID
    */
-  settlementDate?: string;
+  liquidationId?: string;
+  status?: XMLiquidationStatus;
   /**
-   * Optional date of the original Trade in YYYYMMMDD format
+   * USD notional shortfall amount that triggered the liquidation
    */
-  tradeDate?: string;
+  shortfallAmount?: string;
   /**
-   * Optional time of transfer settlement in HHMM format in UTC. If not provided, it defaults to 09:30 Eastern Time.
+   * USD notional amount that has been filled so far
    */
-  settlementTime?: string;
+  filledAmount?: string;
+  /**
+   * USD notional amount remaining to be liquidated
+   */
+  remainingAmount?: string;
+  /**
+   * Timestamp when the liquidation was created
+   */
+  createdAt?: Date;
+  /**
+   * Timestamp when the liquidation was completed
+   */
+  completedAt?: Date;
 };

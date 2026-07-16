@@ -18,21 +18,13 @@
  *  Do not edit the class manually.
  */
 
-/**
- * BlindMatchMetadata contains metadata specific to blind match advanced transfers.
- */
-export type BlindMatchMetadata = {
-  referenceId?: string;
+import { PaginatedResponse } from './PaginatedResponse';
+import { XMLiquidationSummary } from './XMLiquidationSummary';
+
+export type ListXMLiquidationsResponse = {
   /**
-   * The intended time of Transfer settlement in YYYYMMDD format. The Settlement Date represents the date contractually agreed upon by the transacting parties; actual settlement will occur upon completion of the transfer, which may differ from such agreed date.
+   * List of XM liquidation summaries
    */
-  settlementDate?: string;
-  /**
-   * Optional date of the original Trade in YYYYMMMDD format
-   */
-  tradeDate?: string;
-  /**
-   * Optional time of transfer settlement in HHMM format in UTC. If not provided, it defaults to 09:30 Eastern Time.
-   */
-  settlementTime?: string;
+  liquidations?: Array<XMLiquidationSummary>;
+  pagination?: PaginatedResponse;
 };

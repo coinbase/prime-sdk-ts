@@ -18,21 +18,25 @@
  *  Do not edit the class manually.
  */
 
-/**
- * BlindMatchMetadata contains metadata specific to blind match advanced transfers.
- */
-export type BlindMatchMetadata = {
-  referenceId?: string;
+export type XMLiquidatedAsset = {
   /**
-   * The intended time of Transfer settlement in YYYYMMDD format. The Settlement Date represents the date contractually agreed upon by the transacting parties; actual settlement will occur upon completion of the transfer, which may differ from such agreed date.
+   * Asset currency
    */
-  settlementDate?: string;
+  asset?: string;
   /**
-   * Optional date of the original Trade in YYYYMMMDD format
+   * Amount (nominal) of the asset that has been liquidated
    */
-  tradeDate?: string;
+  liquidatedAmount?: string;
   /**
-   * Optional time of transfer settlement in HHMM format in UTC. If not provided, it defaults to 09:30 Eastern Time.
+   * USD notional value of the liquidated amount
    */
-  settlementTime?: string;
+  liquidatedNotional?: string;
+  /**
+   * Amount (nominal) of the asset remaining to be liquidated
+   */
+  remainingAmount?: string;
+  /**
+   * USD notional value of the remaining amount
+   */
+  remainingNotional?: string;
 };

@@ -372,6 +372,107 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/coinbase.public_rest_api.GetCrossMarginOverviewResponse'
+  /v1/entities/{entity_id}/cross_margin/liquidation:
+    get:
+      tags:
+      - Financing
+      summary: Get Cross Margin Liquidation
+      description: Gets detailed liquidation data for an XM customer. Returns the
+        active or most recent liquidation by default.
+      operationId: PrimeRESTAPI_GetXMLiquidation
+      parameters:
+      - name: entity_id
+        in: path
+        description: XM customer Prime Entity ID
+        required: true
+        schema:
+          type: string
+      - name: liquidation_id
+        in: query
+        description: "Financing liquidation UUID. If omitted, returns the active or\
+          \ most recent liquidation."
+        schema:
+          type: string
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.GetXMLiquidationResponse'
+  /v1/entities/{entity_id}/cross_margin/liquidations:
+    get:
+      tags:
+      - Financing
+      summary: List Cross Margin Liquidations
+      description: Lists historical liquidation records for an XM customer
+      operationId: PrimeRESTAPI_ListXMLiquidations
+      parameters:
+      - name: entity_id
+        in: path
+        description: XM customer Prime Entity ID
+        required: true
+        schema:
+          type: string
+      - name: cursor
+        in: query
+        description: Cursor for pagination
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: Number of results to return per page
+        schema:
+          type: integer
+          format: int32
+      - name: sort_direction
+        in: query
+        description: Sort direction for results
+        schema:
+          type: string
+          default: DESC
+          enum:
+          - DESC
+          - ASC
+      - name: status
+        in: query
+        description: |-
+          Filter results by liquidation status
+
+           - XM_LIQUIDATION_STATUS_PRE_LIQUIDATION: Liquidation is in the pre-liquidation phase
+           - XM_LIQUIDATION_STATUS_LIQUIDATING: Liquidation is actively in progress
+           - XM_LIQUIDATION_STATUS_LIQUIDATED: Liquidation has completed successfully
+           - XM_LIQUIDATION_STATUS_CANCELED: Liquidation was canceled
+           - XM_LIQUIDATION_STATUS_FAILED: Liquidation failed
+        schema:
+          type: string
+          default: XM_LIQUIDATION_STATUS_UNSET
+          enum:
+          - XM_LIQUIDATION_STATUS_UNSET
+          - XM_LIQUIDATION_STATUS_PRE_LIQUIDATION
+          - XM_LIQUIDATION_STATUS_LIQUIDATING
+          - XM_LIQUIDATION_STATUS_LIQUIDATED
+          - XM_LIQUIDATION_STATUS_CANCELED
+          - XM_LIQUIDATION_STATUS_FAILED
+      - name: start_time
+        in: query
+        description: Filter results to liquidations created at or after this time
+        schema:
+          type: string
+          format: date-time
+      - name: end_time
+        in: query
+        description: Filter results to liquidations created at or before this time
+        schema:
+          type: string
+          format: date-time
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.ListXMLiquidationsResponse'
   /v1/entities/{entity_id}/cross_margin/risk_parameters:
     get:
       tags:
@@ -5350,7 +5451,10 @@ components:
           type: string
         settlement_date:
           type: string
-          description: The intended time of Transfer settlement in YYYYMMDD format
+          description: The intended time of Transfer settlement in YYYYMMDD format.
+            The Settlement Date represents the date contractually agreed upon by the
+            transacting parties; actual settlement will occur upon completion of the
+            transfer, which may differ from such agreed date.
         trade_date:
           type: string
           description: Optional date of the original Trade in YYYYMMMDD format
@@ -7416,6 +7520,12 @@ components:
       properties:
         withdrawal_power:
           $ref: '#/components/schemas/coinbase.public_rest_api.WithdrawalPower'
+    coinbase.public_rest_api.GetXMLiquidationResponse:
+      title: GetXMLiquidationResponse contains detailed information about an XM liquidation
+      type: object
+      properties:
+        liquidation:
+          $ref: '#/components/schemas/coinbase.public_rest_api.XMLiquidationDetail'
     coinbase.public_rest_api.HierarchyType:
       title: "HierarchyType are the enums for various hierarchies within Prime, ex\
         \ Entity, Organization, Portfolio"
@@ -7631,6 +7741,18 @@ components:
             support.
           items:
             $ref: '#/components/schemas/coinbase.public_rest_api.DefiBalance'
+    coinbase.public_rest_api.ListXMLiquidationsResponse:
+      title: ListXMLiquidationsResponse contains a paginated list of XM liquidation
+        summaries
+      type: object
+      properties:
+        liquidations:
+          type: array
+          description: List of XM liquidation summaries
+          items:
+            $ref: '#/components/schemas/coinbase.public_rest_api.XMLiquidationSummary'
+        pagination:
+          $ref: '#/components/schemas/coinbase.public_rest_api.PaginatedResponse'
     coinbase.public_rest_api.LoanInfo:
       type: object
       properties:
@@ -10284,6 +10406,71 @@ components:
       - ENTITY_OPEN_URGENT_CALL
       - ENTITY_AGED_CALL
       - ENTITY_OPEN_DEBIT_CALL
+    coinbase.public_rest_api.XMLiquidatedAsset:
+      title: XMLiquidatedAsset provides per-asset detail for a liquidation
+      type: object
+      properties:
+        asset:
+          type: string
+          description: Asset currency
+          example: BTC
+        liquidated_amount:
+          type: string
+          description: Amount (nominal) of the asset that has been liquidated
+          example: "0.1"
+        liquidated_notional:
+          type: string
+          description: USD notional value of the liquidated amount
+          example: "11453.17"
+        remaining_amount:
+          type: string
+          description: Amount (nominal) of the asset remaining to be liquidated
+          example: "0.05"
+        remaining_notional:
+          type: string
+          description: USD notional value of the remaining amount
+          example: "5726.59"
+    coinbase.public_rest_api.XMLiquidationDetail:
+      title: XMLiquidationDetail provides detailed information about a single XM liquidation
+      type: object
+      properties:
+        liquidation_id:
+          type: string
+          description: Financing liquidation UUID
+          example: 63a2577a-930d-413b-81e4-9e77765da8f9
+        status:
+          $ref: '#/components/schemas/coinbase.public_rest_api.XMLiquidationStatus'
+        shortfall_amount:
+          type: string
+          description: USD notional shortfall amount that triggered the liquidation
+          example: "32083.26"
+        pre_liquidation_start_time:
+          type: string
+          description: Timestamp when the pre-liquidation phase started
+          format: date-time
+        margin_summary:
+          $ref: '#/components/schemas/coinbase.public_rest_api.XMSummary'
+        liquidation_start_time:
+          type: string
+          description: Timestamp when active liquidation started
+          format: date-time
+        filled_amount:
+          type: string
+          description: USD notional amount that has been filled so far
+          example: "15000.00"
+        remaining_amount:
+          type: string
+          description: USD notional amount remaining to be liquidated
+          example: "17083.26"
+        liquidation_finish_time:
+          type: string
+          description: Timestamp when the liquidation finished
+          format: date-time
+        asset_breakdown:
+          type: array
+          description: Per-asset breakdown of liquidated amounts
+          items:
+            $ref: '#/components/schemas/coinbase.public_rest_api.XMLiquidatedAsset'
     coinbase.public_rest_api.XMLiquidationStatus:
       title: XMLiquidationStatus is the current status of an XM liquidation
       type: string
@@ -10301,6 +10488,36 @@ components:
       - XM_LIQUIDATION_STATUS_LIQUIDATED
       - XM_LIQUIDATION_STATUS_CANCELED
       - XM_LIQUIDATION_STATUS_FAILED
+    coinbase.public_rest_api.XMLiquidationSummary:
+      title: XMLiquidationSummary provides a summary of a single XM liquidation
+      type: object
+      properties:
+        liquidation_id:
+          type: string
+          description: Financing liquidation UUID
+          example: 63a2577a-930d-413b-81e4-9e77765da8f9
+        status:
+          $ref: '#/components/schemas/coinbase.public_rest_api.XMLiquidationStatus'
+        shortfall_amount:
+          type: string
+          description: USD notional shortfall amount that triggered the liquidation
+          example: "32083.26"
+        filled_amount:
+          type: string
+          description: USD notional amount that has been filled so far
+          example: "15000.00"
+        remaining_amount:
+          type: string
+          description: USD notional amount remaining to be liquidated
+          example: "17083.26"
+        created_at:
+          type: string
+          description: Timestamp when the liquidation was created
+          format: date-time
+        completed_at:
+          type: string
+          description: Timestamp when the liquidation was completed
+          format: date-time
     coinbase.public_rest_api.XMLoan:
       title: XMLoan contains details about a Cross Margin loan
       type: object
