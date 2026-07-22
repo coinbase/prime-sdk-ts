@@ -19,7 +19,6 @@
  */
 
 export enum StakeType {
-  StakeTypeUnspecified = 'STAKE_TYPE_UNSPECIFIED',
   StakeTypeInitialDeposit = 'STAKE_TYPE_INITIAL_DEPOSIT',
   StakeTypeTopUp = 'STAKE_TYPE_TOP_UP',
 }

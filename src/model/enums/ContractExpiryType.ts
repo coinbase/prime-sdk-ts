@@ -22,7 +22,6 @@
  * - CONTRACT_EXPIRY_TYPE_UNSPECIFIED: Unspecified contract expiry type  - CONTRACT_EXPIRY_TYPE_EXPIRING: Expiring futures contract  - CONTRACT_EXPIRY_TYPE_PERPETUAL: Perpetual futures contract (no expiry)
  */
 export enum ContractExpiryType {
-  ContractExpiryTypeUnspecified = 'CONTRACT_EXPIRY_TYPE_UNSPECIFIED',
   ContractExpiryTypeExpiring = 'CONTRACT_EXPIRY_TYPE_EXPIRING',
   ContractExpiryTypePerpetual = 'CONTRACT_EXPIRY_TYPE_PERPETUAL',
 }

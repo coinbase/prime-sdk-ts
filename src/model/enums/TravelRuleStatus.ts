@@ -19,7 +19,6 @@
  */
 
 export enum TravelRuleStatus {
-  TravelRuleStatusUnspecified = 'TRAVEL_RULE_STATUS_UNSPECIFIED',
   TravelRuleStatusPending = 'TRAVEL_RULE_STATUS_PENDING',
   TravelRuleStatusSubmitted = 'TRAVEL_RULE_STATUS_SUBMITTED',
 }

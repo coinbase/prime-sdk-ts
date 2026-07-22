@@ -22,7 +22,6 @@
  * ValidatorProvider enumerates the ETH validator service providers accepted for unstaking.
  */
 export enum ValidatorProvider {
-  ValidatorProviderUnspecified = 'VALIDATOR_PROVIDER_UNSPECIFIED',
   ValidatorProviderCoinbaseCloud = 'VALIDATOR_PROVIDER_COINBASE_CLOUD',
   ValidatorProviderMavan = 'VALIDATOR_PROVIDER_MAVAN',
   ValidatorProviderFigment = 'VALIDATOR_PROVIDER_FIGMENT',
