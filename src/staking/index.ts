@@ -63,7 +63,7 @@ export interface IStakingService {
   /**
    * Request to stake currency in a portfolio
    *
-   * Creates an execution request to stake funds across a portfolio.  This will stake funds in one or more wallets in the portfolio, with a total bondable balance up to the requested stake amount.
+   * Creates an execution request to stake funds across a portfolio.  This will stake funds in one or more wallets in the portfolio, with a total bondable balance up to the requested stake amount. This feature is gated. Please contact your account manager or primeops@coinbase.com to enable.
    */
   createPortfolioStake(
     request: CreatePortfolioStakeRequest,
@@ -72,7 +72,7 @@ export interface IStakingService {
   /**
    * Request to unstake currency across a portfolio
    *
-   * Creates an execution request to unstake funds across a portfolio.  This will unstake funds in one or more wallets in the portfolio, with a total bonded balance up to the requested unstake amount.
+   * Creates an execution request to unstake funds across a portfolio.  This will unstake funds in one or more wallets in the portfolio, with a total bonded balance up to the requested unstake amount. This feature is gated. Please contact your account manager or primeops@coinbase.com to enable.
    */
   createPortfolioUnstake(
     request: CreatePortfolioUnstakeRequest,
@@ -90,7 +90,7 @@ export interface IStakingService {
   /**
    * Claim Wallet Staking Rewards (Alpha)
    *
-   * Request to claim staking rewards. This feature is in alpha. Please reach out to your Coinbase Prime account manager for more information
+   * Request to claim staking rewards. This feature is only for ETH Pectra (0x02) validators.
    */
   claimRewards(
     request: ClaimRewardsRequest,

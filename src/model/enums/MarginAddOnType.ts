@@ -19,7 +19,6 @@
  */
 
 export enum MarginAddOnType {
-  MarginAddOnTypeUnspecified = 'MARGIN_ADD_ON_TYPE_UNSPECIFIED',
   SingleCoinStress = 'SINGLE_COIN_STRESS',
   ConcentrationStress = 'CONCENTRATION_STRESS',
   MacroStress = 'MACRO_STRESS',

@@ -19,7 +19,6 @@
  */
 
 export enum EstimateType {
-  Unspecified = 'UNSPECIFIED',
   Live = 'LIVE',
   Interim = 'INTERIM',
 }

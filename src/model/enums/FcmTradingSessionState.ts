@@ -22,7 +22,6 @@
  * - FCM_TRADING_SESSION_STATE_UNDEFINED: Undefined session state  - FCM_TRADING_SESSION_STATE_PRE_OPEN: Pre-open state, orders can be placed and cancelled  - FCM_TRADING_SESSION_STATE_PRE_OPEN_NO_CANCEL: Pre-open state, orders cannot be cancelled  - FCM_TRADING_SESSION_STATE_OPEN: Trading session is open  - FCM_TRADING_SESSION_STATE_CLOSE: Trading session is closed  - FCM_TRADING_SESSION_STATE_HALTED: Trading session is halted
  */
 export enum FcmTradingSessionState {
-  FcmTradingSessionStateUndefined = 'FCM_TRADING_SESSION_STATE_UNDEFINED',
   FcmTradingSessionStatePreOpen = 'FCM_TRADING_SESSION_STATE_PRE_OPEN',
   FcmTradingSessionStatePreOpenNoCancel = 'FCM_TRADING_SESSION_STATE_PRE_OPEN_NO_CANCEL',
   FcmTradingSessionStateOpen = 'FCM_TRADING_SESSION_STATE_OPEN',

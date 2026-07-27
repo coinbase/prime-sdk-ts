@@ -22,7 +22,6 @@
  *  - MARGIN_REQUIREMENT_TYPE_DMR_PLUS_PMR: Integrated (netted) cross-margin requirement for spot assets and all derivatives contracts.  - MARGIN_REQUIREMENT_TYPE_IPMR_PLUS_IFMR: Combined cross-margin requirement: Integrated Portfolio Margin (IPMR) plus Ineligible Futures Margin (IFMR).
  */
 export enum PrimeXMMarginRequirementType {
-  MarginRequirementTypeUnspecified = 'MARGIN_REQUIREMENT_TYPE_UNSPECIFIED',
   MarginRequirementTypeDmrPlusPmr = 'MARGIN_REQUIREMENT_TYPE_DMR_PLUS_PMR',
   MarginRequirementTypeIpmrPlusIfmr = 'MARGIN_REQUIREMENT_TYPE_IPMR_PLUS_IFMR',
 }

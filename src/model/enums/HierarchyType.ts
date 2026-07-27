@@ -19,7 +19,6 @@
  */
 
 export enum HierarchyType {
-  HierarchyTypeUnspecified = 'HIERARCHY_TYPE_UNSPECIFIED',
   HierarchyTypePortfolio = 'HIERARCHY_TYPE_PORTFOLIO',
   HierarchyTypeEntity = 'HIERARCHY_TYPE_ENTITY',
 }

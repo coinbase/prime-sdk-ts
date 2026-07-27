@@ -19,7 +19,6 @@
  */
 
 export enum Benchmark {
-  BenchmarkUnset = 'BENCHMARK_UNSET',
   Zero = 'ZERO',
   Sofr360 = 'SOFR_360',
   Sofr365 = 'SOFR_365',

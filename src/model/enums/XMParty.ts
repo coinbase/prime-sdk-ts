@@ -22,7 +22,6 @@
  * - CBE: Coinbase Exchange, trading venue that can receive the XM loan  - FCM: Coinbase’s Futures Commission Merchant, trading venue that can receive the XM loan
  */
 export enum XMParty {
-  XmPartyUnspecified = 'XM_PARTY_UNSPECIFIED',
   Cbe = 'CBE',
   Fcm = 'FCM',
 }

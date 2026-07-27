@@ -32,4 +32,8 @@ export type WalletUnstakeInputs = {
    * (Alpha) Optional validator-level allocations for ETH V2 unstaking. Allows specifying which validators to unstake from and how much. This feature is in alpha. Please reach out to your Coinbase Prime account manager for more information
    */
   validatorAllocations?: Array<ValidatorAllocation>;
+  /**
+   * Optional validator address to unstake from. Only supported for a subset of protocols.
+   */
+  validatorAddress?: string;
 };

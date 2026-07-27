@@ -19,7 +19,6 @@
  */
 
 export enum FcmPositionSide {
-  FcmPositionSideUnspecified = 'FCM_POSITION_SIDE_UNSPECIFIED',
   Long = 'LONG',
   Short = 'SHORT',
 }
