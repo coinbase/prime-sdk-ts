@@ -1,6 +1,6 @@
 {
   "name": "@coinbase/prime-sdk-ts",
-  "version": "0.12.0",
+  "version": "0.12.1",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -87,6 +87,6 @@
     "typescript": "^6.0.3"
   },
   "dependencies": {
-    "@coinbase/core-ts": "^0.4.0"
+    "@coinbase/core-ts": "^0.4.2"
   }
 }
