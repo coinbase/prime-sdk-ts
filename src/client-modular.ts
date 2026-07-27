@@ -45,6 +45,7 @@ export * from './model/enums/';
 // Export service interfaces (for TypeScript support with lazy getters)
 export type { IActivitiesService } from './activities';
 export type { IAddressBooksService } from './addressBooks';
+export type { IApiKeysService } from './apiKeys';
 export type { IAllocationService } from './allocations';
 export type { IAssetsService } from './assets';
 export type { IBalancesService } from './balances';

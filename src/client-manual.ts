@@ -41,6 +41,7 @@ export {
 // Export all individual services for manual instantiation
 export { ActivitiesService, IActivitiesService } from './activities';
 export { AddressBooksService, IAddressBooksService } from './addressBooks';
+export { ApiKeysService, IApiKeysService } from './apiKeys';
 export { AllocationService, IAllocationService } from './allocations';
 export { AssetsService, IAssetsService } from './assets';
 export { BalancesService, IBalancesService } from './balances';
@@ -85,6 +86,11 @@ export type {
   ListAddressBooksRequest,
   ListAddressBooksResponse,
 } from './addressBooks/types';
+
+export type {
+  RotateApiKeyRequest,
+  RotateApiKeyResponse,
+} from './apiKeys/types';
 
 export type {
   CreateAllocationRequest,
@@ -171,6 +177,26 @@ export type {
   GetTieredPricingFeesResponse,
   CreateNewLocatesRequest,
   CreateNewLocatesResponse,
+  GetCrossMarginOverviewRequest,
+  GetCrossMarginOverviewResponse,
+  ListTFObligationsRequest,
+  ListTFObligationsResponse,
+  ListFinancingEligibleAssetsRequest,
+  ListFinancingEligibleAssetsResponse,
+  GetCrossMarginRiskParametersRequest,
+  GetCrossMarginRiskParametersResponse,
+  GetCrossMarginPrimeOverviewRequest,
+  GetCrossMarginPrimeOverviewResponse,
+  UpdateFundingSettingsRequest,
+  UpdateFundingSettingsResponse,
+  SetFundingSettingsRequest,
+  SetFundingSettingsResponse,
+  ListMarketDataRequest,
+  ListMarketDataResponse,
+  GetCrossMarginLiquidationRequest,
+  GetCrossMarginLiquidationResponse,
+  ListCrossMarginLiquidationsRequest,
+  ListCrossMarginLiquidationsResponse,
 } from './financing/types';
 
 export type {

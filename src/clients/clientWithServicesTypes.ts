@@ -15,6 +15,7 @@
  */
 
 import type { IAdvancedTransfersService } from '../advancedTransfers';
+import type { IApiKeysService } from '../apiKeys';
 import type { IActivitiesService } from '../activities';
 import type { IAddressBooksService } from '../addressBooks';
 import type { IAllocationService } from '../allocations';
@@ -43,6 +44,11 @@ export interface LazyServiceGetters {
    * Advanced transfers service for managing complex transfer operations such as blind match settlements
    */
   readonly advancedTransfers: IAdvancedTransfersService;
+
+  /**
+   * API key management service for rotating API keys
+   */
+  readonly apiKeys: IApiKeysService;
 
   /**
    * Activities service for managing portfolio and entity activities

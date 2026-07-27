@@ -25,6 +25,7 @@ export {
 } from './advancedTransfers';
 export { ActivitiesService, IActivitiesService } from './activities';
 export { AddressBooksService, IAddressBooksService } from './addressBooks';
+export { ApiKeysService, IApiKeysService } from './apiKeys';
 export { AllocationService, IAllocationService } from './allocations';
 export { AssetsService, IAssetsService } from './assets';
 export { BalancesService, IBalancesService } from './balances';

@@ -36,8 +36,12 @@ import {
   UpdateFundingSettingsResponse as internalUpdateFundingSettingsResponse,
   UpdateFundingSettingsRequest as UpdateFundingSettingsBody,
   GetMarketDataResponse as internalGetMarketDataResponse,
+  GetXMLiquidationResponse as internalGetXMLiquidationResponse,
+  ListXMLiquidationsResponse as internalListXMLiquidationsResponse,
   MarketData,
+  XMLiquidationSummary,
 } from '../model/';
+import { XMLiquidationStatus } from '../model/enums/XMLiquidationStatus';
 import { Pagination } from '../shared/pagination';
 import {
   PaginatedListResponse,
@@ -212,4 +216,26 @@ export type ListMarketDataResponse = PaginatedListResponse<
   internalGetMarketDataResponse,
   ListMarketDataRequest & BasePaginatedRequest,
   MarketData
+>;
+
+export type GetCrossMarginLiquidationRequest = {
+  entityId: string;
+  liquidationId?: string;
+};
+
+export type GetCrossMarginLiquidationResponse = Expand<
+  internalGetXMLiquidationResponse
+>;
+
+export type ListCrossMarginLiquidationsRequest = Pagination & {
+  entityId: string;
+  status?: XMLiquidationStatus;
+  startTime?: string;
+  endTime?: string;
+};
+
+export type ListCrossMarginLiquidationsResponse = PaginatedListResponse<
+  internalListXMLiquidationsResponse,
+  ListCrossMarginLiquidationsRequest & BasePaginatedRequest,
+  XMLiquidationSummary
 >;

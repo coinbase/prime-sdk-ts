@@ -67,6 +67,10 @@ import {
   SetFundingSettingsResponse,
   ListMarketDataRequest,
   ListMarketDataResponse,
+  GetCrossMarginLiquidationRequest,
+  GetCrossMarginLiquidationResponse,
+  ListCrossMarginLiquidationsRequest,
+  ListCrossMarginLiquidationsResponse,
 } from './types';
 
 export interface IFinancingService {
@@ -250,6 +254,8 @@ export interface IFinancingService {
   ): Promise<GetCrossMarginPrimeOverviewResponse>;
 
   /**
+   * @deprecated Use {@link IFinancingService.updateFundingSettings} instead.
+   *
    * Update Funding Settings
    *
    * Sets FCM funding configuration for the entity and submits the desired configuration to Prime API for approval.
@@ -258,6 +264,36 @@ export interface IFinancingService {
     request: SetFundingSettingsRequest,
     options?: CoinbaseCallOptions
   ): Promise<SetFundingSettingsResponse>;
+
+  /**
+   * Update Funding Settings
+   *
+   * Sets FCM funding configuration for the entity and submits the desired configuration to Prime API for approval.
+   */
+  updateFundingSettings(
+    request: UpdateFundingSettingsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<UpdateFundingSettingsResponse>;
+
+  /**
+   * Get Cross Margin Liquidation
+   *
+   * Gets detailed liquidation data for an XM customer. Returns the active or most recent liquidation by default.
+   */
+  getCrossMarginLiquidation(
+    request: GetCrossMarginLiquidationRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetCrossMarginLiquidationResponse>;
+
+  /**
+   * List Cross Margin Liquidations
+   *
+   * Lists historical liquidation records for an XM customer.
+   */
+  listCrossMarginLiquidations(
+    request: ListCrossMarginLiquidationsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<ListCrossMarginLiquidationsResponse>;
 
   /**
    * Get Market Data
@@ -626,6 +662,9 @@ export class FinancingService implements IFinancingService {
     return response.data as GetCrossMarginPrimeOverviewResponse;
   }
 
+  /**
+   * @deprecated Use {@link FinancingService.updateFundingSettings} instead.
+   */
   async setFundingSettings(
     request: SetFundingSettingsRequest,
     options?: CoinbaseCallOptions
@@ -657,6 +696,60 @@ export class FinancingService implements IFinancingService {
     });
 
     return response.data as SetFundingSettingsResponse;
+  }
+
+  async updateFundingSettings(
+    request: UpdateFundingSettingsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<UpdateFundingSettingsResponse> {
+    return this.setFundingSettings(request, options);
+  }
+
+  async getCrossMarginLiquidation(
+    request: GetCrossMarginLiquidationRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetCrossMarginLiquidationResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
+    const { entityId, ...queryParams } = request;
+    const response = await this.client.request({
+      url: `entities/${entityId}/cross_margin/liquidation`,
+      queryParams,
+      callOptions: options,
+    });
+
+    return response.data as GetCrossMarginLiquidationResponse;
+  }
+
+  async listCrossMarginLiquidations(
+    request: ListCrossMarginLiquidationsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<ListCrossMarginLiquidationsResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
+    const paginationParams = getQueryParams(this.client, request);
+    const { limit, cursor, sortDirection, entityId, ...queryParams } = request;
+    const finalQueryParams = { ...paginationParams, ...queryParams };
+
+    const response = await this.client.request({
+      url: `entities/${entityId}/cross_margin/liquidations`,
+      queryParams: finalQueryParams,
+      callOptions: options,
+    });
+
+    const paginationOptions = getDefaultPaginationOptions(this.client, options);
+
+    return createPaginatedResponse(
+      response.data,
+      this.listCrossMarginLiquidations.bind(this),
+      request,
+      ResponseExtractors.liquidations,
+      paginationOptions
+    ) as ListCrossMarginLiquidationsResponse;
   }
 
   async listMarketData(

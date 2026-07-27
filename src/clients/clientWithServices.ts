@@ -33,6 +33,7 @@ import { LazyServiceGetters } from './clientWithServicesTypes';
 
 // Import service interfaces for proper typing
 import type { IAdvancedTransfersService } from '../advancedTransfers';
+import type { IApiKeysService } from '../apiKeys';
 import type { IActivitiesService } from '../activities';
 import type { IAddressBooksService } from '../addressBooks';
 import type { IAllocationService } from '../allocations';
@@ -64,6 +65,7 @@ export class CoinbasePrimeClientWithServices
 {
   // Private cached service instances
   private _advancedTransfersService?: IAdvancedTransfersService;
+  private _apiKeysService?: IApiKeysService;
   private _activitiesService?: IActivitiesService;
   private _addressBooksService?: IAddressBooksService;
   private _allocationService?: IAllocationService;
@@ -206,6 +208,21 @@ export class CoinbasePrimeClientWithServices
       this._assetsService = new AssetsService(this);
     }
     return this._assetsService!;
+  }
+
+  /**
+   * Lazy getter for ApiKeysService
+   * @example
+   * ```typescript
+   * const rotation = await client.apiKeys.rotateApiKey({ durationSeconds: 0 });
+   * ```
+   */
+  get apiKeys(): IApiKeysService {
+    if (!this._apiKeysService) {
+      const { ApiKeysService } = require('../apiKeys');
+      this._apiKeysService = new ApiKeysService(this);
+    }
+    return this._apiKeysService!;
   }
 
   /**
