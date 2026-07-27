@@ -10,10 +10,26 @@
 - Added `createTlsOptionsFromEnv()` and `mergeClientOptionsFromEnv()` helpers.
 - Added `examples/advanced/mtlsClient.js` demonstrating mTLS client configuration.
 
+#### New API Endpoints
+
+**API Keys Service** (`client.apiKeys`)
+
+- **`rotateApiKey()`**: Rotate the invoking API key; returns encrypted credentials and an activity ID for approval tracking (`POST /v1/api-keys/rotate`)
+
+**Financing Service**
+
+- **`getCrossMarginLiquidation()`**: Get detailed Cross Margin (XM) liquidation data for an entity; optional `liquidationId` for a specific record (`GET /entities/{entityId}/cross_margin/liquidation`)
+- **`listCrossMarginLiquidations()`**: List historical XM liquidation records with cursor pagination and optional status/time filters (`GET /entities/{entityId}/cross_margin/liquidations`)
+- **`updateFundingSettings()`**: Update FCM funding configuration for an entity (designated funding portfolio, auto-conversion, excess return, weekend buying power target) (`POST /entities/{entityId}/funding_settings`)
+
+Runnable examples: `examples/apiKeys/rotateApiKey.js`, `examples/financing/getCrossMarginLiquidation.js`, `examples/financing/listCrossMarginLiquidations.js`.
+
 ### Changed
 
 - Dependency updated to `@coinbase/core-ts@^0.4.2`.
 - Local development and CI updated to Node.js 24 LTS (`.nvmrc` `24.15.0`).
+- OpenAPI spec and generated models synced to the latest Prime public API (including rotate API key and XM liquidation types).
+- **`setFundingSettings()`** is deprecated in favor of **`updateFundingSettings()`**; `SetFundingSettingsRequest` / `SetFundingSettingsResponse` remain as type aliases of the `UpdateFundingSettings*` types for backward compatibility.
 
 ## [0.11.0] - 2026-JUN-02
 
