@@ -198,9 +198,8 @@ export type UpdateFundingSettingsRequest = Expand<
   UpdateFundingSettingsBody & { entityId: string }
 >;
 
-export type UpdateFundingSettingsResponse = Expand<
-  internalUpdateFundingSettingsResponse
->;
+export type UpdateFundingSettingsResponse =
+  Expand<internalUpdateFundingSettingsResponse>;
 
 /** @deprecated Renamed to `UpdateFundingSettingsRequest`. */
 export type SetFundingSettingsRequest = UpdateFundingSettingsRequest;
@@ -223,9 +222,8 @@ export type GetCrossMarginLiquidationRequest = {
   liquidationId?: string;
 };
 
-export type GetCrossMarginLiquidationResponse = Expand<
-  internalGetXMLiquidationResponse
->;
+export type GetCrossMarginLiquidationResponse =
+  Expand<internalGetXMLiquidationResponse>;
 
 export type ListCrossMarginLiquidationsRequest = Pagination & {
   entityId: string;
