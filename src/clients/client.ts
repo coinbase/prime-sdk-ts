@@ -24,7 +24,10 @@ import {
 } from '../constants';
 import { CoinbasePrimeCredentials } from '../credentials';
 import { toCamelCase } from '../shared/toCamelCase';
-import { createCredentialsFromEnv } from '../shared/envUtils';
+import {
+  createCredentialsFromEnv,
+  mergeClientOptionsFromEnv,
+} from '../shared/envUtils';
 import type { CoinbasePrimeClientConfig, IPrimeApiClient } from './types';
 
 export class CoinbasePrimeClient
@@ -61,12 +64,16 @@ export class CoinbasePrimeClient
    * Create a client from environment variables
    * Requires PRIME_CREDENTIALS environment variable with JSON containing:
    * \{ "AccessKey": "...", "SecretKey": "...", "Passphrase": "..." \}
+   *
+   * Optionally loads mTLS settings from MTLS_* environment variables when set.
+   * Explicit `tls` or `httpsAgent` values in `options` take precedence.
    */
   static fromEnv(
     apiBaseUrl?: string,
     options?: CoinbasePrimeClientConfig
   ): CoinbasePrimeClient {
     const credentials = createCredentialsFromEnv();
-    return new CoinbasePrimeClient(credentials, apiBaseUrl, options);
+    const mergedOptions = mergeClientOptionsFromEnv(options);
+    return new CoinbasePrimeClient(credentials, apiBaseUrl, mergedOptions);
   }
 }

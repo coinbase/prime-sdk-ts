@@ -20,6 +20,8 @@ export {
   CoinbaseClient,
   CoinbaseHttpClientRetryOptions,
   CoinbaseCallOptions,
+  CoinbaseTlsOptions,
+  CoinbaseTlsMaterial,
   Method,
   CoinbaseClientException,
   CoinbaseError,
@@ -32,7 +34,11 @@ export {
   IPrimeApiClient,
 } from './clients';
 export { CoinbasePrimeCredentials } from './credentials';
-export { createCredentialsFromEnv } from './shared/envUtils';
+export {
+  createCredentialsFromEnv,
+  createTlsOptionsFromEnv,
+  mergeClientOptionsFromEnv,
+} from './shared/envUtils';
 export { CoinbasePrimeClientException, CoinbasePrimeException } from './errors';
 export { validate, isValidUUID } from './shared/validation';
 export type { ValidationError, PropertyValidator } from './shared/validation';

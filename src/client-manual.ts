@@ -32,7 +32,11 @@ export {
   TransformResponseFn,
 } from './clients';
 export { CoinbasePrimeCredentials } from './credentials';
-export { createCredentialsFromEnv } from './shared/envUtils';
+export {
+  createCredentialsFromEnv,
+  createTlsOptionsFromEnv,
+  mergeClientOptionsFromEnv,
+} from './shared/envUtils';
 
 // Export all individual services for manual instantiation
 export { ActivitiesService, IActivitiesService } from './activities';

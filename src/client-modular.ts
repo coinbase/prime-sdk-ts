@@ -32,7 +32,11 @@ export {
   TransformResponseFn,
 } from './clients';
 export { CoinbasePrimeCredentials } from './credentials';
-export { createCredentialsFromEnv } from './shared/envUtils';
+export {
+  createCredentialsFromEnv,
+  createTlsOptionsFromEnv,
+  mergeClientOptionsFromEnv,
+} from './shared/envUtils';
 
 // Export all model types and enums
 export type * from './model/';

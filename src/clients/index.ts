@@ -27,6 +27,8 @@ export {
   CoinbaseClient,
   CoinbaseHttpClientRetryOptions,
   CoinbaseCallOptions,
+  CoinbaseTlsOptions,
+  CoinbaseTlsMaterial,
   Method,
   CoinbaseClientException,
   CoinbaseError,

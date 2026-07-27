@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.12.1] - 2026-JUL-23
+
+### Added
+
+- **Mutual TLS (mTLS) support.** `CoinbasePrimeClientConfig` now accepts `tls` (raw cert/key/CA material) and `httpsAgent` (pre-built Node.js `https.Agent`) options, forwarded to `@coinbase/core-ts`.
+- `fromEnv()` automatically loads mTLS settings from `MTLS_*` environment variables when configured.
+- Re-exported `CoinbaseTlsOptions` and `CoinbaseTlsMaterial` types from the public API.
+- Added `createTlsOptionsFromEnv()` and `mergeClientOptionsFromEnv()` helpers.
+- Added `examples/advanced/mtlsClient.js` demonstrating mTLS client configuration.
+
+### Changed
+
+- Dependency updated to `@coinbase/core-ts@^0.4.2`.
+
 ## [0.11.0] - 2026-JUN-02
 
 ### Changed

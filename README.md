@@ -114,6 +114,49 @@ const response = await client.transactions.listPortfolioTransactions(
 );
 ```
 
+### Mutual TLS (mTLS)
+
+If your Prime API integration requires a client certificate, set `MTLS_*` environment variables and call `fromEnv()` — TLS settings are loaded automatically:
+
+```env
+MTLS_CERT_PATH=/path/to/client.crt
+MTLS_KEY_PATH=/path/to/client.key
+MTLS_CA_PATH=/path/to/ca.crt
+```
+
+```typescript
+const client = CoinbasePrimeClientWithServices.fromEnv();
+```
+
+You can also pass inline PEM content via `MTLS_CERT`, `MTLS_KEY`, and `MTLS_CA`, or provide TLS options explicitly when creating the client:
+
+```typescript
+import fs from 'fs';
+import https from 'https';
+import { CoinbasePrimeClientWithServices } from '@coinbase/prime-sdk-ts';
+
+const tls = {
+  cert: fs.readFileSync(process.env.MTLS_CERT_PATH!),
+  key: fs.readFileSync(process.env.MTLS_KEY_PATH!),
+  ca: fs.readFileSync(process.env.MTLS_CA_PATH!), // optional
+};
+
+const client = CoinbasePrimeClientWithServices.fromEnv(undefined, { tls });
+
+// Or provide your own agent (takes precedence over `tls`):
+const clientWithAgent = CoinbasePrimeClientWithServices.fromEnv(undefined, {
+  httpsAgent: new https.Agent({
+    cert: tls.cert,
+    key: tls.key,
+    ca: tls.ca,
+  }),
+});
+```
+
+Explicit `tls` or `httpsAgent` values passed to `fromEnv()` take precedence over `MTLS_*` environment variables.
+
+See `examples/advanced/mtlsClient.js` for a runnable example.
+
 ### Advanced Pagination Methods
 
 All paginated responses include powerful methods for manual pagination control:
