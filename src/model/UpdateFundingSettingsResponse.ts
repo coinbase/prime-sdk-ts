@@ -18,11 +18,17 @@
  *  Do not edit the class manually.
  */
 
-import { PrimeXMMarginThresholdType } from './enums/PrimeXMMarginThresholdType';
-import { XMMarginLevel } from './enums/XMMarginLevel';
-
-export type PrimeXMMarginThreshold = {
-  marginLevel?: XMMarginLevel;
-  thresholdType?: PrimeXMMarginThresholdType;
-  thresholdValue?: string;
+export type UpdateFundingSettingsResponse = {
+  /**
+   * Identifier for the created activity / proposal
+   */
+  activityId?: string;
+  /**
+   * Type of the activity (e.g. PCS proposal type)
+   */
+  activityType?: string;
+  /**
+   * Number of approvals still required before the change applies
+   */
+  numApprovalsRemaining?: number;
 };

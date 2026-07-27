@@ -19,7 +19,6 @@
  */
 
 export enum RateType {
-  RateTypeUnset = 'RATE_TYPE_UNSET',
   Bps = 'BPS',
   Apr360 = 'APR_360',
   Apr365 = 'APR_365',

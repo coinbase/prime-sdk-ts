@@ -18,11 +18,8 @@
  *  Do not edit the class manually.
  */
 
-import { PrimeXMMarginThresholdType } from './enums/PrimeXMMarginThresholdType';
-import { XMMarginLevel } from './enums/XMMarginLevel';
+import { XMLiquidationDetail } from './XMLiquidationDetail';
 
-export type PrimeXMMarginThreshold = {
-  marginLevel?: XMMarginLevel;
-  thresholdType?: PrimeXMMarginThresholdType;
-  thresholdValue?: string;
+export type GetXMLiquidationResponse = {
+  liquidation?: XMLiquidationDetail;
 };

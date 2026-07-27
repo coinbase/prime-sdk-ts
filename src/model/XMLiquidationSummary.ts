@@ -18,20 +18,32 @@
  *  Do not edit the class manually.
  */
 
-/**
- * SetFundingSettingsResponse returns PCS activity metadata after the proposal is created.
- */
-export type SetFundingSettingsResponse = {
+import { XMLiquidationStatus } from './enums/XMLiquidationStatus';
+
+export type XMLiquidationSummary = {
   /**
-   * Identifier for the created activity / proposal
+   * Financing liquidation UUID
    */
-  activityId?: string;
+  liquidationId?: string;
+  status?: XMLiquidationStatus;
   /**
-   * Type of the activity (e.g. PCS proposal type)
+   * USD notional shortfall amount that triggered the liquidation
    */
-  activityType?: string;
+  shortfallAmount?: string;
   /**
-   * Number of approvals still required before the change applies
+   * USD notional amount that has been filled so far
    */
-  numApprovalsRemaining?: number;
+  filledAmount?: string;
+  /**
+   * USD notional amount remaining to be liquidated
+   */
+  remainingAmount?: string;
+  /**
+   * Timestamp when the liquidation was created
+   */
+  createdAt?: Date;
+  /**
+   * Timestamp when the liquidation was completed
+   */
+  completedAt?: Date;
 };

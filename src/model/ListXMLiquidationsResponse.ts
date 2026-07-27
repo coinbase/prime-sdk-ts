@@ -18,11 +18,13 @@
  *  Do not edit the class manually.
  */
 
-import { PrimeXMMarginThresholdType } from './enums/PrimeXMMarginThresholdType';
-import { XMMarginLevel } from './enums/XMMarginLevel';
+import { PaginatedResponse } from './PaginatedResponse';
+import { XMLiquidationSummary } from './XMLiquidationSummary';
 
-export type PrimeXMMarginThreshold = {
-  marginLevel?: XMMarginLevel;
-  thresholdType?: PrimeXMMarginThresholdType;
-  thresholdValue?: string;
+export type ListXMLiquidationsResponse = {
+  /**
+   * List of XM liquidation summaries
+   */
+  liquidations?: Array<XMLiquidationSummary>;
+  pagination?: PaginatedResponse;
 };

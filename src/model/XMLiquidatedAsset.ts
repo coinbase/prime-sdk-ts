@@ -18,11 +18,25 @@
  *  Do not edit the class manually.
  */
 
-import { PrimeXMMarginThresholdType } from './enums/PrimeXMMarginThresholdType';
-import { XMMarginLevel } from './enums/XMMarginLevel';
-
-export type PrimeXMMarginThreshold = {
-  marginLevel?: XMMarginLevel;
-  thresholdType?: PrimeXMMarginThresholdType;
-  thresholdValue?: string;
+export type XMLiquidatedAsset = {
+  /**
+   * Asset currency
+   */
+  asset?: string;
+  /**
+   * Amount (nominal) of the asset that has been liquidated
+   */
+  liquidatedAmount?: string;
+  /**
+   * USD notional value of the liquidated amount
+   */
+  liquidatedNotional?: string;
+  /**
+   * Amount (nominal) of the asset remaining to be liquidated
+   */
+  remainingAmount?: string;
+  /**
+   * USD notional value of the remaining amount
+   */
+  remainingNotional?: string;
 };

@@ -24,7 +24,7 @@
 export type BlindMatchMetadata = {
   referenceId?: string;
   /**
-   * The intended time of Transfer settlement in YYYYMMDD format
+   * The intended time of Transfer settlement in YYYYMMDD format. The Settlement Date represents the date contractually agreed upon by the transacting parties; actual settlement will occur upon completion of the transfer, which may differ from such agreed date.
    */
   settlementDate?: string;
   /**

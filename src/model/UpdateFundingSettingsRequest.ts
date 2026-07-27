@@ -18,10 +18,7 @@
  *  Do not edit the class manually.
  */
 
-/**
- * SetFundingSettingsRequest sets FCM funding configuration for an entity (creates a PCS proposal). entity_id is also bound from the URL path.
- */
-export type SetFundingSettingsRequest = {
+export type UpdateFundingSettingsRequest = {
   /**
    * Set the Derivatives Funding Portfolio that will be used to fund FCM margin calls and receive excess margin sweeps. Only one portfolio per entity.
    */
@@ -31,9 +28,9 @@ export type SetFundingSettingsRequest = {
    */
   automaticConversionEnabled: boolean;
   /**
-   * When true, Coinbase affiliates may initiate loans on your behalf to meet FCM margin calls, per your Lending agreement. Available to Portfolio Margin or Cross Margin clients only. (Auto-Initiate Loans)
+   * Deprecated: Auto-Initiate Loans is now always enabled for Financing customers. Any value sent for this field is ignored.
    */
-  automaticLoanEnabled: boolean;
+  automaticLoanEnabled?: boolean;
   /**
    * When true, any FCM account balance above your margin requirements will be automatically swept back to your Derivatives funding portfolio. (Auto-Return Excess Margin)
    */

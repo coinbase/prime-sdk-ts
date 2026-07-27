@@ -59,4 +59,12 @@ export type EditOrderRequest = {
    * Specifies the stop price at which the order activates. The order is activated if the last trade price on Coinbase Exchange crosses the stop price specified on the order
    */
   stopPrice?: string;
+  /**
+   * New peg offset value for PEG orders. 0 means peg to BBO. Only non-negative values are allowed. The order\'s peg_offset_type is immutable and is reused server-side to interpret this value (PEG orders only)
+   */
+  offset?: string;
+  /**
+   * New WIG (Would if Good) level for PEG orders - the best price a pegged order would be placed on venues, opposite to limit_price. Cannot be added or removed post-placement (PEG orders only)
+   */
+  wigLevel?: string;
 };

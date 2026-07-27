@@ -19,7 +19,6 @@
  */
 
 export enum LoanType {
-  LoanTypeUnset = 'LOAN_TYPE_UNSET',
   BilateralLending = 'BILATERAL_LENDING',
   TradeFinance = 'TRADE_FINANCE',
   PortfolioMargin = 'PORTFOLIO_MARGIN',

@@ -19,7 +19,6 @@
  */
 
 export enum AddressBookType {
-  AddressBookTypeUnspecified = 'ADDRESS_BOOK_TYPE_UNSPECIFIED',
   AddressBookTypeAddress = 'ADDRESS_BOOK_TYPE_ADDRESS',
   AddressBookTypeCounterpartyId = 'ADDRESS_BOOK_TYPE_COUNTERPARTY_ID',
 }

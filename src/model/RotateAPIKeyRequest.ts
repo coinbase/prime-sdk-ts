@@ -18,11 +18,9 @@
  *  Do not edit the class manually.
  */
 
-import { PrimeXMMarginThresholdType } from './enums/PrimeXMMarginThresholdType';
-import { XMMarginLevel } from './enums/XMMarginLevel';
-
-export type PrimeXMMarginThreshold = {
-  marginLevel?: XMMarginLevel;
-  thresholdType?: PrimeXMMarginThresholdType;
-  thresholdValue?: string;
+export type RotateAPIKeyRequest = {
+  /**
+   * How long the old key remains active after the new key is approved, in seconds. Set to 0 for immediate expiry on approval. Cannot extend beyond the original key\'s expiry.
+   */
+  durationSeconds?: number;
 };

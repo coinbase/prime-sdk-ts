@@ -18,11 +18,13 @@
  *  Do not edit the class manually.
  */
 
-import { PrimeXMMarginThresholdType } from './enums/PrimeXMMarginThresholdType';
-import { XMMarginLevel } from './enums/XMMarginLevel';
-
-export type PrimeXMMarginThreshold = {
-  marginLevel?: XMMarginLevel;
-  thresholdType?: PrimeXMMarginThresholdType;
-  thresholdValue?: string;
+export type RotateAPIKeyResponse = {
+  /**
+   * Base64-encoded encrypted payload containing the new API key credentials. Decrypt using your current secret_key with HKDF-SHA256 + AES-256-GCM.
+   */
+  encryptedCredentials?: string;
+  /**
+   * The Prime activity ID tracking the consensus approval for this rotation. Use with the Activities endpoints to monitor approval status.
+   */
+  activityId?: string;
 };

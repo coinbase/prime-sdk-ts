@@ -19,6 +19,7 @@
  */
 
 import { PortfolioStakingMetadata } from './PortfolioStakingMetadata';
+import { ValidatorProvider } from './enums/ValidatorProvider';
 
 export type PortfolioStakingUnstakeRequest = {
   /**
@@ -32,6 +33,7 @@ export type PortfolioStakingUnstakeRequest = {
   /**
    * The quantity of the chosen currency to unstake
    */
-  amount: string;
+  amount?: string;
   metadata?: PortfolioStakingMetadata;
+  validatorProvider?: ValidatorProvider;
 };

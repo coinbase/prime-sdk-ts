@@ -19,7 +19,6 @@
  */
 
 export enum InvoiceType {
-  InvoiceTypeUnspecified = 'INVOICE_TYPE_UNSPECIFIED',
   InvoiceTypeAucFee = 'INVOICE_TYPE_AUC_FEE',
   InvoiceTypeMinimumFee = 'INVOICE_TYPE_MINIMUM_FEE',
   InvoiceTypeWithdrawalFee = 'INVOICE_TYPE_WITHDRAWAL_FEE',

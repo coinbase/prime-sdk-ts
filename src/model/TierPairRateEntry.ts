@@ -23,15 +23,15 @@
  */
 export type TierPairRateEntry = {
   /**
-   * First tier in the pair
+   * First tier in the pair.
    */
   tierA?: string;
   /**
-   * Second tier in the pair
+   * Second tier in the pair.
    */
   tierB?: string;
   /**
-   * Credit rate for this tier pair
+   * Credit rate for this tier pair.
    */
   rate?: string;
 };
