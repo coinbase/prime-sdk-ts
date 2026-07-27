@@ -33,7 +33,8 @@ import {
   ListFinancingEligibleAssetsResponse as internalListFinancingEligibleAssetsResponse,
   GetCrossMarginRiskParametersResponse as internalGetCrossMarginRiskParametersResponse,
   GetCrossMarginPrimeOverviewResponse as internalGetCrossMarginPrimeOverviewResponse,
-  SetFundingSettingsResponse as internalSetFundingSettingsResponse,
+  UpdateFundingSettingsResponse as internalUpdateFundingSettingsResponse,
+  UpdateFundingSettingsRequest as UpdateFundingSettingsBody,
   GetMarketDataResponse as internalGetMarketDataResponse,
   MarketData,
 } from '../model/';
@@ -189,17 +190,19 @@ export type GetCrossMarginPrimeOverviewRequest = {
 export type GetCrossMarginPrimeOverviewResponse =
   Expand<internalGetCrossMarginPrimeOverviewResponse>;
 
-export type SetFundingSettingsRequest = {
-  entityId: string;
-  designatedFundingPortfolioId: string;
-  automaticConversionEnabled: boolean;
-  automaticLoanEnabled: boolean;
-  automaticExcessReturnEnabled: boolean;
-  excessFundsTargetAmount: string;
-};
+export type UpdateFundingSettingsRequest = Expand<
+  UpdateFundingSettingsBody & { entityId: string }
+>;
 
-export type SetFundingSettingsResponse =
-  Expand<internalSetFundingSettingsResponse>;
+export type UpdateFundingSettingsResponse = Expand<
+  internalUpdateFundingSettingsResponse
+>;
+
+/** @deprecated Renamed to `UpdateFundingSettingsRequest`. */
+export type SetFundingSettingsRequest = UpdateFundingSettingsRequest;
+
+/** @deprecated Renamed to `UpdateFundingSettingsResponse`. */
+export type SetFundingSettingsResponse = UpdateFundingSettingsResponse;
 
 export type ListMarketDataRequest = Pagination & {
   entityId: string;

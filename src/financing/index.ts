@@ -61,6 +61,8 @@ import {
   GetCrossMarginRiskParametersResponse,
   GetCrossMarginPrimeOverviewRequest,
   GetCrossMarginPrimeOverviewResponse,
+  UpdateFundingSettingsRequest,
+  UpdateFundingSettingsResponse,
   SetFundingSettingsRequest,
   SetFundingSettingsResponse,
   ListMarketDataRequest,
