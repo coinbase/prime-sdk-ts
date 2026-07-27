@@ -13,6 +13,7 @@
 ### Changed
 
 - Dependency updated to `@coinbase/core-ts@^0.4.2`.
+- Local development and CI updated to Node.js 24 LTS (`.nvmrc` `24.15.0`).
 
 ## [0.11.0] - 2026-JUN-02
 
