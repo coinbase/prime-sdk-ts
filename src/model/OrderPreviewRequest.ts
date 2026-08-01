@@ -85,7 +85,7 @@ export type OrderPreviewRequest = {
    */
   offset?: string;
   /**
-   * next: 21
+   * WIG (Would if Good) level - the best price a pegged order would be placed on venues, opposite to limit_price (PEG orders only)
    */
   wigLevel?: string;
 };

@@ -2573,7 +2573,6 @@ paths:
                     \ would be placed on venues, opposite to limit_price (PEG orders\
                     \ only)"
                   type: string
-                  description: "next: 23"
         required: true
       responses:
         "200":
@@ -2679,7 +2678,6 @@ paths:
                     \ would be placed on venues, opposite to limit_price (PEG orders\
                     \ only)"
                   type: string
-                  description: "next: 21"
         required: true
       responses:
         "200":
@@ -3049,7 +3047,7 @@ paths:
       tags:
       - Products
       summary: List Portfolio Products
-      description: List tradable products for a given portfolio.
+      description: List products for a given portfolio.
       operationId: PrimeRESTAPI_GetPortfolioProducts
       parameters:
       - name: portfolio_id
@@ -3065,7 +3063,8 @@ paths:
           type: string
       - name: limit
         in: query
-        description: Number of items to retrieve
+        description: Number of items to retrieve. Must be between 0 (defaulted to
+          10) and 1000.
         schema:
           type: integer
           format: int32
@@ -3086,11 +3085,13 @@ paths:
            - UNKNOWN_PRODUCT_TYPE: Unknown product type
            - SPOT: Spot product
            - FUTURE: Future product
+           - OPTION: Option product
         schema:
           type: string
           enum:
           - SPOT
           - FUTURE
+          - OPTION
       - name: contract_expiry_type
         in: query
         description: |-
@@ -9086,9 +9087,11 @@ components:
         - UNKNOWN_PRODUCT_TYPE: Unknown product type
          - SPOT: Spot product
          - FUTURE: Future product
+         - OPTION: Option product
       enum:
       - SPOT
       - FUTURE
+      - OPTION
     coinbase.public_rest_api.QuoteResponse:
       title: Copied from https://github.cbhq.net/institutional/trading/blob/3e6da61aceb64c7cbe6f0c0f8fbdb98fd3e868dc/proxy/trading/protos/coinbase/brokerage/proxy/trading/api/orderentry.proto#L366-L370
       type: object
