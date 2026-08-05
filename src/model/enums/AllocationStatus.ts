@@ -19,7 +19,6 @@
  */
 
 export enum AllocationStatus {
-  AllocationStatusUnspecified = 'ALLOCATION_STATUS_UNSPECIFIED',
   AllocationStatusAllocationPending = 'ALLOCATION_STATUS_ALLOCATION_PENDING',
   AllocationStatusAllocationAccepted = 'ALLOCATION_STATUS_ALLOCATION_ACCEPTED',
   AllocationStatusAllocationAllocated = 'ALLOCATION_STATUS_ALLOCATION_ALLOCATED',

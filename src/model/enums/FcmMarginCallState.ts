@@ -19,7 +19,6 @@
  */
 
 export enum FcmMarginCallState {
-  FcmMarginCallStateUnspecified = 'FCM_MARGIN_CALL_STATE_UNSPECIFIED',
   FcmMarginCallStateClosed = 'FCM_MARGIN_CALL_STATE_CLOSED',
   FcmMarginCallStateRolledOver = 'FCM_MARGIN_CALL_STATE_ROLLED_OVER',
   FcmMarginCallStateDefault = 'FCM_MARGIN_CALL_STATE_DEFAULT',

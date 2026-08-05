@@ -55,4 +55,5 @@ export type TravelRuleParty = {
    * Account identifier for travel rule compliance. If not provided, defaults to portfolio ID.
    */
   accountId?: string;
+  vaspAddress?: DetailedAddress;
 };

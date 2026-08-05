@@ -19,7 +19,6 @@
  */
 
 export enum PositionReferenceType {
-  PositionReferenceTypeUnspecified = 'POSITION_REFERENCE_TYPE_UNSPECIFIED',
   Entity = 'ENTITY',
   Portfolio = 'PORTFOLIO',
 }

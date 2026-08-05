@@ -73,6 +73,28 @@ paths:
               schema:
                 $ref: '#/components/schemas/coinbase.public_rest_api.CreateNetAllocationResponse'
       x-codegen-request-body-name: body
+  /v1/api-keys/rotate:
+    post:
+      tags:
+      - API Key Management
+      summary: Rotate API Key
+      description: Generates a new API key with the same configuration as the invoking
+        key.
+      operationId: PrimeRESTAPI_RotateAPIKey
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/coinbase.public_rest_api.RotateAPIKeyRequest'
+        required: true
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.RotateAPIKeyResponse'
+      x-codegen-request-body-name: body
   /v1/entities/{entity_id}/accruals:
     get:
       tags:
@@ -154,7 +176,6 @@ paths:
           items:
             type: string
             enum:
-            - OTHER_ACTIVITY_CATEGORY
             - ACTIVITY_CATEGORY_ORDER
             - ACTIVITY_CATEGORY_TRANSACTION
             - ACTIVITY_CATEGORY_ACCOUNT
@@ -170,7 +191,6 @@ paths:
           items:
             type: string
             enum:
-            - OTHER_ACTIVITY_STATUS
             - ACTIVITY_STATUS_CANCELLED
             - ACTIVITY_STATUS_PROCESSING
             - ACTIVITY_STATUS_COMPLETED
@@ -350,6 +370,105 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/coinbase.public_rest_api.GetCrossMarginOverviewResponse'
+  /v1/entities/{entity_id}/cross_margin/liquidation:
+    get:
+      tags:
+      - Financing
+      summary: Get Cross Margin Liquidation
+      description: Gets detailed liquidation data for an XM customer. Returns the
+        active or most recent liquidation by default.
+      operationId: PrimeRESTAPI_GetXMLiquidation
+      parameters:
+      - name: entity_id
+        in: path
+        description: XM customer Prime Entity ID
+        required: true
+        schema:
+          type: string
+      - name: liquidation_id
+        in: query
+        description: "Financing liquidation UUID. If omitted, returns the active or\
+          \ most recent liquidation."
+        schema:
+          type: string
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.GetXMLiquidationResponse'
+  /v1/entities/{entity_id}/cross_margin/liquidations:
+    get:
+      tags:
+      - Financing
+      summary: List Cross Margin Liquidations
+      description: Lists historical liquidation records for an XM customer
+      operationId: PrimeRESTAPI_ListXMLiquidations
+      parameters:
+      - name: entity_id
+        in: path
+        description: XM customer Prime Entity ID
+        required: true
+        schema:
+          type: string
+      - name: cursor
+        in: query
+        description: Cursor for pagination
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: Number of results to return per page
+        schema:
+          type: integer
+          format: int32
+      - name: sort_direction
+        in: query
+        description: Sort direction for results
+        schema:
+          type: string
+          default: DESC
+          enum:
+          - DESC
+          - ASC
+      - name: status
+        in: query
+        description: |-
+          Filter results by liquidation status
+
+           - XM_LIQUIDATION_STATUS_PRE_LIQUIDATION: Liquidation is in the pre-liquidation phase
+           - XM_LIQUIDATION_STATUS_LIQUIDATING: Liquidation is actively in progress
+           - XM_LIQUIDATION_STATUS_LIQUIDATED: Liquidation has completed successfully
+           - XM_LIQUIDATION_STATUS_CANCELED: Liquidation was canceled
+           - XM_LIQUIDATION_STATUS_FAILED: Liquidation failed
+        schema:
+          type: string
+          enum:
+          - XM_LIQUIDATION_STATUS_PRE_LIQUIDATION
+          - XM_LIQUIDATION_STATUS_LIQUIDATING
+          - XM_LIQUIDATION_STATUS_LIQUIDATED
+          - XM_LIQUIDATION_STATUS_CANCELED
+          - XM_LIQUIDATION_STATUS_FAILED
+      - name: start_time
+        in: query
+        description: Filter results to liquidations created at or after this time
+        schema:
+          type: string
+          format: date-time
+      - name: end_time
+        in: query
+        description: Filter results to liquidations created at or before this time
+        schema:
+          type: string
+          format: date-time
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.ListXMLiquidationsResponse'
   /v1/entities/{entity_id}/cross_margin/risk_parameters:
     get:
       tags:
@@ -393,7 +512,6 @@ paths:
               required:
               - automatic_conversion_enabled
               - automatic_excess_return_enabled
-              - automatic_loan_enabled
               - designated_funding_portfolio_id
               - excess_funds_target_amount
               type: object
@@ -411,10 +529,8 @@ paths:
                     \ USDC)."
                 automatic_loan_enabled:
                   type: boolean
-                  description: "When true, Coinbase affiliates may initiate loans\
-                    \ on your behalf to meet FCM margin calls, per your Lending agreement.\
-                    \ Available to Portfolio Margin or Cross Margin clients only.\
-                    \ (Auto-Initiate Loans)"
+                  description: "Deprecated: Auto-Initiate Loans is now always enabled\
+                    \ for Financing customers. Any value sent for this field is ignored."
                 automatic_excess_return_enabled:
                   type: boolean
                   description: "When true, any FCM account balance above your margin\
@@ -741,7 +857,6 @@ paths:
           items:
             type: string
             enum:
-            - INVOICE_STATE_UNSPECIFIED
             - INVOICE_STATE_IMPORTED
             - INVOICE_STATE_BILLED
             - INVOICE_STATE_PARTIALLY_PAID
@@ -1243,7 +1358,6 @@ paths:
           items:
             type: string
             enum:
-            - OTHER_ACTIVITY_CATEGORY
             - ACTIVITY_CATEGORY_ORDER
             - ACTIVITY_CATEGORY_TRANSACTION
             - ACTIVITY_CATEGORY_ACCOUNT
@@ -1259,7 +1373,6 @@ paths:
           items:
             type: string
             enum:
-            - OTHER_ACTIVITY_STATUS
             - ACTIVITY_STATUS_CANCELLED
             - ACTIVITY_STATUS_PROCESSING
             - ACTIVITY_STATUS_COMPLETED
@@ -2834,6 +2947,18 @@ paths:
                   description: Specifies the stop price at which the order activates.
                     The order is activated if the last trade price on Coinbase Exchange
                     crosses the stop price specified on the order
+                offset:
+                  type: string
+                  description: New peg offset value for PEG orders. 0 means peg to
+                    BBO. Only non-negative values are allowed. The order's peg_offset_type
+                    is immutable and is reused server-side to interpret this value
+                    (PEG orders only)
+                wig_level:
+                  type: string
+                  description: "New WIG (Would if Good) level for PEG orders - the\
+                    \ best price a pegged order would be placed on venues, opposite\
+                    \ to limit_price. Cannot be added or removed post-placement (PEG\
+                    \ orders only)"
         required: true
       responses:
         "200":
@@ -2976,9 +3101,7 @@ paths:
            - CONTRACT_EXPIRY_TYPE_PERPETUAL: Perpetual futures contract (no expiry)
         schema:
           type: string
-          default: CONTRACT_EXPIRY_TYPE_UNSPECIFIED
           enum:
-          - CONTRACT_EXPIRY_TYPE_UNSPECIFIED
           - CONTRACT_EXPIRY_TYPE_EXPIRING
           - CONTRACT_EXPIRY_TYPE_PERPETUAL
       - name: expiring_contract_status
@@ -3086,7 +3209,8 @@ paths:
       summary: Request to stake currency in a portfolio
       description: "Creates an execution request to stake funds across a portfolio.\
         \  This will stake funds in one or more wallets in the portfolio, with a total\
-        \ bondable balance up to the requested stake amount."
+        \ bondable balance up to the requested stake amount. This feature is gated.\
+        \ Please contact your account manager or primeops@coinbase.com to enable."
       operationId: PrimeRESTAPI_PortfolioStakingInitiate
       parameters:
       - name: portfolio_id
@@ -3184,7 +3308,8 @@ paths:
       summary: Request to unstake currency across a portfolio
       description: "Creates an execution request to unstake funds across a portfolio.\
         \  This will unstake funds in one or more wallets in the portfolio, with a\
-        \ total bonded balance up to the requested unstake amount."
+        \ total bonded balance up to the requested unstake amount. This feature is\
+        \ gated. Please contact your account manager or primeops@coinbase.com to enable."
       operationId: PrimeRESTAPI_PortfolioStakingUnstake
       parameters:
       - name: portfolio_id
@@ -3287,6 +3412,7 @@ paths:
            - ONCHAIN_TRANSACTION: On-chain transaction initiated with Prime Onchain Wallet
            - PORTFOLIO_STAKE: Portfolio-level staking operation
            - PORTFOLIO_UNSTAKE: Portfolio-level unstaking operation
+           - MERGE_STAKE: On-chain transaction consolidating funds from different addresses belonging to the same wallet.
         style: form
         explode: true
         schema:
@@ -3329,6 +3455,7 @@ paths:
             - ONCHAIN_TRANSACTION
             - PORTFOLIO_STAKE
             - PORTFOLIO_UNSTAKE
+            - MERGE_STAKE
       - name: start_time
         in: query
         description: "UTC timestamp from which to filter the response (inclusive,\
@@ -3380,7 +3507,6 @@ paths:
           items:
             type: string
             enum:
-            - TRAVEL_RULE_STATUS_UNSPECIFIED
             - TRAVEL_RULE_STATUS_PENDING
             - TRAVEL_RULE_STATUS_SUBMITTED
       responses:
@@ -3974,8 +4100,8 @@ paths:
       tags:
       - Staking
       summary: Claim Wallet Staking Rewards (Alpha)
-      description: Request to claim staking rewards. This feature is in alpha. Please
-        reach out to your Coinbase Prime account manager for more information
+      description: Request to claim staking rewards. This feature is only for ETH
+        Pectra (0x02) validators.
       operationId: PrimeRESTAPI_StakingClaimRewards
       parameters:
       - name: portfolio_id
@@ -4274,6 +4400,7 @@ paths:
            - ONCHAIN_TRANSACTION: On-chain transaction initiated with Prime Onchain Wallet
            - PORTFOLIO_STAKE: Portfolio-level staking operation
            - PORTFOLIO_UNSTAKE: Portfolio-level unstaking operation
+           - MERGE_STAKE: On-chain transaction consolidating funds from different addresses belonging to the same wallet.
         style: form
         explode: true
         schema:
@@ -4316,6 +4443,7 @@ paths:
             - ONCHAIN_TRANSACTION
             - PORTFOLIO_STAKE
             - PORTFOLIO_UNSTAKE
+            - MERGE_STAKE
       - name: start_time
         in: query
         description: "UTC timestamp from which to filter the response (inclusive,\
@@ -4691,9 +4819,7 @@ components:
           description: counterparty id
     coinbase.custody.api.AddressBookType:
       type: string
-      default: ADDRESS_BOOK_TYPE_UNSPECIFIED
       enum:
-      - ADDRESS_BOOK_TYPE_UNSPECIFIED
       - ADDRESS_BOOK_TYPE_ADDRESS
       - ADDRESS_BOOK_TYPE_COUNTERPARTY_ID
     coinbase.custody.api.DisplayUser:
@@ -5135,9 +5261,7 @@ components:
       - PERCENT
     coinbase.public_rest_api.AllocationStatus:
       type: string
-      default: ALLOCATION_STATUS_UNSPECIFIED
       enum:
-      - ALLOCATION_STATUS_UNSPECIFIED
       - ALLOCATION_STATUS_ALLOCATION_PENDING
       - ALLOCATION_STATUS_ALLOCATION_ACCEPTED
       - ALLOCATION_STATUS_ALLOCATION_ALLOCATED
@@ -5305,9 +5429,7 @@ components:
           example: "0.241437903"
     coinbase.public_rest_api.Benchmark:
       type: string
-      default: BENCHMARK_UNSET
       enum:
-      - BENCHMARK_UNSET
       - ZERO
       - SOFR_360
       - SOFR_365
@@ -5319,7 +5441,10 @@ components:
           type: string
         settlement_date:
           type: string
-          description: The intended time of Transfer settlement in YYYYMMDD format
+          description: "The intended time of Transfer settlement in YYYYMMDD format.\
+            \ The Settlement Date represents the date contractually agreed upon by\
+            \ the transacting parties; actual settlement will occur upon completion\
+            \ of the transfer, which may differ from such agreed date."
         trade_date:
           type: string
           description: Optional date of the original Trade in YYYYMMMDD format
@@ -5440,6 +5565,18 @@ components:
       - THIRTY_MINUTES
       - TWO_HOURS
       - FOUR_HOURS
+    coinbase.public_rest_api.ComboLeg:
+      type: object
+      properties:
+        product_id:
+          type: string
+          description: "The product identifier for the options instrument (e.g., \"\
+            BTC-28MAR25-50000-C\")."
+        quantity:
+          type: string
+        side:
+          $ref: '#/components/schemas/coinbase.public_rest_api.OrderSide'
+      description: ComboLeg describes a single leg within an options combo order.
     coinbase.public_rest_api.Commission:
       type: object
       properties:
@@ -5491,9 +5628,7 @@ components:
         - CONTRACT_EXPIRY_TYPE_UNSPECIFIED: Unspecified contract expiry type
          - CONTRACT_EXPIRY_TYPE_EXPIRING: Expiring futures contract
          - CONTRACT_EXPIRY_TYPE_PERPETUAL: Perpetual futures contract (no expiry)
-      default: CONTRACT_EXPIRY_TYPE_UNSPECIFIED
       enum:
-      - CONTRACT_EXPIRY_TYPE_UNSPECIFIED
       - CONTRACT_EXPIRY_TYPE_EXPIRING
       - CONTRACT_EXPIRY_TYPE_PERPETUAL
     coinbase.public_rest_api.Conversion:
@@ -5723,6 +5858,12 @@ components:
           type: string
           description: Unique identifier for the created transaction
           example: 0bf7bf1e-bafa-4d7e-9312-fa0bf3b63f27
+    coinbase.public_rest_api.CreateOptionComboResponse:
+      type: object
+      properties:
+        combo_id:
+          title: combo id returned by deribit
+          type: string
     coinbase.public_rest_api.CreateOrderResponse:
       type: object
       properties:
@@ -6136,6 +6277,13 @@ components:
           description: Basis offset credit rate.
           example: "0.92"
       description: XM 2.0 risk parameters for an asset tier.
+    coinbase.public_rest_api.CustomStablecoinAsset:
+      title: Currency metadata of the custom stablecoin asset for the reward program
+      type: object
+      properties:
+        symbol:
+          type: string
+          description: "The asset symbol (e.g. USDC, USDF)"
     coinbase.public_rest_api.CustomStablecoinRewardDetails:
       title: Details for a custom stablecoin reward payout transaction
       type: object
@@ -6146,6 +6294,8 @@ components:
         end_date:
           type: string
           description: ISO-formatted end date of the reward period (e.g. 2025-02-28T00:00:00Z)
+        asset:
+          $ref: '#/components/schemas/coinbase.public_rest_api.CustomStablecoinAsset'
     coinbase.public_rest_api.DefiBalance:
       type: object
       properties:
@@ -6281,9 +6431,7 @@ components:
             $ref: '#/components/schemas/coinbase.public_rest_api.SecondaryPermission'
     coinbase.public_rest_api.EstimateType:
       type: string
-      default: UNSPECIFIED
       enum:
-      - UNSPECIFIED
       - LIVE
       - INTERIM
     coinbase.public_rest_api.EstimatedNetworkFees:
@@ -6415,27 +6563,21 @@ components:
           example: "1000.00"
     coinbase.public_rest_api.FcmFuturesSweepStatus:
       type: string
-      default: FCM_FUTURES_SWEEP_STATUS_UNSPECIFIED
       enum:
-      - FCM_FUTURES_SWEEP_STATUS_UNSPECIFIED
       - FCM_FUTURES_SWEEP_STATUS_PENDING
       - FCM_FUTURES_SWEEP_STATUS_CLOSED
       - FCM_FUTURES_SWEEP_STATUS_CANCELED
       - FCM_FUTURES_SWEEP_STATUS_PROCESSING
     coinbase.public_rest_api.FcmMarginCallState:
       type: string
-      default: FCM_MARGIN_CALL_STATE_UNSPECIFIED
       enum:
-      - FCM_MARGIN_CALL_STATE_UNSPECIFIED
       - FCM_MARGIN_CALL_STATE_CLOSED
       - FCM_MARGIN_CALL_STATE_ROLLED_OVER
       - FCM_MARGIN_CALL_STATE_DEFAULT
       - FCM_MARGIN_CALL_STATE_OFFICIAL
     coinbase.public_rest_api.FcmMarginCallType:
       type: string
-      default: FCM_MARGIN_CALL_TYPE_UNSPECIFIED
       enum:
-      - FCM_MARGIN_CALL_TYPE_UNSPECIFIED
       - FCM_MARGIN_CALL_TYPE_URGENT
       - FCM_MARGIN_CALL_TYPE_REGULAR
     coinbase.public_rest_api.FcmMarginHealthState:
@@ -6448,9 +6590,7 @@ components:
          - FCM_MARGIN_HEALTH_STATE_RESTRICTED: Account margin is restricted.
          - FCM_MARGIN_HEALTH_STATE_PRE_LIQUIDATION: Account is approaching liquidation.
          - FCM_MARGIN_HEALTH_STATE_LIQUIDATION: Account is in liquidation.
-      default: FCM_MARGIN_HEALTH_STATE_UNSPECIFIED
       enum:
-      - FCM_MARGIN_HEALTH_STATE_UNSPECIFIED
       - FCM_MARGIN_HEALTH_STATE_HEALTHY
       - FCM_MARGIN_HEALTH_STATE_RESTRICTED
       - FCM_MARGIN_HEALTH_STATE_PRE_LIQUIDATION
@@ -6491,9 +6631,7 @@ components:
           example: 2021-01-01T00:00:00Z
     coinbase.public_rest_api.FcmPositionSide:
       type: string
-      default: FCM_POSITION_SIDE_UNSPECIFIED
       enum:
-      - FCM_POSITION_SIDE_UNSPECIFIED
       - LONG
       - SHORT
     coinbase.public_rest_api.FcmScheduledMaintenance:
@@ -6519,9 +6657,7 @@ components:
          - FCM_TRADING_SESSION_CLOSED_REASON_REGULAR_MARKET_CLOSE: Regular market close
          - FCM_TRADING_SESSION_CLOSED_REASON_EXCHANGE_MAINTENANCE: Exchange maintenance
          - FCM_TRADING_SESSION_CLOSED_REASON_VENDOR_MAINTENANCE: Vendor maintenance
-      default: FCM_TRADING_SESSION_CLOSED_REASON_UNDEFINED
       enum:
-      - FCM_TRADING_SESSION_CLOSED_REASON_UNDEFINED
       - FCM_TRADING_SESSION_CLOSED_REASON_REGULAR_MARKET_CLOSE
       - FCM_TRADING_SESSION_CLOSED_REASON_EXCHANGE_MAINTENANCE
       - FCM_TRADING_SESSION_CLOSED_REASON_VENDOR_MAINTENANCE
@@ -6573,9 +6709,7 @@ components:
          - FCM_TRADING_SESSION_STATE_OPEN: Trading session is open
          - FCM_TRADING_SESSION_STATE_CLOSE: Trading session is closed
          - FCM_TRADING_SESSION_STATE_HALTED: Trading session is halted
-      default: FCM_TRADING_SESSION_STATE_UNDEFINED
       enum:
-      - FCM_TRADING_SESSION_STATE_UNDEFINED
       - FCM_TRADING_SESSION_STATE_PRE_OPEN
       - FCM_TRADING_SESSION_STATE_PRE_OPEN_NO_CANCEL
       - FCM_TRADING_SESSION_STATE_OPEN
@@ -7358,13 +7492,17 @@ components:
       properties:
         withdrawal_power:
           $ref: '#/components/schemas/coinbase.public_rest_api.WithdrawalPower'
+    coinbase.public_rest_api.GetXMLiquidationResponse:
+      title: GetXMLiquidationResponse contains detailed information about an XM liquidation
+      type: object
+      properties:
+        liquidation:
+          $ref: '#/components/schemas/coinbase.public_rest_api.XMLiquidationDetail'
     coinbase.public_rest_api.HierarchyType:
       title: "HierarchyType are the enums for various hierarchies within Prime, ex\
         \ Entity, Organization, Portfolio"
       type: string
-      default: HIERARCHY_TYPE_UNSPECIFIED
       enum:
-      - HIERARCHY_TYPE_UNSPECIFIED
       - HIERARCHY_TYPE_PORTFOLIO
       - HIERARCHY_TYPE_ENTITY
     coinbase.public_rest_api.Invoice:
@@ -7423,9 +7561,7 @@ components:
     coinbase.public_rest_api.InvoiceState:
       title: States
       type: string
-      default: INVOICE_STATE_UNSPECIFIED
       enum:
-      - INVOICE_STATE_UNSPECIFIED
       - INVOICE_STATE_IMPORTED
       - INVOICE_STATE_BILLED
       - INVOICE_STATE_PARTIALLY_PAID
@@ -7433,9 +7569,7 @@ components:
     coinbase.public_rest_api.InvoiceType:
       title: Types
       type: string
-      default: INVOICE_TYPE_UNSPECIFIED
       enum:
-      - INVOICE_TYPE_UNSPECIFIED
       - INVOICE_TYPE_AUC_FEE
       - INVOICE_TYPE_MINIMUM_FEE
       - INVOICE_TYPE_WITHDRAWAL_FEE
@@ -7573,6 +7707,18 @@ components:
             support.
           items:
             $ref: '#/components/schemas/coinbase.public_rest_api.DefiBalance'
+    coinbase.public_rest_api.ListXMLiquidationsResponse:
+      title: ListXMLiquidationsResponse contains a paginated list of XM liquidation
+        summaries
+      type: object
+      properties:
+        liquidations:
+          type: array
+          description: List of XM liquidation summaries
+          items:
+            $ref: '#/components/schemas/coinbase.public_rest_api.XMLiquidationSummary'
+        pagination:
+          $ref: '#/components/schemas/coinbase.public_rest_api.PaginatedResponse'
     coinbase.public_rest_api.LoanInfo:
       type: object
       properties:
@@ -7598,9 +7744,7 @@ components:
           example: "1000"
     coinbase.public_rest_api.LoanType:
       type: string
-      default: LOAN_TYPE_UNSET
       enum:
-      - LOAN_TYPE_UNSET
       - BILATERAL_LENDING
       - TRADE_FINANCE
       - PORTFOLIO_MARGIN
@@ -7632,9 +7776,7 @@ components:
           $ref: '#/components/schemas/coinbase.public_rest_api.MarginAddOnType'
     coinbase.public_rest_api.MarginAddOnType:
       type: string
-      default: MARGIN_ADD_ON_TYPE_UNSPECIFIED
       enum:
-      - MARGIN_ADD_ON_TYPE_UNSPECIFIED
       - SINGLE_COIN_STRESS
       - CONCENTRATION_STRESS
       - MACRO_STRESS
@@ -7976,16 +8118,12 @@ components:
           example: "0.001"
     coinbase.public_rest_api.NetworkFamily:
       type: string
-      default: NETWORK_FAMILY_UNSPECIFIED
       enum:
-      - NETWORK_FAMILY_UNSPECIFIED
       - NETWORK_FAMILY_EVM
       - NETWORK_FAMILY_SOLANA
     coinbase.public_rest_api.NetworkType:
       type: string
-      default: NETWORK_TYPE_UNSPECIFIED
       enum:
-      - NETWORK_TYPE_UNSPECIFIED
       - NETWORK_TYPE_EVM
       - NETWORK_TYPE_SOLANA
     coinbase.public_rest_api.OnchainTransactionDetails:
@@ -8576,9 +8714,7 @@ components:
           $ref: '#/components/schemas/coinbase.public_rest_api.PositionReferenceType'
     coinbase.public_rest_api.PositionReferenceType:
       type: string
-      default: POSITION_REFERENCE_TYPE_UNSPECIFIED
       enum:
-      - POSITION_REFERENCE_TYPE_UNSPECIFIED
       - ENTITY
       - PORTFOLIO
     coinbase.public_rest_api.PostOrderPreviewResponse:
@@ -8826,9 +8962,7 @@ components:
       description: |2-
          - MARGIN_REQUIREMENT_TYPE_DMR_PLUS_PMR: Integrated (netted) cross-margin requirement for spot assets and all derivatives contracts.
          - MARGIN_REQUIREMENT_TYPE_IPMR_PLUS_IFMR: Combined cross-margin requirement: Integrated Portfolio Margin (IPMR) plus Ineligible Futures Margin (IFMR).
-      default: MARGIN_REQUIREMENT_TYPE_UNSPECIFIED
       enum:
-      - MARGIN_REQUIREMENT_TYPE_UNSPECIFIED
       - MARGIN_REQUIREMENT_TYPE_DMR_PLUS_PMR
       - MARGIN_REQUIREMENT_TYPE_IPMR_PLUS_IFMR
     coinbase.public_rest_api.PrimeXMMarginThreshold:
@@ -8846,9 +8980,7 @@ components:
       description: |2-
          - MARGIN_THRESHOLD_EQUITY_RATIO: Threshold based on equity ratio EQ / MR; triggers when EQ / MR >= threshold_value.
          - MARGIN_THRESHOLD_DEFICIT_RATIO: Threshold based on deficit ratio (MR - EQ) / XMML; triggers when (MR - EQ) / XMML > threshold_value.
-      default: MARGIN_THRESHOLD_TYPE_UNSPECIFIED
       enum:
-      - MARGIN_THRESHOLD_TYPE_UNSPECIFIED
       - MARGIN_THRESHOLD_EQUITY_RATIO
       - MARGIN_THRESHOLD_DEFICIT_RATIO
       - MARGIN_THRESHOLD_NONE
@@ -9006,9 +9138,7 @@ components:
           description: Maximum quote size for RFQ
     coinbase.public_rest_api.RateType:
       type: string
-      default: RATE_TYPE_UNSET
       enum:
-      - RATE_TYPE_UNSET
       - BPS
       - APR_360
       - APR_365
@@ -9071,11 +9201,32 @@ components:
         - RISK_MANAGEMENT_TYPE_UNSPECIFIED: Unspecified risk management type
          - RISK_MANAGEMENT_TYPE_MANAGED_BY_FCM: Risk is managed by FCM (Futures Commission Merchant)
          - RISK_MANAGEMENT_TYPE_MANAGED_BY_VENUE: Risk is managed by the venue
-      default: RISK_MANAGEMENT_TYPE_UNSPECIFIED
       enum:
-      - RISK_MANAGEMENT_TYPE_UNSPECIFIED
       - RISK_MANAGEMENT_TYPE_MANAGED_BY_FCM
       - RISK_MANAGEMENT_TYPE_MANAGED_BY_VENUE
+    coinbase.public_rest_api.RotateAPIKeyRequest:
+      type: object
+      properties:
+        duration_seconds:
+          type: integer
+          description: "How long the old key remains active after the new key is approved,\
+            \ in seconds. Set to 0 for immediate expiry on approval. Cannot extend\
+            \ beyond the original key's expiry."
+          format: int64
+          example: 3600
+    coinbase.public_rest_api.RotateAPIKeyResponse:
+      type: object
+      properties:
+        encrypted_credentials:
+          type: string
+          description: Base64-encoded encrypted payload containing the new API key
+            credentials. Decrypt using your current secret_key with HKDF-SHA256 +
+            AES-256-GCM.
+        activity_id:
+          type: string
+          description: The Prime activity ID tracking the consensus approval for this
+            rotation. Use with the Activities endpoints to monitor approval status.
+          example: e8bbed13-fa33-41de-86d5-4335d8f08166
     coinbase.public_rest_api.RpcConfig:
       type: object
       properties:
@@ -9160,9 +9311,7 @@ components:
       - ASC
     coinbase.public_rest_api.StakeType:
       type: string
-      default: STAKE_TYPE_UNSPECIFIED
       enum:
-      - STAKE_TYPE_UNSPECIFIED
       - STAKE_TYPE_INITIAL_DEPOSIT
       - STAKE_TYPE_TOP_UP
     coinbase.public_rest_api.StakingClaimRewardsResponse:
@@ -9554,6 +9703,7 @@ components:
          - ONCHAIN_TRANSACTION: On-chain transaction initiated with Prime Onchain Wallet
          - PORTFOLIO_STAKE: Portfolio-level staking operation
          - PORTFOLIO_UNSTAKE: Portfolio-level unstaking operation
+         - MERGE_STAKE: On-chain transaction consolidating funds from different addresses belonging to the same wallet.
       enum:
       - DEPOSIT
       - WITHDRAWAL
@@ -9590,6 +9740,7 @@ components:
       - ONCHAIN_TRANSACTION
       - PORTFOLIO_STAKE
       - PORTFOLIO_UNSTAKE
+      - MERGE_STAKE
     coinbase.public_rest_api.TransactionValidator:
       required:
       - transaction_id
@@ -9698,13 +9849,13 @@ components:
           description: |-
             Account identifier for travel rule compliance.
             If not provided, defaults to portfolio ID.
+        vasp_address:
+          $ref: '#/components/schemas/coinbase.public_rest_api.DetailedAddress'
       description: Represents a party in a travel rule transfer (originator or beneficiary).
     coinbase.public_rest_api.TravelRuleStatus:
       title: Travel rule compliance status for a transaction
       type: string
-      default: TRAVEL_RULE_STATUS_UNSPECIFIED
       enum:
-      - TRAVEL_RULE_STATUS_UNSPECIFIED
       - TRAVEL_RULE_STATUS_PENDING
       - TRAVEL_RULE_STATUS_SUBMITTED
     coinbase.public_rest_api.TravelRuleWalletType:
@@ -9714,16 +9865,12 @@ components:
         - TRAVEL_RULE_WALLET_TYPE_UNSPECIFIED: Default unspecified wallet type
          - TRAVEL_RULE_WALLET_TYPE_VASP: Centralized exchange wallet
          - TRAVEL_RULE_WALLET_TYPE_SELF_CUSTODIED: Self-hosted/custodial wallet
-      default: TRAVEL_RULE_WALLET_TYPE_UNSPECIFIED
       enum:
-      - TRAVEL_RULE_WALLET_TYPE_UNSPECIFIED
       - TRAVEL_RULE_WALLET_TYPE_VASP
       - TRAVEL_RULE_WALLET_TYPE_SELF_CUSTODIED
     coinbase.public_rest_api.UnstakeType:
       type: string
-      default: UNSTAKE_TYPE_UNSPECIFIED
       enum:
-      - UNSTAKE_TYPE_UNSPECIFIED
       - UNSTAKE_TYPE_PARTIAL
       - UNSTAKE_TYPE_FULL
     coinbase.public_rest_api.UnstakingStatus:
@@ -9830,14 +9977,9 @@ components:
         Used for granular ETH V2 validator-level staking or unstaking operations.
     coinbase.public_rest_api.ValidatorProvider:
       type: string
-      description: |-
-        ValidatorProvider enumerates the ETH validator service providers that PPA accepts on
-        PortfolioStakingUnstakeRequest.validator_provider. The enum names map 1:1 to the display
-        names returned by ISS GetUsedValidators (service_provider field) and shown in the Prime
-        UI. Keep in sync with staking/internal/asset/ethereum.mapServiceProviderToDisplayName.
-      default: VALIDATOR_PROVIDER_UNSPECIFIED
+      description: ValidatorProvider enumerates the ETH validator service providers
+        accepted for unstaking.
       enum:
-      - VALIDATOR_PROVIDER_UNSPECIFIED
       - VALIDATOR_PROVIDER_COINBASE_CLOUD
       - VALIDATOR_PROVIDER_MAVAN
       - VALIDATOR_PROVIDER_FIGMENT
@@ -9860,9 +10002,7 @@ components:
             $ref: '#/components/schemas/coinbase.public_rest_api.StakingStatus'
     coinbase.public_rest_api.ValidatorStatus:
       type: string
-      default: VALIDATOR_STATUS_UNSPECIFIED
       enum:
-      - VALIDATOR_STATUS_UNSPECIFIED
       - VALIDATOR_STATUS_PENDING
       - VALIDATOR_STATUS_ACTIVE
       - VALIDATOR_STATUS_EXITING
@@ -10026,6 +10166,10 @@ components:
           type: string
           description: "Optional validator address, defaults to Coinbase validator.\
             \ For SOL, must be the vote account address. Ignored for ETH."
+        end_date:
+          type: string
+          description: Optional delegation end date in ISO date format (e.g. 2026-07-15).
+            Required for AVAX; minimum 14-day delegation period applies.
       description: |-
         WalletStakeInputs contains the custom inputs for staking operations on a wallet.
         Requirements and supported fields vary by asset type.
@@ -10072,14 +10216,16 @@ components:
             for more information
           items:
             $ref: '#/components/schemas/coinbase.public_rest_api.ValidatorAllocation'
+        validator_address:
+          type: string
+          description: Optional validator address to unstake from. Only supported
+            for a subset of protocols.
       description: |-
         WalletUnstakeInputs contains the custom inputs for unstaking operations on a wallet.
         Requirements and supported fields vary by asset type.
     coinbase.public_rest_api.WalletVisibility:
       type: string
-      default: WALLET_VISIBILITY_UNSPECIFIED
       enum:
-      - WALLET_VISIBILITY_UNSPECIFIED
       - WALLET_VISIBILITY_VISIBLE
       - WALLET_VISIBILITY_HIDDEN
     coinbase.public_rest_api.Web3Asset:
@@ -10143,9 +10289,7 @@ components:
          - CALL_STATUS_AGED: Margin call is open and it is expired
          - CALL_STATUS_SETTLED: Margin call is fully settled
          - CALL_STATUS_CANCELED: Margin call was canceled by Credit Risk
-      default: XM_CALL_STATUS_UNSPECIFIED
       enum:
-      - XM_CALL_STATUS_UNSPECIFIED
       - CALL_STATUS_OPEN
       - CALL_STATUS_AGED
       - CALL_STATUS_SETTLED
@@ -10157,9 +10301,7 @@ components:
         - CALL_TYPE_STANDARD: Evaluated at standard margin call evaluation time
          - CALL_TYPE_URGENT: Evaluated in realtime
          - CALL_TYPE_DEBIT: Evaluated at debit call evaluation time
-      default: XM_CALL_TYPE_UNSPECIFIED
       enum:
-      - XM_CALL_TYPE_UNSPECIFIED
       - CALL_TYPE_STANDARD
       - CALL_TYPE_URGENT
       - CALL_TYPE_DEBIT
@@ -10171,9 +10313,7 @@ components:
         - TRADES_AND_WITHDRAWALS: Allowed to trade and withdraw. See XM Margin Methodology for full description of when trading and withdrawals are enabled or disabled.
          - TRADES_ONLY: Allowed to trade but not withdraw. See XM Margin Methodology for full description of when trading and withdrawals are enabled or disabled.
          - SESSION_LOCKED: Not allowed to trade or withdraw. See XM Margin Methodology for full description of when trading and withdrawals are enabled or disabled.
-      default: XM_CONTROL_STATUS_UNSPECIFIED
       enum:
-      - XM_CONTROL_STATUS_UNSPECIFIED
       - TRADES_AND_WITHDRAWALS
       - TRADES_ONLY
       - SESSION_LOCKED
@@ -10188,14 +10328,77 @@ components:
          - ENTITY_OPEN_URGENT_CALL: There is an urgent margin call. There may also be standard margin calls or debit calls, but there are no expired calls.
          - ENTITY_AGED_CALL: At least one open margin call (standard or urgent) or debit call is aged. This will trigger the SESSION_LOCKED control status.
          - ENTITY_OPEN_DEBIT_CALL: There is a debit call. There are no standard margin calls, urgent margin calls, or expired calls.
-      default: XM_ENTITY_CALL_STATUS_UNSPECIFIED
       enum:
-      - XM_ENTITY_CALL_STATUS_UNSPECIFIED
       - ENTITY_NO_CALL
       - ENTITY_OPEN_STANDARD_CALL
       - ENTITY_OPEN_URGENT_CALL
       - ENTITY_AGED_CALL
       - ENTITY_OPEN_DEBIT_CALL
+    coinbase.public_rest_api.XMLiquidatedAsset:
+      title: XMLiquidatedAsset provides per-asset detail for a liquidation
+      type: object
+      properties:
+        asset:
+          type: string
+          description: Asset currency
+          example: BTC
+        liquidated_amount:
+          type: string
+          description: Amount (nominal) of the asset that has been liquidated
+          example: "0.1"
+        liquidated_notional:
+          type: string
+          description: USD notional value of the liquidated amount
+          example: "11453.17"
+        remaining_amount:
+          type: string
+          description: Amount (nominal) of the asset remaining to be liquidated
+          example: "0.05"
+        remaining_notional:
+          type: string
+          description: USD notional value of the remaining amount
+          example: "5726.59"
+    coinbase.public_rest_api.XMLiquidationDetail:
+      title: XMLiquidationDetail provides detailed information about a single XM liquidation
+      type: object
+      properties:
+        liquidation_id:
+          type: string
+          description: Financing liquidation UUID
+          example: 63a2577a-930d-413b-81e4-9e77765da8f9
+        status:
+          $ref: '#/components/schemas/coinbase.public_rest_api.XMLiquidationStatus'
+        shortfall_amount:
+          type: string
+          description: USD notional shortfall amount that triggered the liquidation
+          example: "32083.26"
+        pre_liquidation_start_time:
+          type: string
+          description: Timestamp when the pre-liquidation phase started
+          format: date-time
+        margin_summary:
+          $ref: '#/components/schemas/coinbase.public_rest_api.XMSummary'
+        liquidation_start_time:
+          type: string
+          description: Timestamp when active liquidation started
+          format: date-time
+        filled_amount:
+          type: string
+          description: USD notional amount that has been filled so far
+          example: "15000.00"
+        remaining_amount:
+          type: string
+          description: USD notional amount remaining to be liquidated
+          example: "17083.26"
+        liquidation_finish_time:
+          type: string
+          description: Timestamp when the liquidation finished
+          format: date-time
+        asset_breakdown:
+          type: array
+          description: Per-asset breakdown of liquidated amounts
+          items:
+            $ref: '#/components/schemas/coinbase.public_rest_api.XMLiquidatedAsset'
     coinbase.public_rest_api.XMLiquidationStatus:
       title: XMLiquidationStatus is the current status of an XM liquidation
       type: string
@@ -10205,14 +10408,42 @@ components:
          - XM_LIQUIDATION_STATUS_LIQUIDATED: Liquidation has completed successfully
          - XM_LIQUIDATION_STATUS_CANCELED: Liquidation was canceled
          - XM_LIQUIDATION_STATUS_FAILED: Liquidation failed
-      default: XM_LIQUIDATION_STATUS_UNSET
       enum:
-      - XM_LIQUIDATION_STATUS_UNSET
       - XM_LIQUIDATION_STATUS_PRE_LIQUIDATION
       - XM_LIQUIDATION_STATUS_LIQUIDATING
       - XM_LIQUIDATION_STATUS_LIQUIDATED
       - XM_LIQUIDATION_STATUS_CANCELED
       - XM_LIQUIDATION_STATUS_FAILED
+    coinbase.public_rest_api.XMLiquidationSummary:
+      title: XMLiquidationSummary provides a summary of a single XM liquidation
+      type: object
+      properties:
+        liquidation_id:
+          type: string
+          description: Financing liquidation UUID
+          example: 63a2577a-930d-413b-81e4-9e77765da8f9
+        status:
+          $ref: '#/components/schemas/coinbase.public_rest_api.XMLiquidationStatus'
+        shortfall_amount:
+          type: string
+          description: USD notional shortfall amount that triggered the liquidation
+          example: "32083.26"
+        filled_amount:
+          type: string
+          description: USD notional amount that has been filled so far
+          example: "15000.00"
+        remaining_amount:
+          type: string
+          description: USD notional amount remaining to be liquidated
+          example: "17083.26"
+        created_at:
+          type: string
+          description: Timestamp when the liquidation was created
+          format: date-time
+        completed_at:
+          type: string
+          description: Timestamp when the liquidation was completed
+          format: date-time
     coinbase.public_rest_api.XMLoan:
       title: XMLoan contains details about a Cross Margin loan
       type: object
@@ -10297,9 +10528,7 @@ components:
          - WARNING_THRESHOLD: Margin level is breaching the warning threshold (WT) which will result in the issuance of a Margin Call if this is still the case by the scheduled next Margin Call (as defined in the margin methodology). WT is differentiated from DT in that it means margin health is approaching the UMCT
          - URGENT_MARGIN_CALL_THRESHOLD: Margin level is breaching the UMCT and, as defined in the margin methodology, this will trigger an urgent margin call
          - LIQUIDATION_THRESHOLD: Margin level is breaching the liquidation threshold (LT) and, as defined in the margin methodology, this will trigger the SESSION_LOCKED control status and liquidation may commence.
-      default: XM_MARGIN_LEVEL_UNSPECIFIED
       enum:
-      - XM_MARGIN_LEVEL_UNSPECIFIED
       - HEALTHY_THRESHOLD
       - DEFICIT_THRESHOLD
       - WARNING_THRESHOLD
@@ -10311,9 +10540,7 @@ components:
       description: |-
         - CBE: Coinbase Exchange, trading venue that can receive the XM loan
          - FCM: Coinbase’s Futures Commission Merchant, trading venue that can receive the XM loan
-      default: XM_PARTY_UNSPECIFIED
       enum:
-      - XM_PARTY_UNSPECIFIED
       - CBE
       - FCM
     coinbase.public_rest_api.XMPosition:

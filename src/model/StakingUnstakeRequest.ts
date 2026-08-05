@@ -18,6 +18,7 @@
  *  Do not edit the class manually.
  */
 
+import { WalletStakingMetadata } from './WalletStakingMetadata';
 import { WalletUnstakeInputs } from './WalletUnstakeInputs';
 
 /**
@@ -29,4 +30,5 @@ export type StakingUnstakeRequest = {
    */
   idempotencyKey: string;
   inputs?: WalletUnstakeInputs;
+  metadata?: WalletStakingMetadata;
 };

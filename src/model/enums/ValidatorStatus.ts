@@ -19,7 +19,6 @@
  */
 
 export enum ValidatorStatus {
-  ValidatorStatusUnspecified = 'VALIDATOR_STATUS_UNSPECIFIED',
   ValidatorStatusPending = 'VALIDATOR_STATUS_PENDING',
   ValidatorStatusActive = 'VALIDATOR_STATUS_ACTIVE',
   ValidatorStatusExiting = 'VALIDATOR_STATUS_EXITING',

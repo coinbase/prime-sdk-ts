@@ -19,7 +19,6 @@
  */
 
 export enum NetworkFamily {
-  NetworkFamilyUnspecified = 'NETWORK_FAMILY_UNSPECIFIED',
   NetworkFamilyEvm = 'NETWORK_FAMILY_EVM',
   NetworkFamilySolana = 'NETWORK_FAMILY_SOLANA',
 }

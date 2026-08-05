@@ -19,7 +19,6 @@
  */
 
 export enum InvoiceState {
-  InvoiceStateUnspecified = 'INVOICE_STATE_UNSPECIFIED',
   InvoiceStateImported = 'INVOICE_STATE_IMPORTED',
   InvoiceStateBilled = 'INVOICE_STATE_BILLED',
   InvoiceStatePartiallyPaid = 'INVOICE_STATE_PARTIALLY_PAID',

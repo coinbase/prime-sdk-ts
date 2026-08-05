@@ -19,7 +19,6 @@
  */
 
 export enum UnstakeType {
-  UnstakeTypeUnspecified = 'UNSTAKE_TYPE_UNSPECIFIED',
   UnstakeTypePartial = 'UNSTAKE_TYPE_PARTIAL',
   UnstakeTypeFull = 'UNSTAKE_TYPE_FULL',
 }

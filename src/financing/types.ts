@@ -33,10 +33,15 @@ import {
   ListFinancingEligibleAssetsResponse as internalListFinancingEligibleAssetsResponse,
   GetCrossMarginRiskParametersResponse as internalGetCrossMarginRiskParametersResponse,
   GetCrossMarginPrimeOverviewResponse as internalGetCrossMarginPrimeOverviewResponse,
-  SetFundingSettingsResponse as internalSetFundingSettingsResponse,
+  UpdateFundingSettingsResponse as internalUpdateFundingSettingsResponse,
+  UpdateFundingSettingsRequest as UpdateFundingSettingsBody,
   GetMarketDataResponse as internalGetMarketDataResponse,
+  GetXMLiquidationResponse as internalGetXMLiquidationResponse,
+  ListXMLiquidationsResponse as internalListXMLiquidationsResponse,
   MarketData,
+  XMLiquidationSummary,
 } from '../model/';
+import { XMLiquidationStatus } from '../model/enums/XMLiquidationStatus';
 import { Pagination } from '../shared/pagination';
 import {
   PaginatedListResponse,
@@ -189,17 +194,18 @@ export type GetCrossMarginPrimeOverviewRequest = {
 export type GetCrossMarginPrimeOverviewResponse =
   Expand<internalGetCrossMarginPrimeOverviewResponse>;
 
-export type SetFundingSettingsRequest = {
-  entityId: string;
-  designatedFundingPortfolioId: string;
-  automaticConversionEnabled: boolean;
-  automaticLoanEnabled: boolean;
-  automaticExcessReturnEnabled: boolean;
-  excessFundsTargetAmount: string;
-};
+export type UpdateFundingSettingsRequest = Expand<
+  UpdateFundingSettingsBody & { entityId: string }
+>;
 
-export type SetFundingSettingsResponse =
-  Expand<internalSetFundingSettingsResponse>;
+export type UpdateFundingSettingsResponse =
+  Expand<internalUpdateFundingSettingsResponse>;
+
+/** @deprecated Renamed to `UpdateFundingSettingsRequest`. */
+export type SetFundingSettingsRequest = UpdateFundingSettingsRequest;
+
+/** @deprecated Renamed to `UpdateFundingSettingsResponse`. */
+export type SetFundingSettingsResponse = UpdateFundingSettingsResponse;
 
 export type ListMarketDataRequest = Pagination & {
   entityId: string;
@@ -209,4 +215,25 @@ export type ListMarketDataResponse = PaginatedListResponse<
   internalGetMarketDataResponse,
   ListMarketDataRequest & BasePaginatedRequest,
   MarketData
+>;
+
+export type GetCrossMarginLiquidationRequest = {
+  entityId: string;
+  liquidationId?: string;
+};
+
+export type GetCrossMarginLiquidationResponse =
+  Expand<internalGetXMLiquidationResponse>;
+
+export type ListCrossMarginLiquidationsRequest = Pagination & {
+  entityId: string;
+  status?: XMLiquidationStatus;
+  startTime?: string;
+  endTime?: string;
+};
+
+export type ListCrossMarginLiquidationsResponse = PaginatedListResponse<
+  internalListXMLiquidationsResponse,
+  ListCrossMarginLiquidationsRequest & BasePaginatedRequest,
+  XMLiquidationSummary
 >;

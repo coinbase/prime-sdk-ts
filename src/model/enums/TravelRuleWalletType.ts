@@ -22,7 +22,6 @@
  * - TRAVEL_RULE_WALLET_TYPE_UNSPECIFIED: Default unspecified wallet type  - TRAVEL_RULE_WALLET_TYPE_VASP: Centralized exchange wallet  - TRAVEL_RULE_WALLET_TYPE_SELF_CUSTODIED: Self-hosted/custodial wallet
  */
 export enum TravelRuleWalletType {
-  TravelRuleWalletTypeUnspecified = 'TRAVEL_RULE_WALLET_TYPE_UNSPECIFIED',
   TravelRuleWalletTypeVasp = 'TRAVEL_RULE_WALLET_TYPE_VASP',
   TravelRuleWalletTypeSelfCustodied = 'TRAVEL_RULE_WALLET_TYPE_SELF_CUSTODIED',
 }

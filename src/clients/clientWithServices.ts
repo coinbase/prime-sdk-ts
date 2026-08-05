@@ -24,12 +24,16 @@ import {
 } from '../constants';
 import { CoinbasePrimeCredentials } from '../credentials';
 import { toCamelCase } from '../shared/toCamelCase';
-import { createCredentialsFromEnv } from '../shared/envUtils';
+import {
+  createCredentialsFromEnv,
+  mergeClientOptionsFromEnv,
+} from '../shared/envUtils';
 import type { CoinbasePrimeClientConfig, IPrimeApiClient } from './types';
 import { LazyServiceGetters } from './clientWithServicesTypes';
 
 // Import service interfaces for proper typing
 import type { IAdvancedTransfersService } from '../advancedTransfers';
+import type { IApiKeysService } from '../apiKeys';
 import type { IActivitiesService } from '../activities';
 import type { IAddressBooksService } from '../addressBooks';
 import type { IAllocationService } from '../allocations';
@@ -61,6 +65,7 @@ export class CoinbasePrimeClientWithServices
 {
   // Private cached service instances
   private _advancedTransfersService?: IAdvancedTransfersService;
+  private _apiKeysService?: IApiKeysService;
   private _activitiesService?: IActivitiesService;
   private _addressBooksService?: IAddressBooksService;
   private _allocationService?: IAllocationService;
@@ -113,13 +118,21 @@ export class CoinbasePrimeClientWithServices
    * Create a client from environment variables
    * Requires PRIME_CREDENTIALS environment variable with JSON containing:
    * \{ "AccessKey": "...", "SecretKey": "...", "Passphrase": "..." \}
+   *
+   * Optionally loads mTLS settings from MTLS_* environment variables when set.
+   * Explicit `tls` or `httpsAgent` values in `options` take precedence.
    */
   static fromEnv(
     baseUrl?: string,
     options?: CoinbasePrimeClientConfig
   ): CoinbasePrimeClientWithServices {
     const credentials = createCredentialsFromEnv();
-    return new CoinbasePrimeClientWithServices(credentials, baseUrl, options);
+    const mergedOptions = mergeClientOptionsFromEnv(options);
+    return new CoinbasePrimeClientWithServices(
+      credentials,
+      baseUrl,
+      mergedOptions
+    );
   }
 
   /**
@@ -195,6 +208,21 @@ export class CoinbasePrimeClientWithServices
       this._assetsService = new AssetsService(this);
     }
     return this._assetsService!;
+  }
+
+  /**
+   * Lazy getter for ApiKeysService
+   * @example
+   * ```typescript
+   * const rotation = await client.apiKeys.rotateApiKey({ durationSeconds: 0 });
+   * ```
+   */
+  get apiKeys(): IApiKeysService {
+    if (!this._apiKeysService) {
+      const { ApiKeysService } = require('../apiKeys');
+      this._apiKeysService = new ApiKeysService(this);
+    }
+    return this._apiKeysService!;
   }
 
   /**
