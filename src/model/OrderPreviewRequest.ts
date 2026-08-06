@@ -88,4 +88,8 @@ export type OrderPreviewRequest = {
    * WIG (Would if Good) level - the best price a pegged order would be placed on venues, opposite to limit_price (PEG orders only)
    */
   wigLevel?: string;
+  /**
+   * Buy Exact order flag. When true, fees for a BUY order sized in quote_value are charged on top of the requested quote_value instead of being carved out of it. Only valid for BUY orders sized in quote_value on SPOT products.
+   */
+  isBuyExact?: boolean;
 };

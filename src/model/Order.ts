@@ -158,4 +158,8 @@ export type Order = {
   wigLevel?: string;
   productType?: ProductType;
   commissionDetailTotal?: CommissionDetailTotal;
+  /**
+   * Indicates if this was a buy exact order (fees charged on top of quote size for BUY orders sized in quote)
+   */
+  isBuyExact?: boolean;
 };
