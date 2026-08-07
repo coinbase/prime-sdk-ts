@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.12.2] - 2026-AUG-07
+
+### Added
+
+- **`isBuyExact`** on order types: optional on `CreateOrderRequest` and `OrderPreviewRequest`; returned on `Order` and `PostOrderPreviewResponse`. When `true` on a BUY order sized in `quoteValue`, fees are charged on top of the requested quote amount instead of being carved out of it (SPOT products only).
+- **`ProductType.Option`** enum value (`OPTION`) for option products.
+
+### Changed
+
+- OpenAPI spec and generated models synced to the latest Prime public API.
+- Backfilled TSDoc comments on request model fields from the OpenAPI spec: `promote-titles` now resolves `$ref` schema titles/descriptions (via `allOf`) and applies a local `descriptionOverrides` map for fields missing upstream documentation. All `*Request` model types now have field-level IDE hovers.
+
 ## [0.12.1] - 2026-JUL-23
 
 ### Added
@@ -30,7 +42,6 @@ Runnable examples: `examples/apiKeys/rotateApiKey.js`, `examples/financing/getCr
 - Local development and CI updated to Node.js 24 LTS (`.nvmrc` `24.15.0`).
 - OpenAPI spec and generated models synced to the latest Prime public API (including rotate API key and XM liquidation types).
 - **`setFundingSettings()`** is deprecated in favor of **`updateFundingSettings()`**; `SetFundingSettingsRequest` / `SetFundingSettingsResponse` remain as type aliases of the `UpdateFundingSettings*` types for backward compatibility.
-- Backfilled TSDoc comments on request model fields from the OpenAPI spec: `promote-titles` now resolves `$ref` schema titles/descriptions (via `allOf`) and applies a local `descriptionOverrides` map for fields missing upstream documentation. All `*Request` model types now have field-level IDE hovers.
 
 ## [0.11.0] - 2026-JUN-02
 
