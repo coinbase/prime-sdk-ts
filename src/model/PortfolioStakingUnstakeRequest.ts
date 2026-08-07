@@ -34,6 +34,12 @@ export type PortfolioStakingUnstakeRequest = {
    * The quantity of the chosen currency to unstake
    */
   amount?: string;
+  /**
+   * Optional metadata for the portfolio unstaking request (e.g. external_id)
+   */
   metadata?: PortfolioStakingMetadata;
+  /**
+   * ValidatorProvider enumerates the ETH validator service providers accepted for unstaking.
+   */
   validatorProvider?: ValidatorProvider;
 };

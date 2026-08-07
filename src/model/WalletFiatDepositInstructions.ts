@@ -29,6 +29,9 @@ export type WalletFiatDepositInstructions = {
    * The name of the wallet
    */
   name?: string;
+  /**
+   * Indicates the wallet\'s deposit instruction type
+   */
   type?: WalletDepositInstructionType;
   /**
    * The fiat account number

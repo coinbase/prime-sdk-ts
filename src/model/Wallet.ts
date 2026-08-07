@@ -35,6 +35,9 @@ export type Wallet = {
    * The asset stored in the wallet
    */
   symbol?: string;
+  /**
+   * Indicates the wallet type
+   */
   type?: WalletType;
   /**
    * The UTC timestamp when this wallet was created

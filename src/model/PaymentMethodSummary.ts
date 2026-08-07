@@ -23,6 +23,9 @@ import { PaymentMethodType } from './enums/PaymentMethodType';
 export type PaymentMethodSummary = {
   id?: string;
   symbol?: string;
+  /**
+   * Indicates the payment method type
+   */
   paymentMethodType?: PaymentMethodType;
   bankName?: string;
   accountNumber?: string;

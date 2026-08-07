@@ -21,6 +21,9 @@
 import { TransferLocationType } from './enums/TransferLocationType';
 
 export type TransferLocation = {
+  /**
+   * - TRANSFER_LOCATION_TYPE_UNKNOWN: The nil value  - PAYMENT_METHOD: The ID of a fiat payment method  - WALLET: The ID of a wallet  - ADDRESS: A cryptocurrency address  - OTHER: Another type of transfer location: Blockchain Network, Coinbase  - MULTIPLE_ADDRESSES: Multiple cryptocurrency addresses  - COUNTERPARTY_ID: Counterparty ID
+   */
   type?: TransferLocationType;
   /**
    * The value of the transfer location: payment method ID, wallet ID or crypto address

@@ -26,6 +26,12 @@ export type CreateOnchainTransactionRequest = {
    * Raw unsigned transaction in Hex format (Supports EVM and Solana)
    */
   rawUnsignedTxn: string;
+  /**
+   * Optional RPC configuration for onchain transaction broadcast
+   */
   rpc?: RpcConfig;
+  /**
+   * Optional EVM-specific parameters for onchain transaction signing and broadcast
+   */
   evmParams?: CreateOnchainTransactionRequestEvmParams;
 };

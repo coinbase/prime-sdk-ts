@@ -23,6 +23,9 @@ import { NFTCollection } from './NFTCollection';
 import { NFTItem } from './NFTItem';
 
 export type AssetChange = {
+  /**
+   * AssetChangeType identifies the type of asset change
+   */
   type?: AssetChangeType;
   /**
    * The currency symbol associated with the balance operation

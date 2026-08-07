@@ -29,5 +29,8 @@ export type ComboLeg = {
    */
   productId?: string;
   quantity?: string;
+  /**
+   * Order side
+   */
   side?: OrderSide;
 };

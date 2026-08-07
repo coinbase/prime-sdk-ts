@@ -38,6 +38,9 @@ export type CreateNetAllocationRequest = {
    * The list of allocation_legs for the allocation
    */
   allocationLegs?: Array<AllocationLeg>;
+  /**
+   * Indicates whether allocation size is specified in base, quote, or percent units
+   */
   sizeType?: AllocationSizeType;
   /**
    * The portfolio where to allocate the remainder of the size

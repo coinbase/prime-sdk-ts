@@ -28,7 +28,13 @@ export type OrderPreviewRequest = {
    * The ID of the product being traded for the order (e.g. `BTC-USD`)
    */
   productId: string;
+  /**
+   * Order side
+   */
   side: OrderSide;
+  /**
+   * Strategy (execution algorithm)
+   */
   type: OrderType;
   /**
    * Order size in base asset units (either `base_quantity` or `quote_value` is required)
@@ -50,6 +56,9 @@ export type OrderPreviewRequest = {
    * The expiry time of the order in UTC (TWAP, VWAP, LIMIT and STOP_LIMIT GTD only)
    */
   expiryTime?: Date;
+  /**
+   * Indicates the order time validity
+   */
   timeInForce?: TimeInForceType;
   /**
    * Raise Exact order flag
@@ -79,6 +88,9 @@ export type OrderPreviewRequest = {
    * The maximum order size that will show up on venue order books (in base currency).
    */
   displayBaseSize?: string;
+  /**
+   * Peg offset type for PEG orders
+   */
   pegOffsetType?: PegOffsetType;
   /**
    * Offset value for PEG orders. 0 means peg to BBO. Only non-negative values are allowed (PEG orders only)

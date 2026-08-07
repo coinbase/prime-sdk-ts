@@ -31,11 +31,20 @@ export type CreateWalletRequest = {
    * The asset stored in the wallet. Should not be specified when wallet_type is ONCHAIN
    */
   symbol: string;
+  /**
+   * Indicates the wallet type
+   */
   walletType?: WalletType;
   /**
    * idem
    */
   idempotencyKey?: string;
+  /**
+   * The network family for onchain wallets (e.g. EVM or Solana)
+   */
   networkFamily?: NetworkFamily;
+  /**
+   * The blockchain network configuration for onchain wallets
+   */
   network?: Network;
 };

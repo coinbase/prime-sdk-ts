@@ -27,5 +27,8 @@ export type Web3Balance = {
    * The total amount in whole units with full precision.
    */
   amount?: string;
+  /**
+   * - UNKNOWN_VISIBILITY_STATUS: nil  - VISIBLE: Visible  - HIDDEN: Hidden  - SPAM: Spam
+   */
   visibilityStatus?: VisibilityStatus;
 };

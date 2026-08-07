@@ -31,7 +31,13 @@ export type PostOrderPreviewResponse = {
    * The ID of the product being traded by the order
    */
   productId?: string;
+  /**
+   * Order side
+   */
   side?: OrderSide;
+  /**
+   * Strategy (execution algorithm)
+   */
   type?: OrderType;
   /**
    * Order size in base asset units (either `base_quantity` or `quote_value` is required)
@@ -53,6 +59,9 @@ export type PostOrderPreviewResponse = {
    * The expiry time of the order in UTC (TWAP, VWAP, LIMIT and STOP_LIMIT GTD only). Required for TWAP and VWAP orders if historical_pov is unspecified
    */
   expiryTime?: Date;
+  /**
+   * Indicates the order time validity
+   */
   timeInForce?: TimeInForceType;
   /**
    * Indicate the total commission paid on this order in quote currency - only applicable if the order has any fills

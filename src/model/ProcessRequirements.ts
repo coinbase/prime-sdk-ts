@@ -21,5 +21,8 @@
 import { TravelRuleStatus } from './enums/TravelRuleStatus';
 
 export type ProcessRequirements = {
+  /**
+   * Travel rule compliance status for a transaction
+   */
   travelRuleStatus?: TravelRuleStatus;
 };

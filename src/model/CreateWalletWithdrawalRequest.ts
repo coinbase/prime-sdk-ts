@@ -29,6 +29,9 @@ export type CreateWalletWithdrawalRequest = {
    * The amount in whole units of the withdrawal
    */
   amount: string;
+  /**
+   * - UNKNOWN_DESTINATION: nil value  - DESTINATION_PAYMENT_METHOD: A fiat bank account linked to a payment method id via Payment Method Service  - DESTINATION_BLOCKCHAIN: A blockchain network address  - DESTINATION_WALLET: An on platform wallet UUID NOTE: this is not usable in the withdrawals endpoint       only transfers  - DESTINATION_COUNTERPARTY: Counterparty ID
+   */
   destinationType: DestinationType;
   /**
    * The idempotency key associated with the withdrawal
@@ -38,8 +41,20 @@ export type CreateWalletWithdrawalRequest = {
    * The currency symbol for the withdrawal
    */
   currencySymbol: string;
+  /**
+   * Payment method destination details (required when destination_type is DESTINATION_PAYMENT_METHOD)
+   */
   paymentMethod?: PaymentMethodDestination;
+  /**
+   * Blockchain address destination details (required when destination_type is DESTINATION_BLOCKCHAIN)
+   */
   blockchainAddress?: BlockchainAddress;
+  /**
+   * Represents a destination for a counterparty payment
+   */
   counterparty?: CounterpartyDestination;
+  /**
+   * Data object used for withdrawals.
+   */
   travelRuleData?: TravelRuleData;
 };

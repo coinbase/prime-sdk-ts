@@ -23,6 +23,9 @@ import { InvoiceType } from './enums/InvoiceType';
 export type InvoiceItem = {
   description?: string;
   currencySymbol?: string;
+  /**
+   * Types
+   */
   invoiceType?: InvoiceType;
   rate?: number;
   quantity?: number;

@@ -29,5 +29,8 @@ export type CustomStablecoinRewardDetails = {
    * ISO-formatted end date of the reward period (e.g. 2025-02-28T00:00:00Z)
    */
   endDate?: string;
+  /**
+   * Currency metadata of the custom stablecoin asset for the reward program
+   */
   asset?: CustomStablecoinAsset;
 };

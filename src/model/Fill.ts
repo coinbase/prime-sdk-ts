@@ -39,6 +39,9 @@ export type Fill = {
    * The client product ID of the fill indictating the settlment currency
    */
   clientProductId?: string;
+  /**
+   * Order side
+   */
   side?: OrderSide;
   /**
    * Filled size (in base asset units)
@@ -72,6 +75,9 @@ export type Fill = {
    * The CES commission incurred for the fill
    */
   cesCommission?: string;
+  /**
+   * ProductType represents the general type of product
+   */
   productType?: ProductType;
   commissionDetailTotal?: CommissionDetailTotal;
 };

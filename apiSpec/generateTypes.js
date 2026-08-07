@@ -77,6 +77,10 @@ const replacements = {
 
 const classnameAsExceptions = ['CustodyActivityType', 'PrimeActivityType'];
 
+function isEnumFile(content) {
+  return /export\s+enum\s+\w+/.test(content);
+}
+
 const prettierConfig = {
   semi: true,
   singleQuote: true,
@@ -227,7 +231,7 @@ async function processFiles() {
     const sourcePath = path.join(sourceDir, file);
     if (fs.statSync(sourcePath).isFile()) {
       const content = fs.readFileSync(sourcePath, 'utf8');
-      const isEnum = content.indexOf('enum') > 0;
+      const isEnum = isEnumFile(content);
       if (isEnum) {
         const filePath = replaceString(
           path.join(destDirEnums, file),
@@ -255,7 +259,7 @@ async function processFiles() {
     // Read each file (synchronously or asynchronously)
     if (fs.statSync(sourcePath).isFile()) {
       const content = fs.readFileSync(sourcePath, 'utf8');
-      const isEnum = content.indexOf('enum') > 0;
+      const isEnum = isEnumFile(content);
 
       let updatedContent = replaceString(content, replacements);
 

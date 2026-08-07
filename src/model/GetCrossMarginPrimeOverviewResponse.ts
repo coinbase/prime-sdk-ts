@@ -23,11 +23,20 @@ import { XMControlStatus } from './enums/XMControlStatus';
 import { XMMarginLevel } from './enums/XMMarginLevel';
 
 export type GetCrossMarginPrimeOverviewResponse = {
+  /**
+   * XMControlStatus is a summarization of XM customer controls for trades and withdrawals
+   */
   controlStatus?: XMControlStatus;
+  /**
+   * XMMarginLevel is the realtime state of EQ/MR and MR-EQ monitored against XM thresholds as defined in the methodology
+   */
   marginLevel?: XMMarginLevel;
   /**
    * When margin metrics were evaluated.
    */
   evaluatedAt?: Date;
+  /**
+   * Cross-margin account summary and nested breakdowns.
+   */
   marginSummary?: CrossMarginPrimeMarginSummary;
 };

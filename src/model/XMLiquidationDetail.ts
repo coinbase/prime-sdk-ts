@@ -27,6 +27,9 @@ export type XMLiquidationDetail = {
    * Financing liquidation UUID
    */
   liquidationId?: string;
+  /**
+   * XMLiquidationStatus is the current status of an XM liquidation
+   */
   status?: XMLiquidationStatus;
   /**
    * USD notional shortfall amount that triggered the liquidation
@@ -36,6 +39,9 @@ export type XMLiquidationDetail = {
    * Timestamp when the pre-liquidation phase started
    */
   preLiquidationStartTime?: Date;
+  /**
+   * XMSummary is the realtime evaluated XM margin model, containing positions and netting info
+   */
   marginSummary?: XMSummary;
   /**
    * Timestamp when active liquidation started

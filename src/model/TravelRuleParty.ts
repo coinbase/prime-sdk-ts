@@ -31,8 +31,17 @@ export type TravelRuleParty = {
    * Legal name (for entities or simple name format)
    */
   name?: string;
+  /**
+   * Natural person name components
+   */
   naturalPersonName?: NaturalPersonName;
+  /**
+   * Detailed address information
+   */
   address?: DetailedAddress;
+  /**
+   * Type of wallet being used for transfers
+   */
   walletType?: TravelRuleWalletType;
   /**
    * VASP identifier when wallet_type is VASP
@@ -46,6 +55,9 @@ export type TravelRuleParty = {
    * Personal identifier for travel rule compliance. For individuals: passport number, national ID, driver\'s license. For institutions: LEI (Legal Entity Identifier).
    */
   personalId?: string;
+  /**
+   * Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following:
+   */
   dateOfBirth?: GoogleTypeDate;
   /**
    * Telephone number for contact purposes.
@@ -55,5 +67,8 @@ export type TravelRuleParty = {
    * Account identifier for travel rule compliance. If not provided, defaults to portfolio ID.
    */
   accountId?: string;
+  /**
+   * Detailed address information
+   */
   vaspAddress?: DetailedAddress;
 };

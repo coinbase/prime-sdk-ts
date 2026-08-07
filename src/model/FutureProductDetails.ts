@@ -39,7 +39,13 @@ export type FutureProductDetails = {
    * Contract root unit (underlying asset)
    */
   contractRootUnit?: string;
+  /**
+   * ContractExpiryType represents the expiry type of a futures contract
+   */
   contractExpiryType?: ContractExpiryType;
+  /**
+   * RiskManagementType represents how risk is managed for a product
+   */
   riskManagedBy?: RiskManagementType;
   /**
    * The venue this product trades on
@@ -57,5 +63,8 @@ export type FutureProductDetails = {
    * Short version of the group description
    */
   groupShortDescription?: string;
+  /**
+   * PerpetualProductDetails contains details specific to perpetual futures products
+   */
   perpetualDetails?: PerpetualProductDetails;
 };

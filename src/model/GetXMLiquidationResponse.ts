@@ -21,5 +21,8 @@
 import { XMLiquidationDetail } from './XMLiquidationDetail';
 
 export type GetXMLiquidationResponse = {
+  /**
+   * XMLiquidationDetail provides detailed information about a single XM liquidation
+   */
   liquidation?: XMLiquidationDetail;
 };

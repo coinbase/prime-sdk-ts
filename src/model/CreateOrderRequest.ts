@@ -28,11 +28,17 @@ export type CreateOrderRequest = {
    * The ID of the product being traded for the order (e.g. `BTC-USD`)
    */
   productId: string;
+  /**
+   * Order side
+   */
   side: OrderSide;
   /**
    * A client-generated order ID used for reference purposes
    */
   clientOrderId: string;
+  /**
+   * Strategy (execution algorithm)
+   */
   type: OrderType;
   /**
    * Order size in base asset units (either `base_quantity` or `quote_value` is required)
@@ -54,6 +60,9 @@ export type CreateOrderRequest = {
    * The expiry time of the order in UTC (TWAP, VWAP, LIMIT, and STOP_LIMIT GTD only)
    */
   expiryTime?: Date;
+  /**
+   * Indicates the order time validity
+   */
   timeInForce?: TimeInForceType;
   /**
    * An optional self trade prevention id (in the form of a UUID). The value is only honored for certain clients who are permitted to specify a custom self trade prevention id
@@ -63,7 +72,13 @@ export type CreateOrderRequest = {
    * Optionally specify a display size. This is the maximum order size that will show up on venue order books. Specifying a value here effectively makes a LIMIT order into an \"iceberg\" style order. This property only applies to LIMIT orders and will be ignored for other order types.
    */
   displayQuoteSize?: string;
+  /**
+   * The maximum order size that will show up on venue order books (in base currency).
+   */
   displayBaseSize?: string;
+  /**
+   * Raise Exact order flag (size inclusive of fees for sell orders in quote)
+   */
   isRaiseExact?: boolean;
   /**
    * Historical percentage of volume
@@ -81,6 +96,9 @@ export type CreateOrderRequest = {
    * Post-only flag - when true, the order will only be posted to the order book and not immediately matched. Only applicable to LIMIT orders with GTC or GTD time in force.
    */
   postOnly?: boolean;
+  /**
+   * Peg offset type for PEG orders
+   */
   pegOffsetType?: PegOffsetType;
   /**
    * Offset value for PEG orders. 0 means peg to BBO. Only non-negative values are allowed (PEG orders only)

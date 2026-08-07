@@ -24,5 +24,8 @@ import { AdvancedTransfer } from './AdvancedTransfer';
  * CreateAdvancedTransferRequest is the request to create an advanced transfer.
  */
 export type CreateAdvancedTransferRequest = {
+  /**
+   * AdvancedTransfer represents a complex transfer operation such as a blind match settlement.
+   */
   advancedTransfer: AdvancedTransfer;
 };

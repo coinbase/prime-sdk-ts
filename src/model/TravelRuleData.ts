@@ -24,7 +24,13 @@ import { TravelRuleParty } from './TravelRuleParty';
  * Data object used for withdrawals.
  */
 export type TravelRuleData = {
+  /**
+   * Represents a party in a travel rule transfer (originator or beneficiary).
+   */
   beneficiary?: TravelRuleParty;
+  /**
+   * Represents a party in a travel rule transfer (originator or beneficiary).
+   */
   originator?: TravelRuleParty;
   /**
    * True if user owns the counterparty address (self-transfer)

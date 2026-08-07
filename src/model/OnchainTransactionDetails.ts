@@ -26,6 +26,9 @@ export type OnchainTransactionDetails = {
    * The signed transaction data
    */
   signedTransaction?: string;
+  /**
+   * New message for risk assessment details
+   */
   riskAssessment?: RiskAssessment;
   /**
    * The blockchain network chain ID. Will be empty for Solana transactions.
@@ -51,5 +54,8 @@ export type OnchainTransactionDetails = {
    * Reason for transaction failure if applicable
    */
   failureReason?: string;
+  /**
+   * - SIGNING_STATUS_UNKNOWN: Unknown signing status  - SIGNED: Transaction has been signed  - UNSIGNED: Transaction is unsigned
+   */
   signingStatus?: SigningStatus;
 };

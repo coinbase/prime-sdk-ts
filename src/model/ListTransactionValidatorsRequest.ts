@@ -33,5 +33,8 @@ export type ListTransactionValidatorsRequest = {
    * Maximum number of transaction-validator associations to return per page. Default is 100, maximum is 1000.
    */
   limit?: number;
+  /**
+   * Sort direction for paginated results (DESC or ASC)
+   */
   sortDirection?: SortDirection;
 };

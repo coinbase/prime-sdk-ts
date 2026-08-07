@@ -34,6 +34,9 @@ export type CreateWalletResponse = {
    * The asset stored in the wallet
    */
   symbol?: string;
+  /**
+   * Indicates the wallet type
+   */
   walletType?: WalletType;
   networkFamily?: NetworkFamily;
 };

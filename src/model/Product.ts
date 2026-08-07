@@ -62,7 +62,16 @@ export type Product = {
    */
   priceIncrement?: string;
   rfqProductDetails?: RFQProductDetails;
+  /**
+   * ProductType represents the general type of product
+   */
   productType?: ProductType;
+  /**
+   * FcmTradingSessionDetails contains trading session details for FCM products
+   */
   fcmTradingSessionDetails?: FcmTradingSessionDetails;
+  /**
+   * FutureProductDetails contains details specific to futures products
+   */
   futureProductDetails?: FutureProductDetails;
 };
