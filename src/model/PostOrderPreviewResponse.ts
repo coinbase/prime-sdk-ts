@@ -102,4 +102,8 @@ export type PostOrderPreviewResponse = {
    * The maximum order size that will show up on venue order books (in base currency).
    */
   displayBaseSize?: string;
+  /**
+   * Buy Exact order flag
+   */
+  isBuyExact?: boolean;
 };

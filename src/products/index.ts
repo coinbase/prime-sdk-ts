@@ -33,7 +33,7 @@ export interface IProductsService {
   /**
    * List Portfolio Products
    *
-   * List tradable products for a given portfolio.
+   * List products for a given portfolio.
    */
   listProducts(
     request: ListProductsRequest,
