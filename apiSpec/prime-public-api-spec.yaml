@@ -95,6 +95,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/coinbase.public_rest_api.RotateAPIKeyResponse'
       x-codegen-request-body-name: body
+  /v1/conversion/fees:
+    get:
+      tags:
+      - Financing
+      summary: Get Conversion Fees
+      description: "Get your organization's stablecoin conversion fee tiers and month-to-date\
+        \ net conversion volume per currency. The organization is resolved from the\
+        \ authenticated API key, which must be organization-scoped."
+      operationId: PrimeRESTAPI_GetConversionFees
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.GetConversionFeesResponse'
   /v1/entities/{entity_id}/accruals:
     get:
       tags:
@@ -5691,6 +5707,50 @@ components:
           type: string
           description: Conversion rate
           example: "0.1"
+    coinbase.public_rest_api.ConversionFee:
+      type: object
+      properties:
+        from_currency:
+          type: string
+          description: Source currency ticker.
+          example: USDC
+        to_currency:
+          type: string
+          description: Destination currency ticker.
+          example: USD
+        net_conversion_volume_mtd:
+          type: string
+          description: "Month-to-date net conversion volume denominated in from_currency,\
+            \ aggregated at the owning organization level. Positive = net from->to,\
+            \ negative = net to->from."
+          example: "12345678.90"
+        fee_tiers:
+          type: array
+          description: |-
+            Progressive fee tiers applicable to this organization for this pair.
+            Tiers are ordered from lowest to highest threshold.
+          items:
+            $ref: '#/components/schemas/coinbase.public_rest_api.ConversionFeeTier'
+      description: |-
+        Per-pair conversion fee row: month-to-date net conversion volume and
+        the applicable progressive fee tiers for an organization.
+    coinbase.public_rest_api.ConversionFeeTier:
+      type: object
+      properties:
+        min_threshold:
+          type: string
+          description: Inclusive lower bound for the tier in USD.
+          example: "10000000"
+        max_threshold:
+          type: string
+          description: "Exclusive upper bound for the tier in USD. Empty string for\
+            \ the highest, unbounded tier."
+          example: "150000000"
+        rate_bps:
+          type: string
+          description: Tier rate in basis points.
+          example: "5.0"
+      description: A single fee tier in the progressive stablecoin conversion schedule.
     coinbase.public_rest_api.Counterparty:
       type: object
       properties:
@@ -6883,6 +6943,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/coinbase.public_rest_api.Candle'
+    coinbase.public_rest_api.GetConversionFeesResponse:
+      type: object
+      properties:
+        fees:
+          type: array
+          items:
+            $ref: '#/components/schemas/coinbase.public_rest_api.ConversionFee'
+      description: "Response for GetConversionFees: one ConversionFee row per supported\
+        \ pair."
     coinbase.public_rest_api.GetCrossMarginOverviewResponse:
       type: object
       properties:
