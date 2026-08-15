@@ -1967,10 +1967,8 @@ paths:
     get:
       tags:
       - Products
-      summary: Get Public Product Candles (Beta)
-      description: "Get rates for a single product by product ID, grouped in buckets.\
-        \ This feature is in beta please reach out to your Coinbase Prime account\
-        \ manager for more information."
+      summary: Get Public Product Candles
+      description: "Get rates for a single product by product ID, grouped in buckets."
       operationId: PrimeRESTAPI_GetCandles
       parameters:
       - name: portfolio_id
