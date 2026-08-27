@@ -22,8 +22,12 @@ const parentDir = './types';
 const sourceDir = './types/model';
 const destDir = './types/processed';
 const destDirEnums = './types/processed/enums';
+const destDirErrors = './types/processed/errors';
+const destDirErrorEnums = './types/processed/errors/enums';
 const indexPath = path.join(destDir, 'index.ts');
 const enumIndexPath = path.join(destDirEnums, 'index.ts');
+const errorIndexPath = path.join(destDirErrors, 'index.ts');
+const errorEnumIndexPath = path.join(destDirErrorEnums, 'index.ts');
 const finalModelDir = '../src/model';
 
 const filePathReplacements = {
@@ -81,6 +85,18 @@ function isEnumFile(content) {
   return /export\s+enum\s+\w+/.test(content);
 }
 
+function processedNameFromFile(file) {
+  return replaceString(file, filePathReplacements).replace(/\.ts$/, '');
+}
+
+function isErrorModelName(name) {
+  return (
+    /ErrorResponse$/.test(name) ||
+    /ErrorCode$/.test(name) ||
+    /Subcode$/.test(name)
+  );
+}
+
 const prettierConfig = {
   semi: true,
   singleQuote: true,
@@ -101,6 +117,14 @@ if (!fs.existsSync(destDir)) {
 
 if (!fs.existsSync(destDirEnums)) {
   fs.mkdirSync(destDirEnums, { recursive: true });
+}
+
+if (!fs.existsSync(destDirErrors)) {
+  fs.mkdirSync(destDirErrors, { recursive: true });
+}
+
+if (!fs.existsSync(destDirErrorEnums)) {
+  fs.mkdirSync(destDirErrorEnums, { recursive: true });
 }
 
 // Function to replace specific strings
@@ -151,11 +175,18 @@ function cleanClasses(updatedContent) {
 }
 
 function getHeaderYear(destPath) {
-  const finalPath = destPath.replace('types/processed/', `${finalModelDir}/`);
-  if (fs.existsSync(finalPath)) {
-    const existing = fs.readFileSync(finalPath, 'utf8');
-    const match = existing.match(/Copyright (\d{4})-present/);
-    if (match) return match[1];
+  const relative = destPath.replace('types/processed/', '');
+  const candidates = [
+    path.join(finalModelDir, relative),
+    path.join(finalModelDir, path.basename(destPath)),
+    path.join(finalModelDir, 'enums', path.basename(destPath)),
+  ];
+  for (const finalPath of candidates) {
+    if (fs.existsSync(finalPath)) {
+      const existing = fs.readFileSync(finalPath, 'utf8');
+      const match = existing.match(/Copyright (\d{4})-present/);
+      if (match) return match[1];
+    }
   }
   return new Date().getFullYear().toString();
 }
@@ -185,18 +216,15 @@ function addGeneratedHeader(updatedContent, year) {
 }
 
 function getIndexFileExport(destPath, updatedContent) {
-  const fileName = destPath
-    .replace('types/processed/', '')
-    .replace('types/processed/enums/', '')
-    .replace('.ts', '');
-
-  const isEnum = destPath.includes('enum');
-  const baseName = fileName.replace('enums/', '');
+  const isEnum =
+    destPath.includes(`${path.sep}enums${path.sep}`) ||
+    destPath.includes('/enums/');
+  const baseName = path.basename(destPath, '.ts');
   let typeName = '';
 
   if (isEnum) {
     const typeMatch = updatedContent.match(/export\s+enum\s+(\w+)\s*/);
-    if (!typeMatch) throw new Error(`No enum name found in file: ${fileName}`);
+    if (!typeMatch) throw new Error(`No enum name found in file: ${baseName}`);
 
     // handle export with as syntax for namespace collisions
     if (classnameAsExceptions.includes(baseName)) {
@@ -210,7 +238,7 @@ function getIndexFileExport(destPath, updatedContent) {
     const typeMatch = updatedContent.match(/export\s+type\s+(\w+)\s*=/);
     if (!typeMatch)
       throw new Error(
-        `No type name found in file: ${fileName} destPath: ${destPath}`
+        `No type name found in file: ${baseName} destPath: ${destPath}`
       );
 
     typeName = typeMatch[1];
@@ -218,111 +246,164 @@ function getIndexFileExport(destPath, updatedContent) {
   }
 }
 
+function resolveImport(fromKind, importPath, errorNames, enumNames) {
+  const isEnum = enumNames.has(importPath);
+  const isError = errorNames.has(importPath);
+
+  if (fromKind === 'error') {
+    if (isEnum && isError) return `./enums/${importPath}`;
+    if (isEnum) return `../enums/${importPath}`;
+    if (isError) return `./${importPath}`;
+    return `../${importPath}`;
+  }
+  if (fromKind === 'errorEnum') {
+    if (isEnum && isError) return `./${importPath}`;
+    if (isEnum) return `../../enums/${importPath}`;
+    if (isError) return `../${importPath}`;
+    return `../../${importPath}`;
+  }
+  if (fromKind === 'enum') {
+    if (isEnum && isError) return `../errors/enums/${importPath}`;
+    if (isEnum) return `./${importPath}`;
+    if (isError) return `../errors/${importPath}`;
+    return `../${importPath}`;
+  }
+  if (isEnum && isError) return `./errors/enums/${importPath}`;
+  if (isEnum) return `./enums/${importPath}`;
+  if (isError) return `./errors/${importPath}`;
+  return `./${importPath}`;
+}
+
+function kindForFile(isEnum, isError) {
+  if (isError && isEnum) return 'errorEnum';
+  if (isError) return 'error';
+  if (isEnum) return 'enum';
+  return 'model';
+}
+
+function destPathForFile(file, isEnum, isError) {
+  if (isError && isEnum) {
+    return replaceString(
+      path.join(destDirErrorEnums, file),
+      filePathReplacements
+    );
+  }
+  if (isError) {
+    return replaceString(path.join(destDirErrors, file), filePathReplacements);
+  }
+  if (isEnum) {
+    return replaceString(path.join(destDirEnums, file), filePathReplacements);
+  }
+  return replaceString(path.join(destDir, file), filePathReplacements);
+}
+
 // Main function to process files
 async function processFiles() {
-  // List all files in the source directory
   const files = fs.readdirSync(sourceDir);
   const indexFileContent = [];
   const enumIndexFileContent = [];
+  const errorIndexFileContent = [];
+  const errorEnumIndexFileContent = [];
 
-  const enumClasses = [];
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i];
+  const enumNames = new Set();
+  const errorNames = new Set();
+
+  for (const file of files) {
     const sourcePath = path.join(sourceDir, file);
-    if (fs.statSync(sourcePath).isFile()) {
-      const content = fs.readFileSync(sourcePath, 'utf8');
-      const isEnum = isEnumFile(content);
-      if (isEnum) {
-        const filePath = replaceString(
-          path.join(destDirEnums, file),
-          filePathReplacements
-        );
-        const enumName = filePath
-          .replace('types/processed/enums/', '')
-          .replace('.ts', '');
-        console.log('processed enum', enumName, filePath);
-        enumClasses.push(enumName);
-      }
+    if (!fs.statSync(sourcePath).isFile() || skipFiles.includes(file)) {
+      continue;
+    }
+    const content = fs.readFileSync(sourcePath, 'utf8');
+    const name = processedNameFromFile(file);
+    if (isEnumFile(content)) {
+      enumNames.add(name);
+      console.log('processed enum', name);
+    }
+    if (isErrorModelName(name)) {
+      errorNames.add(name);
     }
   }
 
-  for (let j = 0; j < files.length; j++) {
-    const file = files[j];
+  for (const file of files) {
     const sourcePath = path.join(sourceDir, file);
-    let destPath = path.join(destDir, file);
 
     if (skipFiles.includes(file)) {
       console.log('skipping file', file);
       continue;
     }
 
-    // Read each file (synchronously or asynchronously)
-    if (fs.statSync(sourcePath).isFile()) {
-      const content = fs.readFileSync(sourcePath, 'utf8');
-      const isEnum = isEnumFile(content);
-
-      let updatedContent = replaceString(content, replacements);
-
-      if (updatedContent.indexOf('class') > 0) {
-        updatedContent = cleanClasses(updatedContent);
-      }
-
-      // Remove the generated multiline comment header
-      let regex = /\/\*[\s\S]*?\*\//;
-      updatedContent = updatedContent.replace(regex, '');
-
-      // Regular expression to match specific import statements
-      regex = /import\s+\{[^}]+\}\s+from\s+'\.\/(.*?)';/g;
-
-      // Replace the import paths with the updated path
-      updatedContent = updatedContent.replace(regex, (match, importPath) => {
-        if (enumClasses.includes(importPath)) {
-          return `import { ${match
-            .split('{')[1]
-            .split('}')[0]
-            .trim()} } from './enums/${importPath}';`;
-        } else {
-          return `import { ${match
-            .split('{')[1]
-            .split('}')[0]
-            .trim()} } from './${importPath}';`;
-        }
-      });
-
-      if (isEnum) {
-        destPath = replaceString(
-          path.join(destDirEnums, file),
-          filePathReplacements
-        );
-        enumIndexFileContent.push(getIndexFileExport(destPath, updatedContent));
-      } else {
-        destPath = replaceString(destPath, filePathReplacements);
-        indexFileContent.push(getIndexFileExport(destPath, updatedContent));
-      }
-
-      const year = getHeaderYear(destPath);
-      updatedContent = addGeneratedHeader(updatedContent, year);
-
-      updatedContent = await prettier.format(updatedContent, prettierConfig);
-
-      if (fs.existsSync(destPath)) {
-        console.log('file already exists: ', destPath);
-      }
-
-      // Write the updated content to the destination directory
-      fs.writeFileSync(destPath, updatedContent, 'utf8');
-
-      console.log(`Processed: ${file} at ${destPath}`);
+    if (!fs.statSync(sourcePath).isFile()) {
+      continue;
     }
+
+    const content = fs.readFileSync(sourcePath, 'utf8');
+    const isEnum = isEnumFile(content);
+    const name = processedNameFromFile(file);
+    const isError = errorNames.has(name);
+    const fromKind = kindForFile(isEnum, isError);
+    const destPath = destPathForFile(file, isEnum, isError);
+
+    let updatedContent = replaceString(content, replacements);
+
+    if (updatedContent.indexOf('class') > 0) {
+      updatedContent = cleanClasses(updatedContent);
+    }
+
+    updatedContent = updatedContent.replace(/\/\*[\s\S]*?\*\//, '');
+
+    updatedContent = updatedContent.replace(
+      /import\s+\{[^}]+\}\s+from\s+'\.\/(.*?)';/g,
+      (match, importPath) => {
+        const imported = match.split('{')[1].split('}')[0].trim();
+        const resolved = resolveImport(
+          fromKind,
+          importPath,
+          errorNames,
+          enumNames
+        );
+        return `import { ${imported} } from '${resolved}';`;
+      }
+    );
+
+    if (isError && isEnum) {
+      errorEnumIndexFileContent.push(
+        getIndexFileExport(destPath, updatedContent)
+      );
+    } else if (isError) {
+      errorIndexFileContent.push(getIndexFileExport(destPath, updatedContent));
+    } else if (isEnum) {
+      enumIndexFileContent.push(getIndexFileExport(destPath, updatedContent));
+    } else {
+      indexFileContent.push(getIndexFileExport(destPath, updatedContent));
+    }
+
+    updatedContent = addGeneratedHeader(
+      updatedContent,
+      getHeaderYear(destPath)
+    );
+    updatedContent = await prettier.format(updatedContent, prettierConfig);
+
+    if (fs.existsSync(destPath)) {
+      console.log('file already exists: ', destPath);
+    }
+
+    fs.writeFileSync(destPath, updatedContent, 'utf8');
+    console.log(`Processed: ${file} at ${destPath}`);
   }
 
-  // Deduplicate exports before writing to index.ts
-  const uniqueIndexContent = [...new Set(indexFileContent)];
-  const uniqueEnumIndexContent = [...new Set(enumIndexFileContent)];
-
-  // Write to index.ts
-  fs.writeFileSync(indexPath, uniqueIndexContent.join('\n') + '\n');
-  fs.writeFileSync(enumIndexPath, uniqueEnumIndexContent.join('\n') + '\n');
+  fs.writeFileSync(indexPath, [...new Set(indexFileContent)].join('\n') + '\n');
+  fs.writeFileSync(
+    enumIndexPath,
+    [...new Set(enumIndexFileContent)].join('\n') + '\n'
+  );
+  fs.writeFileSync(
+    errorIndexPath,
+    [...new Set(errorIndexFileContent)].join('\n') + '\n'
+  );
+  fs.writeFileSync(
+    errorEnumIndexPath,
+    [...new Set(errorEnumIndexFileContent)].join('\n') + '\n'
+  );
 
   console.log('All files processed.');
 }

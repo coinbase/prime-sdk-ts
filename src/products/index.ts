@@ -41,9 +41,9 @@ export interface IProductsService {
   ): Promise<ListProductsResponse>;
 
   /**
-   * Get Public Product Candles (Beta)
+   * Get Public Product Candles
    *
-   * Get rates for a single product by product ID, grouped in buckets. This feature is in beta please reach out to your Coinbase Prime account manager for more information.
+   * Get rates for a single product by product ID, grouped in buckets.
    */
   listProductCandles(
     request: ListProductCandlesRequest,

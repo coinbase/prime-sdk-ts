@@ -41,6 +41,8 @@ export {
 // Export all model types and enums
 export type * from './model/';
 export * from './model/enums/';
+export type * from './model/errors';
+export * from './model/errors/enums';
 
 // Export service interfaces (for TypeScript support with lazy getters)
 export type { IActivitiesService } from './activities';

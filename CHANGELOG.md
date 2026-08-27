@@ -1,11 +1,12 @@
 # Changelog
 
-## [0.12.2] - 2026-AUG-07
+## [0.13.0] - 2026-SEP-01
 
 ### Added
 
 - **`isBuyExact`** on order types: optional on `CreateOrderRequest` and `OrderPreviewRequest`; returned on `Order` and `PostOrderPreviewResponse`. When `true` on a BUY order sized in `quoteValue`, fees are charged on top of the requested quote amount instead of being carved out of it (SPOT products only).
 - **`ProductType.Option`** enum value (`OPTION`) for option products.
+- Generated HTTP error response models and error-code/subcode enums under `src/model/errors/` and `src/model/errors/enums/`.
 
 ### Changed
 

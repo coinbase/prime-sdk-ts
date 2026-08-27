@@ -66,6 +66,8 @@ export { WalletsService, IWalletsService } from './wallets';
 // Export all model types and enums
 export type * from './model/';
 export * from './model/enums/';
+export type * from './model/errors';
+export * from './model/errors/enums';
 
 // Export ALL service-specific request/response types for comprehensive access
 // This provides everything in one import but creates a larger bundle

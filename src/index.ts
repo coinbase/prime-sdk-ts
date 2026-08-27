@@ -73,6 +73,8 @@ export { WalletsService, IWalletsService } from './wallets';
 
 export type * from './model/';
 export * from './model/enums/';
+export type * from './model/errors';
+export * from './model/errors/enums';
 
 // preferring named exports of types
 export type {

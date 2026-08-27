@@ -1,5 +1,4 @@
 /**
- * 
  * Copyright 2024-present Coinbase Global, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export const VERSION = '0.12.2';
+export const VERSION = '0.13.0';
 export const API_BASE_PATH = 'https://api.prime.coinbase.com/v1/';
 export const USER_AGENT = 'coinbase-prime-ts/' + VERSION;
 export const CB_ACCESS_KEY_HEADER = 'X-CB-ACCESS-KEY';
