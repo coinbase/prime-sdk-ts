@@ -19,7 +19,12 @@ import {
   GetCandlesResponse,
   Product,
 } from '../model/';
-import { CandlesGranularity } from '../model/enums/';
+import {
+  CandlesGranularity,
+  ContractExpiryType,
+  ExpiringContractStatus,
+  ProductType,
+} from '../model/enums/';
 import { Pagination } from '../shared/pagination';
 import {
   PaginatedListResponse,
@@ -28,6 +33,9 @@ import {
 
 export type ListProductsRequest = Pagination & {
   portfolioId: string;
+  productType?: ProductType;
+  contractExpiryType?: ContractExpiryType;
+  expiringContractStatus?: ExpiringContractStatus;
 };
 
 export type ListProductsResponse = PaginatedListResponse<

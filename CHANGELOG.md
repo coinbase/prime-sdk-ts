@@ -11,9 +11,21 @@
 - HTTP 4xx/5xx responses now throw `CoinbasePrimeException` with a camelCased `body` (`code`, `message`, `subcode`, `traceId`). Use `isPrimeApiError()` and per-method `*Error` unions (e.g. `CreateOrderError`) when inspecting `catch` values. `Promise` return types remain success-only.
 - Example: `examples/advanced/handleApiError.js`.
 
+#### New API Endpoints
+
+**Financing Service** (`client.financing`)
+
+- **`getConversionFees()`**: Get organization-level stablecoin conversion fee tiers and month-to-date net conversion volume per currency (`GET /v1/conversion/fees`)
+
+**Futures Service** (`client.futures`)
+
+- **`getDerivativesCurrencySummary()`**: Retrieve per-currency international derivatives balances for a portfolio (`GET /v1/portfolios/{portfolio_id}/derivatives/currency_summary`)
+- **`listDerivativePositions()`**: List active derivative positions for a portfolio; optional `productId` filter (`GET /v1/portfolios/{portfolio_id}/derivatives/positions`)
+
 ### Changed
 
 - OpenAPI spec and generated models synced to the latest Prime public API.
+- **`listProducts()`** accepts optional `productType`, `contractExpiryType`, and `expiringContractStatus` query filters.
 - Backfilled TSDoc comments on request model fields from the OpenAPI spec: `promote-titles` now resolves `$ref` schema titles/descriptions (via `allOf`) and applies a local `descriptionOverrides` map for fields missing upstream documentation. All `*Request` model types now have field-level IDE hovers.
 - Fixed `gen-doc-comments` so `npm run update-spec` preserves the deprecated `setFundingSettings()` / `updateFundingSettings()` financing service docs (correct per-method JSDoc injection and `methodDocOverrides`).
 

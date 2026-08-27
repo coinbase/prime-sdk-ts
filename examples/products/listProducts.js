@@ -26,6 +26,14 @@
  *
  * Environment Variables Required:
  *   - PORTFOLIO_ID: The ID of the portfolio to list products for
+ *
+ * Optional Environment Variables:
+ *   - PRODUCT_TYPE: Filter by product type (SPOT, FUTURE, OPTION)
+ *   - CONTRACT_EXPIRY_TYPE: Filter futures by expiry type
+ *     (CONTRACT_EXPIRY_TYPE_EXPIRING or CONTRACT_EXPIRY_TYPE_PERPETUAL)
+ *   - EXPIRING_CONTRACT_STATUS: Filter expiring futures by expiry status
+ *     (EXPIRING_CONTRACT_STATUS_UNEXPIRED, EXPIRING_CONTRACT_STATUS_EXPIRED,
+ *     or EXPIRING_CONTRACT_STATUS_ALL)
  */
 
 // #docs operationId: PrimeRESTAPI_GetPortfolioProducts
@@ -48,6 +56,16 @@ async function listProductsExample() {
     const request = {
       portfolioId,
     };
+
+    if (process.env.PRODUCT_TYPE) {
+      request.productType = process.env.PRODUCT_TYPE;
+    }
+    if (process.env.CONTRACT_EXPIRY_TYPE) {
+      request.contractExpiryType = process.env.CONTRACT_EXPIRY_TYPE;
+    }
+    if (process.env.EXPIRING_CONTRACT_STATUS) {
+      request.expiringContractStatus = process.env.EXPIRING_CONTRACT_STATUS;
+    }
 
     const productsResponse = await client.products.listProducts(request);
 

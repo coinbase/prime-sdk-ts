@@ -89,6 +89,7 @@ import type { GetBuyingPowerNotFoundErrorResponse } from './GetBuyingPowerNotFou
 import type { GetCandlesBadRequestErrorResponse } from './GetCandlesBadRequestErrorResponse';
 import type { GetCandlesForbiddenErrorResponse } from './GetCandlesForbiddenErrorResponse';
 import type { GetCandlesNotFoundErrorResponse } from './GetCandlesNotFoundErrorResponse';
+import type { GetConversionFeesForbiddenErrorResponse } from './GetConversionFeesForbiddenErrorResponse';
 import type { GetCrossMarginOverviewBadRequestErrorResponse } from './GetCrossMarginOverviewBadRequestErrorResponse';
 import type { GetCrossMarginOverviewForbiddenErrorResponse } from './GetCrossMarginOverviewForbiddenErrorResponse';
 import type { GetCrossMarginOverviewNotFoundErrorResponse } from './GetCrossMarginOverviewNotFoundErrorResponse';
@@ -98,6 +99,12 @@ import type { GetCrossMarginPrimeOverviewNotFoundErrorResponse } from './GetCros
 import type { GetCrossMarginRiskParametersBadRequestErrorResponse } from './GetCrossMarginRiskParametersBadRequestErrorResponse';
 import type { GetCrossMarginRiskParametersForbiddenErrorResponse } from './GetCrossMarginRiskParametersForbiddenErrorResponse';
 import type { GetCrossMarginRiskParametersNotFoundErrorResponse } from './GetCrossMarginRiskParametersNotFoundErrorResponse';
+import type { GetDerivativePositionsBadRequestErrorResponse } from './GetDerivativePositionsBadRequestErrorResponse';
+import type { GetDerivativePositionsForbiddenErrorResponse } from './GetDerivativePositionsForbiddenErrorResponse';
+import type { GetDerivativePositionsNotFoundErrorResponse } from './GetDerivativePositionsNotFoundErrorResponse';
+import type { GetDerivativesCurrencySummaryBadRequestErrorResponse } from './GetDerivativesCurrencySummaryBadRequestErrorResponse';
+import type { GetDerivativesCurrencySummaryForbiddenErrorResponse } from './GetDerivativesCurrencySummaryForbiddenErrorResponse';
+import type { GetDerivativesCurrencySummaryNotFoundErrorResponse } from './GetDerivativesCurrencySummaryNotFoundErrorResponse';
 import type { GetEntityActivitiesBadRequestErrorResponse } from './GetEntityActivitiesBadRequestErrorResponse';
 import type { GetEntityActivitiesForbiddenErrorResponse } from './GetEntityActivitiesForbiddenErrorResponse';
 import type { GetEntityActivitiesNotFoundErrorResponse } from './GetEntityActivitiesNotFoundErrorResponse';
@@ -543,6 +550,12 @@ export type GetAllocationError =
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse;
 
+export type GetConversionFeesError =
+  | GetConversionFeesForbiddenErrorResponse
+  | InternalServerErrorResponse
+  | ServiceUnavailableErrorResponse
+  | TooManyRequestsErrorResponse;
+
 export type GetCounterpartyIdError =
   | GetPortfolioCounterpartyIDBadRequestErrorResponse
   | GetPortfolioCounterpartyIDForbiddenErrorResponse
@@ -575,6 +588,13 @@ export type GetCrossMarginRiskParametersError =
   | GetCrossMarginRiskParametersBadRequestErrorResponse
   | GetCrossMarginRiskParametersForbiddenErrorResponse
   | GetCrossMarginRiskParametersNotFoundErrorResponse
+  | ServiceUnavailableErrorResponse
+  | TooManyRequestsErrorResponse;
+
+export type GetDerivativesCurrencySummaryError =
+  | GetDerivativesCurrencySummaryBadRequestErrorResponse
+  | GetDerivativesCurrencySummaryForbiddenErrorResponse
+  | GetDerivativesCurrencySummaryNotFoundErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse;
 
@@ -824,6 +844,13 @@ export type ListCrossMarginLiquidationsError =
   | ListXMLiquidationsBadRequestErrorResponse
   | ListXMLiquidationsForbiddenErrorResponse
   | ListXMLiquidationsNotFoundErrorResponse
+  | ServiceUnavailableErrorResponse
+  | TooManyRequestsErrorResponse;
+
+export type ListDerivativePositionsError =
+  | GetDerivativePositionsBadRequestErrorResponse
+  | GetDerivativePositionsForbiddenErrorResponse
+  | GetDerivativePositionsNotFoundErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse;
 

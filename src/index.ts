@@ -167,6 +167,8 @@ export type {
   CreateNewLocatesResponse,
   GetCrossMarginOverviewRequest,
   GetCrossMarginOverviewResponse,
+  GetConversionFeesRequest,
+  GetConversionFeesResponse,
 } from './financing/types';
 export type {
   CancelEntitySweepRequest,
@@ -183,6 +185,10 @@ export type {
   UpdateEntityFuturesAutoSweepResponse,
   GetEntityFcmEquityRequest,
   GetEntityFcmEquityResponse,
+  GetDerivativesCurrencySummaryRequest,
+  GetDerivativesCurrencySummaryResponse,
+  ListDerivativePositionsRequest,
+  ListDerivativePositionsResponse,
 } from './futures/types';
 export type {
   ListInvoicesRequest,

@@ -31,6 +31,7 @@ import {
   GetCrossMarginOverviewResponse as internalGetCrossMarginOverviewResponse,
   ListTFObligationsResponse as internalListTFObligationsResponse,
   ListFinancingEligibleAssetsResponse as internalListFinancingEligibleAssetsResponse,
+  GetConversionFeesResponse as internalGetConversionFeesResponse,
   GetCrossMarginRiskParametersResponse as internalGetCrossMarginRiskParametersResponse,
   GetCrossMarginPrimeOverviewResponse as internalGetCrossMarginPrimeOverviewResponse,
   UpdateFundingSettingsResponse as internalUpdateFundingSettingsResponse,
@@ -180,6 +181,11 @@ export type ListFinancingEligibleAssetsRequest = Record<string, never>;
 export type ListFinancingEligibleAssetsResponse =
   Expand<internalListFinancingEligibleAssetsResponse>;
 
+export type GetConversionFeesRequest = Record<string, never>;
+
+export type GetConversionFeesResponse =
+  Expand<internalGetConversionFeesResponse>;
+
 export type GetCrossMarginRiskParametersRequest = {
   entityId: string;
 };
@@ -241,6 +247,7 @@ export type ListCrossMarginLiquidationsResponse = PaginatedListResponse<
 /* GENERATED-METHOD-ERRORS-START */
 export type {
   CreateNewLocatesError,
+  GetConversionFeesError,
   GetCrossMarginLiquidationError,
   GetCrossMarginOverviewError,
   GetCrossMarginPrimeOverviewError,

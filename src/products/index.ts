@@ -71,12 +71,29 @@ export class ProductsService implements IProductsService {
       .check();
 
     const paginationParams = getQueryParams(this.client, request);
-    const { limit, cursor, sortDirection, portfolioId, ...queryParams } =
-      request;
-    const finalQueryParams = {
+    const {
+      limit,
+      cursor,
+      sortDirection,
+      portfolioId,
+      productType,
+      contractExpiryType,
+      expiringContractStatus,
+      ...queryParams
+    } = request;
+    const finalQueryParams: Record<string, string | number | string[]> = {
       ...paginationParams,
       ...queryParams,
     };
+    if (productType) {
+      finalQueryParams.product_type = productType;
+    }
+    if (contractExpiryType) {
+      finalQueryParams.contract_expiry_type = contractExpiryType;
+    }
+    if (expiringContractStatus) {
+      finalQueryParams.expiring_contract_status = expiringContractStatus;
+    }
     const response = await this.client.request({
       url: `portfolios/${portfolioId}/products`,
       queryParams: finalQueryParams,

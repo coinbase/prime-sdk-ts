@@ -57,6 +57,8 @@ import {
   ListTFObligationsResponse,
   ListFinancingEligibleAssetsRequest,
   ListFinancingEligibleAssetsResponse,
+  GetConversionFeesRequest,
+  GetConversionFeesResponse,
   GetCrossMarginRiskParametersRequest,
   GetCrossMarginRiskParametersResponse,
   GetCrossMarginPrimeOverviewRequest,
@@ -264,6 +266,18 @@ export interface IFinancingService {
     request?: ListFinancingEligibleAssetsRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListFinancingEligibleAssetsResponse>;
+
+  /**
+   * Get Conversion Fees
+   *
+   * Get your organization's stablecoin conversion fee tiers and month-to-date net conversion volume per currency. The organization is resolved from the authenticated API key, which must be organization-scoped.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetConversionFeesError}.
+   */
+  getConversionFees(
+    request?: GetConversionFeesRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetConversionFeesResponse>;
 
   /**
    * Get Cross Margin Risk Parameters
@@ -672,6 +686,18 @@ export class FinancingService implements IFinancingService {
     });
 
     return response.data as ListFinancingEligibleAssetsResponse;
+  }
+
+  async getConversionFees(
+    request?: GetConversionFeesRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetConversionFeesResponse> {
+    const response = await this.client.request({
+      url: `conversion/fees`,
+      callOptions: options,
+    });
+
+    return response.data as GetConversionFeesResponse;
   }
 
   async getCrossMarginRiskParameters(
