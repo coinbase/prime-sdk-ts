@@ -19,11 +19,46 @@
  */
 
 export enum GetPortfolioTransactionsBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The limit field exceeds the maximum number of transactions that can be returned in a single request.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   TransactionLimitExceeded = 'TRANSACTION_LIMIT_EXCEEDED',
+  /**
+   * The cursor field is not a valid pagination token. Omit it or use the cursor value returned from a previous response.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   TransactionCursorInvalid = 'TRANSACTION_CURSOR_INVALID',
+  /**
+   * The travel_rule_status filter contains a value that is not recognized.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   TransactionTravelRuleStatusInvalid = 'TRANSACTION_TRAVEL_RULE_STATUS_INVALID',
+  /**
+   * The combination of request filters is invalid, such as specifying symbols together with the ONCHAIN_TRANSACTION type.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   TransactionFilterInvalid = 'TRANSACTION_FILTER_INVALID',
+  /**
+   * One or more request parameters, such as portfolio_id, transaction_ids, cursor, or limit, failed validation.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   TransactionParamsInvalid = 'TRANSACTION_PARAMS_INVALID',
 }

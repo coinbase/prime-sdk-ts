@@ -19,6 +19,16 @@
  */
 
 export enum GetFcmEquityNotFoundSubcode {
+  /**
+   * No resource was found matching the request, or you do not have access to it.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   AuthResourceNotFound = 'AUTH_RESOURCE_NOT_FOUND',
+  /**
+   * No end-of-day equity data was found for the futures account associated with the given entity_id.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   FcmEquityNotFound = 'FCM_EQUITY_NOT_FOUND',
 }

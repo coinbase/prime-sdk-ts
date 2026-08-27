@@ -19,6 +19,16 @@
  */
 
 export enum GetBuyingPowerNotFoundSubcode {
+  /**
+   * No resource was found matching the request, or you do not have access to it.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   AuthResourceNotFound = 'AUTH_RESOURCE_NOT_FOUND',
+  /**
+   * No buying power data was found for the requested portfolio and currency pair.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   BuyingPowerNotFound = 'BUYING_POWER_NOT_FOUND',
 }

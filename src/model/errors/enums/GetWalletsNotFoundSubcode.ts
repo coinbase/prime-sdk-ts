@@ -19,6 +19,16 @@
  */
 
 export enum GetWalletsNotFoundSubcode {
+  /**
+   * The requested asset could not be found, for example because the currency symbol or asset identifier does not correspond to a supported asset.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   AssetNotFound = 'ASSET_NOT_FOUND',
+  /**
+   * No wallet was found matching the provided wallet_id, or it does not belong to the specified portfolio.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   WalletNotFound = 'WALLET_NOT_FOUND',
 }

@@ -19,6 +19,16 @@
  */
 
 export enum CreateConversionNotFoundSubcode {
+  /**
+   * No resource was found matching the request, or you do not have access to it.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   AuthResourceNotFound = 'AUTH_RESOURCE_NOT_FOUND',
+  /**
+   * The wallet identified by wallet_id or destination could not be found, or does not belong to the specified portfolio_id.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   ConversionWalletNotFound = 'CONVERSION_WALLET_NOT_FOUND',
 }

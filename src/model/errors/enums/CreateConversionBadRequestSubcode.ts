@@ -19,13 +19,58 @@
  */
 
 export enum CreateConversionBadRequestSubcode {
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The wallet_id field is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   WalletIdInvalid = 'WALLET_ID_INVALID',
+  /**
+   * The destination field is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   ConversionDestinationInvalid = 'CONVERSION_DESTINATION_INVALID',
+  /**
+   * The idempotency_key field is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   ConversionIdempotencyKeyInvalid = 'CONVERSION_IDEMPOTENCY_KEY_INVALID',
+  /**
+   * The amount field is not a valid decimal number.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   ConversionAmountInvalid = 'CONVERSION_AMOUNT_INVALID',
+  /**
+   * The source_symbol field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   ConversionSourceSymbolRequired = 'CONVERSION_SOURCE_SYMBOL_REQUIRED',
+  /**
+   * The destination field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   ConversionDestinationRequired = 'CONVERSION_DESTINATION_REQUIRED',
+  /**
+   * The conversion request was rejected as invalid, for example due to an unsupported asset pair or a duplicate transaction.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   ConversionRequestInvalid = 'CONVERSION_REQUEST_INVALID',
+  /**
+   * The conversion could not be completed because a required condition was not met, such as insufficient available balance in the source wallet.
+   *
+   * Error code: FAILED_PRECONDITION (HTTP 400)
+   */
   ConversionFailedPrecondition = 'CONVERSION_FAILED_PRECONDITION',
 }

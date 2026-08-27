@@ -45,3 +45,10 @@ export type CreateAddressBookRequest =
 
 export type CreateAddressBookResponse =
   Expand<CreatePortfolioAddressBookEntryResponse>;
+
+/* GENERATED-METHOD-ERRORS-START */
+export type {
+  CreateAddressBookError,
+  ListAddressBooksError,
+} from '../model/errors/methodErrors';
+/* GENERATED-METHOD-ERRORS-END */

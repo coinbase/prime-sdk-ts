@@ -19,9 +19,34 @@
  */
 
 export enum GetTFTieredPricingFeesBadRequestSubcode {
+  /**
+   * The entity_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   EntityIdRequired = 'ENTITY_ID_REQUIRED',
+  /**
+   * The entity_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   EntityIdInvalid = 'ENTITY_ID_INVALID',
+  /**
+   * The effective_at value is not a valid RFC 3339 timestamp.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   TieredPricingEffectiveAtInvalid = 'TIERED_PRICING_EFFECTIVE_AT_INVALID',
+  /**
+   * One or more parameters in the tiered pricing request are invalid, such as entity_id or effective_at.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   TieredPricingRequestInvalid = 'TIERED_PRICING_REQUEST_INVALID',
+  /**
+   * The tiered pricing request failed a precondition, such as the entity not being enabled for tiered pricing.
+   *
+   * Error code: FAILED_PRECONDITION (HTTP 400)
+   */
   TieredPricingFailedPrecondition = 'TIERED_PRICING_FAILED_PRECONDITION',
 }

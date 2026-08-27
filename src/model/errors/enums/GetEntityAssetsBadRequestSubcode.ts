@@ -19,5 +19,10 @@
  */
 
 export enum GetEntityAssetsBadRequestSubcode {
+  /**
+   * The asset lookup request contains an invalid argument, such as an unsupported currency symbol or malformed asset identifier.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   AssetRequestInvalid = 'ASSET_REQUEST_INVALID',
 }

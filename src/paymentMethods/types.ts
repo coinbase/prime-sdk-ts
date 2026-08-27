@@ -33,3 +33,10 @@ export type GetPaymentMethodRequest = {
 
 export type GetPaymentMethodResponse =
   Expand<GetEntityPaymentMethodDetailsResponse>;
+
+/* GENERATED-METHOD-ERRORS-START */
+export type {
+  GetPaymentMethodError,
+  ListEntityPaymentMethodsError,
+} from '../model/errors/methodErrors';
+/* GENERATED-METHOD-ERRORS-END */

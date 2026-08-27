@@ -19,8 +19,28 @@
  */
 
 export enum GetWithdrawalPowerBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * One or more parameters in the withdrawal power request are invalid, such as portfolio_id or symbol.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   FinancingWithdrawalPowerInvalidArgument = 'FINANCING_WITHDRAWAL_POWER_INVALID_ARGUMENT',
+  /**
+   * The symbol field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   FinancingWithdrawalPowerSymbolRequired = 'FINANCING_WITHDRAWAL_POWER_SYMBOL_REQUIRED',
 }

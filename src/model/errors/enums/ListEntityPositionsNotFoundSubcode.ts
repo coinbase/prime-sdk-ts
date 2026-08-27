@@ -19,6 +19,16 @@
  */
 
 export enum ListEntityPositionsNotFoundSubcode {
+  /**
+   * No resource was found matching the request, or you do not have access to it.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   AuthResourceNotFound = 'AUTH_RESOURCE_NOT_FOUND',
+  /**
+   * No position data was found for the given entity or portfolio.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   EntityPositionNotFound = 'ENTITY_POSITION_NOT_FOUND',
 }

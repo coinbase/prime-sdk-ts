@@ -104,3 +104,17 @@ export type GetStakingStatusRequest = {
 };
 
 export type GetStakingStatusResponse = Expand<internalGetStakingStatusResponse>;
+
+/* GENERATED-METHOD-ERRORS-START */
+export type {
+  ClaimRewardsError,
+  CreatePortfolioStakeError,
+  CreatePortfolioUnstakeError,
+  CreateStakeError,
+  CreateUnstakeError,
+  GetStakingStatusError,
+  GetUnstakingStatusError,
+  PreviewUnstakeError,
+  QueryTransactionValidatorsError,
+} from '../model/errors/methodErrors';
+/* GENERATED-METHOD-ERRORS-END */

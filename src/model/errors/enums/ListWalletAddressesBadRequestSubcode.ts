@@ -19,13 +19,58 @@
  */
 
 export enum ListWalletAddressesBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The wallet_id field is required but was not included in the request.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   WalletIdRequired = 'WALLET_ID_REQUIRED',
+  /**
+   * The wallet_id field is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   WalletIdInvalid = 'WALLET_ID_INVALID',
+  /**
+   * The wallet cannot accept deposits.
+   *
+   * Error code: FAILED_PRECONDITION (HTTP 400)
+   */
   WalletNotDepositable = 'WALLET_NOT_DEPOSITABLE',
+  /**
+   * The deposit request is invalid or not supported for this wallet.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   WalletDepositRequestInvalid = 'WALLET_DEPOSIT_REQUEST_INVALID',
+  /**
+   * The wallet request failed a precondition, such as the wallet not being able to accept the requested action.
+   *
+   * Error code: FAILED_PRECONDITION (HTTP 400)
+   */
   WalletFailedPrecondition = 'WALLET_FAILED_PRECONDITION',
+  /**
+   * The network identifier is malformed. It must be in the format \{network_id\}-\{network_type\} (e.g. base-mainnet), with no spaces, and each part no longer than 20 characters.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   WalletNetworkInvalid = 'WALLET_NETWORK_INVALID',
+  /**
+   * The network type portion of network_id is not a supported value for this environment.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   WalletNetworkTypeNotSupported = 'WALLET_NETWORK_TYPE_NOT_SUPPORTED',
 }

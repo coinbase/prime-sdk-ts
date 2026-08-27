@@ -19,8 +19,28 @@
  */
 
 export enum GetWalletBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The wallet_id field is required but was not included in the request.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   WalletIdRequired = 'WALLET_ID_REQUIRED',
+  /**
+   * The wallet_id field is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   WalletIdInvalid = 'WALLET_ID_INVALID',
 }

@@ -19,5 +19,10 @@
  */
 
 export enum ServiceUnavailableErrorCode {
+  /**
+   * The service is temporarily unavailable. Retry the request after a backoff period.
+   *
+   * HTTP 503
+   */
   ServiceUnavailable = 'SERVICE_UNAVAILABLE',
 }

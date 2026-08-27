@@ -19,6 +19,16 @@
  */
 
 export enum CreateWalletTransferNotFoundSubcode {
+  /**
+   * No resource was found matching the request, or you do not have access to it.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   AuthResourceNotFound = 'AUTH_RESOURCE_NOT_FOUND',
+  /**
+   * No wallet was found matching the provided wallet_id, or it does not belong to the specified portfolio.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   WalletNotFound = 'WALLET_NOT_FOUND',
 }

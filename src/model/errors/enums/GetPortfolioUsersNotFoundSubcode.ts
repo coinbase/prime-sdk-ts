@@ -19,6 +19,16 @@
  */
 
 export enum GetPortfolioUsersNotFoundSubcode {
+  /**
+   * No resource was found matching the request, or you do not have access to it.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   AuthResourceNotFound = 'AUTH_RESOURCE_NOT_FOUND',
+  /**
+   * No portfolio was found matching the provided portfolio_id.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   PortfolioNotFound = 'PORTFOLIO_NOT_FOUND',
 }

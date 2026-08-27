@@ -19,8 +19,28 @@
  */
 
 export enum GetCrossMarginRiskParametersBadRequestSubcode {
+  /**
+   * The entity_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   EntityIdRequired = 'ENTITY_ID_REQUIRED',
+  /**
+   * The entity_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   EntityIdInvalid = 'ENTITY_ID_INVALID',
+  /**
+   * The cross margin or funding settings request contains an invalid argument, such as a portfolio_id, entity_id, or liquidation_id that does not belong to the specified entity.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   CrossMarginInvalidArgument = 'CROSS_MARGIN_INVALID_ARGUMENT',
+  /**
+   * The cross margin or funding settings request failed a precondition, such as the entity or portfolio not being in a state that supports the requested operation.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   CrossMarginFailedPrecondition = 'CROSS_MARGIN_FAILED_PRECONDITION',
 }

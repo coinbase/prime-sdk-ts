@@ -19,7 +19,22 @@
  */
 
 export enum GetOpenOrdersBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The query would return more results than this endpoint allows. Narrow the query or use the Websocket API for a full stream of results.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderLimitExceeded = 'ORDER_LIMIT_EXCEEDED',
 }

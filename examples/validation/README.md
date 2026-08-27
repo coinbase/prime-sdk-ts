@@ -95,8 +95,8 @@ async function yourFunction(portfolioId, orderId) {
     }
 
     if (error instanceof CoinbasePrimeException) {
-      // Server-side API error
-      console.error('❌ API error:', error.statusCode);
+      // Server-side API error — body is camelCased (code, message, subcode, traceId)
+      console.error('❌ API error:', error.statusCode, error.subcode);
       return { success: false, error: 'api' };
     }
 

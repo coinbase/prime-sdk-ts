@@ -19,8 +19,28 @@
  */
 
 export enum GetPortfolioBalancesBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The portfolio balances request contains an invalid cursor or filter.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioBalancesInvalidArgument = 'PORTFOLIO_BALANCES_INVALID_ARGUMENT',
+  /**
+   * The asset lookup request contains an invalid argument, such as an unsupported currency symbol or malformed asset identifier.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   AssetRequestInvalid = 'ASSET_REQUEST_INVALID',
 }

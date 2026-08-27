@@ -71,3 +71,12 @@ export type ListEntityBalancesResponse = PaginatedListResponse<
   ListEntityBalancesRequest & BasePaginatedRequest,
   EntityBalance
 >;
+
+/* GENERATED-METHOD-ERRORS-START */
+export type {
+  GetWalletBalanceError,
+  ListEntityBalancesError,
+  ListOnchainWalletBalancesError,
+  ListPortfolioBalancesError,
+} from '../model/errors/methodErrors';
+/* GENERATED-METHOD-ERRORS-END */

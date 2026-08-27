@@ -19,9 +19,34 @@
  */
 
 export enum GetOrderEditHistoryBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The order_id field is missing from the request.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   OrderIdRequired = 'ORDER_ID_REQUIRED',
+  /**
+   * The order_id provided is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderIdInvalid = 'ORDER_ID_INVALID',
+  /**
+   * No order matching the given order_id was found for this portfolio.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderResourceNotFound = 'ORDER_RESOURCE_NOT_FOUND',
 }

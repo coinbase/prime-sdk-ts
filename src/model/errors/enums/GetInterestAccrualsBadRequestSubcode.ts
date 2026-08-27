@@ -19,14 +19,64 @@
  */
 
 export enum GetInterestAccrualsBadRequestSubcode {
+  /**
+   * The entity_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   EntityIdRequired = 'ENTITY_ID_REQUIRED',
+  /**
+   * The entity_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   EntityIdInvalid = 'ENTITY_ID_INVALID',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The start_date field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   FinancingStartDateRequired = 'FINANCING_START_DATE_REQUIRED',
+  /**
+   * The end_date field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   FinancingEndDateRequired = 'FINANCING_END_DATE_REQUIRED',
+  /**
+   * The start_date value is not a valid RFC 3339 timestamp.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   FinancingStartDateInvalid = 'FINANCING_START_DATE_INVALID',
+  /**
+   * The end_date value is not a valid RFC 3339 timestamp.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   FinancingEndDateInvalid = 'FINANCING_END_DATE_INVALID',
+  /**
+   * One or more parameters in the interest accruals request are invalid, such as entity_id, portfolio_id, start_date, or end_date.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   FinancingAccrualsInvalidArgument = 'FINANCING_ACCRUALS_INVALID_ARGUMENT',
+  /**
+   * The interest accruals request failed a precondition, such as an invalid date range for the requested entity or portfolio.
+   *
+   * Error code: FAILED_PRECONDITION (HTTP 400)
+   */
   FinancingFailedPrecondition = 'FINANCING_FAILED_PRECONDITION',
+  /**
+   * The requested start_date to end_date range exceeds the maximum trailing period of 12 months for interest accruals.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   FinancingAccrualsRangeExceeded = 'FINANCING_ACCRUALS_RANGE_EXCEEDED',
 }

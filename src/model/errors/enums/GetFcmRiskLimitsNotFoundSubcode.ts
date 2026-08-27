@@ -19,6 +19,16 @@
  */
 
 export enum GetFcmRiskLimitsNotFoundSubcode {
+  /**
+   * No resource was found matching the request, or you do not have access to it.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   AuthResourceNotFound = 'AUTH_RESOURCE_NOT_FOUND',
+  /**
+   * No risk limit data was found for the futures account associated with the given entity_id.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   FcmRiskLimitsNotFound = 'FCM_RISK_LIMITS_NOT_FOUND',
 }

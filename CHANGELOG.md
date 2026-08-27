@@ -7,6 +7,9 @@
 - **`isBuyExact`** on order types: optional on `CreateOrderRequest` and `OrderPreviewRequest`; returned on `Order` and `PostOrderPreviewResponse`. When `true` on a BUY order sized in `quoteValue`, fees are charged on top of the requested quote amount instead of being carved out of it (SPOT products only).
 - **`ProductType.Option`** enum value (`OPTION`) for option products.
 - Generated HTTP error response models and error-code/subcode enums under `src/model/errors/` and `src/model/errors/enums/`.
+- Per-member TSDoc on generated `*ErrorCode` and `*Subcode` enums, sourced from OpenAPI `x-error-codes` and `x-subcodes`.
+- HTTP 4xx/5xx responses now throw `CoinbasePrimeException` with a camelCased `body` (`code`, `message`, `subcode`, `traceId`). Use `isPrimeApiError()` and per-method `*Error` unions (e.g. `CreateOrderError`) when inspecting `catch` values. `Promise` return types remain success-only.
+- Example: `examples/advanced/handleApiError.js`.
 
 ### Changed
 

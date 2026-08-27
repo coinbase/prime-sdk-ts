@@ -19,6 +19,16 @@
  */
 
 export enum SubmitDepositTravelRuleDataNotFoundSubcode {
+  /**
+   * No resource was found matching the request, or you do not have access to it.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   AuthResourceNotFound = 'AUTH_RESOURCE_NOT_FOUND',
+  /**
+   * The requested transaction could not be found for this portfolio, or a transaction referenced in transaction_ids does not belong to it.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   TransactionNotFound = 'TRANSACTION_NOT_FOUND',
 }

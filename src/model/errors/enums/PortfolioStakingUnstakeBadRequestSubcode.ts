@@ -19,21 +19,106 @@
  */
 
 export enum PortfolioStakingUnstakeBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The external_id field is not valid UTF-8, or exceeds 255 bytes.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   WalletExternalIdInvalid = 'WALLET_EXTERNAL_ID_INVALID',
+  /**
+   * The staking, unstaking, or claim-rewards request contained an invalid parameter, such as an unsupported amount, address, option, or allocation.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingRequestInvalid = 'STAKING_REQUEST_INVALID',
+  /**
+   * The requested currency or wallet's asset is not supported for this staking operation.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingCurrencyUnsupported = 'STAKING_CURRENCY_UNSUPPORTED',
+  /**
+   * The amount field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   StakingAmountRequired = 'STAKING_AMOUNT_REQUIRED',
+  /**
+   * The amount field is not a valid positive decimal number, or does not match the sum of the provided validator allocation amounts.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingAmountInvalid = 'STAKING_AMOUNT_INVALID',
+  /**
+   * The requested unstake amount is greater than the wallet's, validator's, or portfolio's available unbondable balance.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingAmountExceedsUnbondableBalance = 'STAKING_AMOUNT_EXCEEDS_UNBONDABLE_BALANCE',
+  /**
+   * No wallet eligible for staking or unstaking was found for the given portfolio_id and currency_symbol.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingNoEligibleWallets = 'STAKING_NO_ELIGIBLE_WALLETS',
+  /**
+   * No balance could be found for the requested currency_symbol on this portfolio.
+   *
+   * Error code: FAILED_PRECONDITION (HTTP 400)
+   */
   StakingBalanceNotFound = 'STAKING_BALANCE_NOT_FOUND',
+  /**
+   * No unbondable balance is currently available for the specified validator_provider on this portfolio and currency.
+   *
+   * Error code: FAILED_PRECONDITION (HTTP 400)
+   */
   StakingProviderNoUnbondableBalance = 'STAKING_PROVIDER_NO_UNBONDABLE_BALANCE',
+  /**
+   * The idempotency_key field is required for this staking or unstaking operation.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   StakingIdempotencyKeyRequired = 'STAKING_IDEMPOTENCY_KEY_REQUIRED',
+  /**
+   * The idempotency_key provided is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingIdempotencyKeyInvalid = 'STAKING_IDEMPOTENCY_KEY_INVALID',
+  /**
+   * The currency_symbol field is required for this staking or unstaking operation.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   StakingCurrencySymbolRequired = 'STAKING_CURRENCY_SYMBOL_REQUIRED',
+  /**
+   * The amount and validator_provider fields are mutually exclusive; specify at most one.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingAmountValidatorProviderConflict = 'STAKING_AMOUNT_VALIDATOR_PROVIDER_CONFLICT',
+  /**
+   * The validator_provider field is required for a provider-scoped unstake request.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   StakingValidatorProviderRequired = 'STAKING_VALIDATOR_PROVIDER_REQUIRED',
+  /**
+   * The validator_provider value provided is not a supported provider.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingValidatorProviderNotSupported = 'STAKING_VALIDATOR_PROVIDER_NOT_SUPPORTED',
 }

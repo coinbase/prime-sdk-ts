@@ -19,11 +19,46 @@
  */
 
 export enum PreviewUnstakeBadRequestSubcode {
+  /**
+   * The requested currency or wallet's asset is not supported for this staking operation.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingCurrencyUnsupported = 'STAKING_CURRENCY_UNSUPPORTED',
+  /**
+   * The amount field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   StakingAmountRequired = 'STAKING_AMOUNT_REQUIRED',
+  /**
+   * The amount field is not a valid positive decimal number, or does not match the sum of the provided validator allocation amounts.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingAmountInvalid = 'STAKING_AMOUNT_INVALID',
+  /**
+   * The wallet has no stakeable, unbondable, or claimable balance available for this operation.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingInsufficientBalance = 'STAKING_INSUFFICIENT_BALANCE',
+  /**
+   * The wallet_id does not exist, is not a valid identifier, or does not belong to the given portfolio_id.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingWalletOrPortfolioInvalid = 'STAKING_WALLET_OR_PORTFOLIO_INVALID',
+  /**
+   * The requested unstake amount is greater than the wallet's, validator's, or portfolio's available unbondable balance.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingAmountExceedsUnbondableBalance = 'STAKING_AMOUNT_EXCEEDS_UNBONDABLE_BALANCE',
+  /**
+   * The wallet does not have a cold address on record, which is required to complete this staking operation.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingWalletColdAddressNotFound = 'STAKING_WALLET_COLD_ADDRESS_NOT_FOUND',
 }

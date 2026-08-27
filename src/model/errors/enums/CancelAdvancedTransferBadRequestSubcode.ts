@@ -19,8 +19,28 @@
  */
 
 export enum CancelAdvancedTransferBadRequestSubcode {
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The advanced transfer request is malformed or fails validation, such as a missing portfolio_id, a missing or unsupported transfer type, or an invalid fund movement.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   AdvancedTransferRequestInvalid = 'ADVANCED_TRANSFER_REQUEST_INVALID',
+  /**
+   * The advanced_transfer_id provided does not correspond to a transfer that can be cancelled.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   AdvancedTransferIdInvalid = 'ADVANCED_TRANSFER_ID_INVALID',
+  /**
+   * The advanced transfer cannot be cancelled because it is no longer in a cancellable state.
+   *
+   * Error code: FAILED_PRECONDITION (HTTP 400)
+   */
   AdvancedTransferCancelPreconditionFailed = 'ADVANCED_TRANSFER_CANCEL_PRECONDITION_FAILED',
 }

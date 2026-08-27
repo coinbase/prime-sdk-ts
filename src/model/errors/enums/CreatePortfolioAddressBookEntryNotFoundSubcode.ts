@@ -19,6 +19,16 @@
  */
 
 export enum CreatePortfolioAddressBookEntryNotFoundSubcode {
+  /**
+   * No resource was found matching the request, or you do not have access to it.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   AuthResourceNotFound = 'AUTH_RESOURCE_NOT_FOUND',
+  /**
+   * The requested address book entry could not be found for the given portfolio_id.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   AddressBookNotFound = 'ADDRESS_BOOK_NOT_FOUND',
 }

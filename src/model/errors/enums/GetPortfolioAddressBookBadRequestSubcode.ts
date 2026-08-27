@@ -19,8 +19,28 @@
  */
 
 export enum GetPortfolioAddressBookBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The address book request contains an invalid argument, such as a malformed address or currency_symbol.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   AddressBookInvalidArgument = 'ADDRESS_BOOK_INVALID_ARGUMENT',
+  /**
+   * The address book entry could not be created or retrieved because a precondition was not met.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   AddressBookFailedPrecondition = 'ADDRESS_BOOK_FAILED_PRECONDITION',
 }

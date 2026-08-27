@@ -19,12 +19,52 @@
  */
 
 export enum GetPortfolioFillsBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The order request failed validation, such as an invalid stp_id, price, size, or commission_rate.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderRequestInvalid = 'ORDER_REQUEST_INVALID',
+  /**
+   * The query would return more results than this endpoint allows. Narrow the query or use the Websocket API for a full stream of results.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderLimitExceeded = 'ORDER_LIMIT_EXCEEDED',
+  /**
+   * The limit field for a fills query is outside the allowed range of 1 to 3000.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderFillsLimitInvalid = 'ORDER_FILLS_LIMIT_INVALID',
+  /**
+   * The start_date field is required for this fills query.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   OrderFillsStartDateRequired = 'ORDER_FILLS_START_DATE_REQUIRED',
+  /**
+   * The start_date field is not a valid timestamp.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderFillsStartDateInvalid = 'ORDER_FILLS_START_DATE_INVALID',
+  /**
+   * The end_date field is not a valid timestamp.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderFillsEndDateInvalid = 'ORDER_FILLS_END_DATE_INVALID',
 }

@@ -19,5 +19,10 @@
  */
 
 export enum InternalServerSubcode {
+  /**
+   * An unexpected error occurred while authorizing the request. If this persists, contact support.
+   *
+   * Error code: INTERNAL_ERROR (HTTP 500)
+   */
   AuthAuthorizationFailed = 'AUTH_AUTHORIZATION_FAILED',
 }

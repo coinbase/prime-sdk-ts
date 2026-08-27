@@ -19,8 +19,28 @@
  */
 
 export enum GetPortfolioUsersBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The pagination cursor does not match any user in the result set.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioUsersCursorInvalid = 'PORTFOLIO_USERS_CURSOR_INVALID',
+  /**
+   * The limit parameter for portfolio users is out of the valid range.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioUsersLimitInvalid = 'PORTFOLIO_USERS_LIMIT_INVALID',
 }

@@ -39,6 +39,8 @@ export interface IAllocationService {
    * Create Portfolio Allocations
    *
    * Create allocation for a given portfolio.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link CreateAllocationError}.
    */
   createAllocation(
     request: CreateAllocationRequest,
@@ -49,6 +51,8 @@ export interface IAllocationService {
    * Create Portfolio Net Allocations
    *
    * Create net allocation for a given portfolio.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link CreateNetAllocationError}.
    */
   createNetAllocation(
     request: CreateNetAllocationRequest,
@@ -59,6 +63,8 @@ export interface IAllocationService {
    * List Portfolio Allocations
    *
    * List historical allocations for a given portfolio.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListPortfolioAllocationsError}.
    */
   listPortfolioAllocations(
     request: ListPortfolioAllocationsRequest,
@@ -69,6 +75,8 @@ export interface IAllocationService {
    * Get Net Allocations by Netting ID
    *
    * Retrieve an allocation by netting ID.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListNetAllocationsError}.
    */
   listNetAllocations(
     request: ListNetAllocationsRequest,
@@ -79,6 +87,8 @@ export interface IAllocationService {
    * Get Allocation by ID
    *
    * Retrieve an allocation by allocation ID.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetAllocationError}.
    */
   getAllocation(
     request: GetAllocationRequest,

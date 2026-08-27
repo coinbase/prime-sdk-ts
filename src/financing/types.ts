@@ -237,3 +237,31 @@ export type ListCrossMarginLiquidationsResponse = PaginatedListResponse<
   ListCrossMarginLiquidationsRequest & BasePaginatedRequest,
   XMLiquidationSummary
 >;
+
+/* GENERATED-METHOD-ERRORS-START */
+export type {
+  CreateNewLocatesError,
+  GetCrossMarginLiquidationError,
+  GetCrossMarginOverviewError,
+  GetCrossMarginPrimeOverviewError,
+  GetCrossMarginRiskParametersError,
+  GetEntityLocateAvailabilitiesError,
+  GetFcmMarginCallDetailsError,
+  GetFcmRiskLimitsError,
+  GetMarginInformationError,
+  GetPortfolioBuyingPowerError,
+  GetPortfolioCreditInformationError,
+  GetPortfolioWithdrawalPowerError,
+  GetTieredPricingFeesError,
+  ListCrossMarginLiquidationsError,
+  ListExistingLocatesError,
+  ListInterestAccrualsError,
+  ListMarginCallSummariesError,
+  ListMarginConversionsError,
+  ListMarketDataError,
+  ListPortfolioInterestAccrualsError,
+  ListTFObligationsError,
+  SetFundingSettingsError,
+  UpdateFundingSettingsError,
+} from '../model/errors/methodErrors';
+/* GENERATED-METHOD-ERRORS-END */

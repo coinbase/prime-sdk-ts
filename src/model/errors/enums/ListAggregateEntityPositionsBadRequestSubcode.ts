@@ -19,7 +19,22 @@
  */
 
 export enum ListAggregateEntityPositionsBadRequestSubcode {
+  /**
+   * The entity_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   EntityIdInvalid = 'ENTITY_ID_INVALID',
+  /**
+   * The limit field must be greater than 0 and no greater than the maximum allowed value.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   EntityPositionLimitInvalid = 'ENTITY_POSITION_LIMIT_INVALID',
+  /**
+   * The position request contains an invalid argument, such as a malformed portfolio_id or other filter.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   EntityPositionInvalidArgument = 'ENTITY_POSITION_INVALID_ARGUMENT',
 }

@@ -19,5 +19,10 @@
  */
 
 export enum GetFcmRiskLimitsBadRequestSubcode {
+  /**
+   * The entity_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   EntityIdRequired = 'ENTITY_ID_REQUIRED',
 }

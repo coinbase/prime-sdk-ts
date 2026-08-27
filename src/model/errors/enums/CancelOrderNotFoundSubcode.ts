@@ -19,6 +19,16 @@
  */
 
 export enum CancelOrderNotFoundSubcode {
+  /**
+   * No resource was found matching the request, or you do not have access to it.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   AuthResourceNotFound = 'AUTH_RESOURCE_NOT_FOUND',
+  /**
+   * No order was found matching the provided order_id.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   OrderNotFound = 'ORDER_NOT_FOUND',
 }

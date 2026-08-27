@@ -21,3 +21,7 @@ export type ListAssetsRequest = {
 };
 
 export type ListAssetsResponse = Expand<GetEntityAssetsResponse>;
+
+/* GENERATED-METHOD-ERRORS-START */
+export type { ListAssetsError } from '../model/errors/methodErrors';
+/* GENERATED-METHOD-ERRORS-END */

@@ -66,3 +66,12 @@ export type ListAdvancedTransferTransactionsRequest = {
 
 export type ListAdvancedTransferTransactionsResponse =
   Expand<internalListAdvancedTransferTransactionsResponse>;
+
+/* GENERATED-METHOD-ERRORS-START */
+export type {
+  CancelAdvancedTransferError,
+  CreateAdvancedTransferError,
+  ListAdvancedTransferTransactionsError,
+  ListAdvancedTransfersError,
+} from '../model/errors/methodErrors';
+/* GENERATED-METHOD-ERRORS-END */

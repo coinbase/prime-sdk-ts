@@ -54,6 +54,8 @@ export interface IOrdersService {
    * Get Order by Order ID
    *
    * Retrieve an order by order ID.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetOrderError}.
    */
   getOrder(
     request: GetOrderRequest,
@@ -64,6 +66,8 @@ export interface IOrdersService {
    * List Order Edit History
    *
    * List edit history for a specific order
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetOrderEditHistoryError}.
    */
   getOrderEditHistory(
     request: GetOrderEditHistoryRequest,
@@ -74,6 +78,8 @@ export interface IOrdersService {
    * List Portfolio Fills
    *
    * Retrieve fills on a given portfolio. This endpoint requires a start_date, and returns a payload with a default limit of 100 if not specified by the user. The maximum allowed limit is 3000.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListPortfolioFillsError}.
    */
   listPortfolioFills(
     request: ListPortfolioFillsRequest,
@@ -84,6 +90,8 @@ export interface IOrdersService {
    * List Portfolio Orders
    *
    * List historical orders for a given portfolio. This endpoint returns a payload with a default limit of 100 if not specified by the user. The maximum allowed limit is 3000. <br /><br />**Caution:** Currently, you cannot query open orders with this endpoint: use List Open Orders if you have less than 1000 open orders, otherwise use Websocket API, or FIX API to stream open orders.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListPortfolioOrdersError}.
    */
   listPortfolioOrders(
     request: ListPortfolioOrdersRequest,
@@ -94,6 +102,8 @@ export interface IOrdersService {
    * List Order Fills
    *
    * Retrieve fills on a given order. This endpoint returns a payload with a default limit of 100 if not specified by the user. The maximum allowed limit is 3000.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListOrderFillsError}.
    */
   listOrderFills(
     request: ListOrderFillsRequest,
@@ -104,6 +114,8 @@ export interface IOrdersService {
    * List Open Orders
    *
    * List all open orders. <br /><br />**Caution:** The maximum number of orders returned is 5000. If a client has more than 5000 open orders, an error is returned prompting the user to use Websocket API, or FIX API to stream open orders.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListOpenOrdersError}.
    */
   listOpenOrders(
     request: ListOpenOrdersRequest,
@@ -114,6 +126,8 @@ export interface IOrdersService {
    * Get Order Preview
    *
    * Retrieve an order preview.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link CreateOrderPreviewError}.
    */
   createOrderPreview(
     request: CreateOrderPreviewRequest,
@@ -124,6 +138,8 @@ export interface IOrdersService {
    * Cancel Order
    *
    * Cancel an order. (Filled orders cannot be canceled.)
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link CancelOrderError}.
    */
   cancelOrder(
     request: CancelOrderRequest,
@@ -134,6 +150,8 @@ export interface IOrdersService {
    * Create Order
    *
    * Create an order.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link CreateOrderError}.
    */
   createOrder(
     request: CreateOrderRequest,
@@ -146,6 +164,8 @@ export interface IOrdersService {
    * A Quote Request is the start of the RFQ process. Coinbase Prime sends a Quote Request to Liquidity Providers (LPs) on behalf of a customer looking to participate in an RFQ trade.
    *
    * Always required: portfolio_id, product_id, side, client_quote_id, and limit_price. One of either base_quantity or quote_value is always required.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link CreateQuoteError}.
    */
   createQuote(
     request: CreateQuoteRequest,
@@ -158,6 +178,8 @@ export interface IOrdersService {
    * Accepts the quote received by the quote request and creates an order with the provided quote ID.
    *
    * Always required: portfolio_id, product_id, side, quote_id, client_quote_id.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link AcceptQuoteError}.
    */
   acceptQuote(
     request: AcceptQuoteRequest,
@@ -168,6 +190,8 @@ export interface IOrdersService {
    * Edit Order
    *
    * Edit an open order.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link EditOrderError}.
    */
   editOrder(
     request: EditOrderRequest,

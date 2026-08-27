@@ -19,8 +19,28 @@
  */
 
 export enum GetPortfolioCommissionBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The product_id is not a recognized trading pair.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   CommissionProductIdInvalid = 'COMMISSION_PRODUCT_ID_INVALID',
+  /**
+   * The portfolio_id belongs to a portfolio that is not enabled for trading, so a trading commission rate cannot be calculated for it.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   CommissionTradingNotEnabled = 'COMMISSION_TRADING_NOT_ENABLED',
 }

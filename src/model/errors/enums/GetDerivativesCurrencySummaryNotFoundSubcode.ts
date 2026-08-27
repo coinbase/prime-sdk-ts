@@ -19,6 +19,16 @@
  */
 
 export enum GetDerivativesCurrencySummaryNotFoundSubcode {
+  /**
+   * No resource was found matching the request, or you do not have access to it.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   AuthResourceNotFound = 'AUTH_RESOURCE_NOT_FOUND',
+  /**
+   * No futures balance data was found for the given entity_id.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   FcmBalanceNotFound = 'FCM_BALANCE_NOT_FOUND',
 }

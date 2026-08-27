@@ -19,9 +19,34 @@
  */
 
 export enum GetEntityActivitiesBadRequestSubcode {
+  /**
+   * The entity_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   EntityIdInvalid = 'ENTITY_ID_INVALID',
+  /**
+   * The activity request contains an invalid argument, such as a malformed filter or identifier.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   ActivityRequestInvalid = 'ACTIVITY_REQUEST_INVALID',
+  /**
+   * The categories field contains a value that is not a supported activity category.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   ActivityCategoryInvalid = 'ACTIVITY_CATEGORY_INVALID',
+  /**
+   * The start_time or end_time field is not a valid RFC 3339 timestamp, or end_time is earlier than start_time.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   ActivityTimeRangeInvalid = 'ACTIVITY_TIME_RANGE_INVALID',
+  /**
+   * The statuses field contains a value that is not a supported activity status.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   ActivityStatusInvalid = 'ACTIVITY_STATUS_INVALID',
 }

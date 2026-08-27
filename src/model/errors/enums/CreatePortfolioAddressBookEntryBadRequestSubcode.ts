@@ -19,10 +19,40 @@
  */
 
 export enum CreatePortfolioAddressBookEntryBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The address book request contains an invalid argument, such as a malformed address or currency_symbol.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   AddressBookInvalidArgument = 'ADDRESS_BOOK_INVALID_ARGUMENT',
+  /**
+   * The address book entry could not be created or retrieved because a precondition was not met.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   AddressBookFailedPrecondition = 'ADDRESS_BOOK_FAILED_PRECONDITION',
+  /**
+   * The address field is required to create an address book entry.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   AddressBookAddressRequired = 'ADDRESS_BOOK_ADDRESS_REQUIRED',
+  /**
+   * The currency_symbol field is required to create an address book entry.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   AddressBookCurrencySymbolRequired = 'ADDRESS_BOOK_CURRENCY_SYMBOL_REQUIRED',
+  /**
+   * The name field is required to create an address book entry.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   AddressBookNameRequired = 'ADDRESS_BOOK_NAME_REQUIRED',
 }

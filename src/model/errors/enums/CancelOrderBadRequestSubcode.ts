@@ -19,13 +19,58 @@
  */
 
 export enum CancelOrderBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The order_id field is missing from the request.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   OrderIdRequired = 'ORDER_ID_REQUIRED',
+  /**
+   * The order_id provided is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderIdInvalid = 'ORDER_ID_INVALID',
+  /**
+   * The product_id is not a valid or currently tradable product for this request.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderProductIdInvalid = 'ORDER_PRODUCT_ID_INVALID',
+  /**
+   * The order is fully filled and can no longer be canceled.
+   *
+   * Error code: FAILED_PRECONDITION (HTTP 400)
+   */
   OrderFullyFilled = 'ORDER_FULLY_FILLED',
+  /**
+   * The order is currently being replaced (edited) and cannot be canceled while that is in progress.
+   *
+   * Error code: FAILED_PRECONDITION (HTTP 400)
+   */
   OrderBeingReplaced = 'ORDER_BEING_REPLACED',
+  /**
+   * A cancel request for this order has already been submitted and is still being processed.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderCancelDuplicate = 'ORDER_CANCEL_DUPLICATE',
+  /**
+   * The FCM trading session associated with this order is not valid for the requested cancel operation.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderSessionInvalid = 'ORDER_SESSION_INVALID',
 }

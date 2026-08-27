@@ -19,6 +19,16 @@
  */
 
 export enum GetFcmMarginCallDetailsBadRequestSubcode {
+  /**
+   * The entity_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   EntityIdRequired = 'ENTITY_ID_REQUIRED',
+  /**
+   * The request contained an invalid argument for this futures operation, such as an unrecognized entity_id or an invalid amount or currency.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   FcmInvalidArgument = 'FCM_INVALID_ARGUMENT',
 }

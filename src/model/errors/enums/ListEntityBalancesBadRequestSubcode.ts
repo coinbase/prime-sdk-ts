@@ -19,7 +19,22 @@
  */
 
 export enum ListEntityBalancesBadRequestSubcode {
+  /**
+   * The entity_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   EntityIdInvalid = 'ENTITY_ID_INVALID',
+  /**
+   * The limit parameter for entity balances is out of the valid range.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   EntityBalancesLimitInvalid = 'ENTITY_BALANCES_LIMIT_INVALID',
+  /**
+   * The entity balances request contains an invalid cursor or filter.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   EntityBalancesInvalidArgument = 'ENTITY_BALANCES_INVALID_ARGUMENT',
 }

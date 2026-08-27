@@ -19,5 +19,10 @@
  */
 
 export enum InternalServerErrorCode {
+  /**
+   * An unexpected internal error occurred while processing the request. If this persists, contact support.
+   *
+   * HTTP 500
+   */
   InternalError = 'INTERNAL_ERROR',
 }

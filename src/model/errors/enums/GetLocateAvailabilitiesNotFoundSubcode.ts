@@ -19,6 +19,16 @@
  */
 
 export enum GetLocateAvailabilitiesNotFoundSubcode {
+  /**
+   * No resource was found matching the request, or you do not have access to it.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   AuthResourceNotFound = 'AUTH_RESOURCE_NOT_FOUND',
+  /**
+   * No locate availability data was found for the requested entity and date.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   LocateAvailabilityNotFound = 'LOCATE_AVAILABILITY_NOT_FOUND',
 }

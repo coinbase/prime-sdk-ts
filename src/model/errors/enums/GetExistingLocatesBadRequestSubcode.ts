@@ -19,10 +19,40 @@
  */
 
 export enum GetExistingLocatesBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The locate_date value is not a valid YYYY-MM-DD date.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   LocateDateInvalid = 'LOCATE_DATE_INVALID',
+  /**
+   * The stock locate request is invalid — for example, both locate_date and locate_ids are missing, or the requested locate_date is in the past or too far in the future.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   LocateRequestInvalid = 'LOCATE_REQUEST_INVALID',
+  /**
+   * One or more values in locate_ids are not valid UUIDs.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   LocateIdsInvalid = 'LOCATE_IDS_INVALID',
+  /**
+   * The stock locate request failed a precondition, such as no availability for the requested currency or portfolio margin not being enabled.
+   *
+   * Error code: FAILED_PRECONDITION (HTTP 400)
+   */
   LocateFailedPrecondition = 'LOCATE_FAILED_PRECONDITION',
 }

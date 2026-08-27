@@ -19,6 +19,16 @@
  */
 
 export enum GetPostTradeCreditNotFoundSubcode {
+  /**
+   * No resource was found matching the request, or you do not have access to it.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   AuthResourceNotFound = 'AUTH_RESOURCE_NOT_FOUND',
+  /**
+   * Post-trade credit information is not available for this portfolio because its entity has portfolio margin enabled.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   FinancingPtcDisabledForPmEntity = 'FINANCING_PTC_DISABLED_FOR_PM_ENTITY',
 }

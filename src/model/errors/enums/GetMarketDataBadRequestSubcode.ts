@@ -19,7 +19,22 @@
  */
 
 export enum GetMarketDataBadRequestSubcode {
+  /**
+   * The entity_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   EntityIdRequired = 'ENTITY_ID_REQUIRED',
+  /**
+   * The entity_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   EntityIdInvalid = 'ENTITY_ID_INVALID',
+  /**
+   * The request contained an invalid argument, such as an unrecognized entity_id, cursor, or sort_direction.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   MarketDataInvalidArgument = 'MARKET_DATA_INVALID_ARGUMENT',
 }

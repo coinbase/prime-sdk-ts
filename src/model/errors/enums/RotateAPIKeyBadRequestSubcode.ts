@@ -19,6 +19,16 @@
  */
 
 export enum RotateAPIKeyBadRequestSubcode {
+  /**
+   * The duration_seconds field exceeds the maximum allowed rotation timespan of 30 days.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   ApiKeyInvalidDuration = 'API_KEY_INVALID_DURATION',
+  /**
+   * A rotation has already been initiated for this API key. Only one rotation may be pending at a time.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   ApiKeyAlreadyRotated = 'API_KEY_ALREADY_ROTATED',
 }

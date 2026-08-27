@@ -26,6 +26,8 @@ export interface ICommissionService {
    * Get Portfolio Commission
    *
    * Retrieve commission associated with a given portfolio.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetPortfolioCommissionError}.
    */
   getPortfolioCommission(
     request: GetPortfolioCommissionRequest,

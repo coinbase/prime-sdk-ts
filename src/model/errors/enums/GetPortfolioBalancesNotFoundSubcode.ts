@@ -19,7 +19,22 @@
  */
 
 export enum GetPortfolioBalancesNotFoundSubcode {
+  /**
+   * No resource was found matching the request, or you do not have access to it.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   AuthResourceNotFound = 'AUTH_RESOURCE_NOT_FOUND',
+  /**
+   * No balances were found for the requested portfolio.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   PortfolioBalancesNotFound = 'PORTFOLIO_BALANCES_NOT_FOUND',
+  /**
+   * The requested asset could not be found, for example because the currency symbol or asset identifier does not correspond to a supported asset.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   AssetNotFound = 'ASSET_NOT_FOUND',
 }

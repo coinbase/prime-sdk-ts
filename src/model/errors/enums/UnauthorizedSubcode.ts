@@ -19,6 +19,16 @@
  */
 
 export enum UnauthorizedSubcode {
+  /**
+   * The request could not be authenticated. Check that the credentials supplied with the request are valid.
+   *
+   * Error code: AUTHENTICATION_FAILED (HTTP 401)
+   */
   AuthUnauthenticated = 'AUTH_UNAUTHENTICATED',
+  /**
+   * Portfolio margin is not enabled for the requested portfolio or entity, so this financing endpoint cannot return data.
+   *
+   * Error code: AUTHENTICATION_FAILED (HTTP 401)
+   */
   FinancingPortfolioMarginNotEnabled = 'FINANCING_PORTFOLIO_MARGIN_NOT_ENABLED',
 }

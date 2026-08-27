@@ -19,11 +19,46 @@
  */
 
 export enum CreateAdvancedTransferBadRequestSubcode {
+  /**
+   * The advanced transfer request is malformed or fails validation, such as a missing portfolio_id, a missing or unsupported transfer type, or an invalid fund movement.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   AdvancedTransferRequestInvalid = 'ADVANCED_TRANSFER_REQUEST_INVALID',
+  /**
+   * The advanced transfer cannot be processed because a precondition was not met, such as no wallet being available in the portfolio for one of the fund movement currencies.
+   *
+   * Error code: FAILED_PRECONDITION (HTTP 400)
+   */
   AdvancedTransferPreconditionFailed = 'ADVANCED_TRANSFER_PRECONDITION_FAILED',
+  /**
+   * The settlement_date, settlement_time, or trade_date field is not in the expected format.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   AdvancedTransferDateInvalid = 'ADVANCED_TRANSFER_DATE_INVALID',
+  /**
+   * The advanced transfer includes more fund movements than the maximum number of legs allowed per transfer.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   AdvancedTransferTooManyFundMovements = 'ADVANCED_TRANSFER_TOO_MANY_FUND_MOVEMENTS',
+  /**
+   * The fund movements in this advanced transfer do not all settle against the same counterparty; all legs must share a single counterparty.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   AdvancedTransferCounterpartyInvalid = 'ADVANCED_TRANSFER_COUNTERPARTY_INVALID',
+  /**
+   * The amount on one or more fund movements is not a valid positive decimal value.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   AdvancedTransferAmountInvalid = 'ADVANCED_TRANSFER_AMOUNT_INVALID',
+  /**
+   * One or more fund movements is missing its counterparty identifier.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   AdvancedTransferCounterpartyRequired = 'ADVANCED_TRANSFER_COUNTERPARTY_REQUIRED',
 }

@@ -47,3 +47,12 @@ export type DeleteOnchainAddressBookEntryRequest = {
 
 export type DeleteOnchainAddressBookEntryResponse =
   Expand<ActivityCreationResponse>;
+
+/* GENERATED-METHOD-ERRORS-START */
+export type {
+  CreateOnchainAddressBookEntryError,
+  DeleteOnchainAddressBookError,
+  ListOnchainAddressBookError,
+  UpdateOnchainAddressBookEntryError,
+} from '../model/errors/methodErrors';
+/* GENERATED-METHOD-ERRORS-END */

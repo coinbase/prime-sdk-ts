@@ -19,11 +19,46 @@
  */
 
 export enum ListWeb3WalletBalancesBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The wallet_id field is required but was not included in the request.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   WalletIdRequired = 'WALLET_ID_REQUIRED',
+  /**
+   * The wallet_id field is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   WalletIdInvalid = 'WALLET_ID_INVALID',
+  /**
+   * The wallet's type does not support this operation.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   WalletTypeNotSupported = 'WALLET_TYPE_NOT_SUPPORTED',
+  /**
+   * The limit field is outside the allowed range for this request.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   WalletBalancesLimitInvalid = 'WALLET_BALANCES_LIMIT_INVALID',
+  /**
+   * The visibility_statuses filter contains more values than are allowed.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   WalletVisibilityStatusesInvalid = 'WALLET_VISIBILITY_STATUSES_INVALID',
 }

@@ -19,12 +19,52 @@
  */
 
 export enum GetPortfolioInterestAccrualsBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The start_date field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   FinancingStartDateRequired = 'FINANCING_START_DATE_REQUIRED',
+  /**
+   * The end_date field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   FinancingEndDateRequired = 'FINANCING_END_DATE_REQUIRED',
+  /**
+   * The start_date value is not a valid RFC 3339 timestamp.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   FinancingStartDateInvalid = 'FINANCING_START_DATE_INVALID',
+  /**
+   * The end_date value is not a valid RFC 3339 timestamp.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   FinancingEndDateInvalid = 'FINANCING_END_DATE_INVALID',
+  /**
+   * One or more parameters in the interest accruals request are invalid, such as entity_id, portfolio_id, start_date, or end_date.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   FinancingAccrualsInvalidArgument = 'FINANCING_ACCRUALS_INVALID_ARGUMENT',
+  /**
+   * The start_date to end_date range provided for interest accruals is not valid for the requested portfolio.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   FinancingAccrualsDateInvalid = 'FINANCING_ACCRUALS_DATE_INVALID',
 }

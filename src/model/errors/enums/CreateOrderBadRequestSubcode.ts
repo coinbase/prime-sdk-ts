@@ -19,27 +19,142 @@
  */
 
 export enum CreateOrderBadRequestSubcode {
+  /**
+   * The entity_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   EntityIdInvalid = 'ENTITY_ID_INVALID',
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The requested currency pair is not valid or not supported for buying power.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   BuyingPowerCurrencyInvalid = 'BUYING_POWER_CURRENCY_INVALID',
+  /**
+   * The buying power request failed a precondition, such as the portfolio not being in a state that supports the requested currency pair.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   BuyingPowerFailedPrecondition = 'BUYING_POWER_FAILED_PRECONDITION',
+  /**
+   * The order request failed validation, such as an invalid stp_id, price, size, or commission_rate.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderRequestInvalid = 'ORDER_REQUEST_INVALID',
+  /**
+   * STOP_LIMIT orders are not enabled for this portfolio.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderStopLimitNotEnabled = 'ORDER_STOP_LIMIT_NOT_ENABLED',
+  /**
+   * PEG orders are not enabled for this portfolio.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderPegNotEnabled = 'ORDER_PEG_NOT_ENABLED',
+  /**
+   * An order with this client_order_id already exists. Use a unique client_order_id for each new order.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderDuplicateClientOrderId = 'ORDER_DUPLICATE_CLIENT_ORDER_ID',
+  /**
+   * The order was rejected during processing and was not placed.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderRejected = 'ORDER_REJECTED',
+  /**
+   * The product_id is not a valid or currently tradable product for this request.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderProductIdInvalid = 'ORDER_PRODUCT_ID_INVALID',
+  /**
+   * The requested order type is not allowed on this endpoint (for example, BLOCK or RFQ orders submitted via CreateOrder).
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderTypeNotAllowed = 'ORDER_TYPE_NOT_ALLOWED',
+  /**
+   * The requested time_in_force (such as FILL_OR_KILL) is not enabled for this portfolio.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderTifNotEnabled = 'ORDER_TIF_NOT_ENABLED',
+  /**
+   * The order request could not be completed because a required precondition was not met, for example an account needed to process the order could not be found or created.
+   *
+   * Error code: FAILED_PRECONDITION (HTTP 400)
+   */
   OrderFailedPrecondition = 'ORDER_FAILED_PRECONDITION',
+  /**
+   * The side field is not a supported order side. Specify BUY or SELL.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderSideInvalid = 'ORDER_SIDE_INVALID',
+  /**
+   * The order size is missing. Specify either base_quantity or quote_value.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   OrderSizeRequired = 'ORDER_SIZE_REQUIRED',
+  /**
+   * The order size is invalid, either because it could not be parsed as a number or because both base_quantity and quote_value were specified.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderSizeInvalid = 'ORDER_SIZE_INVALID',
+  /**
+   * The display size is invalid, either because both display size fields were specified or because the display size field does not match the currency of the order size.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderDisplaySizeInvalid = 'ORDER_DISPLAY_SIZE_INVALID',
+  /**
+   * The order price is invalid, either because limit_price could not be parsed as a number or because a limit price was supplied for a market order.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderPriceInvalid = 'ORDER_PRICE_INVALID',
+  /**
+   * The stop_price for a STOP_LIMIT order is missing or could not be parsed as a number.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderStopPriceInvalid = 'ORDER_STOP_PRICE_INVALID',
+  /**
+   * The time_in_force value is not compatible with the requested order type or post-only flag.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderTimeInForceInvalid = 'ORDER_TIME_IN_FORCE_INVALID',
+  /**
+   * The order is missing a start_time or end_time required for its order type or time-in-force.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderTimeRangeInvalid = 'ORDER_TIME_RANGE_INVALID',
+  /**
+   * The peg_offset_type is not a supported value for a PEG order.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderPegOffsetTypeInvalid = 'ORDER_PEG_OFFSET_TYPE_INVALID',
 }

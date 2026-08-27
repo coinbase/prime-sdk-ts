@@ -19,11 +19,46 @@
  */
 
 export enum GetUnstakingStatusBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The wallet_id field is required but was not included in the request.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   WalletIdRequired = 'WALLET_ID_REQUIRED',
+  /**
+   * The wallet_id field is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   WalletIdInvalid = 'WALLET_ID_INVALID',
+  /**
+   * The wallet's type does not support this operation.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   WalletTypeNotSupported = 'WALLET_TYPE_NOT_SUPPORTED',
+  /**
+   * The staking, unstaking, or claim-rewards request contained an invalid parameter, such as an unsupported amount, address, option, or allocation.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingRequestInvalid = 'STAKING_REQUEST_INVALID',
+  /**
+   * The requested currency or wallet's asset is not supported for this staking operation.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingCurrencyUnsupported = 'STAKING_CURRENCY_UNSUPPORTED',
 }

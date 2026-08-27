@@ -15,6 +15,7 @@
  */
 const fs = require('fs');
 const path = require('path');
+const yaml = require('js-yaml');
 const prettier = require('prettier');
 
 // Source and destination directories
@@ -94,6 +95,101 @@ function isErrorModelName(name) {
     /ErrorResponse$/.test(name) ||
     /ErrorCode$/.test(name) ||
     /Subcode$/.test(name)
+  );
+}
+
+function escapeForTsDoc(text) {
+  return String(text)
+    .replace(/\\/g, '\\\\')
+    .replace(/\{/g, '\\{')
+    .replace(/\}/g, '\\}');
+}
+
+function loadErrorCatalogs() {
+  const specPath = path.join(__dirname, 'prime-public-api-spec.yaml');
+  const spec = yaml.load(fs.readFileSync(specPath, 'utf8'));
+  const errorCodes = new Map();
+  const subcodes = new Map();
+
+  for (const tag of spec.tags || []) {
+    for (const entry of tag['x-error-codes'] || []) {
+      if (entry && entry.name) {
+        errorCodes.set(entry.name, entry);
+      }
+    }
+    for (const entry of tag['x-subcodes'] || []) {
+      if (entry && entry.name) {
+        subcodes.set(entry.name, entry);
+      }
+    }
+  }
+
+  return { errorCodes, subcodes };
+}
+
+function buildEnumMemberTsDoc(wireValue, catalog, isSubcode) {
+  if (!catalog) {
+    return null;
+  }
+
+  const lines = [];
+  if (catalog.description) {
+    for (const line of String(catalog.description).split('\n')) {
+      lines.push(escapeForTsDoc(line.trimEnd()));
+    }
+  }
+
+  if (isSubcode) {
+    const status =
+      catalog.httpStatus != null ? ` (HTTP ${catalog.httpStatus})` : '';
+    const errorCode = catalog.errorCode
+      ? `Error code: ${escapeForTsDoc(String(catalog.errorCode))}${status}`
+      : status
+        ? `HTTP ${catalog.httpStatus}`
+        : null;
+    if (errorCode) {
+      if (lines.length > 0) {
+        lines.push('');
+      }
+      lines.push(errorCode);
+    }
+  } else if (catalog.httpStatus != null) {
+    if (lines.length > 0) {
+      lines.push('');
+    }
+    lines.push(`HTTP ${catalog.httpStatus}`);
+  }
+
+  if (lines.length === 0) {
+    return null;
+  }
+
+  return ['  /**', ...lines.map((line) => `   * ${line}`), '   */'].join('\n');
+}
+
+function annotateErrorEnumMembers(content, enumName, catalogs, stats) {
+  const isSubcode = /Subcode$/.test(enumName);
+  const isErrorCode = /ErrorCode$/.test(enumName);
+  if (!isSubcode && !isErrorCode) {
+    return content;
+  }
+
+  const catalog = isSubcode ? catalogs.subcodes : catalogs.errorCodes;
+
+  return content.replace(
+    /^(\s*)([A-Za-z_][A-Za-z0-9_]*)\s*=\s*'([^']+)'/gm,
+    (match, indent, ident, wireValue) => {
+      stats.total += 1;
+      const entry = catalog.get(wireValue);
+      const tsdoc = buildEnumMemberTsDoc(wireValue, entry, isSubcode);
+      if (!tsdoc) {
+        stats.missing += 1;
+        stats.missingValues.push(`${enumName}.${ident} (${wireValue})`);
+        return match;
+      }
+      stats.documented += 1;
+      return `${tsdoc}\n${indent}${ident} = '${wireValue}'`;
+    }
   );
 }
 
@@ -307,6 +403,13 @@ async function processFiles() {
 
   const enumNames = new Set();
   const errorNames = new Set();
+  const catalogs = loadErrorCatalogs();
+  const catalogStats = {
+    total: 0,
+    documented: 0,
+    missing: 0,
+    missingValues: [],
+  };
 
   for (const file of files) {
     const sourcePath = path.join(sourceDir, file);
@@ -381,6 +484,16 @@ async function processFiles() {
       updatedContent,
       getHeaderYear(destPath)
     );
+
+    if (isError && isEnum) {
+      updatedContent = annotateErrorEnumMembers(
+        updatedContent,
+        name,
+        catalogs,
+        catalogStats
+      );
+    }
+
     updatedContent = await prettier.format(updatedContent, prettierConfig);
 
     if (fs.existsSync(destPath)) {
@@ -406,6 +519,18 @@ async function processFiles() {
   );
 
   console.log('All files processed.');
+  console.log(
+    `Error enum catalog docs: ${catalogStats.documented}/${catalogStats.total} members documented` +
+      (catalogStats.missing
+        ? `, ${catalogStats.missing} missing from x-error-codes/x-subcodes`
+        : '')
+  );
+  if (catalogStats.missingValues.length > 0) {
+    console.log(
+      'Undocumented error enum members:\n' +
+        catalogStats.missingValues.map((value) => `  - ${value}`).join('\n')
+    );
+  }
 }
 
 // Execute the script

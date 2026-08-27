@@ -100,3 +100,19 @@ export type GetEntityFcmEquityRequest = {
 };
 
 export type GetEntityFcmEquityResponse = Expand<internalGetFcmEquityResponse>;
+
+/* GENERATED-METHOD-ERRORS-START */
+export type {
+  CancelEntitySweepError,
+  GetEntityBalanceError,
+  GetEntityEquityError,
+  GetEntityPositionsError,
+  GetFcmSettingsError,
+  GetMarginCallDetailsError,
+  GetRiskLimitsError,
+  ListEntitySweepsError,
+  ScheduleEntitySweepError,
+  SetFcmSettingsError,
+  UpdateEntityAutoSweepError,
+} from '../model/errors/methodErrors';
+/* GENERATED-METHOD-ERRORS-END */

@@ -19,5 +19,10 @@
  */
 
 export enum NotFoundErrorCode {
+  /**
+   * The requested resource could not be found.
+   *
+   * HTTP 404
+   */
   ResourceNotFound = 'RESOURCE_NOT_FOUND',
 }

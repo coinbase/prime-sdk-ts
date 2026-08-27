@@ -19,7 +19,22 @@
  */
 
 export enum GetOrdersBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The requested order_status values include non-terminal statuses (such as OPEN or PENDING), which this endpoint does not support. Use the Open Orders endpoint, or the Websocket/FIX API, to retrieve non-terminal orders.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderStatusInvalid = 'ORDER_STATUS_INVALID',
 }

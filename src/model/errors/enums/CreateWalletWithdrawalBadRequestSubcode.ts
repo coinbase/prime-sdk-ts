@@ -19,18 +19,88 @@
  */
 
 export enum CreateWalletWithdrawalBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The wallet_id field is required but was not included in the request.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   WalletIdRequired = 'WALLET_ID_REQUIRED',
+  /**
+   * The wallet_id field is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   WalletIdInvalid = 'WALLET_ID_INVALID',
+  /**
+   * The request contains an invalid argument for this wallet operation.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   WalletRequestInvalid = 'WALLET_REQUEST_INVALID',
+  /**
+   * The wallet request failed a precondition, such as the wallet not being able to accept the requested action.
+   *
+   * Error code: FAILED_PRECONDITION (HTTP 400)
+   */
   WalletFailedPrecondition = 'WALLET_FAILED_PRECONDITION',
+  /**
+   * The network identifier is malformed. It must be in the format \{network_id\}-\{network_type\} (e.g. base-mainnet), with no spaces, and each part no longer than 20 characters.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   WalletNetworkInvalid = 'WALLET_NETWORK_INVALID',
+  /**
+   * The amount field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   WalletAmountRequired = 'WALLET_AMOUNT_REQUIRED',
+  /**
+   * The idempotency_key field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   WalletIdempotencyKeyRequired = 'WALLET_IDEMPOTENCY_KEY_REQUIRED',
+  /**
+   * The idempotency_key field is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   WalletIdempotencyKeyInvalid = 'WALLET_IDEMPOTENCY_KEY_INVALID',
+  /**
+   * The currency_symbol field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   WalletCurrencySymbolRequired = 'WALLET_CURRENCY_SYMBOL_REQUIRED',
+  /**
+   * The destination_type field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   WalletDestinationTypeRequired = 'WALLET_DESTINATION_TYPE_REQUIRED',
+  /**
+   * The destination_type field is not a supported value for this operation.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   WalletDestinationTypeInvalid = 'WALLET_DESTINATION_TYPE_INVALID',
+  /**
+   * The counterparty_id field is required when destination_type is a counterparty destination.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   WalletCounterpartyIdRequired = 'WALLET_COUNTERPARTY_ID_REQUIRED',
 }

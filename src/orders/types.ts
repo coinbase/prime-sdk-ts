@@ -147,3 +147,20 @@ export type EditOrderRequest = internalEditOrderRequest & {
 };
 
 export type EditOrderResponse = Expand<internalEditOrderResponse>;
+
+/* GENERATED-METHOD-ERRORS-START */
+export type {
+  AcceptQuoteError,
+  CancelOrderError,
+  CreateOrderError,
+  CreateOrderPreviewError,
+  CreateQuoteError,
+  EditOrderError,
+  GetOrderEditHistoryError,
+  GetOrderError,
+  ListOpenOrdersError,
+  ListOrderFillsError,
+  ListPortfolioFillsError,
+  ListPortfolioOrdersError,
+} from '../model/errors/methodErrors';
+/* GENERATED-METHOD-ERRORS-END */

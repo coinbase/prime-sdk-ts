@@ -19,7 +19,22 @@
  */
 
 export enum ListTransactionValidatorsBadRequestSubcode {
+  /**
+   * The transaction does not support the requested operation, such as submitting travel rule data for a transaction that is not a deposit.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   TransactionTypeUnsupported = 'TRANSACTION_TYPE_UNSUPPORTED',
+  /**
+   * One or more values in transaction_ids are missing, exceed the maximum allowed count, or are not valid UUIDs.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   TransactionIdsInvalid = 'TRANSACTION_IDS_INVALID',
+  /**
+   * One or more request parameters, such as portfolio_id, transaction_ids, cursor, or limit, failed validation.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   TransactionParamsInvalid = 'TRANSACTION_PARAMS_INVALID',
 }

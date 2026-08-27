@@ -42,6 +42,8 @@ export interface IWalletsService {
    * List Portfolio Wallets
    *
    * List all wallets associated with a given portfolio.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListWalletsError}.
    */
   listWallets(
     request: ListWalletsRequest,
@@ -52,6 +54,8 @@ export interface IWalletsService {
    * Get Wallet by Wallet ID
    *
    * Retrieve a specific wallet by Wallet ID.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetWalletError}.
    */
   getWallet(
     request: GetWalletRequest,
@@ -62,6 +66,8 @@ export interface IWalletsService {
    * Get Wallet Deposit Instructions
    *
    * Retrieve a specific wallet's deposit instructions.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetWalletDepositInstructionsError}.
    */
   getWalletDepositInstructions(
     request: GetWalletDepositInstructionsRequest,
@@ -72,6 +78,8 @@ export interface IWalletsService {
    * List Wallet Addresses
    *
    * Returns all deposit addresses associated with a wallet
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListWalletAddressesError}.
    */
   listWalletAddresses(
     request: ListWalletAddressesRequest,
@@ -82,6 +90,8 @@ export interface IWalletsService {
    * Create Wallet
    *
    * Create a wallet. Note: The first ONCHAIN wallet for each network family must be created through the Prime UI.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link CreateWalletError}.
    */
   createWallet(
     request: CreateWalletRequest,
@@ -92,6 +102,8 @@ export interface IWalletsService {
    * Create Wallet Deposit Address
    *
    * Creates a new deposit address for a wallet. Only applicable to wallets that support multiple deposit addresses on a given network
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link CreateWalletDepositAddressError}.
    */
   createWalletDepositAddress(
     request: CreateWalletDepositAddressRequest,

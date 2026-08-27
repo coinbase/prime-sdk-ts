@@ -19,11 +19,46 @@
  */
 
 export enum GetAllocationBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The allocation_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   AllocationIdRequired = 'ALLOCATION_ID_REQUIRED',
+  /**
+   * The allocation_id field is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   AllocationIdInvalid = 'ALLOCATION_ID_INVALID',
+  /**
+   * The netting_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   AllocationNettingIdRequired = 'ALLOCATION_NETTING_ID_REQUIRED',
+  /**
+   * The netting_id field is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   AllocationNettingIdInvalid = 'ALLOCATION_NETTING_ID_INVALID',
+  /**
+   * One or more allocation request fields, such as product_id, order_ids, allocation_legs, or size_type, are missing or invalid.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   AllocationRequestInvalid = 'ALLOCATION_REQUEST_INVALID',
 }

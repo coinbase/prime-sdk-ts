@@ -19,6 +19,16 @@
  */
 
 export enum GetAllocationNotFoundSubcode {
+  /**
+   * No resource was found matching the request, or you do not have access to it.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   AuthResourceNotFound = 'AUTH_RESOURCE_NOT_FOUND',
+  /**
+   * The requested allocation could not be found, either because it does not exist or because the orders being allocated could not be retrieved.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   AllocationNotFound = 'ALLOCATION_NOT_FOUND',
 }

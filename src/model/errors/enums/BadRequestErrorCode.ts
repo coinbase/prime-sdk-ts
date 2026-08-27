@@ -19,7 +19,22 @@
  */
 
 export enum BadRequestErrorCode {
+  /**
+   * One or more request fields are invalid or incompatible.
+   *
+   * HTTP 400
+   */
   ValidationError = 'VALIDATION_ERROR',
+  /**
+   * A required request field was not provided.
+   *
+   * HTTP 400
+   */
   RequiredFieldMissing = 'REQUIRED_FIELD_MISSING',
+  /**
+   * The request could not be completed because a required precondition was not met.
+   *
+   * HTTP 400
+   */
   FailedPrecondition = 'FAILED_PRECONDITION',
 }

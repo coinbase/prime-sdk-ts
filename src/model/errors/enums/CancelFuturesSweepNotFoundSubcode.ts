@@ -19,6 +19,16 @@
  */
 
 export enum CancelFuturesSweepNotFoundSubcode {
+  /**
+   * No resource was found matching the request, or you do not have access to it.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   AuthResourceNotFound = 'AUTH_RESOURCE_NOT_FOUND',
+  /**
+   * No sweep request was found for the given entity_id, including when there is no pending sweep available to cancel.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   FcmSweepNotFound = 'FCM_SWEEP_NOT_FOUND',
 }

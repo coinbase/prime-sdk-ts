@@ -19,12 +19,52 @@
  */
 
 export enum GetMarginConversionsBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The start_date field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   FinancingStartDateRequired = 'FINANCING_START_DATE_REQUIRED',
+  /**
+   * The end_date field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   FinancingEndDateRequired = 'FINANCING_END_DATE_REQUIRED',
+  /**
+   * The start_date value is not a valid RFC 3339 timestamp.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   FinancingStartDateInvalid = 'FINANCING_START_DATE_INVALID',
+  /**
+   * The end_date value is not a valid RFC 3339 timestamp.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   FinancingEndDateInvalid = 'FINANCING_END_DATE_INVALID',
+  /**
+   * One or more parameters in the margin conversions request are invalid, such as portfolio_id, start_date, or end_date.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   MarginConversionRequestInvalid = 'MARGIN_CONVERSION_REQUEST_INVALID',
+  /**
+   * The margin conversions request failed a precondition, such as the portfolio not being in a state that supports margin conversions.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   MarginConversionFailedPrecondition = 'MARGIN_CONVERSION_FAILED_PRECONDITION',
 }

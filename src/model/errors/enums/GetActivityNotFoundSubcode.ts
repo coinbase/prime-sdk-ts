@@ -19,6 +19,16 @@
  */
 
 export enum GetActivityNotFoundSubcode {
+  /**
+   * No resource was found matching the request, or you do not have access to it.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   AuthResourceNotFound = 'AUTH_RESOURCE_NOT_FOUND',
+  /**
+   * The requested activity could not be found, either because the activity_id does not exist or it does not belong to the specified portfolio_id.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   ActivityNotFound = 'ACTIVITY_NOT_FOUND',
 }

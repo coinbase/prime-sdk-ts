@@ -34,6 +34,8 @@ export interface IUsersService {
    * List Users
    *
    * List all users associated with a given entity.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListUsersError}.
    */
   listUsers(
     request: ListUsersRequest,
@@ -43,6 +45,8 @@ export interface IUsersService {
    * List Portfolio Users
    *
    * List all users associated with a given portfolio.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListPortfolioUsersError}.
    */
   listPortfolioUsers(
     request: ListPortfolioUsersRequest,

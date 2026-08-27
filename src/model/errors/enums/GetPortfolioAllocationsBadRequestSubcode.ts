@@ -19,8 +19,28 @@
  */
 
 export enum GetPortfolioAllocationsBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * One or more allocation request fields, such as product_id, order_ids, allocation_legs, or size_type, are missing or invalid.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   AllocationRequestInvalid = 'ALLOCATION_REQUEST_INVALID',
+  /**
+   * The start_date field is required when listing portfolio allocations.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   AllocationStartDateRequired = 'ALLOCATION_START_DATE_REQUIRED',
+  /**
+   * The limit field exceeds the maximum number of allocations that can be returned in a single request.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   AllocationLimitExceeded = 'ALLOCATION_LIMIT_EXCEEDED',
 }

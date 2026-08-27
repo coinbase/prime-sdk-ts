@@ -19,9 +19,34 @@
  */
 
 export enum StakingInitiateNotFoundSubcode {
+  /**
+   * No resource was found matching the request, or you do not have access to it.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   AuthResourceNotFound = 'AUTH_RESOURCE_NOT_FOUND',
+  /**
+   * No entity was found matching the provided entity_id.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   EntityNotFound = 'ENTITY_NOT_FOUND',
+  /**
+   * No portfolio was found matching the provided portfolio_id.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   PortfolioNotFound = 'PORTFOLIO_NOT_FOUND',
+  /**
+   * The requested activity could not be found, either because the activity_id does not exist or it does not belong to the specified portfolio_id.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   ActivityNotFound = 'ACTIVITY_NOT_FOUND',
+  /**
+   * No wallet was found matching the provided wallet_id, or it does not belong to the specified portfolio.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   WalletNotFound = 'WALLET_NOT_FOUND',
 }

@@ -19,12 +19,52 @@
  */
 
 export enum ServiceUnavailableSubcode {
+  /**
+   * The API is currently in maintenance mode and not accepting this request. Maintenance windows can be extended; check https://status.prime.coinbase.com before retrying.
+   *
+   * Error code: SERVICE_UNAVAILABLE (HTTP 503)
+   */
   ServerMaintenanceModeActive = 'SERVER_MAINTENANCE_MODE_ACTIVE',
+  /**
+   * The trading service needed to process this order request is temporarily unavailable.
+   *
+   * Error code: SERVICE_UNAVAILABLE (HTTP 503)
+   */
   OrderServiceUnavailable = 'ORDER_SERVICE_UNAVAILABLE',
+  /**
+   * The service needed to fetch or process wallet data is temporarily unavailable, or wallet balances could not be resolved.
+   *
+   * Error code: SERVICE_UNAVAILABLE (HTTP 503)
+   */
   WalletServiceUnavailable = 'WALLET_SERVICE_UNAVAILABLE',
+  /**
+   * Asset information could not be retrieved at this time.
+   *
+   * Error code: SERVICE_UNAVAILABLE (HTTP 503)
+   */
   AssetServiceUnavailable = 'ASSET_SERVICE_UNAVAILABLE',
+  /**
+   * Financing data cannot be retrieved right now. This is a service-wide condition unrelated to your request or account.
+   *
+   * Error code: SERVICE_UNAVAILABLE (HTTP 503)
+   */
   FinancingServiceUnavailable = 'FINANCING_SERVICE_UNAVAILABLE',
+  /**
+   * The transaction data needed to fulfill this request is temporarily unavailable.
+   *
+   * Error code: SERVICE_UNAVAILABLE (HTTP 503)
+   */
   TransactionServiceUnavailable = 'TRANSACTION_SERVICE_UNAVAILABLE',
+  /**
+   * The staking service could not process the request after repeated attempts.
+   *
+   * Error code: SERVICE_UNAVAILABLE (HTTP 503)
+   */
   StakingServiceUnavailable = 'STAKING_SERVICE_UNAVAILABLE',
+  /**
+   * The service needed to process this advanced transfer request is currently unavailable or has reached a rate limit.
+   *
+   * Error code: SERVICE_UNAVAILABLE (HTTP 503)
+   */
   AdvancedTransferServiceUnavailable = 'ADVANCED_TRANSFER_SERVICE_UNAVAILABLE',
 }

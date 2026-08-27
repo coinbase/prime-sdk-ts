@@ -19,7 +19,22 @@
  */
 
 export enum GetPortfolioCounterpartyIDBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio's type does not support this operation.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioTypeUnsupported = 'PORTFOLIO_TYPE_UNSUPPORTED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
 }

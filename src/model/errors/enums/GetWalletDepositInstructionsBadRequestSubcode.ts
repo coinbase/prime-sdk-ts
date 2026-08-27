@@ -19,15 +19,70 @@
  */
 
 export enum GetWalletDepositInstructionsBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The asset lookup request contains an invalid argument, such as an unsupported currency symbol or malformed asset identifier.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   AssetRequestInvalid = 'ASSET_REQUEST_INVALID',
+  /**
+   * The wallet_id field is required but was not included in the request.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   WalletIdRequired = 'WALLET_ID_REQUIRED',
+  /**
+   * The wallet_id field is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   WalletIdInvalid = 'WALLET_ID_INVALID',
+  /**
+   * The deposit_type field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   WalletDepositTypeRequired = 'WALLET_DEPOSIT_TYPE_REQUIRED',
+  /**
+   * The metadata field is not a valid JSON object, or a nested value within it is not a JSON object with string values.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   WalletMetadataInvalid = 'WALLET_METADATA_INVALID',
+  /**
+   * A network must be specified for crypto deposits because the wallet does not have a default network configured.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   WalletNetworkRequired = 'WALLET_NETWORK_REQUIRED',
+  /**
+   * The wallet cannot accept deposits.
+   *
+   * Error code: FAILED_PRECONDITION (HTTP 400)
+   */
   WalletNotDepositable = 'WALLET_NOT_DEPOSITABLE',
+  /**
+   * The deposit request is invalid or not supported for this wallet.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   WalletDepositRequestInvalid = 'WALLET_DEPOSIT_REQUEST_INVALID',
+  /**
+   * The wallet request failed a precondition, such as the wallet not being able to accept the requested action.
+   *
+   * Error code: FAILED_PRECONDITION (HTTP 400)
+   */
   WalletFailedPrecondition = 'WALLET_FAILED_PRECONDITION',
 }

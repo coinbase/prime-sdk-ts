@@ -19,7 +19,22 @@
  */
 
 export enum ListAdvancedTransfersBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The advanced transfer request is malformed or fails validation, such as a missing portfolio_id, a missing or unsupported transfer type, or an invalid fund movement.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   AdvancedTransferRequestInvalid = 'ADVANCED_TRANSFER_REQUEST_INVALID',
 }

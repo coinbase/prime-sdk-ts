@@ -19,6 +19,16 @@
  */
 
 export enum CreateAllocationNotFoundSubcode {
+  /**
+   * No portfolio was found matching the provided portfolio_id.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   PortfolioNotFound = 'PORTFOLIO_NOT_FOUND',
+  /**
+   * The requested allocation could not be found, either because it does not exist or because the orders being allocated could not be retrieved.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   AllocationNotFound = 'ALLOCATION_NOT_FOUND',
 }

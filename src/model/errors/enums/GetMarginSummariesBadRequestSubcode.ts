@@ -19,10 +19,40 @@
  */
 
 export enum GetMarginSummariesBadRequestSubcode {
+  /**
+   * The entity_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   EntityIdRequired = 'ENTITY_ID_REQUIRED',
+  /**
+   * The entity_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   EntityIdInvalid = 'ENTITY_ID_INVALID',
+  /**
+   * The start_date value is not a valid RFC 3339 timestamp.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   FinancingStartDateInvalid = 'FINANCING_START_DATE_INVALID',
+  /**
+   * The end_date value is not a valid RFC 3339 timestamp.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   FinancingEndDateInvalid = 'FINANCING_END_DATE_INVALID',
+  /**
+   * The requested start_date to end_date range exceeds the maximum trailing period of 3 months for margin summaries.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   MarginSummaryRangeInvalid = 'MARGIN_SUMMARY_RANGE_INVALID',
+  /**
+   * The margin summaries request failed a precondition, such as the entity not being in a state that supports margin summaries.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   MarginSummaryFailedPrecondition = 'MARGIN_SUMMARY_FAILED_PRECONDITION',
 }

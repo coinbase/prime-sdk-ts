@@ -19,5 +19,10 @@
  */
 
 export enum NotImplementedErrorCode {
+  /**
+   * This endpoint or operation is not yet implemented.
+   *
+   * HTTP 501
+   */
   NotImplemented = 'NOT_IMPLEMENTED',
 }

@@ -37,12 +37,19 @@ export {
   createTlsOptionsFromEnv,
   mergeClientOptionsFromEnv,
 } from './shared/envUtils';
+export {
+  CoinbasePrimeClientException,
+  CoinbasePrimeException,
+  isPrimeApiError,
+} from './errors';
+export type { PrimeErrorBody } from './errors';
 
 // Export all model types and enums
 export type * from './model/';
 export * from './model/enums/';
 export type * from './model/errors';
 export * from './model/errors/enums';
+export type * from './model/errors/methodErrors';
 
 // Export service interfaces (for TypeScript support with lazy getters)
 export type { IActivitiesService } from './activities';

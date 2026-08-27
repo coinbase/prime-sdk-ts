@@ -39,3 +39,10 @@ export type ListPortfolioUsersResponse = PaginatedListResponse<
   ListPortfolioUsersRequest & BasePaginatedRequest,
   EntityUser
 >;
+
+/* GENERATED-METHOD-ERRORS-START */
+export type {
+  ListPortfolioUsersError,
+  ListUsersError,
+} from '../model/errors/methodErrors';
+/* GENERATED-METHOD-ERRORS-END */

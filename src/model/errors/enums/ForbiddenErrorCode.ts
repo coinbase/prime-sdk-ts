@@ -19,5 +19,10 @@
  */
 
 export enum ForbiddenErrorCode {
+  /**
+   * You do not have permission to perform this action with the current API key.
+   *
+   * HTTP 403
+   */
   PermissionDenied = 'PERMISSION_DENIED',
 }

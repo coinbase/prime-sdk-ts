@@ -19,9 +19,34 @@
  */
 
 export enum CreateOrderForbiddenSubcode {
+  /**
+   * You do not have permission to access this resource with the current API key.
+   *
+   * Error code: PERMISSION_DENIED (HTTP 403)
+   */
   AuthResourceAccessDenied = 'AUTH_RESOURCE_ACCESS_DENIED',
+  /**
+   * A valid client certificate was not presented with the request.
+   *
+   * Error code: PERMISSION_DENIED (HTTP 403)
+   */
   MtlsCertificateRequired = 'MTLS_CERTIFICATE_REQUIRED',
+  /**
+   * The presented client certificate has been revoked.
+   *
+   * Error code: PERMISSION_DENIED (HTTP 403)
+   */
   MtlsCertificateRevoked = 'MTLS_CERTIFICATE_REVOKED',
+  /**
+   * The presented client certificate is not a valid identity for this organization or environment.
+   *
+   * Error code: PERMISSION_DENIED (HTTP 403)
+   */
   MtlsCertificateInvalid = 'MTLS_CERTIFICATE_INVALID',
+  /**
+   * You do not have permission to view buying power for the requested portfolio and currency pair.
+   *
+   * Error code: PERMISSION_DENIED (HTTP 403)
+   */
   BuyingPowerPermissionDenied = 'BUYING_POWER_PERMISSION_DENIED',
 }

@@ -47,6 +47,8 @@ export interface ITransactionsService {
    * Get Transaction by Transaction ID
    *
    * Retrieve a specific transaction by its transaction ID.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetTransactionError}.
    */
   getTransaction(
     request: GetTransactionRequest,
@@ -57,6 +59,8 @@ export interface ITransactionsService {
    * List Portfolio Transactions
    *
    * List transactions for a given portfolio.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListPortfolioTransactionsError}.
    */
   listPortfolioTransactions(
     request: ListPortfolioTransactionsRequest,
@@ -67,6 +71,8 @@ export interface ITransactionsService {
    * List Wallet Transactions
    *
    * Retrieve transactions for a given wallet.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListWalletTransactionsError}.
    */
   listWalletTransactions(
     request: ListWalletTransactionsRequest,
@@ -77,6 +83,8 @@ export interface ITransactionsService {
    * Create Conversion
    *
    * Perform a conversion between 2 assets.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link CreateConversionError}.
    */
   createConversion(
     request: CreateConversionRequest,
@@ -87,6 +95,8 @@ export interface ITransactionsService {
    * Create Transfer
    *
    * Create a wallet transfer.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link CreateTransferError}.
    */
   createTransfer(
     request: CreateTransferRequest,
@@ -97,6 +107,8 @@ export interface ITransactionsService {
    * Create Withdrawal
    *
    * Create a withdrawal.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link CreateWithdrawalError}.
    */
   createWithdrawal(
     request: CreateWithdrawalRequest,
@@ -107,6 +119,8 @@ export interface ITransactionsService {
    * Create Onchain Transaction
    *
    * Create an onchain transaction.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link CreateOnchainTransactionError}.
    */
   createOnchainTransaction(
     request: CreateOnchainTransactionRequest,
@@ -117,6 +131,8 @@ export interface ITransactionsService {
    * Submit Deposit Travel Rule Data
    *
    * Submit travel rule data for an existing deposit transaction.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link SubmitDepositTravelRuleError}.
    */
   submitDepositTravelRule(
     request: SubmitDepositTravelRuleRequest,
@@ -127,6 +143,8 @@ export interface ITransactionsService {
    * Get Transaction Travel Rule Data
    *
    * (Beta) Get fulfilled travel rule data for a transaction.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetTransactionTravelRuleDataError}.
    */
   getTransactionTravelRuleData(
     request: GetTransactionTravelRuleDataRequest,

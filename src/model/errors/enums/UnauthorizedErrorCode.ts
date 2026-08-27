@@ -19,5 +19,10 @@
  */
 
 export enum UnauthorizedErrorCode {
+  /**
+   * The request could not be authenticated. Check that the credentials supplied with the request are valid.
+   *
+   * HTTP 401
+   */
   AuthenticationFailed = 'AUTHENTICATION_FAILED',
 }

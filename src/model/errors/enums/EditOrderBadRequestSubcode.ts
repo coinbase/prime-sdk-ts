@@ -19,15 +19,70 @@
  */
 
 export enum EditOrderBadRequestSubcode {
+  /**
+   * The entity_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   EntityIdInvalid = 'ENTITY_ID_INVALID',
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The requested currency pair is not valid or not supported for buying power.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   BuyingPowerCurrencyInvalid = 'BUYING_POWER_CURRENCY_INVALID',
+  /**
+   * The buying power request failed a precondition, such as the portfolio not being in a state that supports the requested currency pair.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   BuyingPowerFailedPrecondition = 'BUYING_POWER_FAILED_PRECONDITION',
+  /**
+   * The order request failed validation, such as an invalid stp_id, price, size, or commission_rate.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderRequestInvalid = 'ORDER_REQUEST_INVALID',
+  /**
+   * An order with this client_order_id already exists. Use a unique client_order_id for each new order.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderDuplicateClientOrderId = 'ORDER_DUPLICATE_CLIENT_ORDER_ID',
+  /**
+   * The order was rejected during processing and was not placed.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderRejected = 'ORDER_REJECTED',
+  /**
+   * The product_id is not a valid or currently tradable product for this request.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderProductIdInvalid = 'ORDER_PRODUCT_ID_INVALID',
+  /**
+   * No order matching the given order_id was found for this portfolio.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderResourceNotFound = 'ORDER_RESOURCE_NOT_FOUND',
+  /**
+   * The side field is not a supported order side. Specify BUY or SELL.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OrderSideInvalid = 'ORDER_SIDE_INVALID',
 }

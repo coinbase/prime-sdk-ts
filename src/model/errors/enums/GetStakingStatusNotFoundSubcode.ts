@@ -19,5 +19,10 @@
  */
 
 export enum GetStakingStatusNotFoundSubcode {
+  /**
+   * No wallet was found matching the provided wallet_id, or it does not belong to the specified portfolio.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   WalletNotFound = 'WALLET_NOT_FOUND',
 }

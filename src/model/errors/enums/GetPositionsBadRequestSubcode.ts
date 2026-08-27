@@ -19,6 +19,16 @@
  */
 
 export enum GetPositionsBadRequestSubcode {
+  /**
+   * The entity_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   EntityIdRequired = 'ENTITY_ID_REQUIRED',
+  /**
+   * The position request contains an invalid argument, such as a malformed portfolio_id or other filter.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   EntityPositionInvalidArgument = 'ENTITY_POSITION_INVALID_ARGUMENT',
 }

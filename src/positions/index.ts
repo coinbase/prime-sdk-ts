@@ -34,6 +34,8 @@ export interface IPositionsService {
    * List Aggregate Entity Positions
    *
    * List paginated aggregate positions for a specific entity.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListAggregateEntityPositionsError}.
    */
   listAggregateEntityPositions(
     request: ListAggregateEntityPositionsRequest,
@@ -43,6 +45,8 @@ export interface IPositionsService {
    * List Entity Positions
    *
    * List paginated positions for a specific entity.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListEntityPositionsError}.
    */
   listEntityPositions(
     request: ListEntityPositionsRequest,

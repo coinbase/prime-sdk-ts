@@ -19,28 +19,148 @@
  */
 
 export enum StakingUnstakeBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The wallet_id field is required but was not included in the request.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   WalletIdRequired = 'WALLET_ID_REQUIRED',
+  /**
+   * The wallet_id field is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   WalletIdInvalid = 'WALLET_ID_INVALID',
+  /**
+   * The wallet's type does not support this operation.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   WalletTypeNotSupported = 'WALLET_TYPE_NOT_SUPPORTED',
+  /**
+   * The external_id field is not valid UTF-8, or exceeds 255 bytes.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   WalletExternalIdInvalid = 'WALLET_EXTERNAL_ID_INVALID',
+  /**
+   * The staking, unstaking, or claim-rewards request contained an invalid parameter, such as an unsupported amount, address, option, or allocation.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingRequestInvalid = 'STAKING_REQUEST_INVALID',
+  /**
+   * The requested currency or wallet's asset is not supported for this staking operation.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingCurrencyUnsupported = 'STAKING_CURRENCY_UNSUPPORTED',
+  /**
+   * The requested staking, unstaking, or claim-rewards action is not currently allowed for this wallet.
+   *
+   * Error code: FAILED_PRECONDITION (HTTP 400)
+   */
   StakingPreconditionFailed = 'STAKING_PRECONDITION_FAILED',
+  /**
+   * The amount field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   StakingAmountRequired = 'STAKING_AMOUNT_REQUIRED',
+  /**
+   * The amount field is not a valid positive decimal number, or does not match the sum of the provided validator allocation amounts.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingAmountInvalid = 'STAKING_AMOUNT_INVALID',
+  /**
+   * The wallet has no stakeable, unbondable, or claimable balance available for this operation.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingInsufficientBalance = 'STAKING_INSUFFICIENT_BALANCE',
+  /**
+   * The wallet_id does not exist, is not a valid identifier, or does not belong to the given portfolio_id.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingWalletOrPortfolioInvalid = 'STAKING_WALLET_OR_PORTFOLIO_INVALID',
+  /**
+   * The requested unstake amount is greater than the wallet's, validator's, or portfolio's available unbondable balance.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingAmountExceedsUnbondableBalance = 'STAKING_AMOUNT_EXCEEDS_UNBONDABLE_BALANCE',
+  /**
+   * The wallet does not have a cold address on record, which is required to complete this staking operation.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingWalletColdAddressNotFound = 'STAKING_WALLET_COLD_ADDRESS_NOT_FOUND',
+  /**
+   * The wallet has no delegated-to address on record, which is required for this currency's staking flow.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingDelegatedAddressNotFound = 'STAKING_DELEGATED_ADDRESS_NOT_FOUND',
+  /**
+   * A custom amount cannot be specified for this currency and action combination.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingCustomAmountNotSupported = 'STAKING_CUSTOM_AMOUNT_NOT_SUPPORTED',
+  /**
+   * A custom validator_address cannot be specified for this currency.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingValidatorAddressNotSupported = 'STAKING_VALIDATOR_ADDRESS_NOT_SUPPORTED',
+  /**
+   * The validator_allocations field is only supported for ETH unstaking.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingValidatorAllocationsUnsupportedCurrency = 'STAKING_VALIDATOR_ALLOCATIONS_UNSUPPORTED_CURRENCY',
+  /**
+   * Each entry in validator_allocations must include both a validator_address and an amount.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingValidatorAllocationIncomplete = 'STAKING_VALIDATOR_ALLOCATION_INCOMPLETE',
+  /**
+   * The specified validator_address does not belong to this wallet or is not eligible for validator allocations.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingValidatorNotEligible = 'STAKING_VALIDATOR_NOT_ELIGIBLE',
+  /**
+   * The resolved destination address for this staking, unstaking, or claim-rewards action is empty or malformed.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingDestinationAddressInvalid = 'STAKING_DESTINATION_ADDRESS_INVALID',
+  /**
+   * The action_type field is not a supported staking action (initiate, unstake, or claim rewards).
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingActionTypeUnsupported = 'STAKING_ACTION_TYPE_UNSUPPORTED',
+  /**
+   * A full unstake is not currently available for this wallet.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   StakingUnstakeNotAvailable = 'STAKING_UNSTAKE_NOT_AVAILABLE',
 }

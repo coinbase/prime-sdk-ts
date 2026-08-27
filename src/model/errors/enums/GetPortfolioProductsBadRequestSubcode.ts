@@ -19,9 +19,34 @@
  */
 
 export enum GetPortfolioProductsBadRequestSubcode {
+  /**
+   * The entity_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   EntityIdInvalid = 'ENTITY_ID_INVALID',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * Futures products are not enabled for the specified portfolio_id.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   ProductFuturesNotEnabled = 'PRODUCT_FUTURES_NOT_ENABLED',
+  /**
+   * The limit field must be a positive number.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   ProductLimitInvalid = 'PRODUCT_LIMIT_INVALID',
+  /**
+   * Options products are not enabled for the specified portfolio_id.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   ProductOptionsNotEnabled = 'PRODUCT_OPTIONS_NOT_ENABLED',
 }

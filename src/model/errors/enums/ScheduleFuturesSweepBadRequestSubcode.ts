@@ -19,7 +19,22 @@
  */
 
 export enum ScheduleFuturesSweepBadRequestSubcode {
+  /**
+   * The entity_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   EntityIdRequired = 'ENTITY_ID_REQUIRED',
+  /**
+   * The request contained an invalid argument for this futures operation, such as an unrecognized entity_id or an invalid amount or currency.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   FcmInvalidArgument = 'FCM_INVALID_ARGUMENT',
+  /**
+   * The currency field is required when scheduling a futures sweep.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   FcmSweepCurrencyRequired = 'FCM_SWEEP_CURRENCY_REQUIRED',
 }

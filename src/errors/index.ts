@@ -18,6 +18,14 @@ import {
   CoinbaseError,
   CoinbaseResponse,
 } from '@coinbase/core-ts';
+import { toCamelCase } from '../shared/toCamelCase';
+
+export type PrimeErrorBody = {
+  code?: string;
+  message?: string;
+  subcode?: string;
+  traceId?: string;
+};
 
 export class CoinbasePrimeClientException extends CoinbaseClientException {
   constructor(message: string) {
@@ -25,8 +33,83 @@ export class CoinbasePrimeClientException extends CoinbaseClientException {
   }
 }
 
-export class CoinbasePrimeException extends CoinbaseError {
-  constructor(message: string, statusCode: number, response: CoinbaseResponse) {
+export class CoinbasePrimeException<
+  TBody extends PrimeErrorBody = PrimeErrorBody,
+> extends CoinbaseError {
+  readonly body: TBody;
+
+  constructor(
+    message: string,
+    statusCode: number,
+    response: CoinbaseResponse,
+    body?: TBody
+  ) {
     super(message, statusCode, response);
+    this.name = 'CoinbasePrimeException';
+    this.body = (body ?? parsePrimeErrorBody(response?.data)) as TBody;
   }
+
+  get code(): TBody['code'] {
+    return this.body.code;
+  }
+
+  get subcode(): TBody['subcode'] {
+    return this.body.subcode;
+  }
+
+  get traceId(): TBody['traceId'] {
+    return this.body.traceId;
+  }
+}
+
+export function parsePrimeErrorBody(data: unknown): PrimeErrorBody {
+  if (data == null) {
+    return {};
+  }
+  if (typeof data === 'string') {
+    const raw = data;
+    try {
+      data = JSON.parse(raw);
+    } catch {
+      return { message: raw };
+    }
+  }
+  if (typeof data !== 'object') {
+    return {};
+  }
+  return toCamelCase(data) as PrimeErrorBody;
+}
+
+export function isPrimeApiError<T extends PrimeErrorBody = PrimeErrorBody>(
+  error: unknown
+): error is CoinbasePrimeException<T> {
+  return error instanceof CoinbasePrimeException;
+}
+
+export function wrapAsPrimeException(error: unknown): never {
+  if (error instanceof CoinbasePrimeClientException) {
+    throw error;
+  }
+  if (error instanceof CoinbasePrimeException) {
+    throw error;
+  }
+  if (error instanceof CoinbaseError) {
+    const body = parsePrimeErrorBody(error.response?.data);
+    const message = body.message
+      ? `${error.statusCode} Prime Error: ${body.message}`
+      : error.message;
+    const response: CoinbaseResponse = {
+      ...(error.response || {
+        status: error.statusCode,
+        statusText: '',
+        headers: {},
+      }),
+      data: body,
+      status: error.response?.status ?? error.statusCode,
+      statusText: error.response?.statusText ?? '',
+      headers: error.response?.headers ?? {},
+    };
+    throw new CoinbasePrimeException(message, error.statusCode, response, body);
+  }
+  throw error;
 }

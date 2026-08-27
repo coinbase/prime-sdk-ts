@@ -19,6 +19,16 @@
  */
 
 export enum GetPortfoliosNotFoundSubcode {
+  /**
+   * No resource was found matching the request, or you do not have access to it.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   AuthResourceNotFound = 'AUTH_RESOURCE_NOT_FOUND',
+  /**
+   * No entity was found matching the provided entity_id.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   EntityNotFound = 'ENTITY_NOT_FOUND',
 }

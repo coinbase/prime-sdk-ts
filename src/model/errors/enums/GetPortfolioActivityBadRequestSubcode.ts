@@ -19,6 +19,16 @@
  */
 
 export enum GetPortfolioActivityBadRequestSubcode {
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The requested activity exists but does not belong to the portfolio_id provided in the request.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   ActivityPortfolioIdMismatch = 'ACTIVITY_PORTFOLIO_ID_MISMATCH',
 }

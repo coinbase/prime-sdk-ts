@@ -86,3 +86,12 @@ export type GetPortfolioActivitiesRequest = {
 };
 
 export type GetPortfolioActivityResponse = Expand<internalGetPortAct>;
+
+/* GENERATED-METHOD-ERRORS-START */
+export type {
+  GetActivityError,
+  GetPortfolioActivityError,
+  ListEntityActivitiesError,
+  ListPortfolioActivitiesError,
+} from '../model/errors/methodErrors';
+/* GENERATED-METHOD-ERRORS-END */

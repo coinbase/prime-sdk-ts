@@ -19,10 +19,40 @@
  */
 
 export enum GetBuyingPowerBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The base_currency field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   BuyingPowerBaseCurrencyRequired = 'BUYING_POWER_BASE_CURRENCY_REQUIRED',
+  /**
+   * The quote_currency field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   BuyingPowerQuoteCurrencyRequired = 'BUYING_POWER_QUOTE_CURRENCY_REQUIRED',
+  /**
+   * The requested currency pair is not valid or not supported for buying power.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   BuyingPowerCurrencyInvalid = 'BUYING_POWER_CURRENCY_INVALID',
+  /**
+   * The buying power request failed a precondition, such as the portfolio not being in a state that supports the requested currency pair.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   BuyingPowerFailedPrecondition = 'BUYING_POWER_FAILED_PRECONDITION',
 }

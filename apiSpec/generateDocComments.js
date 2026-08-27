@@ -79,7 +79,10 @@ function buildOperationMap(spec) {
 }
 
 function escapeForTsDoc(text) {
-  return text.replace(/\\/g, '\\\\').replace(/\{/g, '\\{').replace(/\}/g, '\\}');
+  return text
+    .replace(/\\/g, '\\\\')
+    .replace(/\{/g, '\\{')
+    .replace(/\}/g, '\\}');
 }
 
 function buildTsDoc(summary, description, options = {}) {
@@ -109,8 +112,32 @@ function buildTsDoc(summary, description, options = {}) {
     }
   }
 
+  if (options.throwsType) {
+    lines.push('   *');
+    lines.push(
+      `   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ${options.throwsType}}.`
+    );
+  }
+
   lines.push('   */');
   return lines.join('\n');
+}
+
+function methodErrorTypeName(methodName) {
+  return `${methodName.charAt(0).toUpperCase()}${methodName.slice(1)}Error`;
+}
+
+function loadGeneratedMethodErrorTypes() {
+  const file = path.join(srcDir, 'model/errors/methodErrors.ts');
+  if (!fs.existsSync(file)) {
+    return new Set();
+  }
+  const content = fs.readFileSync(file, 'utf8');
+  return new Set(
+    [...content.matchAll(/export type (\w+Error)\s*=/g)].map(
+      (match) => match[1]
+    )
+  );
 }
 
 function extractInterfaceBlock(content) {
@@ -166,7 +193,7 @@ function extractMethodEndpoints(content) {
     }
 
     const requestBlock = requestBlockMatch[1];
-    const urlMatch = requestBlock.match(/url:\s*`([^`]+)`/);
+    const urlMatch = requestBlock.match(/url:\s*[`'"]([^`'"]+)[`'"]/);
     if (!urlMatch) {
       continue;
     }
@@ -189,9 +216,7 @@ function countInterfaceMethods(interfaceBlock) {
 }
 
 function findPrecedingJsDoc(beforeMethod) {
-  const matches = [
-    ...beforeMethod.matchAll(/\n  \/\*\*[\s\S]*?\*\/\s*/g),
-  ];
+  const matches = [...beforeMethod.matchAll(/\n  \/\*\*[\s\S]*?\*\/\s*/g)];
 
   if (matches.length === 0) {
     return null;
@@ -201,7 +226,10 @@ function findPrecedingJsDoc(beforeMethod) {
 }
 
 function injectDocForMethod(interfaceBlock, methodName, tsdoc) {
-  const methodPattern = new RegExp(`(  ${escapeRegex(methodName)}\\s*\\()`, 'm');
+  const methodPattern = new RegExp(
+    `(  ${escapeRegex(methodName)}\\s*\\()`,
+    'm'
+  );
   const match = methodPattern.exec(interfaceBlock);
 
   if (!match || match.index === undefined) {
@@ -232,13 +260,16 @@ function injectDocsIntoInterface(interfaceBlock, methodDocs) {
 }
 
 function getFileOverrides(filePath) {
-  const relativePath = path
-    .relative(srcDir, filePath)
-    .replace(/\\/g, '/');
+  const relativePath = path.relative(srcDir, filePath).replace(/\\/g, '/');
   return methodDocOverrides.byFile[relativePath] || {};
 }
 
-function applyMethodOverrides(methodDocs, fileOverrides, operationById) {
+function applyMethodOverrides(
+  methodDocs,
+  fileOverrides,
+  operationById,
+  generatedErrorTypes
+) {
   for (const [methodName, override] of Object.entries(fileOverrides)) {
     const operation = operationById.get(override.operationId);
 
@@ -249,16 +280,25 @@ function applyMethodOverrides(methodDocs, fileOverrides, operationById) {
       continue;
     }
 
+    const throwsType = methodErrorTypeName(methodName);
     methodDocs.set(
       methodName,
       buildTsDoc(operation.summary, operation.description, {
         deprecated: override.deprecated,
+        throwsType: generatedErrorTypes.has(throwsType)
+          ? throwsType
+          : undefined,
       })
     );
   }
 }
 
-async function processServiceFile(filePath, operationMap, operationById) {
+async function processServiceFile(
+  filePath,
+  operationMap,
+  operationById,
+  generatedErrorTypes
+) {
   const content = fs.readFileSync(filePath, 'utf8');
   const interfaceInfo = extractInterfaceBlock(content);
 
@@ -285,10 +325,24 @@ async function processServiceFile(filePath, operationMap, operationById) {
       continue;
     }
 
-    methodDocs.set(methodName, buildTsDoc(operation.summary, operation.description));
+    const throwsType = methodErrorTypeName(methodName);
+    methodDocs.set(
+      methodName,
+      buildTsDoc(operation.summary, operation.description, {
+        methodName,
+        throwsType: generatedErrorTypes.has(throwsType)
+          ? throwsType
+          : undefined,
+      })
+    );
   }
 
-  applyMethodOverrides(methodDocs, fileOverrides, operationById);
+  applyMethodOverrides(
+    methodDocs,
+    fileOverrides,
+    operationById,
+    generatedErrorTypes
+  );
 
   if (methodDocs.size === 0) {
     return { documented: 0, unmatched };
@@ -321,11 +375,14 @@ async function processServiceFile(filePath, operationMap, operationById) {
 
 async function main() {
   const spec = yaml.load(fs.readFileSync(specPath, 'utf8'));
+  const generatedErrorTypes = loadGeneratedMethodErrorTypes();
   const { operationMap, operationById } = buildOperationMap(spec);
 
   const serviceDirs = fs
     .readdirSync(srcDir, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory() && !SKIP_SERVICE_DIRS.has(entry.name))
+    .filter(
+      (entry) => entry.isDirectory() && !SKIP_SERVICE_DIRS.has(entry.name)
+    )
     .map((entry) => entry.name);
 
   let totalDocumented = 0;
@@ -338,14 +395,18 @@ async function main() {
     }
 
     const content = fs.readFileSync(indexPath, 'utf8');
-    if (!content.includes('export interface I') || !content.includes('Service {')) {
+    if (
+      !content.includes('export interface I') ||
+      !content.includes('Service {')
+    ) {
       continue;
     }
 
     const { documented, unmatched } = await processServiceFile(
       indexPath,
       operationMap,
-      operationById
+      operationById,
+      generatedErrorTypes
     );
     totalDocumented += documented;
 
@@ -363,7 +424,9 @@ async function main() {
   if (allUnmatched.length > 0) {
     console.warn('Unmatched methods (no spec operation found):');
     for (const item of allUnmatched) {
-      console.warn(`  ${path.relative(process.cwd(), item.file)}.${item.methodName} -> ${item.key}`);
+      console.warn(
+        `  ${path.relative(process.cwd(), item.file)}.${item.methodName} -> ${item.key}`
+      );
     }
   }
 }

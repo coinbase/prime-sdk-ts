@@ -19,5 +19,10 @@
  */
 
 export enum CreateOnchainAddressGroupBadRequestSubcode {
+  /**
+   * The onchain address group create, update, or delete request contained invalid data and could not be processed.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   OnchainAddressGroupRequestInvalid = 'ONCHAIN_ADDRESS_GROUP_REQUEST_INVALID',
 }

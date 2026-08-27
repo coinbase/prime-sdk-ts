@@ -19,7 +19,22 @@
  */
 
 export enum GetEntityPaymentMethodsBadRequestSubcode {
+  /**
+   * The entity_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   EntityIdRequired = 'ENTITY_ID_REQUIRED',
+  /**
+   * The entity_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   EntityIdInvalid = 'ENTITY_ID_INVALID',
+  /**
+   * The payment method request contains an invalid argument.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PaymentMethodRequestInvalid = 'PAYMENT_METHOD_REQUEST_INVALID',
 }

@@ -19,6 +19,16 @@
  */
 
 export enum GetFcmSettingsNotFoundSubcode {
+  /**
+   * No resource was found matching the request, or you do not have access to it.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   AuthResourceNotFound = 'AUTH_RESOURCE_NOT_FOUND',
+  /**
+   * No futures (FCM) account is configured for the given entity_id.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   FcmAccountNotFound = 'FCM_ACCOUNT_NOT_FOUND',
 }

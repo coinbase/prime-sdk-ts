@@ -34,6 +34,8 @@ export interface IProductsService {
    * List Portfolio Products
    *
    * List products for a given portfolio.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListProductsError}.
    */
   listProducts(
     request: ListProductsRequest,
@@ -44,6 +46,8 @@ export interface IProductsService {
    * Get Public Product Candles
    *
    * Get rates for a single product by product ID, grouped in buckets.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListProductCandlesError}.
    */
   listProductCandles(
     request: ListProductCandlesRequest,

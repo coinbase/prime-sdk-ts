@@ -19,6 +19,16 @@
  */
 
 export enum GetCandlesBadRequestSubcode {
+  /**
+   * The request for candle data is invalid because a field, such as start_time or end_time, is missing or malformed.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   CandleRequestInvalid = 'CANDLE_REQUEST_INVALID',
+  /**
+   * The requested start_time and end_time combination is not a valid candle time range for the given granularity.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   CandleTimeRangeInvalid = 'CANDLE_TIME_RANGE_INVALID',
 }

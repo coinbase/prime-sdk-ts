@@ -45,3 +45,10 @@ export type ListProductCandlesRequest = {
 };
 
 export type ListProductCandlesResponse = Expand<GetCandlesResponse>;
+
+/* GENERATED-METHOD-ERRORS-START */
+export type {
+  ListProductCandlesError,
+  ListProductsError,
+} from '../model/errors/methodErrors';
+/* GENERATED-METHOD-ERRORS-END */

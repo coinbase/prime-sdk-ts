@@ -19,5 +19,10 @@
  */
 
 export enum GetPostTradeCreditBadRequestSubcode {
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
 }

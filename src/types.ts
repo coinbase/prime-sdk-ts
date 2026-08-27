@@ -23,6 +23,7 @@ export type * from './model/';
 export * from './model/enums/';
 export type * from './model/errors';
 export * from './model/errors/enums';
+export type * from './model/errors/methodErrors';
 
 // Export service interfaces (no implementations)
 export type { IActivitiesService } from './activities';

@@ -19,8 +19,28 @@
  */
 
 export enum GetWalletsBadRequestSubcode {
+  /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The request contains an invalid argument for this wallet operation.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   WalletRequestInvalid = 'WALLET_REQUEST_INVALID',
+  /**
+   * The symbols filter cannot be set when the wallet type is ONCHAIN.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   WalletOnchainSymbolsNotAllowed = 'WALLET_ONCHAIN_SYMBOLS_NOT_ALLOWED',
 }

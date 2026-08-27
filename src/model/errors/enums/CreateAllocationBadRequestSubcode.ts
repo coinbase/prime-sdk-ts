@@ -19,17 +19,82 @@
  */
 
 export enum CreateAllocationBadRequestSubcode {
+  /**
+   * The portfolio's type does not support this operation.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioTypeUnsupported = 'PORTFOLIO_TYPE_UNSUPPORTED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
+   * The allocation_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   AllocationIdRequired = 'ALLOCATION_ID_REQUIRED',
+  /**
+   * The netting_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   AllocationNettingIdRequired = 'ALLOCATION_NETTING_ID_REQUIRED',
+  /**
+   * One or more allocation request fields, such as product_id, order_ids, allocation_legs, or size_type, are missing or invalid.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   AllocationRequestInvalid = 'ALLOCATION_REQUEST_INVALID',
+  /**
+   * The allocation could not be processed because buying power or account information for the source or destination portfolio could not be retrieved.
+   *
+   * Error code: FAILED_PRECONDITION (HTTP 400)
+   */
   AllocationPreconditionFailed = 'ALLOCATION_PRECONDITION_FAILED',
+  /**
+   * The source_portfolio_id field is required to identify the portfolio the allocation is coming from.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   AllocationSourcePortfolioIdRequired = 'ALLOCATION_SOURCE_PORTFOLIO_ID_REQUIRED',
+  /**
+   * One or more entries in allocation_legs is missing a destination_portfolio_id.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
   AllocationDestinationPortfolioIdRequired = 'ALLOCATION_DESTINATION_PORTFOLIO_ID_REQUIRED',
+  /**
+   * The orders referenced in order_ids include both buy and sell sides. All orders in a single allocation request must share the same side.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   AllocationOrdersMixedSides = 'ALLOCATION_ORDERS_MIXED_SIDES',
+  /**
+   * The orders referenced in order_ids span more than one product. All orders in a single allocation request must be for the same product_id.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   AllocationOrdersMixedProducts = 'ALLOCATION_ORDERS_MIXED_PRODUCTS',
+  /**
+   * At least one order in order_ids has not reached a terminal state, so it cannot be allocated until it finishes processing.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   AllocationOrderNotTerminal = 'ALLOCATION_ORDER_NOT_TERMINAL',
+  /**
+   * At least one order in order_ids exceeds the maximum age allowed for allocation and can no longer be allocated.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   AllocationOrderTooOld = 'ALLOCATION_ORDER_TOO_OLD',
+  /**
+   * At least one order in order_ids has already been allocated and cannot be allocated again.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
   AllocationOrderAlreadyAllocated = 'ALLOCATION_ORDER_ALREADY_ALLOCATED',
 }

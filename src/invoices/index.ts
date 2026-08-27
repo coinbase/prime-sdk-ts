@@ -29,6 +29,8 @@ export interface IInvoicesService {
    * List Invoices
    *
    * Retrieve a list of invoices belonging to an entity.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListInvoicesError}.
    */
   listInvoices(
     request: ListInvoicesRequest,

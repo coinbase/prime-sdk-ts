@@ -19,6 +19,16 @@
  */
 
 export enum GetEntityPaymentMethodsNotFoundSubcode {
+  /**
+   * No resource was found matching the request, or you do not have access to it.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   AuthResourceNotFound = 'AUTH_RESOURCE_NOT_FOUND',
+  /**
+   * The requested payment method could not be found, either because the payment_method_id does not exist or it does not belong to the specified entity_id.
+   *
+   * Error code: RESOURCE_NOT_FOUND (HTTP 404)
+   */
   PaymentMethodNotFound = 'PAYMENT_METHOD_NOT_FOUND',
 }

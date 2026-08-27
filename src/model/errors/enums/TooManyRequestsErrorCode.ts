@@ -19,5 +19,10 @@
  */
 
 export enum TooManyRequestsErrorCode {
+  /**
+   * You have exceeded the request rate limit. Reduce your request rate and retry after a backoff period.
+   *
+   * HTTP 429
+   */
   RateLimitExceeded = 'RATE_LIMIT_EXCEEDED',
 }

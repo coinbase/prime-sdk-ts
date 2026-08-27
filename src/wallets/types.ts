@@ -89,3 +89,14 @@ export type CreateWalletDepositAddressRequest = {
 };
 
 export type CreateWalletDepositAddressResponse = Expand<BlockchainAddress>;
+
+/* GENERATED-METHOD-ERRORS-START */
+export type {
+  CreateWalletDepositAddressError,
+  CreateWalletError,
+  GetWalletDepositInstructionsError,
+  GetWalletError,
+  ListWalletAddressesError,
+  ListWalletsError,
+} from '../model/errors/methodErrors';
+/* GENERATED-METHOD-ERRORS-END */

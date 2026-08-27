@@ -78,6 +78,8 @@ export interface IFinancingService {
    * List Existing Locates
    *
    * List locates for the portfolio
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListExistingLocatesError}.
    */
   listExistingLocates(
     request: ListExistingLocatesRequest,
@@ -87,6 +89,8 @@ export interface IFinancingService {
    * List Interest Accruals
    *
    * Lists interest accruals for an entity between the specified date range given
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListInterestAccrualsError}.
    */
   listInterestAccruals(
     request: ListInterestAccrualsRequest,
@@ -96,6 +100,8 @@ export interface IFinancingService {
    * List Interest Accruals For Portfolio
    *
    * Lists interest accruals between the specified date range for a specific portfolio ID
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListPortfolioInterestAccrualsError}.
    */
   listPortfolioInterestAccruals(
     request: ListPortfolioInterestAccrualsRequest,
@@ -105,6 +111,8 @@ export interface IFinancingService {
    * List Margin Call Summaries
    *
    * Lists the margin call history for a given entity ID.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListMarginCallSummariesError}.
    */
   listMarginCallSummaries(
     request: ListMarginCallSummariesRequest,
@@ -114,6 +122,8 @@ export interface IFinancingService {
    * List Margin Conversions
    *
    * Lists conversions and short collateral requirement between specified date range. This endpoint is deprecated and will be removed in the future. Use /v1/entities/\{entity_id\}/margin_summaries instead.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListMarginConversionsError}.
    */
   listMarginConversions(
     request: ListMarginConversionsRequest,
@@ -124,6 +134,8 @@ export interface IFinancingService {
    * Get Entity Locate Availabilities
    *
    * Get currencies available to be located with their corresponding amount and rate.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetEntityLocateAvailabilitiesError}.
    */
   getEntityLocateAvailabilities(
     request: GetEntityLocateAvailabilitiesRequest,
@@ -133,6 +145,8 @@ export interface IFinancingService {
    * Get Margin Information
    *
    * Gets real-time evaluation of the margin model based on current positions and spot rates.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetMarginInformationError}.
    */
   getMarginInformation(
     request: GetMarginInformationRequest,
@@ -142,6 +156,8 @@ export interface IFinancingService {
    * Get Portfolio Buying Power
    *
    * Returns the size of a buy trade that can be performed based on existing holdings and available credit. The result will differ for different assets due to asset specific credit configurations and caps. Note that this result is changing based on asset price fluctuations, so may be rejected when submitted.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetPortfolioBuyingPowerError}.
    */
   getPortfolioBuyingPower(
     request: GetPortfolioBuyingPowerRequest,
@@ -151,6 +167,8 @@ export interface IFinancingService {
    * Get Portfolio Credit Information
    *
    * Retrieve a portfolio's post-trade credit information.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetPortfolioCreditInformationError}.
    */
   getPortfolioCreditInformation(
     request: GetPortfolioCreditInformationRequest,
@@ -160,6 +178,8 @@ export interface IFinancingService {
    * Get Portfolio Withdrawal Power
    *
    * Returns the nominal quantity of a given asset that can be withdrawn based on holdings and current portfolio equity.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetPortfolioWithdrawalPowerError}.
    */
   getPortfolioWithdrawalPower(
     request: GetPortfolioWithdrawalPowerRequest,
@@ -169,6 +189,8 @@ export interface IFinancingService {
    * Get Trade Finance Tiered Pricing Fees
    *
    * Get trade finance tiered pricing fees for a given entity at a specific time, default to current time.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetTieredPricingFeesError}.
    */
   getTieredPricingFees(
     request: GetTieredPricingFeesRequest,
@@ -178,6 +200,8 @@ export interface IFinancingService {
    * Get FCM Margin Call Details
    *
    * Retrieve the margin call details for a given entity.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetFcmMarginCallDetailsError}.
    */
   getFcmMarginCallDetails(
     request: GetFcmMarginCallDetailsRequest,
@@ -187,6 +211,8 @@ export interface IFinancingService {
    * Get FCM Risk Limits
    *
    * Retrieve the risk limits for a given entity.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetFcmRiskLimitsError}.
    */
   getFcmRiskLimits(
     request: GetFcmRiskLimitsRequest,
@@ -197,6 +223,8 @@ export interface IFinancingService {
    * List Existing Locates
    *
    * List locates for the portfolio
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link CreateNewLocatesError}.
    */
   createNewLocates(
     request: CreateNewLocatesRequest,
@@ -207,6 +235,8 @@ export interface IFinancingService {
    * Get Exchange Cross Margin Overview
    *
    * Gets live data for Cross Margin (XM) for a specific XM customer
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetCrossMarginOverviewError}.
    */
   getCrossMarginOverview(
     request: GetCrossMarginOverviewRequest,
@@ -217,6 +247,8 @@ export interface IFinancingService {
    * List Trade Finance Obligations
    *
    * List trade finance obligations for a given entity.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListTFObligationsError}.
    */
   listTFObligations(
     request: ListTFObligationsRequest,
@@ -237,6 +269,8 @@ export interface IFinancingService {
    * Get Cross Margin Risk Parameters
    *
    * Gets the current Cross Margin (XM) risk parameters for an entity.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetCrossMarginRiskParametersError}.
    */
   getCrossMarginRiskParameters(
     request: GetCrossMarginRiskParametersRequest,
@@ -247,6 +281,8 @@ export interface IFinancingService {
    * Get Prime Cross Margin Overview
    *
    * Returns real time risk data from the cross margin model.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetCrossMarginPrimeOverviewError}.
    */
   getCrossMarginPrimeOverview(
     request: GetCrossMarginPrimeOverviewRequest,
@@ -259,6 +295,8 @@ export interface IFinancingService {
    * Update Funding Settings
    *
    * Sets FCM funding configuration for the entity and submits the desired configuration to Prime API for approval.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link SetFundingSettingsError}.
    */
   setFundingSettings(
     request: SetFundingSettingsRequest,
@@ -269,6 +307,8 @@ export interface IFinancingService {
    * Update Funding Settings
    *
    * Sets FCM funding configuration for the entity and submits the desired configuration to Prime API for approval.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link UpdateFundingSettingsError}.
    */
   updateFundingSettings(
     request: UpdateFundingSettingsRequest,
@@ -279,6 +319,8 @@ export interface IFinancingService {
    * Get Cross Margin Liquidation
    *
    * Gets detailed liquidation data for an XM customer. Returns the active or most recent liquidation by default.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetCrossMarginLiquidationError}.
    */
   getCrossMarginLiquidation(
     request: GetCrossMarginLiquidationRequest,
@@ -289,6 +331,8 @@ export interface IFinancingService {
    * List Cross Margin Liquidations
    *
    * Lists historical liquidation records for an XM customer
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListCrossMarginLiquidationsError}.
    */
   listCrossMarginLiquidations(
     request: ListCrossMarginLiquidationsRequest,
@@ -299,6 +343,8 @@ export interface IFinancingService {
    * Get Market Data
    *
    * Retrieves market data including volatility and average daily volume for an entity.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListMarketDataError}.
    */
   listMarketData(
     request: ListMarketDataRequest,

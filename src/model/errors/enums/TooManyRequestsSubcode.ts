@@ -19,5 +19,10 @@
  */
 
 export enum TooManyRequestsSubcode {
+  /**
+   * You have exceeded the request rate limit for this endpoint. Reduce your request rate and retry after a backoff period.
+   *
+   * Error code: RATE_LIMIT_EXCEEDED (HTTP 429)
+   */
   ServerRateLimitExceeded = 'SERVER_RATE_LIMIT_EXCEEDED',
 }
