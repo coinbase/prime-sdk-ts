@@ -11,6 +11,7 @@
 
 - OpenAPI spec and generated models synced to the latest Prime public API.
 - Backfilled TSDoc comments on request model fields from the OpenAPI spec: `promote-titles` now resolves `$ref` schema titles/descriptions (via `allOf`) and applies a local `descriptionOverrides` map for fields missing upstream documentation. All `*Request` model types now have field-level IDE hovers.
+- Fixed `gen-doc-comments` so `npm run update-spec` preserves the deprecated `setFundingSettings()` / `updateFundingSettings()` financing service docs (correct per-method JSDoc injection and `methodDocOverrides`).
 
 ## [0.12.1] - 2026-JUL-23
 

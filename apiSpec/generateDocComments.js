@@ -17,6 +17,7 @@ const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');
 const prettier = require('prettier');
+const methodDocOverrides = require('./methodDocOverrides');
 
 const specPath = path.join(__dirname, 'prime-public-api-spec.yaml');
 const srcDir = path.join(__dirname, '..', 'src');
@@ -48,6 +49,7 @@ function normalizePath(pathValue) {
 
 function buildOperationMap(spec) {
   const operationMap = new Map();
+  const operationById = new Map();
 
   for (const [pathKey, pathItem] of Object.entries(spec.paths || {})) {
     if (!pathItem || typeof pathItem !== 'object') {
@@ -60,22 +62,35 @@ function buildOperationMap(spec) {
       }
 
       const key = `${verb.toUpperCase()} ${normalizePath(pathKey)}`;
-      operationMap.set(key, {
+      const entry = {
         summary: operation.summary || '',
         description: operation.description || '',
-      });
+      };
+
+      operationMap.set(key, entry);
+
+      if (operation.operationId) {
+        operationById.set(operation.operationId, entry);
+      }
     }
   }
 
-  return operationMap;
+  return { operationMap, operationById };
 }
 
 function escapeForTsDoc(text) {
   return text.replace(/\\/g, '\\\\').replace(/\{/g, '\\{').replace(/\}/g, '\\}');
 }
 
-function buildTsDoc(summary, description) {
+function buildTsDoc(summary, description, options = {}) {
   const lines = ['  /**'];
+
+  if (options.deprecated) {
+    lines.push(`   * @deprecated ${options.deprecated}`);
+    if (summary || description) {
+      lines.push('   *');
+    }
+  }
 
   if (summary) {
     lines.push(`   * ${escapeForTsDoc(summary)}`);
@@ -169,32 +184,81 @@ function escapeRegex(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
+function countInterfaceMethods(interfaceBlock) {
+  return (interfaceBlock.match(/:\s*Promise</g) || []).length;
+}
+
+function findPrecedingJsDoc(beforeMethod) {
+  const matches = [
+    ...beforeMethod.matchAll(/\n  \/\*\*[\s\S]*?\*\/\s*/g),
+  ];
+
+  if (matches.length === 0) {
+    return null;
+  }
+
+  return matches[matches.length - 1];
+}
+
+function injectDocForMethod(interfaceBlock, methodName, tsdoc) {
+  const methodPattern = new RegExp(`(  ${escapeRegex(methodName)}\\s*\\()`, 'm');
+  const match = methodPattern.exec(interfaceBlock);
+
+  if (!match || match.index === undefined) {
+    return interfaceBlock;
+  }
+
+  const methodStart = match.index;
+  const beforeMethod = interfaceBlock.slice(0, methodStart);
+  const afterMethod = interfaceBlock.slice(methodStart);
+  const docMatch = findPrecedingJsDoc(beforeMethod);
+
+  if (docMatch && docMatch.index !== undefined) {
+    const beforeDoc = beforeMethod.slice(0, docMatch.index);
+    return `${beforeDoc}\n${tsdoc}\n${afterMethod}`;
+  }
+
+  return `${beforeMethod}${tsdoc}\n${afterMethod}`;
+}
+
 function injectDocsIntoInterface(interfaceBlock, methodDocs) {
   let updated = interfaceBlock;
 
   for (const [methodName, tsdoc] of methodDocs) {
-    const escapedMethodName = escapeRegex(methodName);
-    const withDocPattern = new RegExp(
-      `(\\n)  /\\*\\*(?:\\s*\\n   \\*[^\\n]*)*\\s*\\n   \\*/\\s*\\n(  ${escapedMethodName}\\s*\\()`,
-      'm'
-    );
-    const withoutDocPattern = new RegExp(
-      `(\\n)(  ${escapedMethodName}\\s*\\()`,
-      'm'
-    );
-
-    if (withDocPattern.test(updated)) {
-      updated = updated.replace(withDocPattern, `\n${tsdoc}\n$2`);
-      continue;
-    }
-
-    updated = updated.replace(withoutDocPattern, `\n${tsdoc}\n$2`);
+    updated = injectDocForMethod(updated, methodName, tsdoc);
   }
 
   return updated;
 }
 
-async function processServiceFile(filePath, operationMap) {
+function getFileOverrides(filePath) {
+  const relativePath = path
+    .relative(srcDir, filePath)
+    .replace(/\\/g, '/');
+  return methodDocOverrides.byFile[relativePath] || {};
+}
+
+function applyMethodOverrides(methodDocs, fileOverrides, operationById) {
+  for (const [methodName, override] of Object.entries(fileOverrides)) {
+    const operation = operationById.get(override.operationId);
+
+    if (!operation || (!operation.summary && !operation.description)) {
+      console.warn(
+        `Method doc override for ${methodName} references unknown operationId: ${override.operationId}`
+      );
+      continue;
+    }
+
+    methodDocs.set(
+      methodName,
+      buildTsDoc(operation.summary, operation.description, {
+        deprecated: override.deprecated,
+      })
+    );
+  }
+}
+
+async function processServiceFile(filePath, operationMap, operationById) {
   const content = fs.readFileSync(filePath, 'utf8');
   const interfaceInfo = extractInterfaceBlock(content);
 
@@ -205,8 +269,14 @@ async function processServiceFile(filePath, operationMap) {
   const methodEndpoints = extractMethodEndpoints(content);
   const methodDocs = new Map();
   const unmatched = [];
+  const fileOverrides = getFileOverrides(filePath);
+  const overriddenMethods = new Set(Object.keys(fileOverrides));
 
   for (const [methodName, endpoint] of methodEndpoints) {
+    if (overriddenMethods.has(methodName)) {
+      continue;
+    }
+
     const key = `${endpoint.verb} ${endpoint.path}`;
     const operation = operationMap.get(key);
 
@@ -218,6 +288,8 @@ async function processServiceFile(filePath, operationMap) {
     methodDocs.set(methodName, buildTsDoc(operation.summary, operation.description));
   }
 
+  applyMethodOverrides(methodDocs, fileOverrides, operationById);
+
   if (methodDocs.size === 0) {
     return { documented: 0, unmatched };
   }
@@ -226,6 +298,16 @@ async function processServiceFile(filePath, operationMap) {
     interfaceInfo.block,
     methodDocs
   );
+  const beforeCount = countInterfaceMethods(interfaceInfo.block);
+  const afterCount = countInterfaceMethods(updatedInterface);
+
+  if (afterCount < beforeCount) {
+    console.error(
+      `Refusing to update ${filePath}: interface method count dropped from ${beforeCount} to ${afterCount}`
+    );
+    return { documented: 0, unmatched, skipped: true };
+  }
+
   const updatedContent =
     content.slice(0, interfaceInfo.start) +
     updatedInterface +
@@ -239,7 +321,7 @@ async function processServiceFile(filePath, operationMap) {
 
 async function main() {
   const spec = yaml.load(fs.readFileSync(specPath, 'utf8'));
-  const operationMap = buildOperationMap(spec);
+  const { operationMap, operationById } = buildOperationMap(spec);
 
   const serviceDirs = fs
     .readdirSync(srcDir, { withFileTypes: true })
@@ -262,7 +344,8 @@ async function main() {
 
     const { documented, unmatched } = await processServiceFile(
       indexPath,
-      operationMap
+      operationMap,
+      operationById
     );
     totalDocumented += documented;
 

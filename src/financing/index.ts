@@ -288,7 +288,7 @@ export interface IFinancingService {
   /**
    * List Cross Margin Liquidations
    *
-   * Lists historical liquidation records for an XM customer.
+   * Lists historical liquidation records for an XM customer
    */
   listCrossMarginLiquidations(
     request: ListCrossMarginLiquidationsRequest,
