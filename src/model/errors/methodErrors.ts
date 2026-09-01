@@ -342,13 +342,16 @@ export type AcceptQuoteError =
   | AcceptQuoteBadRequestErrorResponse
   | AcceptQuoteForbiddenErrorResponse
   | AcceptQuoteNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type CancelAdvancedTransferError =
   | CancelAdvancedTransferBadRequestErrorResponse
   | CancelAdvancedTransferForbiddenErrorResponse
   | CancelAdvancedTransferNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
@@ -357,17 +360,22 @@ export type CancelEntitySweepError =
   | CancelFuturesSweepBadRequestErrorResponse
   | CancelFuturesSweepForbiddenErrorResponse
   | CancelFuturesSweepNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type CancelOrderError =
   | CancelOrderBadRequestErrorResponse
   | CancelOrderForbiddenErrorResponse
   | CancelOrderNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ClaimRewardsError =
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | StakingClaimRewardsBadRequestErrorResponse
   | StakingClaimRewardsForbiddenErrorResponse
@@ -381,12 +389,14 @@ export type CreateAddressBookError =
   | CreatePortfolioAddressBookEntryNotFoundErrorResponse
   | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type CreateAdvancedTransferError =
   | CreateAdvancedTransferBadRequestErrorResponse
   | CreateAdvancedTransferForbiddenErrorResponse
   | CreateAdvancedTransferNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
@@ -395,6 +405,7 @@ export type CreateAllocationError =
   | CreateAllocationBadRequestErrorResponse
   | CreateAllocationForbiddenErrorResponse
   | CreateAllocationNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
@@ -403,13 +414,16 @@ export type CreateConversionError =
   | CreateConversionBadRequestErrorResponse
   | CreateConversionForbiddenErrorResponse
   | CreateConversionNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type CreateNetAllocationError =
   | CreateNetAllocationBadRequestErrorResponse
   | CreateNetAllocationForbiddenErrorResponse
   | CreateNetAllocationNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
@@ -418,8 +432,10 @@ export type CreateNewLocatesError =
   | GetExistingLocatesBadRequestErrorResponse
   | GetExistingLocatesForbiddenErrorResponse
   | GetExistingLocatesNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type CreateOnchainAddressBookEntryError =
   | CreateOnchainAddressGroupBadRequestErrorResponse
@@ -427,14 +443,17 @@ export type CreateOnchainAddressBookEntryError =
   | CreateOnchainAddressGroupNotFoundErrorResponse
   | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type CreateOnchainTransactionError =
   | CreateOnchainTransactionBadRequestErrorResponse
   | CreateOnchainTransactionForbiddenErrorResponse
   | CreateOnchainTransactionNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type CreateOrderError =
   | CreateOrderBadRequestErrorResponse
@@ -442,7 +461,8 @@ export type CreateOrderError =
   | CreateOrderNotFoundErrorResponse
   | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type CreateOrderPreviewError =
   | InternalServerErrorResponse
@@ -450,30 +470,38 @@ export type CreateOrderPreviewError =
   | OrderPreviewForbiddenErrorResponse
   | OrderPreviewNotFoundErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type CreatePortfolioStakeError =
+  | InternalServerErrorResponse
   | PortfolioStakingInitiateBadRequestErrorResponse
   | PortfolioStakingInitiateForbiddenErrorResponse
   | PortfolioStakingInitiateNotFoundErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type CreatePortfolioUnstakeError =
+  | InternalServerErrorResponse
   | PortfolioStakingUnstakeBadRequestErrorResponse
   | PortfolioStakingUnstakeForbiddenErrorResponse
   | PortfolioStakingUnstakeNotFoundErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type CreateQuoteError =
   | CreateQuoteRequestBadRequestErrorResponse
   | CreateQuoteRequestForbiddenErrorResponse
   | CreateQuoteRequestNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type CreateStakeError =
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | StakingInitiateBadRequestErrorResponse
   | StakingInitiateForbiddenErrorResponse
@@ -485,11 +513,13 @@ export type CreateTransferError =
   | CreateWalletTransferBadRequestErrorResponse
   | CreateWalletTransferForbiddenErrorResponse
   | CreateWalletTransferNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
 
 export type CreateUnstakeError =
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | StakingUnstakeBadRequestErrorResponse
   | StakingUnstakeForbiddenErrorResponse
@@ -501,6 +531,7 @@ export type CreateWalletDepositAddressError =
   | CreateWalletDepositAddressBadRequestErrorResponse
   | CreateWalletDepositAddressForbiddenErrorResponse
   | CreateWalletDepositAddressNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
@@ -509,8 +540,10 @@ export type CreateWalletError =
   | CreateWalletBadRequestErrorResponse
   | CreateWalletForbiddenErrorResponse
   | CreateWalletNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type CreateWithdrawalError =
   | CreateWalletWithdrawalBadRequestErrorResponse
@@ -527,18 +560,22 @@ export type DeleteOnchainAddressBookError =
   | DeleteOnchainAddressGroupNotFoundErrorResponse
   | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type EditOrderError =
   | EditOrderBadRequestErrorResponse
   | EditOrderForbiddenErrorResponse
   | EditOrderNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetActivityError =
   | GetActivityForbiddenErrorResponse
   | GetActivityNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
@@ -547,82 +584,104 @@ export type GetAllocationError =
   | GetAllocationBadRequestErrorResponse
   | GetAllocationForbiddenErrorResponse
   | GetAllocationNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetConversionFeesError =
   | GetConversionFeesForbiddenErrorResponse
   | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetCounterpartyIdError =
   | GetPortfolioCounterpartyIDBadRequestErrorResponse
   | GetPortfolioCounterpartyIDForbiddenErrorResponse
   | GetPortfolioCounterpartyIDNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetCrossMarginLiquidationError =
   | GetXMLiquidationBadRequestErrorResponse
   | GetXMLiquidationForbiddenErrorResponse
   | GetXMLiquidationNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetCrossMarginOverviewError =
   | GetCrossMarginOverviewBadRequestErrorResponse
   | GetCrossMarginOverviewForbiddenErrorResponse
   | GetCrossMarginOverviewNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetCrossMarginPrimeOverviewError =
   | GetCrossMarginPrimeOverviewBadRequestErrorResponse
   | GetCrossMarginPrimeOverviewForbiddenErrorResponse
   | GetCrossMarginPrimeOverviewNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetCrossMarginRiskParametersError =
   | GetCrossMarginRiskParametersBadRequestErrorResponse
   | GetCrossMarginRiskParametersForbiddenErrorResponse
   | GetCrossMarginRiskParametersNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetDerivativesCurrencySummaryError =
   | GetDerivativesCurrencySummaryBadRequestErrorResponse
   | GetDerivativesCurrencySummaryForbiddenErrorResponse
   | GetDerivativesCurrencySummaryNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetEntityBalanceError =
   | GetFcmBalanceBadRequestErrorResponse
   | GetFcmBalanceForbiddenErrorResponse
   | GetFcmBalanceNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetEntityEquityError =
   | GetFcmEquityBadRequestErrorResponse
   | GetFcmEquityForbiddenErrorResponse
   | GetFcmEquityNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetEntityLocateAvailabilitiesError =
   | GetLocateAvailabilitiesBadRequestErrorResponse
   | GetLocateAvailabilitiesForbiddenErrorResponse
   | GetLocateAvailabilitiesNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetEntityPositionsError =
   | GetPositionsBadRequestErrorResponse
   | GetPositionsForbiddenErrorResponse
   | GetPositionsNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
@@ -631,34 +690,43 @@ export type GetFcmMarginCallDetailsError =
   | GetFcmMarginCallDetailsBadRequestErrorResponse
   | GetFcmMarginCallDetailsForbiddenErrorResponse
   | GetFcmMarginCallDetailsNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetFcmRiskLimitsError =
   | GetFcmRiskLimitsBadRequestErrorResponse
   | GetFcmRiskLimitsForbiddenErrorResponse
   | GetFcmRiskLimitsNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetFcmSettingsError =
   | GetFcmSettingsBadRequestErrorResponse
   | GetFcmSettingsForbiddenErrorResponse
   | GetFcmSettingsNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetMarginCallDetailsError =
   | GetFcmMarginCallDetailsBadRequestErrorResponse
   | GetFcmMarginCallDetailsForbiddenErrorResponse
   | GetFcmMarginCallDetailsNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetMarginInformationError =
   | GetMarginInformationBadRequestErrorResponse
   | GetMarginInformationForbiddenErrorResponse
   | GetMarginInformationNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
@@ -667,27 +735,34 @@ export type GetOrderEditHistoryError =
   | GetOrderEditHistoryBadRequestErrorResponse
   | GetOrderEditHistoryForbiddenErrorResponse
   | GetOrderEditHistoryNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetOrderError =
   | GetOrderBadRequestErrorResponse
   | GetOrderForbiddenErrorResponse
   | GetOrderNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetPaymentMethodError =
   | GetEntityPaymentMethodDetailsBadRequestErrorResponse
   | GetEntityPaymentMethodDetailsForbiddenErrorResponse
   | GetEntityPaymentMethodDetailsNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetPortfolioActivityError =
   | GetPortfolioActivityBadRequestErrorResponse
   | GetPortfolioActivityForbiddenErrorResponse
   | GetPortfolioActivityNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
@@ -696,6 +771,7 @@ export type GetPortfolioBuyingPowerError =
   | GetBuyingPowerBadRequestErrorResponse
   | GetBuyingPowerForbiddenErrorResponse
   | GetBuyingPowerNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
@@ -704,34 +780,43 @@ export type GetPortfolioCommissionError =
   | GetPortfolioCommissionBadRequestErrorResponse
   | GetPortfolioCommissionForbiddenErrorResponse
   | GetPortfolioCommissionNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetPortfolioCreditError =
   | GetPostTradeCreditBadRequestErrorResponse
   | GetPostTradeCreditForbiddenErrorResponse
   | GetPostTradeCreditNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetPortfolioCreditInformationError =
   | GetPostTradeCreditBadRequestErrorResponse
   | GetPostTradeCreditForbiddenErrorResponse
   | GetPostTradeCreditNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetPortfolioError =
   | GetPortfolioBadRequestErrorResponse
   | GetPortfolioForbiddenErrorResponse
   | GetPortfolioNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetPortfolioWithdrawalPowerError =
   | GetWithdrawalPowerBadRequestErrorResponse
   | GetWithdrawalPowerForbiddenErrorResponse
   | GetWithdrawalPowerNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
@@ -740,27 +825,34 @@ export type GetRiskLimitsError =
   | GetFcmRiskLimitsBadRequestErrorResponse
   | GetFcmRiskLimitsForbiddenErrorResponse
   | GetFcmRiskLimitsNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetStakingStatusError =
   | GetStakingStatusBadRequestErrorResponse
   | GetStakingStatusForbiddenErrorResponse
   | GetStakingStatusNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetTieredPricingFeesError =
   | GetTFTieredPricingFeesBadRequestErrorResponse
   | GetTFTieredPricingFeesForbiddenErrorResponse
   | GetTFTieredPricingFeesNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetTransactionError =
   | GetTransactionBadRequestErrorResponse
   | GetTransactionForbiddenErrorResponse
   | GetTransactionNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
@@ -771,19 +863,23 @@ export type GetTransactionTravelRuleDataError =
   | GetTransactionTravelRuleDataNotFoundErrorResponse
   | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetUnstakingStatusError =
   | GetUnstakingStatusBadRequestErrorResponse
   | GetUnstakingStatusForbiddenErrorResponse
   | GetUnstakingStatusNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type GetWalletBalanceError =
   | GetWalletBalanceBadRequestErrorResponse
   | GetWalletBalanceForbiddenErrorResponse
   | GetWalletBalanceNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
@@ -792,6 +888,7 @@ export type GetWalletDepositInstructionsError =
   | GetWalletDepositInstructionsBadRequestErrorResponse
   | GetWalletDepositInstructionsForbiddenErrorResponse
   | GetWalletDepositInstructionsNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
@@ -800,6 +897,7 @@ export type GetWalletError =
   | GetWalletBadRequestErrorResponse
   | GetWalletForbiddenErrorResponse
   | GetWalletNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
@@ -808,10 +906,13 @@ export type ListAddressBooksError =
   | GetPortfolioAddressBookBadRequestErrorResponse
   | GetPortfolioAddressBookForbiddenErrorResponse
   | GetPortfolioAddressBookNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ListAdvancedTransfersError =
+  | InternalServerErrorResponse
   | ListAdvancedTransfersBadRequestErrorResponse
   | ListAdvancedTransfersForbiddenErrorResponse
   | ListAdvancedTransfersNotFoundErrorResponse
@@ -820,6 +921,7 @@ export type ListAdvancedTransfersError =
   | UnauthorizedErrorResponse;
 
 export type ListAdvancedTransferTransactionsError =
+  | InternalServerErrorResponse
   | ListAdvancedTransferTransactionsForbiddenErrorResponse
   | ListAdvancedTransferTransactionsNotFoundErrorResponse
   | ServiceUnavailableErrorResponse
@@ -827,32 +929,40 @@ export type ListAdvancedTransferTransactionsError =
   | UnauthorizedErrorResponse;
 
 export type ListAggregateEntityPositionsError =
+  | InternalServerErrorResponse
   | ListAggregateEntityPositionsBadRequestErrorResponse
   | ListAggregateEntityPositionsForbiddenErrorResponse
   | ListAggregateEntityPositionsNotFoundErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ListAssetsError =
   | GetEntityAssetsBadRequestErrorResponse
   | GetEntityAssetsForbiddenErrorResponse
   | GetEntityAssetsNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ListCrossMarginLiquidationsError =
+  | InternalServerErrorResponse
   | ListXMLiquidationsBadRequestErrorResponse
   | ListXMLiquidationsForbiddenErrorResponse
   | ListXMLiquidationsNotFoundErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ListDerivativePositionsError =
   | GetDerivativePositionsBadRequestErrorResponse
   | GetDerivativePositionsForbiddenErrorResponse
   | GetDerivativePositionsNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ListEntityActivitiesError =
   | GetEntityActivitiesBadRequestErrorResponse
@@ -860,47 +970,65 @@ export type ListEntityActivitiesError =
   | GetEntityActivitiesNotFoundErrorResponse
   | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ListEntityBalancesError =
+  | InternalServerErrorResponse
   | ListEntityBalancesBadRequestErrorResponse
   | ListEntityBalancesForbiddenErrorResponse
   | ListEntityBalancesNotFoundErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ListEntityPaymentMethodsError =
   | GetEntityPaymentMethodsBadRequestErrorResponse
   | GetEntityPaymentMethodsForbiddenErrorResponse
   | GetEntityPaymentMethodsNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ListEntityPositionsError =
+  | InternalServerErrorResponse
   | ListEntityPositionsBadRequestErrorResponse
   | ListEntityPositionsForbiddenErrorResponse
   | ListEntityPositionsNotFoundErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ListEntitySweepsError =
   | GetFuturesSweepsBadRequestErrorResponse
   | GetFuturesSweepsForbiddenErrorResponse
   | GetFuturesSweepsNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ListExistingLocatesError =
   | GetExistingLocatesBadRequestErrorResponse
   | GetExistingLocatesForbiddenErrorResponse
   | GetExistingLocatesNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
+
+export type ListFinancingEligibleAssetsError =
+  | InternalServerErrorResponse
+  | ServiceUnavailableErrorResponse
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ListInterestAccrualsError =
   | GetInterestAccrualsBadRequestErrorResponse
   | GetInterestAccrualsForbiddenErrorResponse
   | GetInterestAccrualsNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
@@ -909,13 +1037,16 @@ export type ListInvoicesError =
   | GetInvoicesBadRequestErrorResponse
   | GetInvoicesForbiddenErrorResponse
   | GetInvoicesNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ListMarginCallSummariesError =
   | GetMarginSummariesBadRequestErrorResponse
   | GetMarginSummariesForbiddenErrorResponse
   | GetMarginSummariesNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
@@ -924,6 +1055,7 @@ export type ListMarginConversionsError =
   | GetMarginConversionsBadRequestErrorResponse
   | GetMarginConversionsForbiddenErrorResponse
   | GetMarginConversionsNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
@@ -932,15 +1064,19 @@ export type ListMarketDataError =
   | GetMarketDataBadRequestErrorResponse
   | GetMarketDataForbiddenErrorResponse
   | GetMarketDataNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ListNetAllocationsError =
   | GetAllocationsByClientNettingIdBadRequestErrorResponse
   | GetAllocationsByClientNettingIdForbiddenErrorResponse
   | GetAllocationsByClientNettingIdNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ListOnchainAddressBookError =
   | InternalServerErrorResponse
@@ -948,9 +1084,11 @@ export type ListOnchainAddressBookError =
   | ListOnchainAddressGroupsForbiddenErrorResponse
   | ListOnchainAddressGroupsNotFoundErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ListOnchainWalletBalancesError =
+  | InternalServerErrorResponse
   | ListWeb3WalletBalancesBadRequestErrorResponse
   | ListWeb3WalletBalancesForbiddenErrorResponse
   | ListWeb3WalletBalancesNotFoundErrorResponse
@@ -962,20 +1100,25 @@ export type ListOpenOrdersError =
   | GetOpenOrdersBadRequestErrorResponse
   | GetOpenOrdersForbiddenErrorResponse
   | GetOpenOrdersNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ListOrderFillsError =
   | GetOrderFillsBadRequestErrorResponse
   | GetOrderFillsForbiddenErrorResponse
   | GetOrderFillsNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ListPortfolioActivitiesError =
   | GetPortfolioActivitiesBadRequestErrorResponse
   | GetPortfolioActivitiesForbiddenErrorResponse
   | GetPortfolioActivitiesNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
@@ -984,27 +1127,34 @@ export type ListPortfolioAllocationsError =
   | GetPortfolioAllocationsBadRequestErrorResponse
   | GetPortfolioAllocationsForbiddenErrorResponse
   | GetPortfolioAllocationsNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ListPortfolioBalancesError =
   | GetPortfolioBalancesBadRequestErrorResponse
   | GetPortfolioBalancesForbiddenErrorResponse
   | GetPortfolioBalancesNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ListPortfolioFillsError =
   | GetPortfolioFillsBadRequestErrorResponse
   | GetPortfolioFillsForbiddenErrorResponse
   | GetPortfolioFillsNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ListPortfolioInterestAccrualsError =
   | GetPortfolioInterestAccrualsBadRequestErrorResponse
   | GetPortfolioInterestAccrualsForbiddenErrorResponse
   | GetPortfolioInterestAccrualsNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
@@ -1013,12 +1163,15 @@ export type ListPortfolioOrdersError =
   | GetOrdersBadRequestErrorResponse
   | GetOrdersForbiddenErrorResponse
   | GetOrdersNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ListPortfoliosError =
   | GetPortfoliosForbiddenErrorResponse
   | GetPortfoliosNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
@@ -1027,6 +1180,7 @@ export type ListPortfolioTransactionsError =
   | GetPortfolioTransactionsBadRequestErrorResponse
   | GetPortfolioTransactionsForbiddenErrorResponse
   | GetPortfolioTransactionsNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
@@ -1035,38 +1189,49 @@ export type ListPortfolioUsersError =
   | GetPortfolioUsersBadRequestErrorResponse
   | GetPortfolioUsersForbiddenErrorResponse
   | GetPortfolioUsersNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ListProductCandlesError =
   | GetCandlesBadRequestErrorResponse
   | GetCandlesForbiddenErrorResponse
   | GetCandlesNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ListProductsError =
   | GetPortfolioProductsBadRequestErrorResponse
   | GetPortfolioProductsForbiddenErrorResponse
   | GetPortfolioProductsNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ListTFObligationsError =
+  | InternalServerErrorResponse
   | ListTFObligationsBadRequestErrorResponse
   | ListTFObligationsForbiddenErrorResponse
   | ListTFObligationsNotFoundErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ListUsersError =
   | GetEntityUsersBadRequestErrorResponse
   | GetEntityUsersForbiddenErrorResponse
   | GetEntityUsersNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ListWalletAddressesError =
+  | InternalServerErrorResponse
   | ListWalletAddressesBadRequestErrorResponse
   | ListWalletAddressesForbiddenErrorResponse
   | ListWalletAddressesNotFoundErrorResponse
@@ -1078,6 +1243,7 @@ export type ListWalletsError =
   | GetWalletsBadRequestErrorResponse
   | GetWalletsForbiddenErrorResponse
   | GetWalletsNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
@@ -1086,17 +1252,21 @@ export type ListWalletTransactionsError =
   | GetWalletTransactionsBadRequestErrorResponse
   | GetWalletTransactionsForbiddenErrorResponse
   | GetWalletTransactionsNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
 
 export type PreviewUnstakeError =
+  | InternalServerErrorResponse
   | PreviewUnstakeBadRequestErrorResponse
   | PreviewUnstakeForbiddenErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type QueryTransactionValidatorsError =
+  | InternalServerErrorResponse
   | ListTransactionValidatorsBadRequestErrorResponse
   | ListTransactionValidatorsForbiddenErrorResponse
   | ListTransactionValidatorsNotFoundErrorResponse
@@ -1110,23 +1280,29 @@ export type RotateApiKeyError =
   | RotateAPIKeyBadRequestErrorResponse
   | RotateAPIKeyForbiddenErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type ScheduleEntitySweepError =
+  | InternalServerErrorResponse
   | ScheduleFuturesSweepBadRequestErrorResponse
   | ScheduleFuturesSweepForbiddenErrorResponse
   | ScheduleFuturesSweepNotFoundErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type SetFcmSettingsError =
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | SetFcmSettingsBadRequestErrorResponse
   | SetFcmSettingsForbiddenErrorResponse
   | SetFcmSettingsNotFoundErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type SetFundingSettingsError =
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse
@@ -1140,26 +1316,32 @@ export type SubmitDepositTravelRuleError =
   | SubmitDepositTravelRuleDataBadRequestErrorResponse
   | SubmitDepositTravelRuleDataForbiddenErrorResponse
   | SubmitDepositTravelRuleDataNotFoundErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type UpdateEntityAutoSweepError =
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | SetAutoSweepBadRequestErrorResponse
   | SetAutoSweepForbiddenErrorResponse
   | SetAutoSweepNotFoundErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type UpdateFundingSettingsError =
   | GetXMLiquidationBadRequestErrorResponse
   | GetXMLiquidationForbiddenErrorResponse
   | GetXMLiquidationNotFoundErrorResponse
+  | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
-  | TooManyRequestsErrorResponse;
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
 
 export type UpdateOnchainAddressBookEntryError =
   | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse
   | UpdateOnchainAddressGroupBadRequestErrorResponse
   | UpdateOnchainAddressGroupForbiddenErrorResponse
   | UpdateOnchainAddressGroupNotFoundErrorResponse;

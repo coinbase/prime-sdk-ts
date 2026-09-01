@@ -261,6 +261,8 @@ export interface IFinancingService {
    * List Financing Eligible Assets
    *
    * Get all assets eligible for Trade Finance with their adjustment factors.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListFinancingEligibleAssetsError}.
    */
   listFinancingEligibleAssets(
     request?: ListFinancingEligibleAssetsRequest,

@@ -10,6 +10,7 @@
 - Per-member TSDoc on generated `*ErrorCode` and `*Subcode` enums, sourced from OpenAPI `x-error-codes` and `x-subcodes`.
 - HTTP 4xx/5xx responses now throw `CoinbasePrimeException` with a camelCased `body` (`code`, `message`, `subcode`, `traceId`). Use `isPrimeApiError()` and per-method `*Error` unions (e.g. `CreateOrderError`) when inspecting `catch` values. `Promise` return types remain success-only.
 - Example: `examples/advanced/handleApiError.js`.
+- Per-method `*Error` unions always include the shared platform error bodies (`UnauthorizedErrorResponse`, `TooManyRequestsErrorResponse`, `InternalServerErrorResponse`, `ServiceUnavailableErrorResponse`). The OpenAPI spec only documents HTTP 401 on ~32% of operations and 500 on ~12%, but every signed Prime request can return those statuses.
 
 #### New API Endpoints
 

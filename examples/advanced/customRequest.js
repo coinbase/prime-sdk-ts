@@ -35,7 +35,7 @@
 
 const { CoinbasePrimeClientWithServices, Method } = require('../../dist');
 
-const client = CoinbasePrimeClientWithServices.fromEnv("https://prime-api-rest-staging.cbhq.net/v1/");
+const client = CoinbasePrimeClientWithServices.fromEnv();
 const portfolioId = process.env.PORTFOLIO_ID;
 
 const methodArg = (process.argv[2] || 'GET').toUpperCase();

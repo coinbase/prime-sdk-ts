@@ -262,6 +262,7 @@ export type {
   GetTieredPricingFeesError,
   ListCrossMarginLiquidationsError,
   ListExistingLocatesError,
+  ListFinancingEligibleAssetsError,
   ListInterestAccrualsError,
   ListMarginCallSummariesError,
   ListMarginConversionsError,

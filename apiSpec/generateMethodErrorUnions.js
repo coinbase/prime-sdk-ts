@@ -21,6 +21,7 @@ const prettier = require('prettier');
 const specPath = path.join(__dirname, 'prime-public-api-spec.yaml');
 const srcDir = path.join(__dirname, '..', 'src');
 const destPath = path.join(__dirname, 'types/processed/errors/methodErrors.ts');
+const srcDestPath = path.join(srcDir, 'model', 'errors', 'methodErrors.ts');
 
 const HTTP_VERBS = new Set(['get', 'post', 'put', 'delete', 'patch']);
 const SKIP_SERVICE_DIRS = new Set([
@@ -40,6 +41,15 @@ const ERROR_STATUSES = new Set([
   '501',
   '503',
 ]);
+// Shared platform errors from the spec's global x-error-codes catalog. Per-operation
+// coverage is incomplete (401 ~32%, 500 ~12%), but every signed Prime request can
+// return these statuses. 400/403/404 stay per-endpoint.
+const COMMON_ERROR_SCHEMAS = [
+  'InternalServerErrorResponse',
+  'ServiceUnavailableErrorResponse',
+  'TooManyRequestsErrorResponse',
+  'UnauthorizedErrorResponse',
+];
 const MARKER_START = '/* GENERATED-METHOD-ERRORS-START */';
 const MARKER_END = '/* GENERATED-METHOD-ERRORS-END */';
 
@@ -67,6 +77,10 @@ function schemaNameFromRef(ref) {
     return null;
   }
   return last.split('.').pop();
+}
+
+function withCommonErrorSchemas(schemas) {
+  return [...new Set([...schemas, ...COMMON_ERROR_SCHEMAS])].sort();
 }
 
 function errorSchemasFromOperation(operation) {
@@ -243,13 +257,11 @@ async function main() {
         unmatched.push({ serviceDir, methodName, key });
         continue;
       }
-      if (operation.errorSchemas.length === 0) {
-        continue;
-      }
 
+      const schemas = withCommonErrorSchemas(operation.errorSchemas);
       const typeName = methodErrorTypeName(methodName);
-      methodUnions.push({ typeName, schemas: operation.errorSchemas });
-      for (const schema of operation.errorSchemas) {
+      methodUnions.push({ typeName, schemas });
+      for (const schema of schemas) {
         allSchemas.add(schema);
       }
       serviceErrorTypes.add(typeName);
@@ -281,6 +293,10 @@ async function main() {
     fs.mkdirSync(destDir, { recursive: true });
   }
   fs.writeFileSync(destPath, output, 'utf8');
+  const srcDestDir = path.dirname(srcDestPath);
+  if (fs.existsSync(srcDestDir)) {
+    fs.writeFileSync(srcDestPath, output, 'utf8');
+  }
   console.log(
     `Wrote ${methodUnions.length} method error unions to ${destPath}`
   );
