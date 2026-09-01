@@ -27,6 +27,9 @@ export type Invoice = {
   billingYear?: number;
   dueDate?: string;
   invoiceNumber?: string;
+  /**
+   * States
+   */
   state?: InvoiceState;
   usdAmountPaid?: number;
   usdAmountOwed?: number;

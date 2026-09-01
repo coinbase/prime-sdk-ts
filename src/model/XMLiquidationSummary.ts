@@ -25,6 +25,9 @@ export type XMLiquidationSummary = {
    * Financing liquidation UUID
    */
   liquidationId?: string;
+  /**
+   * XMLiquidationStatus is the current status of an XM liquidation
+   */
   status?: XMLiquidationStatus;
   /**
    * USD notional shortfall amount that triggered the liquidation

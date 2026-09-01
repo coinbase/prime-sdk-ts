@@ -1,6 +1,6 @@
 {
   "name": "@coinbase/prime-sdk-ts",
-  "version": "0.12.1",
+  "version": "0.13.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -45,7 +45,7 @@
     "fetch-spec": "curl -o apiSpec/prime-public-api-spec.yaml https://api.prime.coinbase.com/v1/openapi.yaml",
     "promote-titles": "node apiSpec/promoteTitles.js",
     "gen-doc-comments": "node apiSpec/generateDocComments.js",
-    "gen-types": "npm run promote-titles && openapi-generator generate -i apiSpec/.prime-public-api-spec.augmented.yaml -g typescript-node --global-property models -o apiSpec/types --additional-properties=supportsES6=true --additional-properties=snapshot=true && cd apiSpec && node generateTypes.js",
+    "gen-types": "npm run promote-titles && openapi-generator generate -i apiSpec/.prime-public-api-spec.augmented.yaml -g typescript-node --global-property models -o apiSpec/types --additional-properties=supportsES6=true --additional-properties=snapshot=true && cd apiSpec && node generateTypes.js && node generateMethodErrorUnions.js",
     "replace-model": "rm -r src/model && cp -r apiSpec/types/processed src/model",
     "update-spec": "npm run fetch-spec && npm run promote-titles && npm run gen-types && npm run replace-model && npm run gen-doc-comments"
   },

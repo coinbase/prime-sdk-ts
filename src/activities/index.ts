@@ -39,12 +39,16 @@ export interface IActivitiesService {
    * Get Activity by Activity ID
    *
    * Retrieve an activity by its activity ID - this endpoint can retrieve both portfolio and entity activities when passed the appropriate API key
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetActivityError}.
    */
   getActivity(request: GetActivityRequest): Promise<GetActivityResponse>;
   /**
    * Get Portfolio Activity by Activity ID
    *
    * Retrieve an activity by its activity ID
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetPortfolioActivityError}.
    */
   getPortfolioActivity(
     request: GetPortfolioActivitiesRequest
@@ -53,6 +57,8 @@ export interface IActivitiesService {
    * List Entity Activities
    *
    * List all activities associated with a given entity.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListEntityActivitiesError}.
    */
   listEntityActivities(
     request: ListEntityActivitiesRequest
@@ -61,6 +67,8 @@ export interface IActivitiesService {
    * List Activities
    *
    * List all activities associated with a given portfolio.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListPortfolioActivitiesError}.
    */
   listPortfolioActivities(
     request: ListPortfolioActivitiesRequest

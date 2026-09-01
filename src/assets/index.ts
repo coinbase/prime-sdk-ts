@@ -23,6 +23,8 @@ export interface IAssetsService {
    * List Assets
    *
    * List all assets available for a given entity.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListAssetsError}.
    */
   listAssets(
     request: ListAssetsRequest,

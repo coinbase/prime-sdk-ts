@@ -25,6 +25,9 @@ export type XMLoan = {
    * Financing loan UUID
    */
   loanId?: string;
+  /**
+   * XMParty is a specific Cross Margin trading venue
+   */
   loanParty?: XMParty;
   /**
    * Loan principal currency

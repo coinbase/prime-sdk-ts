@@ -28,8 +28,17 @@ import { FundMovement } from './FundMovement';
  */
 export type AdvancedTransfer = {
   id?: string;
+  /**
+   * AdvancedTransferType specifies the type of advanced transfer.
+   */
   type?: AdvancedTransferType;
+  /**
+   * AdvancedTransferState represents the lifecycle state of an advanced transfer.
+   */
   state?: AdvancedTransferState;
   fundMovements?: Array<FundMovement>;
+  /**
+   * BlindMatchMetadata contains metadata specific to blind match advanced transfers.
+   */
   blindMatchMetadata?: BlindMatchMetadata;
 };

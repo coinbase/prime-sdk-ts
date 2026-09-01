@@ -136,7 +136,8 @@ async function validParameters() {
       // API returned an error (e.g., order not found)
       console.log(
         'Validation passed, but API returned error:',
-        error.statusCode
+        error.statusCode,
+        error.subcode || error.body?.subcode
       );
     }
   }
@@ -168,6 +169,9 @@ async function properErrorHandling(portfolioId, orderId) {
     if (error instanceof CoinbasePrimeException) {
       console.error('❌ API Error:', error.statusCode);
       console.error(error.message);
+      console.error('code:', error.code);
+      console.error('subcode:', error.subcode);
+      console.error('traceId:', error.traceId);
       return {
         success: false,
         error: 'api',

@@ -37,6 +37,12 @@ export {
   createTlsOptionsFromEnv,
   mergeClientOptionsFromEnv,
 } from './shared/envUtils';
+export {
+  CoinbasePrimeClientException,
+  CoinbasePrimeException,
+  isPrimeApiError,
+} from './errors';
+export type { PrimeErrorBody } from './errors';
 
 // Export all individual services for manual instantiation
 export { ActivitiesService, IActivitiesService } from './activities';
@@ -66,6 +72,9 @@ export { WalletsService, IWalletsService } from './wallets';
 // Export all model types and enums
 export type * from './model/';
 export * from './model/enums/';
+export type * from './model/errors';
+export * from './model/errors/enums';
+export type * from './model/errors/methodErrors';
 
 // Export ALL service-specific request/response types for comprehensive access
 // This provides everything in one import but creates a larger bundle
@@ -183,6 +192,8 @@ export type {
   ListTFObligationsResponse,
   ListFinancingEligibleAssetsRequest,
   ListFinancingEligibleAssetsResponse,
+  GetConversionFeesRequest,
+  GetConversionFeesResponse,
   GetCrossMarginRiskParametersRequest,
   GetCrossMarginRiskParametersResponse,
   GetCrossMarginPrimeOverviewRequest,
@@ -206,6 +217,10 @@ export type {
   GetEntityFuturesBalanceResponse,
   GetEntityFuturesPositionsRequest,
   GetEntityFuturesPositionsResponse,
+  GetDerivativesCurrencySummaryRequest,
+  GetDerivativesCurrencySummaryResponse,
+  ListDerivativePositionsRequest,
+  ListDerivativePositionsResponse,
   ListEntityFuturesSweepsRequest,
   ListEntityFuturesSweepsResponse,
   ScheduleEntityFuturesSweepRequest,

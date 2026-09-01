@@ -22,6 +22,12 @@ import { CustomStablecoinRewardDetails } from './CustomStablecoinRewardDetails';
 import { RewardSubtype } from './enums/RewardSubtype';
 
 export type RewardMetadata = {
+  /**
+   * Indicates the reward subtype
+   */
   subtype?: RewardSubtype;
+  /**
+   * Details for a custom stablecoin reward payout transaction
+   */
   customStablecoinRewardDetails?: CustomStablecoinRewardDetails;
 };

@@ -41,7 +41,13 @@ export type Transaction = {
    * The portfolio ID of the transaction
    */
   portfolioId?: string;
+  /**
+   * Indicates the transaction type
+   */
   type?: TransactionType;
+  /**
+   * Indicates the transaction status
+   */
   status?: TransactionStatus;
   /**
    * The asset symbol
@@ -101,5 +107,8 @@ export type Transaction = {
   idempotencyKey?: string;
   onchainDetails?: OnchainTransactionDetails;
   networkInfo?: Network;
+  /**
+   * Represents the status of various process requirements for a transaction
+   */
   processRequirements?: ProcessRequirements;
 };

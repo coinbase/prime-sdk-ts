@@ -27,6 +27,8 @@ import {
   GetFcmSettingsResponse as internalGetFcmSettingsResponse,
   SetFcmSettingsResponse as internalSetFcmSettingsResponse,
   GetFcmEquityResponse as internalGetFcmEquityResponse,
+  GetDerivativesCurrencySummaryResponse as internalGetDerivativesCurrencySummaryResponse,
+  GetDerivativePositionsResponse as internalGetDerivativePositionsResponse,
 } from '../model/';
 
 export type ListEntityFuturesSweepsRequest = {
@@ -100,3 +102,36 @@ export type GetEntityFcmEquityRequest = {
 };
 
 export type GetEntityFcmEquityResponse = Expand<internalGetFcmEquityResponse>;
+
+export type GetDerivativesCurrencySummaryRequest = {
+  portfolioId: string;
+};
+
+export type GetDerivativesCurrencySummaryResponse =
+  Expand<internalGetDerivativesCurrencySummaryResponse>;
+
+export type ListDerivativePositionsRequest = {
+  portfolioId: string;
+  productId?: string;
+};
+
+export type ListDerivativePositionsResponse =
+  Expand<internalGetDerivativePositionsResponse>;
+
+/* GENERATED-METHOD-ERRORS-START */
+export type {
+  CancelEntitySweepError,
+  GetDerivativesCurrencySummaryError,
+  GetEntityBalanceError,
+  GetEntityEquityError,
+  GetEntityPositionsError,
+  GetFcmSettingsError,
+  GetMarginCallDetailsError,
+  GetRiskLimitsError,
+  ListDerivativePositionsError,
+  ListEntitySweepsError,
+  ScheduleEntitySweepError,
+  SetFcmSettingsError,
+  UpdateEntityAutoSweepError,
+} from '../model/errors/methodErrors';
+/* GENERATED-METHOD-ERRORS-END */

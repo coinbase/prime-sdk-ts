@@ -49,5 +49,8 @@ export type GetFcmRiskLimitsResponse = {
    * Margin utilization as a decimal percentage between 0 and 1 (e.g. 0.5 means 50%)
    */
   marginUtilizationPercent?: string;
+  /**
+   * The margin health state of an FCM account.   - FCM_MARGIN_HEALTH_STATE_UNSPECIFIED: Unspecified margin health state.  - FCM_MARGIN_HEALTH_STATE_HEALTHY: Account margin is healthy.  - FCM_MARGIN_HEALTH_STATE_RESTRICTED: Account margin is restricted.  - FCM_MARGIN_HEALTH_STATE_PRE_LIQUIDATION: Account is approaching liquidation.  - FCM_MARGIN_HEALTH_STATE_LIQUIDATION: Account is in liquidation.
+   */
   marginHealthState?: FcmMarginHealthState;
 };

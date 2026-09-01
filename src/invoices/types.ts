@@ -32,3 +32,7 @@ export type ListInvoicesResponse = PaginatedListResponse<
   ListInvoicesRequest & BasePaginatedRequest,
   Invoice
 >;
+
+/* GENERATED-METHOD-ERRORS-START */
+export type { ListInvoicesError } from '../model/errors/methodErrors';
+/* GENERATED-METHOD-ERRORS-END */

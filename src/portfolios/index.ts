@@ -32,6 +32,8 @@ export interface IPortfoliosService {
    * Get Portfolio by Portfolio ID
    *
    * Retrieve a given portfolio by its portfolio ID.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetPortfolioError}.
    */
   getPortfolio(
     request: GetPortfolioRequest,
@@ -42,6 +44,8 @@ export interface IPortfoliosService {
    * Get Portfolio Credit Information
    *
    * Retrieve a portfolio's post-trade credit information.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetPortfolioCreditError}.
    */
   getPortfolioCredit(
     request: GetPortfolioCreditRequest,
@@ -52,6 +56,8 @@ export interface IPortfoliosService {
    * Get Portfolio Counterparty ID
    *
    * Retrieve the counterparty ID for a given portfolio.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetCounterpartyIdError}.
    */
   getCounterpartyId(
     request: GetCounterpartyIdRequest,
@@ -62,6 +68,8 @@ export interface IPortfoliosService {
    * List Portfolios
    *
    * List all portfolios for which the current API key has read access.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListPortfoliosError}.
    */
   listPortfolios(
     request: ListPortfoliosRequest,

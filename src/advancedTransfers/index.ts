@@ -37,6 +37,8 @@ export interface IAdvancedTransfersService {
    * List Advanced Transfers
    *
    * List advanced transfers for a given portfolio. This API is currently not available to all clients. Please reach out to Prime Operations with any questions.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListAdvancedTransfersError}.
    */
   listAdvancedTransfers(
     request: ListAdvancedTransfersRequest,
@@ -47,6 +49,8 @@ export interface IAdvancedTransfersService {
    * Create Advanced Transfer
    *
    * Create advanced transfer for a given portfolio. This API is currently not available to all clients. Please reach out to Prime Operations with any questions.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link CreateAdvancedTransferError}.
    */
   createAdvancedTransfer(
     request: CreateAdvancedTransferRequest,
@@ -57,6 +61,8 @@ export interface IAdvancedTransfersService {
    * Cancel Advanced Transfer
    *
    * Cancel advanced transfer for a given portfolio. This API is currently not available to all clients. Please reach out to Prime Operations with any questions.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link CancelAdvancedTransferError}.
    */
   cancelAdvancedTransfer(
     request: CancelAdvancedTransferRequest,
@@ -67,6 +73,8 @@ export interface IAdvancedTransfersService {
    * List transactions associated with an Advanced Transfer
    *
    * List transactions associated with an Advanced Transfer. This API is currently not available to all clients. Please reach out to Prime Operations with any questions.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListAdvancedTransferTransactionsError}.
    */
   listAdvancedTransferTransactions(
     request: ListAdvancedTransferTransactionsRequest,

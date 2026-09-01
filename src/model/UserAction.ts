@@ -21,6 +21,9 @@
 import { Action } from './enums/Action';
 
 export type UserAction = {
+  /**
+   * Action is the available user action types
+   */
   action?: Action;
   /**
    * Id of the user who executed the action

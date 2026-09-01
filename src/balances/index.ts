@@ -38,6 +38,8 @@ export interface IBalancesService {
    * List Portfolio Balances
    *
    * List all balances for a specific portfolio.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListPortfolioBalancesError}.
    */
   listPortfolioBalances(
     request: ListPortfolioBalancesRequest,
@@ -48,6 +50,8 @@ export interface IBalancesService {
    * Get Wallet Balance
    *
    * Query balance for a specific wallet.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetWalletBalanceError}.
    */
   getWalletBalance(
     request: GetWalletBalanceRequest,
@@ -58,6 +62,8 @@ export interface IBalancesService {
    * List Onchain Wallet Balances
    *
    * Query balances for a specific onchain wallet.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListOnchainWalletBalancesError}.
    */
   listOnchainWalletBalances(
     request: ListOnchainWalletBalancesRequest,
@@ -68,6 +74,8 @@ export interface IBalancesService {
    * List Entity Balances
    *
    * List all balances for a specific entity.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListEntityBalancesError}.
    */
   listEntityBalances(
     request: ListEntityBalancesRequest,

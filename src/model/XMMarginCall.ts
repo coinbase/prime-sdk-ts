@@ -40,9 +40,21 @@ export type XMMarginCall = {
    * Current outstanding call amount (notional)
    */
   outstandingNotionalAmount?: string;
+  /**
+   * XMCallType is the type of margin call
+   */
   marginCallType?: XMCallType;
+  /**
+   * XMCallStatus is the current status of the margin call
+   */
   marginCallStatus?: XMCallStatus;
+  /**
+   * XMMarginLevel is the realtime state of EQ/MR and MR-EQ monitored against XM thresholds as defined in the methodology
+   */
   calledWithMarginLevel?: XMMarginLevel;
+  /**
+   * XMSummary is the realtime evaluated XM margin model, containing positions and netting info
+   */
   calledWithMarginSummary?: XMSummary;
   /**
    * Timestamp when the margin call settlement is due

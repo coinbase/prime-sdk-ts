@@ -21,3 +21,7 @@ export type GetPortfolioCommissionRequest = {
 };
 
 export type GetPortfolioCommissionResponse = Expand<internalGet>;
+
+/* GENERATED-METHOD-ERRORS-START */
+export type { GetPortfolioCommissionError } from '../model/errors/methodErrors';
+/* GENERATED-METHOD-ERRORS-END */

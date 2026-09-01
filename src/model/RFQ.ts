@@ -28,6 +28,9 @@ export type RFQ = {
    * The ID of the product being traded for the order (e.g. `BTC-USD`)
    */
   productId: string;
+  /**
+   * Order side
+   */
   side: OrderSide;
   /**
    * A client-generated order ID used for reference purposes (note: order will be rejected if this ID is not unique among all currently active orders)

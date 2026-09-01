@@ -13,7 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { CoinbaseClient } from '@coinbase/core-ts';
+import {
+  CoinbaseClient,
+  CoinbaseHttpRequestOptions,
+  CoinbaseResponse,
+} from '@coinbase/core-ts';
+import { wrapAsPrimeException } from '../errors';
 
 import {
   API_BASE_PATH,
@@ -58,6 +63,16 @@ export class CoinbasePrimeClient
         data: toCamelCase(response.data),
       };
     });
+  }
+
+  async request(
+    options: CoinbaseHttpRequestOptions
+  ): Promise<CoinbaseResponse> {
+    try {
+      return await super.request(options);
+    } catch (error) {
+      return wrapAsPrimeException(error);
+    }
   }
 
   /**

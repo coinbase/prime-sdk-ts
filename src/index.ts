@@ -39,7 +39,12 @@ export {
   createTlsOptionsFromEnv,
   mergeClientOptionsFromEnv,
 } from './shared/envUtils';
-export { CoinbasePrimeClientException, CoinbasePrimeException } from './errors';
+export {
+  CoinbasePrimeClientException,
+  CoinbasePrimeException,
+  isPrimeApiError,
+} from './errors';
+export type { PrimeErrorBody } from './errors';
 export { validate, isValidUUID } from './shared/validation';
 export type { ValidationError, PropertyValidator } from './shared/validation';
 
@@ -73,6 +78,9 @@ export { WalletsService, IWalletsService } from './wallets';
 
 export type * from './model/';
 export * from './model/enums/';
+export type * from './model/errors';
+export * from './model/errors/enums';
+export type * from './model/errors/methodErrors';
 
 // preferring named exports of types
 export type {
@@ -159,6 +167,8 @@ export type {
   CreateNewLocatesResponse,
   GetCrossMarginOverviewRequest,
   GetCrossMarginOverviewResponse,
+  GetConversionFeesRequest,
+  GetConversionFeesResponse,
 } from './financing/types';
 export type {
   CancelEntitySweepRequest,
@@ -175,6 +185,10 @@ export type {
   UpdateEntityFuturesAutoSweepResponse,
   GetEntityFcmEquityRequest,
   GetEntityFcmEquityResponse,
+  GetDerivativesCurrencySummaryRequest,
+  GetDerivativesCurrencySummaryResponse,
+  ListDerivativePositionsRequest,
+  ListDerivativePositionsResponse,
 } from './futures/types';
 export type {
   ListInvoicesRequest,

@@ -67,3 +67,13 @@ export type GetAllocationRequest = {
 };
 
 export type GetAllocationResponse = Expand<internalGet>;
+
+/* GENERATED-METHOD-ERRORS-START */
+export type {
+  CreateAllocationError,
+  CreateNetAllocationError,
+  GetAllocationError,
+  ListNetAllocationsError,
+  ListPortfolioAllocationsError,
+} from '../model/errors/methodErrors';
+/* GENERATED-METHOD-ERRORS-END */

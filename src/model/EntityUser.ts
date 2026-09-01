@@ -38,6 +38,9 @@ export type EntityUser = {
    * The entity to which this user and associated permissions are identified
    */
   entityId?: string;
+  /**
+   * Indicates the user\'s role
+   */
   role?: UserRole;
   /**
    * All primary roles assigned to the user.

@@ -24,5 +24,8 @@ import { AdvancedTransfer } from './AdvancedTransfer';
  * CreateAdvancedTransferResponse is the response after creating an advanced transfer.
  */
 export type CreateAdvancedTransferResponse = {
+  /**
+   * AdvancedTransfer represents a complex transfer operation such as a blind match settlement.
+   */
   advancedTransfer: AdvancedTransfer;
 };

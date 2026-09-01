@@ -44,11 +44,17 @@ export type Order = {
    * The ID of the product being traded by the order
    */
   productId?: string;
+  /**
+   * Order side
+   */
   side?: OrderSide;
   /**
    * A client-generated order ID used for reference purposes (note: order will be rejected if this ID is not unique among all currently active orders)
    */
   clientOrderId?: string;
+  /**
+   * Strategy (execution algorithm)
+   */
   type?: OrderType;
   /**
    * Order size in base asset units (either `base_quantity` or `quote_value` is required)
@@ -70,7 +76,13 @@ export type Order = {
    * The expiry time of the order in UTC (applies to TWAP, VWAP, LIMIT, and STOP_LIMIT orders with `time_in_force` set to `GTD`)
    */
   expiryTime?: Date;
+  /**
+   * Indicates the order status
+   */
   status?: OrderStatus;
+  /**
+   * Indicates the order time validity
+   */
   timeInForce?: TimeInForceType;
   /**
    * The order creation time as a UTC timestamp
@@ -156,6 +168,13 @@ export type Order = {
    * The wig (would if good) level for PEG orders - best price opposite to limit_price
    */
   wigLevel?: string;
+  /**
+   * ProductType represents the general type of product
+   */
   productType?: ProductType;
   commissionDetailTotal?: CommissionDetailTotal;
+  /**
+   * Indicates if this was a buy exact order (fees charged on top of quote size for BUY orders sized in quote)
+   */
+  isBuyExact?: boolean;
 };

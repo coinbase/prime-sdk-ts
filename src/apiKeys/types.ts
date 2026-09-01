@@ -22,3 +22,7 @@ import {
 export type RotateApiKeyRequest = Expand<internalRotateAPIKeyRequest>;
 
 export type RotateApiKeyResponse = Expand<internalRotateAPIKeyResponse>;
+
+/* GENERATED-METHOD-ERRORS-START */
+export type { RotateApiKeyError } from '../model/errors/methodErrors';
+/* GENERATED-METHOD-ERRORS-END */

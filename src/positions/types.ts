@@ -43,3 +43,10 @@ export type ListEntityPositionsResponse = PaginatedListResponse<
   ListEntityPositionsRequest & BasePaginatedRequest,
   Position
 >;
+
+/* GENERATED-METHOD-ERRORS-START */
+export type {
+  ListAggregateEntityPositionsError,
+  ListEntityPositionsError,
+} from '../model/errors/methodErrors';
+/* GENERATED-METHOD-ERRORS-END */

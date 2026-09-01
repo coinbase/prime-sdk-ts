@@ -38,6 +38,9 @@ export type Activity = {
   referenceId?: string;
   category?: ActivityCategory;
   type?: ActivityType;
+  /**
+   * - ACTIVITY_SECONDARY_TYPE_BUY: Order secondary types  - ACTIVITY_SECONDARY_TYPE_INTERNAL_TRANSFER: Transaction secondary types  - ACTIVITY_SECONDARY_TYPE_WEB3_SIGNER: Onchain secondary types
+   */
   secondaryType?: ActivitySecondaryType;
   status?: ActivityStatus;
   /**
@@ -71,5 +74,8 @@ export type Activity = {
    * Time for latest status update of account activity
    */
   updatedAt?: string;
+  /**
+   * HierarchyType are the enums for various hierarchies within Prime, ex Entity, Organization, Portfolio
+   */
   hierarchyType?: HierarchyType;
 };

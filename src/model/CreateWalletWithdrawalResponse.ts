@@ -51,6 +51,9 @@ export type CreateWalletWithdrawalResponse = {
    */
   sourceType?: string;
   blockchainDestination?: BlockchainAddress;
+  /**
+   * Represents a destination for a counterparty payment
+   */
   counterpartyDestination?: CounterpartyDestination;
   blockchainSource?: BlockchainAddress;
   /**

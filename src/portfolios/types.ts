@@ -47,3 +47,12 @@ export type GetCounterpartyIdRequest = {
 
 export type GetCounterpartyIdResponse =
   Expand<internalGetCounterpartyIdResponse>;
+
+/* GENERATED-METHOD-ERRORS-START */
+export type {
+  GetCounterpartyIdError,
+  GetPortfolioCreditError,
+  GetPortfolioError,
+  ListPortfoliosError,
+} from '../model/errors/methodErrors';
+/* GENERATED-METHOD-ERRORS-END */

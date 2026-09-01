@@ -27,9 +27,21 @@ import { XMMarginLevel } from './enums/XMMarginLevel';
 import { XMSummary } from './XMSummary';
 
 export type CrossMarginOverview = {
+  /**
+   * XMControlStatus is a summarization of XM customer controls for trades and withdrawals
+   */
   controlStatus?: XMControlStatus;
+  /**
+   * XMEntityCallStatus summarizes the state of open margin calls or debit calls. When multiple calls exist, the status reflects the highest priority call type. Priority order (highest to lowest): aged > urgent > standard > debit.   - ENTITY_NO_CALL: There are no margin calls or debit calls.  - ENTITY_OPEN_STANDARD_CALL: There is a standard margin call. There may also be debit calls, but there are no urgent margin calls or expired calls..  - ENTITY_OPEN_URGENT_CALL: There is an urgent margin call. There may also be standard margin calls or debit calls, but there are no expired calls.  - ENTITY_AGED_CALL: At least one open margin call (standard or urgent) or debit call is aged. This will trigger the SESSION_LOCKED control status.  - ENTITY_OPEN_DEBIT_CALL: There is a debit call. There are no standard margin calls, urgent margin calls, or expired calls.
+   */
   callStatus?: XMEntityCallStatus;
+  /**
+   * XMMarginLevel is the realtime state of EQ/MR and MR-EQ monitored against XM thresholds as defined in the methodology
+   */
   marginLevel?: XMMarginLevel;
+  /**
+   * XMSummary is the realtime evaluated XM margin model, containing positions and netting info
+   */
   marginSummary?: XMSummary;
   /**
    * List of active XM margin calls
@@ -39,5 +51,8 @@ export type CrossMarginOverview = {
    * List of active XM loans
    */
   activeLoans?: Array<XMLoan>;
+  /**
+   * ActiveLiquidationSummary provides a summary of the active or most recent XM liquidation
+   */
   activeLiquidation?: ActiveLiquidationSummary;
 };

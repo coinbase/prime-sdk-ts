@@ -43,6 +43,9 @@ export type Allocation = {
    * The ID of the product of the orders allocated.
    */
   productId?: string;
+  /**
+   * Order side
+   */
   side?: OrderSide;
   /**
    * Price the allocation was done at.

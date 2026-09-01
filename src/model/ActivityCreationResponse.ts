@@ -21,6 +21,9 @@
 import { ActivityType } from './enums/CustodyActivityType';
 
 export type ActivityCreationResponse = {
+  /**
+   * - ACTIVITY_TYPE_WITHDRAWAL: PrimeActivityService Custody ActivityTypes that will replace the above
+   */
   activityType: ActivityType;
   numApprovalsRemaining: number;
   activityId: string;

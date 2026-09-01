@@ -30,6 +30,9 @@ export type WalletCryptoDepositInstructions = {
    * The name of the wallet
    */
   name?: string;
+  /**
+   * Indicates the wallet\'s deposit instruction type
+   */
   type?: WalletDepositInstructionType;
   /**
    * The address of the wallet

@@ -1,0 +1,321 @@
+/**
+ * Copyright 2026-present Coinbase Global, Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const fs = require('fs');
+const path = require('path');
+const yaml = require('js-yaml');
+const prettier = require('prettier');
+
+const specPath = path.join(__dirname, 'prime-public-api-spec.yaml');
+const srcDir = path.join(__dirname, '..', 'src');
+const destPath = path.join(__dirname, 'types/processed/errors/methodErrors.ts');
+const srcDestPath = path.join(srcDir, 'model', 'errors', 'methodErrors.ts');
+
+const HTTP_VERBS = new Set(['get', 'post', 'put', 'delete', 'patch']);
+const SKIP_SERVICE_DIRS = new Set([
+  'clients',
+  'credentials',
+  'errors',
+  'model',
+  'shared',
+]);
+const ERROR_STATUSES = new Set([
+  '400',
+  '401',
+  '403',
+  '404',
+  '429',
+  '500',
+  '501',
+  '503',
+]);
+// Shared platform errors from the spec's global x-error-codes catalog. Per-operation
+// coverage is incomplete (401 ~32%, 500 ~12%), but every signed Prime request can
+// return these statuses. 400/403/404 stay per-endpoint.
+const COMMON_ERROR_SCHEMAS = [
+  'InternalServerErrorResponse',
+  'ServiceUnavailableErrorResponse',
+  'TooManyRequestsErrorResponse',
+  'UnauthorizedErrorResponse',
+];
+const MARKER_START = '/* GENERATED-METHOD-ERRORS-START */';
+const MARKER_END = '/* GENERATED-METHOD-ERRORS-END */';
+
+const prettierConfig = {
+  semi: true,
+  singleQuote: true,
+  trailingComma: 'es5',
+  parser: 'typescript',
+};
+
+function normalizePath(pathValue) {
+  return pathValue
+    .replace(/^\.\.\//, '')
+    .replace(/^(?:\/v\d+\/|v\d+\/)/, '')
+    .replace(/\$\{[^}]+\}/g, '{}')
+    .replace(/\{[^}]+\}/g, '{}');
+}
+
+function schemaNameFromRef(ref) {
+  if (typeof ref !== 'string') {
+    return null;
+  }
+  const last = ref.split('/').pop();
+  if (!last) {
+    return null;
+  }
+  return last.split('.').pop();
+}
+
+function withCommonErrorSchemas(schemas) {
+  return [...new Set([...schemas, ...COMMON_ERROR_SCHEMAS])].sort();
+}
+
+function errorSchemasFromOperation(operation) {
+  const names = new Set();
+  const responses = operation.responses || {};
+
+  for (const [status, response] of Object.entries(responses)) {
+    if (!ERROR_STATUSES.has(String(status))) {
+      continue;
+    }
+    const ref = response?.content?.['application/json']?.schema?.$ref;
+    const name = schemaNameFromRef(ref);
+    if (name && /ErrorResponse$/.test(name)) {
+      names.add(name);
+    }
+  }
+
+  return [...names].sort();
+}
+
+function buildOperationMap(spec) {
+  const operationMap = new Map();
+
+  for (const [pathKey, pathItem] of Object.entries(spec.paths || {})) {
+    if (!pathItem || typeof pathItem !== 'object') {
+      continue;
+    }
+
+    for (const [verb, operation] of Object.entries(pathItem)) {
+      if (!HTTP_VERBS.has(verb) || !operation) {
+        continue;
+      }
+
+      const key = `${verb.toUpperCase()} ${normalizePath(pathKey)}`;
+      operationMap.set(key, {
+        errorSchemas: errorSchemasFromOperation(operation),
+      });
+    }
+  }
+
+  return operationMap;
+}
+
+function extractMethodEndpoints(content) {
+  const endpoints = new Map();
+  const classMatch = content.match(/export class \w+ implements/);
+  if (!classMatch || classMatch.index === undefined) {
+    return endpoints;
+  }
+
+  const classContent = content.slice(classMatch.index);
+  const methodRegex = /async\s+(\w+)\s*\([^)]*\)[^{]*\{/g;
+  let match;
+
+  while ((match = methodRegex.exec(classContent)) !== null) {
+    const methodName = match[1];
+    const methodBody = classContent.slice(
+      match.index,
+      match.index + Math.min(classContent.length - match.index, 4000)
+    );
+    const requestBlockMatch = methodBody.match(
+      /this\.client\.request\(\{([\s\S]*?)\}\);/
+    );
+    if (!requestBlockMatch) {
+      continue;
+    }
+
+    const requestBlock = requestBlockMatch[1];
+    const urlMatch = requestBlock.match(/url:\s*[`'"]([^`'"]+)[`'"]/);
+    if (!urlMatch) {
+      continue;
+    }
+
+    const methodVerbMatch = requestBlock.match(/method:\s*Method\.(\w+)/);
+    const verb = methodVerbMatch ? methodVerbMatch[1].toUpperCase() : 'GET';
+    const normalizedPath = normalizePath(urlMatch[1]);
+    endpoints.set(methodName, { verb, path: normalizedPath });
+  }
+
+  return endpoints;
+}
+
+function methodErrorTypeName(methodName) {
+  return `${methodName.charAt(0).toUpperCase()}${methodName.slice(1)}Error`;
+}
+
+function generatedHeader() {
+  const year = new Date().getFullYear();
+  return `/**
+ * Copyright ${year}-present Coinbase Global, Inc.
+ *
+ * This file is generated by Openapi Generator https://github.com/openapitools/openapi-generator
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ *  Do not edit the class manually.
+ */
+`;
+}
+
+function buildTypesExportBlock(typeNames) {
+  const names = [...typeNames].sort();
+  return [
+    MARKER_START,
+    'export type {',
+    ...names.map((name) => `  ${name},`),
+    "} from '../model/errors/methodErrors';",
+    MARKER_END,
+  ].join('\n');
+}
+
+function upsertTypesExports(typesPath, typeNames) {
+  if (typeNames.size === 0 || !fs.existsSync(typesPath)) {
+    return;
+  }
+
+  const block = buildTypesExportBlock(typeNames);
+  const content = fs.readFileSync(typesPath, 'utf8');
+  const start = content.indexOf(MARKER_START);
+  const end = content.indexOf(MARKER_END);
+  let next;
+
+  if (start !== -1 && end !== -1 && end > start) {
+    next =
+      content.slice(0, start) +
+      block +
+      content.slice(end + MARKER_END.length).replace(/^\n/, '');
+  } else {
+    next = `${content.replace(/\s*$/, '')}\n\n${block}\n`;
+  }
+
+  return next;
+}
+
+async function main() {
+  const spec = yaml.load(fs.readFileSync(specPath, 'utf8'));
+  const operationMap = buildOperationMap(spec);
+  const serviceDirs = fs
+    .readdirSync(srcDir, { withFileTypes: true })
+    .filter(
+      (entry) => entry.isDirectory() && !SKIP_SERVICE_DIRS.has(entry.name)
+    )
+    .map((entry) => entry.name);
+
+  const methodUnions = [];
+  const allSchemas = new Set();
+  const unmatched = [];
+  const typesUpdates = [];
+
+  for (const serviceDir of serviceDirs) {
+    const indexPath = path.join(srcDir, serviceDir, 'index.ts');
+    if (!fs.existsSync(indexPath)) {
+      continue;
+    }
+
+    const content = fs.readFileSync(indexPath, 'utf8');
+    const endpoints = extractMethodEndpoints(content);
+    const serviceErrorTypes = new Set();
+
+    for (const [methodName, endpoint] of endpoints) {
+      const key = `${endpoint.verb} ${endpoint.path}`;
+      const operation = operationMap.get(key);
+      if (!operation) {
+        unmatched.push({ serviceDir, methodName, key });
+        continue;
+      }
+
+      const schemas = withCommonErrorSchemas(operation.errorSchemas);
+      const typeName = methodErrorTypeName(methodName);
+      methodUnions.push({ typeName, schemas });
+      for (const schema of schemas) {
+        allSchemas.add(schema);
+      }
+      serviceErrorTypes.add(typeName);
+    }
+
+    const typesPath = path.join(srcDir, serviceDir, 'types.ts');
+    const updatedTypes = upsertTypesExports(typesPath, serviceErrorTypes);
+    if (updatedTypes) {
+      typesUpdates.push({ typesPath, content: updatedTypes });
+    }
+  }
+
+  methodUnions.sort((a, b) => a.typeName.localeCompare(b.typeName));
+
+  const importLines = [...allSchemas]
+    .sort()
+    .map((schema) => `import type { ${schema} } from './${schema}';`);
+
+  const unionLines = methodUnions.map(({ typeName, schemas }) => {
+    const members = schemas.map((schema) => `  | ${schema}`).join('\n');
+    return `export type ${typeName} =\n${members};`;
+  });
+
+  let output = `${generatedHeader()}\n${importLines.join('\n')}\n\n${unionLines.join('\n\n')}\n`;
+  output = await prettier.format(output, prettierConfig);
+
+  const destDir = path.dirname(destPath);
+  if (!fs.existsSync(destDir)) {
+    fs.mkdirSync(destDir, { recursive: true });
+  }
+  fs.writeFileSync(destPath, output, 'utf8');
+  const srcDestDir = path.dirname(srcDestPath);
+  if (fs.existsSync(srcDestDir)) {
+    fs.writeFileSync(srcDestPath, output, 'utf8');
+  }
+  console.log(
+    `Wrote ${methodUnions.length} method error unions to ${destPath}`
+  );
+
+  for (const { typesPath, content } of typesUpdates) {
+    const formatted = await prettier.format(content, prettierConfig);
+    fs.writeFileSync(typesPath, formatted, 'utf8');
+    console.log(`Updated error union exports in ${typesPath}`);
+  }
+
+  if (unmatched.length > 0) {
+    console.warn('Unmatched methods (no error schemas found):');
+    for (const item of unmatched) {
+      console.warn(`  ${item.serviceDir}.${item.methodName} -> ${item.key}`);
+    }
+  }
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

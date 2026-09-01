@@ -33,5 +33,8 @@ export type PortfolioStakingInitiateRequest = {
    * The quantity of the chosen currency to stake
    */
   amount: string;
+  /**
+   * Optional metadata for the portfolio staking request (e.g. external_id)
+   */
   metadata?: PortfolioStakingMetadata;
 };

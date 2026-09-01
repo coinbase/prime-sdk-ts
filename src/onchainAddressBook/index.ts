@@ -32,6 +32,8 @@ export interface IOnchainAddressBookService {
    * List Onchain Address Groups
    *
    * Lists all onchain address groups for a given portfolio ID
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListOnchainAddressBookError}.
    */
   listOnchainAddressBook(
     request: ListOnchainAddressBookRequest,
@@ -42,6 +44,8 @@ export interface IOnchainAddressBookService {
    * Create Onchain Address Book Entry
    *
    * Creates an entry to the portfolio's onchain address groups.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link CreateOnchainAddressBookEntryError}.
    */
   createOnchainAddressBookEntry(
     request: CreateOnchainAddressBookEntryRequest,
@@ -52,6 +56,8 @@ export interface IOnchainAddressBookService {
    * Update Onchain Address Book Entry
    *
    * Updates an entry to the portfolio's onchain address groups.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link UpdateOnchainAddressBookEntryError}.
    */
   updateOnchainAddressBookEntry(
     request: UpdateOnchainAddressBookEntryRequest,
@@ -62,6 +68,8 @@ export interface IOnchainAddressBookService {
    * Delete Onchain Address Group
    *
    * Deletes an entry in the portfolio's onchain address groups.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link DeleteOnchainAddressBookError}.
    */
   deleteOnchainAddressBook(
     request: DeleteOnchainAddressBookEntryRequest,

@@ -21,7 +21,13 @@
 import { TravelRuleParty } from './TravelRuleParty';
 
 export type RequestToSubmitTravelRuleDataForAnExistingDepositTransaction = {
+  /**
+   * Represents a party in a travel rule transfer (originator or beneficiary).
+   */
   originator?: TravelRuleParty;
+  /**
+   * Represents a party in a travel rule transfer (originator or beneficiary).
+   */
   beneficiary?: TravelRuleParty;
   /**
    * True if user owns the counterparty address (self-transfer) If false, beneficiary is required

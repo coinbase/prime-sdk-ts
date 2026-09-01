@@ -119,3 +119,17 @@ export type GetTransactionTravelRuleDataRequest = {
 
 export type GetTransactionTravelRuleDataResponse =
   Expand<internalGetTransactionTravelRuleResp>;
+
+/* GENERATED-METHOD-ERRORS-START */
+export type {
+  CreateConversionError,
+  CreateOnchainTransactionError,
+  CreateTransferError,
+  CreateWithdrawalError,
+  GetTransactionError,
+  GetTransactionTravelRuleDataError,
+  ListPortfolioTransactionsError,
+  ListWalletTransactionsError,
+  SubmitDepositTravelRuleError,
+} from '../model/errors/methodErrors';
+/* GENERATED-METHOD-ERRORS-END */

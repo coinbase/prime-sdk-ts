@@ -35,12 +35,21 @@ export type FcmTradingSessionDetails = {
    * Trading session close time
    */
   closeTime?: Date;
+  /**
+   * FcmTradingSessionState represents the current state of an FCM trading session
+   */
   sessionState?: FcmTradingSessionState;
   /**
    * Whether after-hours order entry is disabled
    */
   afterHoursOrderEntryDisabled?: boolean;
+  /**
+   * FcmTradingSessionClosedReason represents the reason for FCM trading session closure
+   */
   closedReason?: FcmTradingSessionClosedReason;
+  /**
+   * FcmScheduledMaintenance contains scheduled maintenance window information
+   */
   maintenance?: FcmScheduledMaintenance;
   /**
    * Settlement timestamp from previous trading day

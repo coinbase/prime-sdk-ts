@@ -33,7 +33,9 @@ export interface IProductsService {
   /**
    * List Portfolio Products
    *
-   * List tradable products for a given portfolio.
+   * List products for a given portfolio.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListProductsError}.
    */
   listProducts(
     request: ListProductsRequest,
@@ -41,9 +43,11 @@ export interface IProductsService {
   ): Promise<ListProductsResponse>;
 
   /**
-   * Get Public Product Candles (Beta)
+   * Get Public Product Candles
    *
-   * Get rates for a single product by product ID, grouped in buckets. This feature is in beta please reach out to your Coinbase Prime account manager for more information.
+   * Get rates for a single product by product ID, grouped in buckets.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListProductCandlesError}.
    */
   listProductCandles(
     request: ListProductCandlesRequest,
@@ -67,12 +71,29 @@ export class ProductsService implements IProductsService {
       .check();
 
     const paginationParams = getQueryParams(this.client, request);
-    const { limit, cursor, sortDirection, portfolioId, ...queryParams } =
-      request;
-    const finalQueryParams = {
+    const {
+      limit,
+      cursor,
+      sortDirection,
+      portfolioId,
+      productType,
+      contractExpiryType,
+      expiringContractStatus,
+      ...queryParams
+    } = request;
+    const finalQueryParams: Record<string, string | number | string[]> = {
       ...paginationParams,
       ...queryParams,
     };
+    if (productType) {
+      finalQueryParams.product_type = productType;
+    }
+    if (contractExpiryType) {
+      finalQueryParams.contract_expiry_type = contractExpiryType;
+    }
+    if (expiringContractStatus) {
+      finalQueryParams.expiring_contract_status = expiringContractStatus;
+    }
     const response = await this.client.request({
       url: `portfolios/${portfolioId}/products`,
       queryParams: finalQueryParams,

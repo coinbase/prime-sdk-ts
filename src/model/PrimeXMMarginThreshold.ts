@@ -22,7 +22,13 @@ import { PrimeXMMarginThresholdType } from './enums/PrimeXMMarginThresholdType';
 import { XMMarginLevel } from './enums/XMMarginLevel';
 
 export type PrimeXMMarginThreshold = {
+  /**
+   * XMMarginLevel is the realtime state of EQ/MR and MR-EQ monitored against XM thresholds as defined in the methodology
+   */
   marginLevel?: XMMarginLevel;
+  /**
+   *  - MARGIN_THRESHOLD_EQUITY_RATIO: Threshold based on equity ratio EQ / MR; triggers when EQ / MR >= threshold_value.  - MARGIN_THRESHOLD_DEFICIT_RATIO: Threshold based on deficit ratio (MR - EQ) / XMML; triggers when (MR - EQ) / XMML > threshold_value.
+   */
   thresholdType?: PrimeXMMarginThresholdType;
   thresholdValue?: string;
 };

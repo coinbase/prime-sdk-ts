@@ -39,6 +39,10 @@ import {
   SetFcmSettingsResponse,
   GetEntityFcmEquityRequest,
   GetEntityFcmEquityResponse,
+  GetDerivativesCurrencySummaryRequest,
+  GetDerivativesCurrencySummaryResponse,
+  ListDerivativePositionsRequest,
+  ListDerivativePositionsResponse,
 } from './types';
 
 export interface IFuturesService {
@@ -46,6 +50,8 @@ export interface IFuturesService {
    * List Entity Futures Sweeps
    *
    * Retrieve fcm sweeps in open status, including pending and processing sweeps.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListEntitySweepsError}.
    */
   listEntitySweeps(
     request: ListEntityFuturesSweepsRequest,
@@ -56,6 +62,8 @@ export interface IFuturesService {
    * Get Entity FCM Balance
    *
    * Retrieve fcm balance for a given entity.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetEntityBalanceError}.
    */
   getEntityBalance(
     request: GetEntityFuturesBalanceRequest,
@@ -66,6 +74,8 @@ export interface IFuturesService {
    * Get Entity Positions
    *
    * Retrieve all active fcm positions for a given entity.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetEntityPositionsError}.
    */
   getEntityPositions(
     request: GetEntityFuturesPositionsRequest,
@@ -76,6 +86,8 @@ export interface IFuturesService {
    * Schedule Entity Futures Sweep
    *
    * Schedule a sweep for a given entity from FCM wallet to USD Spot wallet. Only one pending sweep is allowed at a time per entity.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ScheduleEntitySweepError}.
    */
   scheduleEntitySweep(
     request: ScheduleEntityFuturesSweepRequest,
@@ -86,6 +98,8 @@ export interface IFuturesService {
    * Set Auto Sweep
    *
    * Set auto sweep for a given entity.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link UpdateEntityAutoSweepError}.
    */
   updateEntityAutoSweep(
     request: UpdateEntityFuturesAutoSweepRequest,
@@ -96,6 +110,8 @@ export interface IFuturesService {
    * Cancel Entity Futures Sweep
    *
    * Cancel the pending sweep for a given entity. A user will only be able to have one pending sweep at a time. If the sweep is not found, a 404 will be returned.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link CancelEntitySweepError}.
    */
   cancelEntitySweep(
     request: CancelEntitySweepRequest,
@@ -106,6 +122,8 @@ export interface IFuturesService {
    * Get FCM Risk Limits
    *
    * Retrieve the risk limits for a given entity.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetRiskLimitsError}.
    */
   getRiskLimits(
     request: GetEntityFuturesRiskLimitsRequest,
@@ -116,6 +134,8 @@ export interface IFuturesService {
    * Get FCM Margin Call Details
    *
    * Retrieve the margin call details for a given entity.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetMarginCallDetailsError}.
    */
   getMarginCallDetails(
     request: GetEntityFuturesMarginCallDetailsRequest,
@@ -126,6 +146,8 @@ export interface IFuturesService {
    * Get FCM Settings
    *
    * Get settings related to FCM.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetFcmSettingsError}.
    */
   getFcmSettings(
     request: GetFcmSettingsRequest,
@@ -136,6 +158,8 @@ export interface IFuturesService {
    * Set FCM Settings
    *
    * Update settings related to FCM.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link SetFcmSettingsError}.
    */
   setFcmSettings(
     request: SetFcmSettingsRequest,
@@ -146,11 +170,37 @@ export interface IFuturesService {
    * Get FCM Equity
    *
    * Retrieve the equity data for a given entity.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetEntityEquityError}.
    */
   getEntityEquity(
     request: GetEntityFcmEquityRequest,
     options?: CoinbaseCallOptions
   ): Promise<GetEntityFcmEquityResponse>;
+
+  /**
+   * Get Portfolio Derivatives Currency Summary
+   *
+   * Retrieve per-currency international derivatives balances for a given portfolio. US Futures balances roll up to a single clearing account per entity rather than per portfolio, and are available from the entity futures balance summary and risk limits endpoints instead.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetDerivativesCurrencySummaryError}.
+   */
+  getDerivativesCurrencySummary(
+    request: GetDerivativesCurrencySummaryRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetDerivativesCurrencySummaryResponse>;
+
+  /**
+   * List Portfolio Derivative Positions
+   *
+   * Retrieve all active derivative positions for a given portfolio.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListDerivativePositionsError}.
+   */
+  listDerivativePositions(
+    request: ListDerivativePositionsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<ListDerivativePositionsResponse>;
 }
 
 export class FuturesService implements IFuturesService {
@@ -346,6 +396,44 @@ export class FuturesService implements IFuturesService {
 
     return response.data as GetEntityFcmEquityResponse;
   }
+
+  async getDerivativesCurrencySummary(
+    request: GetDerivativesCurrencySummaryRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetDerivativesCurrencySummaryResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
+
+    const response = await this.client.request({
+      url: `portfolios/${request.portfolioId}/derivatives/currency_summary`,
+      callOptions: options,
+    });
+
+    return response.data as GetDerivativesCurrencySummaryResponse;
+  }
+
+  async listDerivativePositions(
+    request: ListDerivativePositionsRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<ListDerivativePositionsResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
+
+    const queryParams: Record<string, string> = {};
+    if (request.productId) {
+      queryParams.product_id = request.productId;
+    }
+
+    const response = await this.client.request({
+      url: `portfolios/${request.portfolioId}/derivatives/positions`,
+      queryParams,
+      callOptions: options,
+    });
+
+    return response.data as ListDerivativePositionsResponse;
+  }
 }
 
 export type {
@@ -371,4 +459,8 @@ export type {
   SetFcmSettingsResponse,
   GetEntityFcmEquityRequest,
   GetEntityFcmEquityResponse,
+  GetDerivativesCurrencySummaryRequest,
+  GetDerivativesCurrencySummaryResponse,
+  ListDerivativePositionsRequest,
+  ListDerivativePositionsResponse,
 } from './types';

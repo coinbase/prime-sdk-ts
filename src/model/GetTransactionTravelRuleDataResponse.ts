@@ -29,7 +29,13 @@ export type GetTransactionTravelRuleDataResponse = {
    * Whether the transfer is to/from a self-owned wallet
    */
   isSelf?: boolean;
+  /**
+   * Represents a party in a travel rule transfer (originator or beneficiary).
+   */
   originator?: TravelRuleParty;
+  /**
+   * Represents a party in a travel rule transfer (originator or beneficiary).
+   */
   beneficiary?: TravelRuleParty;
   /**
    * The crypto amount of the transaction (e.g. \"1.23 BTC\")

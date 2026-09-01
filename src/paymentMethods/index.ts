@@ -28,6 +28,8 @@ export interface IPaymentMethodsService {
    * List Entity Payment Methods
    *
    * Retrieve all payment methods for a given entity.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListEntityPaymentMethodsError}.
    */
   listEntityPaymentMethods(
     request: ListEntityPaymentMethodsRequest,
@@ -37,6 +39,8 @@ export interface IPaymentMethodsService {
    * Get Entity Payment Method
    *
    * Get payment method details by id for a given entity.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetPaymentMethodError}.
    */
   getPaymentMethod(
     request: GetPaymentMethodRequest,

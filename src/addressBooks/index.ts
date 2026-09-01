@@ -33,6 +33,8 @@ export interface IAddressBooksService {
    * Get Address Book
    *
    * Gets a list of address book addresses.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListAddressBooksError}.
    */
   listAddressBooks(
     request: ListAddressBooksRequest,
@@ -43,6 +45,8 @@ export interface IAddressBooksService {
    * Create Address Book Entry
    *
    * Creates an entry for a portfolio's trusted addresses.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link CreateAddressBookError}.
    */
   createAddressBook(
     request: CreateAddressBookRequest,

@@ -31,6 +31,7 @@ import {
   GetCrossMarginOverviewResponse as internalGetCrossMarginOverviewResponse,
   ListTFObligationsResponse as internalListTFObligationsResponse,
   ListFinancingEligibleAssetsResponse as internalListFinancingEligibleAssetsResponse,
+  GetConversionFeesResponse as internalGetConversionFeesResponse,
   GetCrossMarginRiskParametersResponse as internalGetCrossMarginRiskParametersResponse,
   GetCrossMarginPrimeOverviewResponse as internalGetCrossMarginPrimeOverviewResponse,
   UpdateFundingSettingsResponse as internalUpdateFundingSettingsResponse,
@@ -180,6 +181,11 @@ export type ListFinancingEligibleAssetsRequest = Record<string, never>;
 export type ListFinancingEligibleAssetsResponse =
   Expand<internalListFinancingEligibleAssetsResponse>;
 
+export type GetConversionFeesRequest = Record<string, never>;
+
+export type GetConversionFeesResponse =
+  Expand<internalGetConversionFeesResponse>;
+
 export type GetCrossMarginRiskParametersRequest = {
   entityId: string;
 };
@@ -237,3 +243,33 @@ export type ListCrossMarginLiquidationsResponse = PaginatedListResponse<
   ListCrossMarginLiquidationsRequest & BasePaginatedRequest,
   XMLiquidationSummary
 >;
+
+/* GENERATED-METHOD-ERRORS-START */
+export type {
+  CreateNewLocatesError,
+  GetConversionFeesError,
+  GetCrossMarginLiquidationError,
+  GetCrossMarginOverviewError,
+  GetCrossMarginPrimeOverviewError,
+  GetCrossMarginRiskParametersError,
+  GetEntityLocateAvailabilitiesError,
+  GetFcmMarginCallDetailsError,
+  GetFcmRiskLimitsError,
+  GetMarginInformationError,
+  GetPortfolioBuyingPowerError,
+  GetPortfolioCreditInformationError,
+  GetPortfolioWithdrawalPowerError,
+  GetTieredPricingFeesError,
+  ListCrossMarginLiquidationsError,
+  ListExistingLocatesError,
+  ListFinancingEligibleAssetsError,
+  ListInterestAccrualsError,
+  ListMarginCallSummariesError,
+  ListMarginConversionsError,
+  ListMarketDataError,
+  ListPortfolioInterestAccrualsError,
+  ListTFObligationsError,
+  SetFundingSettingsError,
+  UpdateFundingSettingsError,
+} from '../model/errors/methodErrors';
+/* GENERATED-METHOD-ERRORS-END */

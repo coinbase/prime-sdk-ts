@@ -46,6 +46,8 @@ export interface IStakingService {
    * Request to stake or delegate a wallet
    *
    * Creates an execution request to stake or delegate funds to a validator
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link CreateStakeError}.
    */
   createStake(
     request: CreateStakeRequest,
@@ -55,6 +57,8 @@ export interface IStakingService {
    * Request to unstake a wallet
    *
    * Creates an execution request to unstake delegated or staked funds in a wallet
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link CreateUnstakeError}.
    */
   createUnstake(
     request: CreateUnstakeRequest,
@@ -63,7 +67,9 @@ export interface IStakingService {
   /**
    * Request to stake currency in a portfolio
    *
-   * Creates an execution request to stake funds across a portfolio.  This will stake funds in one or more wallets in the portfolio, with a total bondable balance up to the requested stake amount. This feature is gated. Please contact your account manager or primeops\@coinbase.com to enable.
+   * Creates an execution request to stake funds across a portfolio.  This will stake funds in one or more wallets in the portfolio, with a total bondable balance up to the requested stake amount. This feature is gated. Please contact your account manager or primeops@coinbase.com to enable.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link CreatePortfolioStakeError}.
    */
   createPortfolioStake(
     request: CreatePortfolioStakeRequest,
@@ -72,7 +78,9 @@ export interface IStakingService {
   /**
    * Request to unstake currency across a portfolio
    *
-   * Creates an execution request to unstake funds across a portfolio.  This will unstake funds in one or more wallets in the portfolio, with a total bonded balance up to the requested unstake amount. This feature is gated. Please contact your account manager or primeops\@coinbase.com to enable.
+   * Creates an execution request to unstake funds across a portfolio.  This will unstake funds in one or more wallets in the portfolio, with a total bonded balance up to the requested unstake amount. This feature is gated. Please contact your account manager or primeops@coinbase.com to enable.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link CreatePortfolioUnstakeError}.
    */
   createPortfolioUnstake(
     request: CreatePortfolioUnstakeRequest,
@@ -82,6 +90,8 @@ export interface IStakingService {
    * List Transaction Validators
    *
    * List ETH 0x02 validators associated with wallet-level stake transactions for a given portfolio. It will not return data for unstake transactions, portfolio stake transactions, transactions which staked different currencies, or which staked to Ethereum 0x01 validators.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link QueryTransactionValidatorsError}.
    */
   queryTransactionValidators(
     request: QueryTransactionValidatorsRequest,
@@ -91,6 +101,8 @@ export interface IStakingService {
    * Claim Wallet Staking Rewards (Alpha)
    *
    * Request to claim staking rewards. This feature is only for ETH Pectra (0x02) validators.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link ClaimRewardsError}.
    */
   claimRewards(
     request: ClaimRewardsRequest,
@@ -101,6 +113,8 @@ export interface IStakingService {
    * Preview Unstake
    *
    * Previews an unstaking request with the given amount and returns the estimated amount that would be unstaked. This feature currently only supports ETH.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link PreviewUnstakeError}.
    */
   previewUnstake(
     request: PreviewUnstakeRequest,
@@ -111,6 +125,8 @@ export interface IStakingService {
    * Get Unstaking Status
    *
    * Get unstaking estimates for a wallet. Returns estimated completion times for active unstaking requests.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetUnstakingStatusError}.
    */
   getUnstakingStatus(
     request: GetUnstakingStatusRequest,
@@ -121,6 +137,8 @@ export interface IStakingService {
    * Get Staking Status
    *
    * Get staking status for a wallet. Returns estimated completion times for active staking requests.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetStakingStatusError}.
    */
   getStakingStatus(
     request: GetStakingStatusRequest,

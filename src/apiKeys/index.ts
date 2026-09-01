@@ -25,6 +25,8 @@ export interface IApiKeysService {
    * Rotate API Key
    *
    * Generates a new API key with the same configuration as the invoking key.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link RotateApiKeyError}.
    */
   rotateApiKey(
     request: RotateApiKeyRequest,
