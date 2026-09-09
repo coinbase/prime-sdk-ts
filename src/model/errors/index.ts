@@ -100,6 +100,9 @@ export type { GetEntityPaymentMethodDetailsNotFoundErrorResponse } from './GetEn
 export type { GetEntityPaymentMethodsBadRequestErrorResponse } from './GetEntityPaymentMethodsBadRequestErrorResponse';
 export type { GetEntityPaymentMethodsForbiddenErrorResponse } from './GetEntityPaymentMethodsForbiddenErrorResponse';
 export type { GetEntityPaymentMethodsNotFoundErrorResponse } from './GetEntityPaymentMethodsNotFoundErrorResponse';
+export type { GetEntityRewardsRateBadRequestErrorResponse } from './GetEntityRewardsRateBadRequestErrorResponse';
+export type { GetEntityRewardsRateForbiddenErrorResponse } from './GetEntityRewardsRateForbiddenErrorResponse';
+export type { GetEntityRewardsRateNotFoundErrorResponse } from './GetEntityRewardsRateNotFoundErrorResponse';
 export type { GetEntityUsersBadRequestErrorResponse } from './GetEntityUsersBadRequestErrorResponse';
 export type { GetEntityUsersForbiddenErrorResponse } from './GetEntityUsersForbiddenErrorResponse';
 export type { GetEntityUsersNotFoundErrorResponse } from './GetEntityUsersNotFoundErrorResponse';
@@ -193,6 +196,9 @@ export type { GetPortfolioNotFoundErrorResponse } from './GetPortfolioNotFoundEr
 export type { GetPortfolioProductsBadRequestErrorResponse } from './GetPortfolioProductsBadRequestErrorResponse';
 export type { GetPortfolioProductsForbiddenErrorResponse } from './GetPortfolioProductsForbiddenErrorResponse';
 export type { GetPortfolioProductsNotFoundErrorResponse } from './GetPortfolioProductsNotFoundErrorResponse';
+export type { GetPortfolioRewardsRateBadRequestErrorResponse } from './GetPortfolioRewardsRateBadRequestErrorResponse';
+export type { GetPortfolioRewardsRateForbiddenErrorResponse } from './GetPortfolioRewardsRateForbiddenErrorResponse';
+export type { GetPortfolioRewardsRateNotFoundErrorResponse } from './GetPortfolioRewardsRateNotFoundErrorResponse';
 export type { GetPortfolioTransactionsBadRequestErrorResponse } from './GetPortfolioTransactionsBadRequestErrorResponse';
 export type { GetPortfolioTransactionsForbiddenErrorResponse } from './GetPortfolioTransactionsForbiddenErrorResponse';
 export type { GetPortfolioTransactionsNotFoundErrorResponse } from './GetPortfolioTransactionsNotFoundErrorResponse';

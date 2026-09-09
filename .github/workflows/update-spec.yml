@@ -38,31 +38,33 @@ jobs:
           npm install @openapitools/openapi-generator-cli -g
           ln -s "$(which openapi-generator-cli)" /usr/local/bin/openapi-generator
 
-      - name: Resolve target branch
+      - name: Resolve existing PR
         id: branch
         env:
           GH_TOKEN: ${{ github.token }}
+          BRANCH: auto/update-spec
         run: |
-          EXISTING_BRANCH=$(gh pr list \
+          # Branch name is a fixed constant. Never copy headRefName from PRs into
+          # GITHUB_OUTPUT or ${{ }} — that interpolates untrusted input into the shell.
+          EXISTING_PR=$(gh pr list \
             --state open \
-            --json headRefName \
-            --jq '[.[] | select(.headRefName | startswith("auto/update-spec"))] | .[0].headRefName // empty')
+            --head "$BRANCH" \
+            --json number,headRefName,headRepositoryOwner \
+            --jq '[.[] | select(.headRefName == "auto/update-spec" and .headRepositoryOwner.login == "coinbase")] | .[0].number // empty')
 
-          if [ -n "$EXISTING_BRANCH" ]; then
-            echo "branch=$EXISTING_BRANCH" >> "$GITHUB_OUTPUT"
+          if [ -n "$EXISTING_PR" ]; then
             echo "has_open_pr=true" >> "$GITHUB_OUTPUT"
-            echo "Using existing open PR branch: $EXISTING_BRANCH"
+            echo "Using existing open PR #$EXISTING_PR on $BRANCH"
           else
-            echo "branch=auto/update-spec" >> "$GITHUB_OUTPUT"
             echo "has_open_pr=false" >> "$GITHUB_OUTPUT"
-            echo "No open PR found; will use branch auto/update-spec"
+            echo "No open PR found; will use branch $BRANCH"
           fi
 
       - name: Checkout target branch
+        env:
+          BRANCH: auto/update-spec
+          HAS_OPEN_PR: ${{ steps.branch.outputs.has_open_pr }}
         run: |
-          BRANCH="${{ steps.branch.outputs.branch }}"
-          HAS_OPEN_PR="${{ steps.branch.outputs.has_open_pr }}"
-
           if [ "$HAS_OPEN_PR" = "true" ]; then
             git fetch origin "$BRANCH"
             git checkout "$BRANCH"
@@ -93,10 +95,9 @@ jobs:
         if: steps.diff.outputs.has_changes == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
+          BRANCH: auto/update-spec
+          HAS_OPEN_PR: ${{ steps.branch.outputs.has_open_pr }}
         run: |
-          BRANCH="${{ steps.branch.outputs.branch }}"
-          HAS_OPEN_PR="${{ steps.branch.outputs.has_open_pr }}"
-
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -A

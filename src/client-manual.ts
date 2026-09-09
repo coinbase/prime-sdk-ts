@@ -208,6 +208,10 @@ export type {
   GetCrossMarginLiquidationResponse,
   ListCrossMarginLiquidationsRequest,
   ListCrossMarginLiquidationsResponse,
+  GetEntityRewardsRateRequest,
+  GetEntityRewardsRateResponse,
+  GetPortfolioRewardsRateRequest,
+  GetPortfolioRewardsRateResponse,
 } from './financing/types';
 
 export type {

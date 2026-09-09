@@ -39,6 +39,7 @@ import {
   GetMarketDataResponse as internalGetMarketDataResponse,
   GetXMLiquidationResponse as internalGetXMLiquidationResponse,
   ListXMLiquidationsResponse as internalListXMLiquidationsResponse,
+  GetRewardsRateResponse as internalGetRewardsRateResponse,
   MarketData,
   XMLiquidationSummary,
 } from '../model/';
@@ -244,6 +245,20 @@ export type ListCrossMarginLiquidationsResponse = PaginatedListResponse<
   XMLiquidationSummary
 >;
 
+export type GetEntityRewardsRateRequest = {
+  entityId: string;
+};
+
+export type GetEntityRewardsRateResponse =
+  Expand<internalGetRewardsRateResponse>;
+
+export type GetPortfolioRewardsRateRequest = {
+  portfolioId: string;
+};
+
+export type GetPortfolioRewardsRateResponse =
+  Expand<internalGetRewardsRateResponse>;
+
 /* GENERATED-METHOD-ERRORS-START */
 export type {
   CreateNewLocatesError,
@@ -253,11 +268,13 @@ export type {
   GetCrossMarginPrimeOverviewError,
   GetCrossMarginRiskParametersError,
   GetEntityLocateAvailabilitiesError,
+  GetEntityRewardsRateError,
   GetFcmMarginCallDetailsError,
   GetFcmRiskLimitsError,
   GetMarginInformationError,
   GetPortfolioBuyingPowerError,
   GetPortfolioCreditInformationError,
+  GetPortfolioRewardsRateError,
   GetPortfolioWithdrawalPowerError,
   GetTieredPricingFeesError,
   ListCrossMarginLiquidationsError,

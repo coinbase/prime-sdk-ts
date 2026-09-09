@@ -117,6 +117,9 @@ import type { GetEntityPaymentMethodDetailsNotFoundErrorResponse } from './GetEn
 import type { GetEntityPaymentMethodsBadRequestErrorResponse } from './GetEntityPaymentMethodsBadRequestErrorResponse';
 import type { GetEntityPaymentMethodsForbiddenErrorResponse } from './GetEntityPaymentMethodsForbiddenErrorResponse';
 import type { GetEntityPaymentMethodsNotFoundErrorResponse } from './GetEntityPaymentMethodsNotFoundErrorResponse';
+import type { GetEntityRewardsRateBadRequestErrorResponse } from './GetEntityRewardsRateBadRequestErrorResponse';
+import type { GetEntityRewardsRateForbiddenErrorResponse } from './GetEntityRewardsRateForbiddenErrorResponse';
+import type { GetEntityRewardsRateNotFoundErrorResponse } from './GetEntityRewardsRateNotFoundErrorResponse';
 import type { GetEntityUsersBadRequestErrorResponse } from './GetEntityUsersBadRequestErrorResponse';
 import type { GetEntityUsersForbiddenErrorResponse } from './GetEntityUsersForbiddenErrorResponse';
 import type { GetEntityUsersNotFoundErrorResponse } from './GetEntityUsersNotFoundErrorResponse';
@@ -210,6 +213,9 @@ import type { GetPortfolioNotFoundErrorResponse } from './GetPortfolioNotFoundEr
 import type { GetPortfolioProductsBadRequestErrorResponse } from './GetPortfolioProductsBadRequestErrorResponse';
 import type { GetPortfolioProductsForbiddenErrorResponse } from './GetPortfolioProductsForbiddenErrorResponse';
 import type { GetPortfolioProductsNotFoundErrorResponse } from './GetPortfolioProductsNotFoundErrorResponse';
+import type { GetPortfolioRewardsRateBadRequestErrorResponse } from './GetPortfolioRewardsRateBadRequestErrorResponse';
+import type { GetPortfolioRewardsRateForbiddenErrorResponse } from './GetPortfolioRewardsRateForbiddenErrorResponse';
+import type { GetPortfolioRewardsRateNotFoundErrorResponse } from './GetPortfolioRewardsRateNotFoundErrorResponse';
 import type { GetPortfolioTransactionsBadRequestErrorResponse } from './GetPortfolioTransactionsBadRequestErrorResponse';
 import type { GetPortfolioTransactionsForbiddenErrorResponse } from './GetPortfolioTransactionsForbiddenErrorResponse';
 import type { GetPortfolioTransactionsNotFoundErrorResponse } from './GetPortfolioTransactionsNotFoundErrorResponse';
@@ -686,6 +692,15 @@ export type GetEntityPositionsError =
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
 
+export type GetEntityRewardsRateError =
+  | GetEntityRewardsRateBadRequestErrorResponse
+  | GetEntityRewardsRateForbiddenErrorResponse
+  | GetEntityRewardsRateNotFoundErrorResponse
+  | InternalServerErrorResponse
+  | ServiceUnavailableErrorResponse
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
+
 export type GetFcmMarginCallDetailsError =
   | GetFcmMarginCallDetailsBadRequestErrorResponse
   | GetFcmMarginCallDetailsForbiddenErrorResponse
@@ -807,6 +822,15 @@ export type GetPortfolioError =
   | GetPortfolioBadRequestErrorResponse
   | GetPortfolioForbiddenErrorResponse
   | GetPortfolioNotFoundErrorResponse
+  | InternalServerErrorResponse
+  | ServiceUnavailableErrorResponse
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
+
+export type GetPortfolioRewardsRateError =
+  | GetPortfolioRewardsRateBadRequestErrorResponse
+  | GetPortfolioRewardsRateForbiddenErrorResponse
+  | GetPortfolioRewardsRateNotFoundErrorResponse
   | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
