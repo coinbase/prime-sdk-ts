@@ -29,6 +29,10 @@
 
 Runnable examples: `examples/financing/getEntityRewardsRate.js`, `examples/financing/getPortfolioRewardsRate.js`.
 
+### Security
+
+Pinned patched transitive dependencies via `overrides` (and bumped direct `js-yaml` to `^4.3.2`) to clear Dependabot alerts: `browserslist`, `fast-uri`, `form-data`, `brace-expansion`, `@babel/core`, `@humanfs/node`, and `js-yaml` 3.x/4.x.
+
 ## [0.13.0] - 2026-SEP-01
 
 ### Added
