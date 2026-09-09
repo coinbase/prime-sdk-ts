@@ -20,6 +20,7 @@
 
 import { FcmTradingSessionDetails } from './FcmTradingSessionDetails';
 import { FutureProductDetails } from './FutureProductDetails';
+import { OptionProductDetails } from './OptionProductDetails';
 import { ProductPermissions } from './enums/ProductPermissions';
 import { ProductType } from './enums/ProductType';
 import { RFQProductDetails } from './RFQProductDetails';
@@ -74,4 +75,8 @@ export type Product = {
    * FutureProductDetails contains details specific to futures products
    */
   futureProductDetails?: FutureProductDetails;
+  /**
+   * OptionProductDetails contains details specific to option products
+   */
+  optionProductDetails?: OptionProductDetails;
 };

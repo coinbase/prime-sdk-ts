@@ -1,5 +1,38 @@
 # Changelog
 
+## [0.14.0] - 2026-SEP-09
+
+### Added
+
+#### New API Endpoints
+
+**Financing Service** (`client.financing`)
+
+- **`getEntityRewardsRate()`**: Get the current rewards rate and available rate tiers for an entity (`GET /v1/entities/{entity_id}/rewards/rate`)
+- **`getPortfolioRewardsRate()`**: Get the current rewards rate and available rate tiers for a portfolio (`GET /v1/portfolios/{portfolio_id}/rewards/rate`)
+
+#### New & Updated Models
+
+**New Models**
+- **`GetRewardsRateResponse`**: Current effective rewards rate and available rate tiers
+- **`RewardsRateTier`**: A single tier in the rewards rate card (`rate`, `lowerLimit`, `upperLimit`, `criteriaType`)
+- **`OptionProductDetails`**: Option-specific product fields (type, strike, settlement, price increment steps)
+- **`PriceIncrementStep`**: Price increment override above a threshold
+
+**Updated Models**
+- **`Product`**: Added `optionProductDetails`
+
+#### New Enums
+- **`RewardsRateTierType`**: `REWARDS_RATE_TIER_TYPE_BALANCE`, `REWARDS_RATE_TIER_TYPE_OPEN_INTEREST`, `REWARDS_RATE_TIER_TYPE_PERCENT_VOLUME`
+- **`SettlementModel`**
+- **`SettlementPeriod`**
+
+Runnable examples: `examples/financing/getEntityRewardsRate.js`, `examples/financing/getPortfolioRewardsRate.js`.
+
+### Security
+
+Pinned patched transitive dependencies via `overrides` (and bumped direct `js-yaml` to `^4.3.2`) to clear Dependabot alerts: `browserslist`, `fast-uri`, `form-data`, `brace-expansion`, `@babel/core`, `@humanfs/node`, and `js-yaml` 3.x/4.x.
+
 ## [0.13.0] - 2026-SEP-01
 
 ### Added

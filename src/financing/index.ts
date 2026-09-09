@@ -73,6 +73,10 @@ import {
   GetCrossMarginLiquidationResponse,
   ListCrossMarginLiquidationsRequest,
   ListCrossMarginLiquidationsResponse,
+  GetEntityRewardsRateRequest,
+  GetEntityRewardsRateResponse,
+  GetPortfolioRewardsRateRequest,
+  GetPortfolioRewardsRateResponse,
 } from './types';
 
 export interface IFinancingService {
@@ -366,6 +370,30 @@ export interface IFinancingService {
     request: ListMarketDataRequest,
     options?: CoinbaseCallOptions
   ): Promise<ListMarketDataResponse>;
+
+  /**
+   * Get Entity Rewards Rate (Beta)
+   *
+   * Returns the current rewards rate and available rate tiers for the entity.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetEntityRewardsRateError}.
+   */
+  getEntityRewardsRate(
+    request: GetEntityRewardsRateRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetEntityRewardsRateResponse>;
+
+  /**
+   * Get Portfolio Rewards Rate (Beta)
+   *
+   * Returns the current rewards rate and available rate tiers for the portfolio.
+   *
+   * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetPortfolioRewardsRateError}.
+   */
+  getPortfolioRewardsRate(
+    request: GetPortfolioRewardsRateRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetPortfolioRewardsRateResponse>;
 }
 
 export class FinancingService implements IFinancingService {
@@ -853,5 +881,37 @@ export class FinancingService implements IFinancingService {
       ResponseExtractors.marketData,
       paginationOptions
     ) as ListMarketDataResponse;
+  }
+
+  async getEntityRewardsRate(
+    request: GetEntityRewardsRateRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetEntityRewardsRateResponse> {
+    validate(request)
+      .requiredUUID((r) => r.entityId)
+      .check();
+
+    const response = await this.client.request({
+      url: `entities/${request.entityId}/rewards/rate`,
+      callOptions: options,
+    });
+
+    return response.data as GetEntityRewardsRateResponse;
+  }
+
+  async getPortfolioRewardsRate(
+    request: GetPortfolioRewardsRateRequest,
+    options?: CoinbaseCallOptions
+  ): Promise<GetPortfolioRewardsRateResponse> {
+    validate(request)
+      .requiredUUID((r) => r.portfolioId)
+      .check();
+
+    const response = await this.client.request({
+      url: `portfolios/${request.portfolioId}/rewards/rate`,
+      callOptions: options,
+    });
+
+    return response.data as GetPortfolioRewardsRateResponse;
   }
 }

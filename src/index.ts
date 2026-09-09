@@ -169,6 +169,10 @@ export type {
   GetCrossMarginOverviewResponse,
   GetConversionFeesRequest,
   GetConversionFeesResponse,
+  GetEntityRewardsRateRequest,
+  GetEntityRewardsRateResponse,
+  GetPortfolioRewardsRateRequest,
+  GetPortfolioRewardsRateResponse,
 } from './financing/types';
 export type {
   CancelEntitySweepRequest,
