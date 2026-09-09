@@ -45,7 +45,8 @@ jobs:
           BRANCH: auto/update-spec
         run: |
           # Branch name is a fixed constant. Never copy headRefName from PRs into
-          # GITHUB_OUTPUT or ${{ }} — that interpolates untrusted input into the shell.
+          # GITHUB_OUTPUT or GitHub Actions expressions — that interpolates
+          # untrusted input into the shell.
           EXISTING_PR=$(gh pr list \
             --state open \
             --head "$BRANCH" \
