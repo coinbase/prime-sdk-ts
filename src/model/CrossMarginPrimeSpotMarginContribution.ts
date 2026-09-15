@@ -19,35 +19,23 @@
  */
 
 /**
- * Breakdown of the components of spot equity.
+ * Breakdown of a position row\'s spot equity contribution. All values are zero when no contribution data is available. If the asset class is unknown, the contribution amounts are still returned.
  */
-export type CrossMarginPrimeSpotEquityBreakdown = {
+export type CrossMarginPrimeSpotMarginContribution = {
   /**
-   * PM cash balance component of spot equity.
+   * Pre-cap, pre-haircut spot USD notional.
    */
-  cashBalance?: string;
+  rawNotional?: string;
   /**
-   * Long market value component of spot equity.
+   * Long notional excluded above the collateral cap.
    */
-  longMarketValue?: string;
+  ineligibleNotional?: string;
   /**
-   * Short market value component of spot equity.
+   * Amount removed by the cash-equivalent long haircut.
    */
-  shortMarketValue?: string;
+  haircutNotional?: string;
   /**
-   * Short collateral component of spot equity.
+   * Final spot equity contribution. Positive values are eligible collateral; negative values are liabilities.
    */
-  shortCollateral?: string;
-  /**
-   * Pending transfers affecting spot equity.
-   */
-  pendingTransfers?: string;
-  /**
-   * Equity contribution from FX positions.
-   */
-  fxBalance?: string;
-  /**
-   * Equity contribution from non-USDC stablecoins. USDC is included in cash_balance.
-   */
-  stablecoinBalance?: string;
+  equityContribution?: string;
 };

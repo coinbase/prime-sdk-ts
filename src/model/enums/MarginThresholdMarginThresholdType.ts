@@ -19,35 +19,10 @@
  */
 
 /**
- * Breakdown of the components of spot equity.
+ * MarginThresholdType indicates whether the threshold value is an equity ratio, a deficit ratio, or none.   - MARGIN_THRESHOLD_TYPE_EQUITY_RATIO: Threshold based on equity ratio EQ / MR; triggers when EQ / MR >= threshold_value.  - MARGIN_THRESHOLD_TYPE_DEFICIT_RATIO: Threshold based on deficit ratio (MR - EQ) / margin_limit; triggers when (MR - EQ) / margin_limit > threshold_value.  - MARGIN_THRESHOLD_TYPE_NONE: No ER/DR threshold, terminal threshold to match any unhealthy state.
  */
-export type CrossMarginPrimeSpotEquityBreakdown = {
-  /**
-   * PM cash balance component of spot equity.
-   */
-  cashBalance?: string;
-  /**
-   * Long market value component of spot equity.
-   */
-  longMarketValue?: string;
-  /**
-   * Short market value component of spot equity.
-   */
-  shortMarketValue?: string;
-  /**
-   * Short collateral component of spot equity.
-   */
-  shortCollateral?: string;
-  /**
-   * Pending transfers affecting spot equity.
-   */
-  pendingTransfers?: string;
-  /**
-   * Equity contribution from FX positions.
-   */
-  fxBalance?: string;
-  /**
-   * Equity contribution from non-USDC stablecoins. USDC is included in cash_balance.
-   */
-  stablecoinBalance?: string;
-};
+export enum MarginThresholdMarginThresholdType {
+  MarginThresholdTypeEquityRatio = 'MARGIN_THRESHOLD_TYPE_EQUITY_RATIO',
+  MarginThresholdTypeDeficitRatio = 'MARGIN_THRESHOLD_TYPE_DEFICIT_RATIO',
+  MarginThresholdTypeNone = 'MARGIN_THRESHOLD_TYPE_NONE',
+}

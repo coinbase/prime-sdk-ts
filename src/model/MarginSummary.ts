@@ -21,6 +21,10 @@
 import { AssetBalance } from './AssetBalance';
 import { LoanInfo } from './LoanInfo';
 import { MarginAddOn } from './MarginAddOn';
+import { MarginCallThresholds } from './MarginCallThresholds';
+import { MarginControlStatus } from './enums/MarginControlStatus';
+import { MarginHealthStatus } from './enums/MarginHealthStatus';
+import { MarginLevel } from './enums/MarginLevel';
 import { MarketRate } from './MarketRate';
 import { PMAssetInfo } from './PMAssetInfo';
 
@@ -150,4 +154,32 @@ export type MarginSummary = {
    * The amount of the margin limit that is consumed by the excess deficit
    */
   pmMarginConsumed?: string;
+  /**
+   * Cash moved by the short-collateral rehypothecation sweep for this conversion. Only populated for historical margin summaries.
+   */
+  shortCollateralTransfer?: string;
+  /**
+   * MarginHealthStatus is the recorded (sticky) margin health state for an entity.   - MARGIN_HEALTH_STATUS_HEALTHY: Margin level is healthy.  - MARGIN_HEALTH_STATUS_WARNING: Margin level is breaching the warning threshold (WT) which will result in the issuance of a Margin Call if this is still the case by the scheduled next Margin Call (as defined in the margin methodology). WT is differentiated from DT in that it means margin health is approaching the UMCT.  - MARGIN_HEALTH_STATUS_CRITICAL: Margin level is breaching the UMCT and, as defined in the margin methodology, this will trigger an urgent margin call.  - MARGIN_HEALTH_STATUS_SUSPENDED: Trading and withdrawals are suspended per the margin methodology.  - MARGIN_HEALTH_STATUS_RESTRICTED: Account is in a restricted state per the margin methodology.  - MARGIN_HEALTH_STATUS_PRE_LIQUIDATION: Margin level is breaching the liquidation threshold (LT) and, as defined in the margin methodology, this will trigger the SESSION_LOCKED control status and liquidation may commence.  - MARGIN_HEALTH_STATUS_LIQUIDATING: Liquidation has commenced.  - MARGIN_HEALTH_STATUS_IN_DEFICIT: Margin level is breaching the deficit threshold (DT) which will result in the issuance of a Margin Call if this is still the case by the scheduled next Margin Call time (as defined in the margin methodology).
+   */
+  healthStatus?: MarginHealthStatus;
+  /**
+   * MarginLevel is the realtime state of EQ/MR and MR-EQ monitored against thresholds as defined in the methodology.   - MARGIN_LEVEL_HEALTHY: Margin level is healthy  - MARGIN_LEVEL_DEFICIT: Margin level is breaching the deficit threshold (DT) which will result in the issuance of a Margin Call if this is still the case by the scheduled next Margin Call time (as defined in the margin methodology)  - MARGIN_LEVEL_WARNING: Margin level is breaching the warning threshold (WT) which will result in the issuance of a Margin Call if this is still the case by the scheduled next Margin Call (as defined in the margin methodology). WT is differentiated from DT in that it means margin health is approaching the UMCT  - MARGIN_LEVEL_URGENT_MARGIN_CALL: Margin level is breaching the UMCT and, as defined in the margin methodology, this will trigger an urgent margin call  - MARGIN_LEVEL_LIQUIDATION: Margin level is breaching the liquidation threshold (LT) and, as defined in the margin methodology, this will trigger the SESSION_LOCKED control status and liquidation may commence.
+   */
+  marginLevel?: MarginLevel;
+  /**
+   * MarginCallThresholds are the thresholds backing the margin level evaluation.
+   */
+  marginThresholds?: MarginCallThresholds;
+  /**
+   * MarginControlStatus is a summarization of customer controls for trades and withdrawals.   - MARGIN_CONTROL_STATUS_TRADES_AND_WITHDRAWALS: Allowed to trade and withdraw. See the margin methodology for full description of when trading and withdrawals are enabled or disabled.  - MARGIN_CONTROL_STATUS_TRADES_ONLY: Allowed to trade but not withdraw. See the margin methodology for full description of when trading and withdrawals are enabled or disabled.  - MARGIN_CONTROL_STATUS_SESSION_LOCKED: Not allowed to trade or withdraw. See the margin methodology for full description of when trading and withdrawals are enabled or disabled.
+   */
+  controlStatus?: MarginControlStatus;
+  /**
+   * Equity ratio.
+   */
+  equityRatio?: string;
+  /**
+   * Deficit ratio.
+   */
+  deficitRatio?: string;
 };
