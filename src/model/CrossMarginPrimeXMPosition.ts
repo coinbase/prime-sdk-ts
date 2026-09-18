@@ -18,6 +18,9 @@
  *  Do not edit the class manually.
  */
 
+import { CrossMarginPrimeSpotMarginContribution } from './CrossMarginPrimeSpotMarginContribution';
+import { PrimeXMAssetClass } from './enums/PrimeXMAssetClass';
+
 /**
  * CrossMarginPrimeXMPosition is a single per-asset XM row (proto-backed fields from XMPositionDetails).
  */
@@ -82,4 +85,12 @@ export type CrossMarginPrimeXMPosition = {
    * Liquidity margin add-on for this asset.
    */
   liquidityAddon?: string;
+  /**
+   * Asset class of the XM position underlier.   - PRIME_XM_ASSET_CLASS_UNSPECIFIED: The asset class is unavailable for this position, or is not recognized by this API version.  - PRIME_XM_ASSET_CLASS_CASH: USD and USDC.  - PRIME_XM_ASSET_CLASS_FX: Non-USD G11 fiat (e.g. EUR, GBP, CHF).  - PRIME_XM_ASSET_CLASS_STABLECOIN: Fiat-pegged stablecoins other than USDC (e.g. EURC, USDT).  - PRIME_XM_ASSET_CLASS_CRYPTO: Crypto assets (e.g. BTC, ETH).
+   */
+  assetClass?: PrimeXMAssetClass;
+  /**
+   * Breakdown of a position row\'s spot equity contribution. All values are zero when no contribution data is available. If the asset class is unknown, the contribution amounts are still returned.
+   */
+  spotMarginContribution?: CrossMarginPrimeSpotMarginContribution;
 };

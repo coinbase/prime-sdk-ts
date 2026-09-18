@@ -32,7 +32,7 @@ export enum CreateAdvancedTransferBadRequestSubcode {
    */
   AdvancedTransferPreconditionFailed = 'ADVANCED_TRANSFER_PRECONDITION_FAILED',
   /**
-   * The settlement_date, settlement_time, or trade_date field is not in the expected format.
+   * The settlement_date or settlement_time field is not in the expected format.
    *
    * Error code: VALIDATION_ERROR (HTTP 400)
    */

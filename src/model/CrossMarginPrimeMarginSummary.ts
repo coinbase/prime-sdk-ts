@@ -114,4 +114,12 @@ export type CrossMarginPrimeMarginSummary = {
    * FCM excess available to return.
    */
   fcmExcessAvailableToReturn?: string;
+  /**
+   * Pre-cap, pre-haircut account equity.
+   */
+  rawAccountEquity?: string;
+  /**
+   * Post-cap, pre-haircut account equity.
+   */
+  preHaircutAccountEquity?: string;
 };

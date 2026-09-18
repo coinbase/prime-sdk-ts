@@ -27,4 +27,5 @@ export enum WalletType {
   WalletTypeOther = 'WALLET_TYPE_OTHER',
   Qc = 'QC',
   Onchain = 'ONCHAIN',
+  InternationalDerivatives = 'INTERNATIONAL_DERIVATIVES',
 }

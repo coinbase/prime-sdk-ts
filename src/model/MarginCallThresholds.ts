@@ -18,17 +18,14 @@
  *  Do not edit the class manually.
  */
 
+import { MarginThreshold } from './MarginThreshold';
+
 /**
- * BlindMatchMetadata contains metadata specific to blind match advanced transfers.
+ * MarginCallThresholds are the thresholds backing the margin level evaluation.
  */
-export type BlindMatchMetadata = {
-  referenceId?: string;
+export type MarginCallThresholds = {
   /**
-   * The intended time of Transfer settlement in YYYYMMDD format. The Settlement Date represents the date contractually agreed upon by the transacting parties; actual settlement will occur upon completion of the transfer, which may differ from such agreed date.
+   * Structured margin thresholds by margin level.
    */
-  settlementDate?: string;
-  /**
-   * Optional time of transfer settlement in HHMM format in UTC. If not provided, it defaults to 09:30 Eastern Time.
-   */
-  settlementTime?: string;
+  marginThresholds?: Array<MarginThreshold>;
 };

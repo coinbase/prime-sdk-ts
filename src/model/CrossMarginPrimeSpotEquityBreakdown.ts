@@ -42,4 +42,12 @@ export type CrossMarginPrimeSpotEquityBreakdown = {
    * Pending transfers affecting spot equity.
    */
   pendingTransfers?: string;
+  /**
+   * Equity contribution from FX positions.
+   */
+  fxBalance?: string;
+  /**
+   * Equity contribution from non-USDC stablecoins. USDC is included in cash_balance.
+   */
+  stablecoinBalance?: string;
 };

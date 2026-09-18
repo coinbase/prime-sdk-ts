@@ -19,16 +19,10 @@
  */
 
 /**
- * BlindMatchMetadata contains metadata specific to blind match advanced transfers.
+ * MarginThresholdType indicates whether the threshold value is an equity ratio, a deficit ratio, or none.   - MARGIN_THRESHOLD_TYPE_EQUITY_RATIO: Threshold based on equity ratio EQ / MR; triggers when EQ / MR >= threshold_value.  - MARGIN_THRESHOLD_TYPE_DEFICIT_RATIO: Threshold based on deficit ratio (MR - EQ) / margin_limit; triggers when (MR - EQ) / margin_limit > threshold_value.  - MARGIN_THRESHOLD_TYPE_NONE: No ER/DR threshold, terminal threshold to match any unhealthy state.
  */
-export type BlindMatchMetadata = {
-  referenceId?: string;
-  /**
-   * The intended time of Transfer settlement in YYYYMMDD format. The Settlement Date represents the date contractually agreed upon by the transacting parties; actual settlement will occur upon completion of the transfer, which may differ from such agreed date.
-   */
-  settlementDate?: string;
-  /**
-   * Optional time of transfer settlement in HHMM format in UTC. If not provided, it defaults to 09:30 Eastern Time.
-   */
-  settlementTime?: string;
-};
+export enum MarginThresholdMarginThresholdType {
+  MarginThresholdTypeEquityRatio = 'MARGIN_THRESHOLD_TYPE_EQUITY_RATIO',
+  MarginThresholdTypeDeficitRatio = 'MARGIN_THRESHOLD_TYPE_DEFICIT_RATIO',
+  MarginThresholdTypeNone = 'MARGIN_THRESHOLD_TYPE_NONE',
+}

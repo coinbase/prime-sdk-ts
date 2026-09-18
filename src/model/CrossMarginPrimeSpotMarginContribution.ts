@@ -19,16 +19,23 @@
  */
 
 /**
- * BlindMatchMetadata contains metadata specific to blind match advanced transfers.
+ * Breakdown of a position row\'s spot equity contribution. All values are zero when no contribution data is available. If the asset class is unknown, the contribution amounts are still returned.
  */
-export type BlindMatchMetadata = {
-  referenceId?: string;
+export type CrossMarginPrimeSpotMarginContribution = {
   /**
-   * The intended time of Transfer settlement in YYYYMMDD format. The Settlement Date represents the date contractually agreed upon by the transacting parties; actual settlement will occur upon completion of the transfer, which may differ from such agreed date.
+   * Pre-cap, pre-haircut spot USD notional.
    */
-  settlementDate?: string;
+  rawNotional?: string;
   /**
-   * Optional time of transfer settlement in HHMM format in UTC. If not provided, it defaults to 09:30 Eastern Time.
+   * Long notional excluded above the collateral cap.
    */
-  settlementTime?: string;
+  ineligibleNotional?: string;
+  /**
+   * Amount removed by the cash-equivalent long haircut.
+   */
+  haircutNotional?: string;
+  /**
+   * Final spot equity contribution. Positive values are eligible collateral; negative values are liabilities.
+   */
+  equityContribution?: string;
 };
