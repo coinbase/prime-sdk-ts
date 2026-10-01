@@ -19,7 +19,7 @@
  */
 
 /**
- * MarginControlStatus is a summarization of customer controls for trades and withdrawals.   - MARGIN_CONTROL_STATUS_TRADES_AND_WITHDRAWALS: Allowed to trade and withdraw. See the margin methodology for full description of when trading and withdrawals are enabled or disabled.  - MARGIN_CONTROL_STATUS_TRADES_ONLY: Allowed to trade but not withdraw. See the margin methodology for full description of when trading and withdrawals are enabled or disabled.  - MARGIN_CONTROL_STATUS_SESSION_LOCKED: Not allowed to trade or withdraw. See the margin methodology for full description of when trading and withdrawals are enabled or disabled.
+ * Trading and withdrawal permissions derived from the account\'s recorded health state, outstanding margin calls, and account restrictions. These permissions can remain restricted even when the calculated `margin_level` improves. Returns `MARGIN_CONTROL_STATUS_UNSPECIFIED` when the margin service doesn\'t provide a control status.   - MARGIN_CONTROL_STATUS_UNSPECIFIED: No control status is provided. Don\'t infer permission to trade or withdraw from this value.  - MARGIN_CONTROL_STATUS_TRADES_AND_WITHDRAWALS: Allowed to trade and withdraw under the applicable margin methodology.  - MARGIN_CONTROL_STATUS_TRADES_ONLY: Allowed to trade but not withdraw under the applicable margin methodology.  - MARGIN_CONTROL_STATUS_SESSION_LOCKED: Not allowed to trade or withdraw.
  */
 export enum MarginControlStatus {
   MarginControlStatusTradesAndWithdrawals = 'MARGIN_CONTROL_STATUS_TRADES_AND_WITHDRAWALS',

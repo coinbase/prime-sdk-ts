@@ -19,7 +19,7 @@
  */
 
 /**
- * Asset class of the XM position underlier.   - PRIME_XM_ASSET_CLASS_UNSPECIFIED: The asset class is unavailable for this position, or is not recognized by this API version.  - PRIME_XM_ASSET_CLASS_CASH: USD and USDC.  - PRIME_XM_ASSET_CLASS_FX: Non-USD G11 fiat (e.g. EUR, GBP, CHF).  - PRIME_XM_ASSET_CLASS_STABLECOIN: Fiat-pegged stablecoins other than USDC (e.g. EURC, USDT).  - PRIME_XM_ASSET_CLASS_CRYPTO: Crypto assets (e.g. BTC, ETH).
+ * Asset class of the XM position underlier.   - PRIME_XM_ASSET_CLASS_UNSPECIFIED: The asset class is unavailable for this position, or is not recognized by this API version.  - PRIME_XM_ASSET_CLASS_CASH: USD and USDC.  - PRIME_XM_ASSET_CLASS_FX: Non-USD fiat currencies recognized as FX in the margin model, such as EUR, GBP, and CHF.  - PRIME_XM_ASSET_CLASS_STABLECOIN: Non-USDC stablecoins recognized as cash equivalents in the margin model, such as EURC and USDT.  - PRIME_XM_ASSET_CLASS_CRYPTO: Crypto assets (e.g. BTC, ETH).
  */
 export enum PrimeXMAssetClass {
   PrimeXmAssetClassUnspecified = 'PRIME_XM_ASSET_CLASS_UNSPECIFIED',

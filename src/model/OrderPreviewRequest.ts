@@ -18,6 +18,7 @@
  *  Do not edit the class manually.
  */
 
+import { LimitPriceType } from './enums/LimitPriceType';
 import { OrderSide } from './enums/OrderSide';
 import { OrderType } from './enums/OrderType';
 import { PegOffsetType } from './enums/PegOffsetType';
@@ -104,4 +105,8 @@ export type OrderPreviewRequest = {
    * Buy Exact order flag. When true, fees for a BUY order sized in quote_value are charged on top of the requested quote_value instead of being carved out of it. Only valid for BUY orders sized in quote_value on SPOT products.
    */
   isBuyExact?: boolean;
+  /**
+   * LimitPriceType indicates the unit `limit_price` is denominated in. Only meaningful for Deribit options - leave unspecified for every other order type and product, which are always priced in the quote currency.   - UNKNOWN_LIMIT_PRICE_TYPE: nil value - `limit_price` is interpreted in the product\'s default/native unit  - LIMIT_PRICE_TYPE_BASE_ASSET: `limit_price` is denominated in the underlying base asset (e.g. BTC for a BTC option). Only valid for Deribit options settled in the base asset.  - LIMIT_PRICE_TYPE_QUOTE_ASSET: `limit_price` is denominated in the quote asset (e.g. USD/USDC).  - LIMIT_PRICE_TYPE_IMPLIED_VOLATILITY: `limit_price` is an implied volatility percentage rather than a monetary amount (e.g. \"65.5\" means 65.5% implied volatility).
+   */
+  limitPriceType?: LimitPriceType;
 };

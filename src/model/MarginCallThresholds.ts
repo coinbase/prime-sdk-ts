@@ -21,11 +21,11 @@
 import { MarginThreshold } from './MarginThreshold';
 
 /**
- * MarginCallThresholds are the thresholds backing the margin level evaluation.
+ * Configured thresholds used to determine `margin_level`. Each entry identifies a margin level, the ratio used to evaluate it, and its threshold value. Historical responses contain the thresholds recorded with the historical health evaluation.  Equity at or above the margin requirement produces a healthy margin level. Otherwise, the evaluator selects the first matching rule in the configured order. A threshold comparison identifies a matching level; it doesn\'t by itself issue a margin call or change account permissions.
  */
 export type MarginCallThresholds = {
   /**
-   * Structured margin thresholds by margin level.
+   * Ordered thresholds used to select a margin level.
    */
   marginThresholds?: Array<MarginThreshold>;
 };

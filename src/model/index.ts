@@ -178,6 +178,7 @@ export type { NaturalPersonName } from './NaturalPersonName';
 export type { Network } from './Network';
 export type { NetworkDetails } from './NetworkDetails';
 export type { OnchainTransactionDetails } from './OnchainTransactionDetails';
+export type { OptionGreeks } from './OptionGreeks';
 export type { OptionProductDetails } from './OptionProductDetails';
 export type { OptionsDetails } from './OptionsDetails';
 export type { Order } from './Order';

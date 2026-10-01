@@ -19,7 +19,7 @@
  */
 
 /**
- * MarginThresholdType indicates whether the threshold value is an equity ratio, a deficit ratio, or none.   - MARGIN_THRESHOLD_TYPE_EQUITY_RATIO: Threshold based on equity ratio EQ / MR; triggers when EQ / MR >= threshold_value.  - MARGIN_THRESHOLD_TYPE_DEFICIT_RATIO: Threshold based on deficit ratio (MR - EQ) / margin_limit; triggers when (MR - EQ) / margin_limit > threshold_value.  - MARGIN_THRESHOLD_TYPE_NONE: No ER/DR threshold, terminal threshold to match any unhealthy state.
+ * Ratio used to evaluate a threshold. Rules are evaluated in configured order; the first matching rule determines the margin level when equity is below the margin requirement. A zero threshold imposes no constraint for that ratio. If the denominator is zero, the evaluator skips the division and checks the numerator condition: nonnegative equity for an equity-ratio rule, or a positive deficit for a deficit-ratio rule.   - MARGIN_THRESHOLD_TYPE_UNSPECIFIED: No threshold type is provided.  - MARGIN_THRESHOLD_TYPE_EQUITY_RATIO: For a nonzero threshold and positive margin requirement, the rule matches when equity is nonnegative and equity / margin requirement is greater than or equal to threshold_value.  - MARGIN_THRESHOLD_TYPE_DEFICIT_RATIO: For a nonzero threshold and positive margin limit, the rule matches when the deficit is positive and (margin requirement - equity) / margin limit is greater than threshold_value.  - MARGIN_THRESHOLD_TYPE_NONE: Fallback rule with no numeric ratio threshold.
  */
 export enum MarginThresholdMarginThresholdType {
   MarginThresholdTypeEquityRatio = 'MARGIN_THRESHOLD_TYPE_EQUITY_RATIO',

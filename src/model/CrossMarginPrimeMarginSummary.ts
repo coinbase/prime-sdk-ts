@@ -115,11 +115,11 @@ export type CrossMarginPrimeMarginSummary = {
    */
   fcmExcessAvailableToReturn?: string;
   /**
-   * Pre-cap, pre-haircut account equity.
+   * Total account equity in USD after pending withdrawals, before collateral caps and cash-equivalent haircuts.
    */
   rawAccountEquity?: string;
   /**
-   * Post-cap, pre-haircut account equity.
+   * Total account equity in USD after pending withdrawals and collateral caps, before cash-equivalent haircuts.
    */
   preHaircutAccountEquity?: string;
 };

@@ -19,12 +19,12 @@
  */
 
 /**
- * MarginLevel is the realtime state of EQ/MR and MR-EQ monitored against thresholds as defined in the methodology.   - MARGIN_LEVEL_HEALTHY: Margin level is healthy  - MARGIN_LEVEL_DEFICIT: Margin level is breaching the deficit threshold (DT) which will result in the issuance of a Margin Call if this is still the case by the scheduled next Margin Call time (as defined in the margin methodology)  - MARGIN_LEVEL_WARNING: Margin level is breaching the warning threshold (WT) which will result in the issuance of a Margin Call if this is still the case by the scheduled next Margin Call (as defined in the margin methodology). WT is differentiated from DT in that it means margin health is approaching the UMCT  - MARGIN_LEVEL_URGENT_MARGIN_CALL: Margin level is breaching the UMCT and, as defined in the margin methodology, this will trigger an urgent margin call  - MARGIN_LEVEL_LIQUIDATION: Margin level is breaching the liquidation threshold (LT) and, as defined in the margin methodology, this will trigger the SESSION_LOCKED control status and liquidation may commence.
+ * Calculated margin level based on the account\'s equity, margin requirement, margin limit, and configured thresholds. This reflects the current calculation for live responses or the recorded calculation for historical responses. It can differ from `health_status`, which is maintained by the margin-management process. The level alone doesn\'t determine whether a margin call is open or whether trading and withdrawals are allowed.   - MARGIN_LEVEL_UNSPECIFIED: No calculated margin level is provided.  - MARGIN_LEVEL_HEALTHY: Account equity is at or above the margin requirement.  - MARGIN_LEVEL_DEFICIT: The calculation places the account in the deficit band. Margin-call issuance follows the applicable margin methodology.  - MARGIN_LEVEL_WARNING: The calculation places the account in the warning band, approaching the critical threshold.  - MARGIN_LEVEL_CRITICAL: The calculation places the account in the critical band.  - MARGIN_LEVEL_LIQUIDATION: The calculation places the account in the liquidation band. This value alone doesn\'t indicate that liquidation has commenced.
  */
 export enum MarginLevel {
   MarginLevelHealthy = 'MARGIN_LEVEL_HEALTHY',
   MarginLevelDeficit = 'MARGIN_LEVEL_DEFICIT',
   MarginLevelWarning = 'MARGIN_LEVEL_WARNING',
-  MarginLevelUrgentMarginCall = 'MARGIN_LEVEL_URGENT_MARGIN_CALL',
+  MarginLevelCritical = 'MARGIN_LEVEL_CRITICAL',
   MarginLevelLiquidation = 'MARGIN_LEVEL_LIQUIDATION',
 }

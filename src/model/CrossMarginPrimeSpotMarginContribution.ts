@@ -23,7 +23,7 @@
  */
 export type CrossMarginPrimeSpotMarginContribution = {
   /**
-   * Pre-cap, pre-haircut spot USD notional.
+   * Signed spot value in USD after pending withdrawals, before collateral caps and cash-equivalent haircuts.
    */
   rawNotional?: string;
   /**

@@ -22,16 +22,19 @@ import { MarginLevel } from './enums/MarginLevel';
 import { MarginThresholdMarginThresholdType } from './enums/MarginThresholdMarginThresholdType';
 
 /**
- * MarginThreshold identifies a single margin level, the ratio it is expressed as, and its value.
+ * A single margin level, the ratio used to evaluate its threshold, and the threshold value.
  */
 export type MarginThreshold = {
   /**
-   * MarginLevel is the realtime state of EQ/MR and MR-EQ monitored against thresholds as defined in the methodology.   - MARGIN_LEVEL_HEALTHY: Margin level is healthy  - MARGIN_LEVEL_DEFICIT: Margin level is breaching the deficit threshold (DT) which will result in the issuance of a Margin Call if this is still the case by the scheduled next Margin Call time (as defined in the margin methodology)  - MARGIN_LEVEL_WARNING: Margin level is breaching the warning threshold (WT) which will result in the issuance of a Margin Call if this is still the case by the scheduled next Margin Call (as defined in the margin methodology). WT is differentiated from DT in that it means margin health is approaching the UMCT  - MARGIN_LEVEL_URGENT_MARGIN_CALL: Margin level is breaching the UMCT and, as defined in the margin methodology, this will trigger an urgent margin call  - MARGIN_LEVEL_LIQUIDATION: Margin level is breaching the liquidation threshold (LT) and, as defined in the margin methodology, this will trigger the SESSION_LOCKED control status and liquidation may commence.
+   * Calculated margin level based on the account\'s equity, margin requirement, margin limit, and configured thresholds. This reflects the current calculation for live responses or the recorded calculation for historical responses. It can differ from `health_status`, which is maintained by the margin-management process. The level alone doesn\'t determine whether a margin call is open or whether trading and withdrawals are allowed.   - MARGIN_LEVEL_UNSPECIFIED: No calculated margin level is provided.  - MARGIN_LEVEL_HEALTHY: Account equity is at or above the margin requirement.  - MARGIN_LEVEL_DEFICIT: The calculation places the account in the deficit band. Margin-call issuance follows the applicable margin methodology.  - MARGIN_LEVEL_WARNING: The calculation places the account in the warning band, approaching the critical threshold.  - MARGIN_LEVEL_CRITICAL: The calculation places the account in the critical band.  - MARGIN_LEVEL_LIQUIDATION: The calculation places the account in the liquidation band. This value alone doesn\'t indicate that liquidation has commenced.
    */
   marginLevel?: MarginLevel;
   /**
-   * MarginThresholdType indicates whether the threshold value is an equity ratio, a deficit ratio, or none.   - MARGIN_THRESHOLD_TYPE_EQUITY_RATIO: Threshold based on equity ratio EQ / MR; triggers when EQ / MR >= threshold_value.  - MARGIN_THRESHOLD_TYPE_DEFICIT_RATIO: Threshold based on deficit ratio (MR - EQ) / margin_limit; triggers when (MR - EQ) / margin_limit > threshold_value.  - MARGIN_THRESHOLD_TYPE_NONE: No ER/DR threshold, terminal threshold to match any unhealthy state.
+   * Ratio used to evaluate a threshold. Rules are evaluated in configured order; the first matching rule determines the margin level when equity is below the margin requirement. A zero threshold imposes no constraint for that ratio. If the denominator is zero, the evaluator skips the division and checks the numerator condition: nonnegative equity for an equity-ratio rule, or a positive deficit for a deficit-ratio rule.   - MARGIN_THRESHOLD_TYPE_UNSPECIFIED: No threshold type is provided.  - MARGIN_THRESHOLD_TYPE_EQUITY_RATIO: For a nonzero threshold and positive margin requirement, the rule matches when equity is nonnegative and equity / margin requirement is greater than or equal to threshold_value.  - MARGIN_THRESHOLD_TYPE_DEFICIT_RATIO: For a nonzero threshold and positive margin limit, the rule matches when the deficit is positive and (margin requirement - equity) / margin limit is greater than threshold_value.  - MARGIN_THRESHOLD_TYPE_NONE: Fallback rule with no numeric ratio threshold.
    */
   thresholdType?: MarginThresholdMarginThresholdType;
+  /**
+   * Threshold expressed as a decimal ratio, not a percentage. For example, \"0.8\" represents 80%. Interpret this value together with threshold_type.
+   */
   thresholdValue?: string;
 };
