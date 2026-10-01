@@ -18,23 +18,24 @@
  *  Do not edit the class manually.
  */
 
-export enum CreateOnchainAddressGroupBadRequestSubcode {
+/**
+ * Breakdown of a position row\'s spot equity contribution. All values are zero when no contribution data is available. If the asset class is unknown, the contribution amounts are still returned.
+ */
+export type CrossMarginPrimeSpotMarginContribution = {
   /**
-   * The portfolio_id field is required but was not provided.
-   *
-   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   * Signed spot value in USD after pending withdrawals, before collateral caps and cash-equivalent haircuts.
    */
-  PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  rawNotional?: string;
   /**
-   * The portfolio_id is not a valid UUID.
-   *
-   * Error code: VALIDATION_ERROR (HTTP 400)
+   * Long notional excluded above the collateral cap.
    */
-  PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  ineligibleNotional?: string;
   /**
-   * The onchain address group create, update, or delete request contained invalid data and could not be processed.
-   *
-   * Error code: VALIDATION_ERROR (HTTP 400)
+   * Amount removed by the cash-equivalent long haircut.
    */
-  OnchainAddressGroupRequestInvalid = 'ONCHAIN_ADDRESS_GROUP_REQUEST_INVALID',
-}
+  haircutNotional?: string;
+  /**
+   * Final spot equity contribution. Positive values are eligible collateral; negative values are liabilities.
+   */
+  equityContribution?: string;
+};

@@ -18,23 +18,14 @@
  *  Do not edit the class manually.
  */
 
-export enum CreateOnchainAddressGroupBadRequestSubcode {
+import { MarginThreshold } from './MarginThreshold';
+
+/**
+ * Configured thresholds used to determine `margin_level`. Each entry identifies a margin level, the ratio used to evaluate it, and its threshold value. Historical responses contain the thresholds recorded with the historical health evaluation.  Equity at or above the margin requirement produces a healthy margin level. Otherwise, the evaluator selects the first matching rule in the configured order. A threshold comparison identifies a matching level; it doesn\'t by itself issue a margin call or change account permissions.
+ */
+export type MarginCallThresholds = {
   /**
-   * The portfolio_id field is required but was not provided.
-   *
-   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   * Ordered thresholds used to select a margin level.
    */
-  PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
-  /**
-   * The portfolio_id is not a valid UUID.
-   *
-   * Error code: VALIDATION_ERROR (HTTP 400)
-   */
-  PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
-  /**
-   * The onchain address group create, update, or delete request contained invalid data and could not be processed.
-   *
-   * Error code: VALIDATION_ERROR (HTTP 400)
-   */
-  OnchainAddressGroupRequestInvalid = 'ONCHAIN_ADDRESS_GROUP_REQUEST_INVALID',
-}
+  marginThresholds?: Array<MarginThreshold>;
+};

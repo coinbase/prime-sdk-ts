@@ -18,6 +18,7 @@
  *  Do not edit the class manually.
  */
 
+import { OptionGreeks } from './OptionGreeks';
 import { OrderSide } from './enums/OrderSide';
 import { OrderType } from './enums/OrderType';
 import { TimeInForceType } from './enums/TimeInForceType';
@@ -115,4 +116,8 @@ export type PostOrderPreviewResponse = {
    * Buy Exact order flag
    */
   isBuyExact?: boolean;
+  /**
+   * Greeks of one option contract as quoted by the venue, not scaled by order size or side.
+   */
+  optionGreeks?: OptionGreeks;
 };
