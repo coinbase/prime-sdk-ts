@@ -205,7 +205,7 @@ export interface IFinancingService {
   /**
    * Get FCM Margin Call Details
    *
-   * Retrieve the margin call details for a given entity.
+   * Retrieve the margin call details for a given entity. Note: Exchange clients accessing this endpoint as a Cross-Margin customer, must pass their designated Exchange UUID as the *entity_id* path parameter. If you do not have this value, please reach out to your dedicated Technical Account Manager.
    *
    * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetFcmMarginCallDetailsError}.
    */
@@ -216,7 +216,7 @@ export interface IFinancingService {
   /**
    * Get FCM Risk Limits
    *
-   * Retrieve the risk limits for a given entity.
+   * Retrieve the risk limits for a given entity. Note: Exchange clients accessing this endpoint as a Cross-Margin customer, must pass their designated Exchange UUID as the *entity_id* path parameter. If you do not have this value, please reach out to your dedicated Technical Account Manager.
    *
    * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetFcmRiskLimitsError}.
    */

@@ -19,10 +19,23 @@
  */
 
 /**
- * - SECONDARY_PERMISSION_UNKNOWN: nil value  - VIDEO_APPROVER: A video approver  - TEAM_APPROVER: A team approver  - WEB3_SIGNER: A web3/onchain signer
+ * Breakdown of a position row\'s spot equity contribution. All values are zero when no contribution data is available. If the asset class is unknown, the contribution amounts are still returned.
  */
-export enum SecondaryPermission {
-  VideoApprover = 'VIDEO_APPROVER',
-  TeamApprover = 'TEAM_APPROVER',
-  Web3Signer = 'WEB3_SIGNER',
-}
+export type CrossMarginPrimeSpotMarginContribution = {
+  /**
+   * Signed spot value in USD after pending withdrawals, before collateral caps and cash-equivalent haircuts.
+   */
+  rawNotional?: string;
+  /**
+   * Long notional excluded above the collateral cap.
+   */
+  ineligibleNotional?: string;
+  /**
+   * Amount removed by the cash-equivalent long haircut.
+   */
+  haircutNotional?: string;
+  /**
+   * Final spot equity contribution. Positive values are eligible collateral; negative values are liabilities.
+   */
+  equityContribution?: string;
+};

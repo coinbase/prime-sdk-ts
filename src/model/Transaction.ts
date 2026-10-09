@@ -97,7 +97,7 @@ export type Transaction = {
    */
   network?: string;
   /**
-   * The estimated asset changes (web3)
+   * The estimated asset changes (web3/onchain)
    */
   estimatedAssetChanges?: Array<AssetChange>;
   metadata?: TransactionMetadata;

@@ -18,11 +18,14 @@
  *  Do not edit the class manually.
  */
 
+import { MarginThreshold } from './MarginThreshold';
+
 /**
- * - SECONDARY_PERMISSION_UNKNOWN: nil value  - VIDEO_APPROVER: A video approver  - TEAM_APPROVER: A team approver  - WEB3_SIGNER: A web3/onchain signer
+ * Configured thresholds used to determine `margin_level`. Each entry identifies a margin level, the ratio used to evaluate it, and its threshold value. Historical responses contain the thresholds recorded with the historical health evaluation.  Equity at or above the margin requirement produces a healthy margin level. Otherwise, the evaluator selects the first matching rule in the configured order. A threshold comparison identifies a matching level; it doesn\'t by itself issue a margin call or change account permissions.
  */
-export enum SecondaryPermission {
-  VideoApprover = 'VIDEO_APPROVER',
-  TeamApprover = 'TEAM_APPROVER',
-  Web3Signer = 'WEB3_SIGNER',
-}
+export type MarginCallThresholds = {
+  /**
+   * Ordered thresholds used to select a margin level.
+   */
+  marginThresholds?: Array<MarginThreshold>;
+};

@@ -114,4 +114,12 @@ export type CrossMarginPrimeMarginSummary = {
    * FCM excess available to return.
    */
   fcmExcessAvailableToReturn?: string;
+  /**
+   * Total account equity in USD after pending withdrawals, before collateral caps and cash-equivalent haircuts.
+   */
+  rawAccountEquity?: string;
+  /**
+   * Total account equity in USD after pending withdrawals and collateral caps, before cash-equivalent haircuts.
+   */
+  preHaircutAccountEquity?: string;
 };
