@@ -2434,7 +2434,10 @@ paths:
       tags:
       - Futures
       summary: Set Auto Sweep
-      description: Set auto sweep for a given entity.
+      description: "Set auto sweep for a given entity. Note: Exchange clients accessing\
+        \ this endpoint as a Cross-Margin customer, must pass their designated Exchange\
+        \ UUID as the *entity_id* path parameter. If you do not have this value, please\
+        \ reach out to your dedicated Technical Account Manager."
       operationId: PrimeRESTAPI_SetAutoSweep
       parameters:
       - name: entity_id
@@ -2500,7 +2503,10 @@ paths:
       tags:
       - Futures
       summary: Get Entity FCM Balance
-      description: Retrieve fcm balance for a given entity.
+      description: "Retrieve fcm balance for a given entity. Note: Exchange clients\
+        \ accessing this endpoint as a Cross-Margin customer, must pass their designated\
+        \ Exchange UUID as the *entity_id* path parameter. If you do not have this\
+        \ value, please reach out to your dedicated Technical Account Manager."
       operationId: PrimeRESTAPI_GetFcmBalance
       parameters:
       - name: entity_id
@@ -2552,7 +2558,10 @@ paths:
       tags:
       - Futures
       summary: Get FCM Equity
-      description: Retrieve the equity data for a given entity.
+      description: "Retrieve the equity data for a given entity. Note: Exchange clients\
+        \ accessing this endpoint as a Cross-Margin customer, must pass their designated\
+        \ Exchange UUID as the *entity_id* path parameter. If you do not have this\
+        \ value, please reach out to your dedicated Technical Account Manager."
       operationId: PrimeRESTAPI_GetFcmEquity
       parameters:
       - name: entity_id
@@ -2604,7 +2613,10 @@ paths:
       tags:
       - Futures
       summary: Get FCM Margin Call Details
-      description: Retrieve the margin call details for a given entity.
+      description: "Retrieve the margin call details for a given entity. Note: Exchange\
+        \ clients accessing this endpoint as a Cross-Margin customer, must pass their\
+        \ designated Exchange UUID as the *entity_id* path parameter. If you do not\
+        \ have this value, please reach out to your dedicated Technical Account Manager."
       operationId: PrimeRESTAPI_GetFcmMarginCallDetails
       parameters:
       - name: entity_id
@@ -2656,7 +2668,10 @@ paths:
       tags:
       - Futures
       summary: Get Entity Positions
-      description: Retrieve all active fcm positions for a given entity.
+      description: "Retrieve all active fcm positions for a given entity. Note: Exchange\
+        \ clients accessing this endpoint as a Cross-Margin customer, must pass their\
+        \ designated Exchange UUID as the *entity_id* path parameter. If you do not\
+        \ have this value, please reach out to your dedicated Technical Account Manager."
       operationId: PrimeRESTAPI_GetPositions
       parameters:
       - name: entity_id
@@ -2720,7 +2735,10 @@ paths:
       tags:
       - Futures
       summary: Get FCM Risk Limits
-      description: Retrieve the risk limits for a given entity.
+      description: "Retrieve the risk limits for a given entity. Note: Exchange clients\
+        \ accessing this endpoint as a Cross-Margin customer, must pass their designated\
+        \ Exchange UUID as the *entity_id* path parameter. If you do not have this\
+        \ value, please reach out to your dedicated Technical Account Manager."
       operationId: PrimeRESTAPI_GetFcmRiskLimits
       parameters:
       - name: entity_id
@@ -2772,7 +2790,10 @@ paths:
       tags:
       - Futures
       summary: Get FCM Settings
-      description: Get settings related to FCM.
+      description: "Get settings related to FCM. Note: Exchange clients accessing\
+        \ this endpoint as a Cross-Margin customer, must pass their designated Exchange\
+        \ UUID as the *entity_id* path parameter. If you do not have this value, please\
+        \ reach out to your dedicated Technical Account Manager."
       operationId: PrimeRESTAPI_GetFcmSettings
       parameters:
       - name: entity_id
@@ -2823,7 +2844,10 @@ paths:
       tags:
       - Futures
       summary: Set FCM Settings
-      description: Update settings related to FCM.
+      description: "Update settings related to FCM. Note: Exchange clients accessing\
+        \ this endpoint as a Cross-Margin customer, must pass their designated Exchange\
+        \ UUID as the *entity_id* path parameter. If you do not have this value, please\
+        \ reach out to your dedicated Technical Account Manager."
       operationId: PrimeRESTAPI_SetFcmSettings
       parameters:
       - name: entity_id
@@ -2889,7 +2913,10 @@ paths:
       - Futures
       summary: List Entity Futures Sweeps
       description: "Retrieve fcm sweeps in open status, including pending and processing\
-        \ sweeps."
+        \ sweeps. Note: Exchange clients accessing this endpoint as a Cross-Margin\
+        \ customer, must pass their designated Exchange UUID as the *entity_id* path\
+        \ parameter. If you do not have this value, please reach out to your dedicated\
+        \ Technical Account Manager."
       operationId: PrimeRESTAPI_GetFuturesSweeps
       parameters:
       - name: entity_id
@@ -2940,8 +2967,11 @@ paths:
       tags:
       - Futures
       summary: Schedule Entity Futures Sweep
-      description: Schedule a sweep for a given entity from FCM wallet to USD Spot
-        wallet. Only one pending sweep is allowed at a time per entity.
+      description: "Schedule a sweep for a given entity from FCM wallet to USD Spot\
+        \ wallet. Only one pending sweep is allowed at a time per entity. Note: Exchange\
+        \ clients accessing this endpoint as a Cross-Margin customer, must pass their\
+        \ designated Exchange UUID as the *entity_id* path parameter. If you do not\
+        \ have this value, please reach out to your dedicated Technical Account Manager."
       operationId: PrimeRESTAPI_ScheduleFuturesSweep
       parameters:
       - name: entity_id
@@ -3012,7 +3042,10 @@ paths:
       summary: Cancel Entity Futures Sweep
       description: "Cancel the pending sweep for a given entity. A user will only\
         \ be able to have one pending sweep at a time. If the sweep is not found,\
-        \ a 404 will be returned."
+        \ a 404 will be returned. Note: Exchange clients accessing this endpoint as\
+        \ a Cross-Margin customer, must pass their designated Exchange UUID as the\
+        \ *entity_id* path parameter. If you do not have this value, please reach\
+        \ out to your dedicated Technical Account Manager."
       operationId: PrimeRESTAPI_CancelFuturesSweep
       parameters:
       - name: entity_id
@@ -15048,7 +15081,7 @@ components:
         - SECONDARY_PERMISSION_UNKNOWN: nil value
          - VIDEO_APPROVER: A video approver
          - TEAM_APPROVER: A team approver
-         - WEB3_SIGNER: A web3 signer
+         - WEB3_SIGNER: A web3/onchain signer
       enum:
       - VIDEO_APPROVER
       - TEAM_APPROVER
@@ -15387,7 +15420,7 @@ components:
           example: ethereum-mainnet
         estimated_asset_changes:
           type: array
-          description: The estimated asset changes (web3)
+          description: The estimated asset changes (web3/onchain)
           items:
             $ref: '#/components/schemas/coinbase.public_rest_api.AssetChange'
         metadata:
