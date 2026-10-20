@@ -1031,6 +1031,10 @@ tags:
     errorCode: PERMISSION_DENIED
     httpStatus: 403
     description: Size-in-quote RFQ requests are not enabled for this portfolio.
+  - name: ORDER_SPREAD_NOT_ENABLED
+    errorCode: VALIDATION_ERROR
+    httpStatus: 400
+    description: SPREAD orders are not enabled for this portfolio.
   - name: CONVERSION_FEE_FEATURE_DISABLED
     errorCode: PERMISSION_DENIED
     httpStatus: 403
@@ -6113,6 +6117,7 @@ paths:
            - STOP_LIMIT: A [conditional order combined of stop order and limit order](https://en.wikipedia.org/wiki/Order_(exchange)#Stop-limit_order)
            - RFQ: A [request for quote](https://en.wikipedia.org/wiki/Request_for_quote)
            - PEG: A pegged order that dynamically adjust based on market conditions while maintaining execution discretion and avoiding adverse selection
+           - SPREAD: A spread order that trades a futures contract against its spot underlying to capture a target basis (futures price - spot price)
         schema:
           type: string
           enum:
@@ -6124,6 +6129,7 @@ paths:
           - STOP_LIMIT
           - RFQ
           - PEG
+          - SPREAD
       - name: cursor
         in: query
         description: "**Deprecated** - this endpoint always returns one page with\
@@ -6585,6 +6591,7 @@ paths:
            - STOP_LIMIT: A [conditional order combined of stop order and limit order](https://en.wikipedia.org/wiki/Order_(exchange)#Stop-limit_order)
            - RFQ: A [request for quote](https://en.wikipedia.org/wiki/Request_for_quote)
            - PEG: A pegged order that dynamically adjust based on market conditions while maintaining execution discretion and avoiding adverse selection
+           - SPREAD: A spread order that trades a futures contract against its spot underlying to capture a target basis (futures price - spot price)
         schema:
           type: string
           enum:
@@ -6596,6 +6603,7 @@ paths:
           - STOP_LIMIT
           - RFQ
           - PEG
+          - SPREAD
       - name: cursor
         in: query
         description: Cursor used for pagination (last consumed record)
@@ -7241,6 +7249,12 @@ paths:
                     Mirrors FIX tag 8090 (QuoteRequestGoodForMs).
                   format: int64
                   example: "5000"
+                is_buy_exact:
+                  type: boolean
+                  description: "Buy Exact order flag. When true, fees for a BUY RFQ\
+                    \ sized in quote_value are charged on top of the requested quote_value\
+                    \ instead of being carved out of it. Only valid for BUY RFQs sized\
+                    \ in quote_value on SPOT products."
               description: based off PostOrderPreviewRequest
         required: true
       responses:
@@ -7639,14 +7653,16 @@ paths:
       - name: start_time
         in: query
         description: "UTC timestamp from which to filter the response (inclusive,\
-          \ ISO-8601 format)"
+          \ ISO-8601 format). This filter is only sensitive to the second; fractional\
+          \ seconds are truncated."
         schema:
           type: string
           format: date-time
       - name: end_time
         in: query
         description: "UTC timestamp until which to filter the response (exclusive,\
-          \ ISO-8601 format)"
+          \ ISO-8601 format). This filter is only sensitive to the second; fractional\
+          \ seconds are truncated."
         schema:
           type: string
           format: date-time
@@ -9333,14 +9349,16 @@ paths:
       - name: start_time
         in: query
         description: "UTC timestamp from which to filter the response (inclusive,\
-          \ ISO-8601 format)"
+          \ ISO-8601 format). This filter is only sensitive to the second; fractional\
+          \ seconds are truncated."
         schema:
           type: string
           format: date-time
       - name: end_time
         in: query
         description: "UTC timestamp until which to filter the response (exclusive,\
-          \ ISO-8601 format)"
+          \ ISO-8601 format). This filter is only sensitive to the second; fractional\
+          \ seconds are truncated."
         schema:
           type: string
           format: date-time
@@ -14191,6 +14209,7 @@ components:
          - STOP_LIMIT: A [conditional order combined of stop order and limit order](https://en.wikipedia.org/wiki/Order_(exchange)#Stop-limit_order)
          - RFQ: A [request for quote](https://en.wikipedia.org/wiki/Request_for_quote)
          - PEG: A pegged order that dynamically adjust based on market conditions while maintaining execution discretion and avoiding adverse selection
+         - SPREAD: A spread order that trades a futures contract against its spot underlying to capture a target basis (futures price - spot price)
       enum:
       - MARKET
       - LIMIT
@@ -14200,6 +14219,7 @@ components:
       - STOP_LIMIT
       - RFQ
       - PEG
+      - SPREAD
     coinbase.public_rest_api.PMAssetInfo:
       type: object
       properties:
@@ -14934,6 +14954,10 @@ components:
             \ the default of 3000 ms (3 seconds)."
           format: int64
           example: "5000"
+        is_buy_exact:
+          type: boolean
+          description: Buy Exact order flag
+          example: false
     coinbase.public_rest_api.RFQProductDetails:
       type: object
       properties:
@@ -15376,8 +15400,14 @@ components:
           example: 2021-05-31T12:09:31Z
         amount:
           type: string
-          description: The transaction amount in whole units
-          example: "100"
+          description: |-
+            The transaction amount (in whole units). For example, "1.50" represents 1.5 of the associated symbol.
+
+            Examples:
+             - "100"
+             - "1.123456" (precision varies by asset; USDC, for example, supports up to 6 decimal places)
+             - "0.50"
+          example: "1.0001"
         transfer_from:
           $ref: '#/components/schemas/coinbase.public_rest_api.TransferLocation'
         transfer_to:
@@ -17414,6 +17444,7 @@ components:
       - ORDER_TIME_IN_FORCE_INVALID
       - ORDER_TIME_RANGE_INVALID
       - ORDER_PEG_OFFSET_TYPE_INVALID
+      - ORDER_SPREAD_NOT_ENABLED
     coinbase.public_rest_api.CreateOrderForbiddenErrorResponse:
       type: object
       properties:
@@ -22372,6 +22403,7 @@ components:
       - ORDER_TIME_IN_FORCE_INVALID
       - ORDER_TIME_RANGE_INVALID
       - ORDER_PEG_OFFSET_TYPE_INVALID
+      - ORDER_SPREAD_NOT_ENABLED
     coinbase.public_rest_api.OrderPreviewForbiddenErrorResponse:
       type: object
       properties:
