@@ -19,7 +19,7 @@
  */
 
 /**
- * - UNKNOWN_WALLET_DEPOSIT_TYPE: nil value  - CRYPTO: A cryptocurrency deposit  - WIRE: A wire deposit  - SEN: DEPRECATED. A Silvergate Exchange Network deposit  - SWIFT: A SWIFT deposit  - SEPA: A SEPA deposit (Single Euro Payments Area)
+ * - UNKNOWN_WALLET_DEPOSIT_TYPE: nil value  - CRYPTO: A cryptocurrency deposit  - WIRE: A wire deposit  - SEN: DEPRECATED. A Silvergate Exchange Network deposit  - SWIFT: A SWIFT deposit  - SEPA: A SEPA deposit (Single Euro Payments Area)  - KINEXYS: A JPM Kinexys deposit
  */
 export enum WalletDepositInstructionType {
   Crypto = 'CRYPTO',
@@ -27,4 +27,5 @@ export enum WalletDepositInstructionType {
   Sen = 'SEN',
   Swift = 'SWIFT',
   Sepa = 'SEPA',
+  Kinexys = 'KINEXYS',
 }

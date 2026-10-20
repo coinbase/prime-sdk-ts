@@ -20,6 +20,7 @@
 
 import { LimitOrderEdit } from './LimitOrderEdit';
 import { CommissionDetailTotal } from './CommissionDetailTotal';
+import { LimitPriceType } from './enums/LimitPriceType';
 import { OrderEdit } from './OrderEdit';
 import { OrderSide } from './enums/OrderSide';
 import { OrderStatus } from './enums/OrderStatus';
@@ -177,4 +178,8 @@ export type Order = {
    * Indicates if this was a buy exact order (fees charged on top of quote size for BUY orders sized in quote)
    */
   isBuyExact?: boolean;
+  /**
+   * LimitPriceType indicates the unit `limit_price` is denominated in. Only meaningful for Deribit options - leave unspecified for every other order type and product, which are always priced in the quote currency.   - UNKNOWN_LIMIT_PRICE_TYPE: nil value - `limit_price` is interpreted in the product\'s default/native unit  - LIMIT_PRICE_TYPE_BASE_ASSET: `limit_price` is denominated in the underlying base asset (e.g. BTC for a BTC option). Only valid for Deribit options settled in the base asset.  - LIMIT_PRICE_TYPE_QUOTE_ASSET: `limit_price` is denominated in the quote asset (e.g. USD/USDC).  - LIMIT_PRICE_TYPE_IMPLIED_VOLATILITY: `limit_price` is an implied volatility percentage rather than a monetary amount (e.g. \"65.5\" means 65.5% implied volatility).
+   */
+  limitPriceType?: LimitPriceType;
 };

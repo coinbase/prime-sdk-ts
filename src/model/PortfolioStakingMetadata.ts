@@ -20,7 +20,7 @@
 
 export type PortfolioStakingMetadata = {
   /**
-   * An optional custom identifier (up to 255 characters) to attach to the transaction.  This is not a searchable transaction field.
+   * An optional custom identifier (up to 255 bytes) to attach to the transaction. This is not a searchable transaction field.
    */
   externalId?: string;
 };

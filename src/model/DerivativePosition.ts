@@ -71,4 +71,8 @@ export type DerivativePosition = {
    * Venue ID of the position
    */
   venueId?: string;
+  /**
+   * Funding PNL, populated only for perpetual futures positions
+   */
+  fundingPnl?: string;
 };

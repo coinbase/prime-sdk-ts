@@ -20,6 +20,18 @@
 
 export enum DeleteOnchainAddressGroupBadRequestSubcode {
   /**
+   * The portfolio_id field is required but was not provided.
+   *
+   * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
+   */
+  PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
+  PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
+  /**
    * The onchain address group create, update, or delete request contained invalid data and could not be processed.
    *
    * Error code: VALIDATION_ERROR (HTTP 400)

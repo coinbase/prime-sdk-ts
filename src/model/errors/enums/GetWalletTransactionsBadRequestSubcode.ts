@@ -38,6 +38,12 @@ export enum GetWalletTransactionsBadRequestSubcode {
    */
   TransactionCursorInvalid = 'TRANSACTION_CURSOR_INVALID',
   /**
+   * The combination of request filters is invalid, such as specifying symbols together with the ONCHAIN_TRANSACTION type.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
+  TransactionFilterInvalid = 'TRANSACTION_FILTER_INVALID',
+  /**
    * One or more request parameters, such as portfolio_id, transaction_ids, cursor, or limit, failed validation.
    *
    * Error code: VALIDATION_ERROR (HTTP 400)

@@ -157,4 +157,10 @@ export enum CreateOrderBadRequestSubcode {
    * Error code: VALIDATION_ERROR (HTTP 400)
    */
   OrderPegOffsetTypeInvalid = 'ORDER_PEG_OFFSET_TYPE_INVALID',
+  /**
+   * SPREAD orders are not enabled for this portfolio.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
+  OrderSpreadNotEnabled = 'ORDER_SPREAD_NOT_ENABLED',
 }

@@ -62,7 +62,7 @@ export type Transaction = {
    */
   completedAt?: Date;
   /**
-   * The transaction amount in whole units
+   * The transaction amount (in whole units). For example, \"1.50\" represents 1.5 of the associated symbol.  Examples:  - \"100\"  - \"1.123456\" (precision varies by asset; USDC, for example, supports up to 6 decimal places)  - \"0.50\"
    */
   amount?: string;
   transferFrom?: TransferLocation;
@@ -97,7 +97,7 @@ export type Transaction = {
    */
   network?: string;
   /**
-   * The estimated asset changes (web3)
+   * The estimated asset changes (web3/onchain)
    */
   estimatedAssetChanges?: Array<AssetChange>;
   metadata?: TransactionMetadata;
