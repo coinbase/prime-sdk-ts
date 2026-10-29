@@ -20,7 +20,7 @@
 
 export type CreateATransferBetweenTwoWallets = {
   /**
-   * The amount in whole units to send
+   * The amount in whole units to transfer. For example, \"1.50\" represents 1.5 of the wallet\'s asset.  Examples:  - \"100\"  - \"1.123456\" (precision varies by asset; USDC, for example, supports up to 6 decimal places)  - \"0.50\"
    */
   amount: string;
   /**

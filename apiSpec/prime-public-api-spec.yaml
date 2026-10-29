@@ -4473,6 +4473,7 @@ paths:
           - ADVANCED_TRANSFER_STATE_CANCELLED
           - ADVANCED_TRANSFER_STATE_FAILED
           - ADVANCED_TRANSFER_STATE_EXPIRED
+          - ADVANCED_TRANSFER_STATE_REJECTED
       - name: type
         in: query
         description: The type of the Advanced Transfer to filter by
@@ -6237,7 +6238,6 @@ paths:
               required:
               - client_order_id
               - product_id
-              - side
               - type
               type: object
               properties:
@@ -6328,6 +6328,12 @@ paths:
                     \ sized in quote_value on SPOT products."
                 limit_price_type:
                   $ref: '#/components/schemas/coinbase.public_rest_api.LimitPriceType'
+                spread_config:
+                  $ref: '#/components/schemas/coinbase.public_rest_api.SpreadConfig'
+              description: "`side` is required for every order type except SPREAD,\
+                \ which must leave it unset: each leg carries its own side in `spread_config`.\
+                \ `spread_config` is required when `type` is SPREAD and must be unset\
+                \ for every other order type."
         required: true
       responses:
         "200":
@@ -6394,7 +6400,6 @@ paths:
             schema:
               required:
               - product_id
-              - side
               - type
               type: object
               properties:
@@ -6478,6 +6483,12 @@ paths:
                     \ sized in quote_value on SPOT products."
                 limit_price_type:
                   $ref: '#/components/schemas/coinbase.public_rest_api.LimitPriceType'
+                spread_config:
+                  $ref: '#/components/schemas/coinbase.public_rest_api.SpreadConfig'
+              description: "`side` is required for every order type except SPREAD,\
+                \ which must leave it unset: each leg carries its own side in `spread_config`.\
+                \ `spread_config` is required when `type` is SPREAD and must be unset\
+                \ for every other order type."
         required: true
       responses:
         "200":
@@ -7111,12 +7122,14 @@ paths:
            - SPOT: Spot product
            - FUTURE: Future product
            - OPTION: Option product
+           - BASIS: Basis product: a futures contract traded against its spot underlying (the product of SPREAD orders)
         schema:
           type: string
           enum:
           - SPOT
           - FUTURE
           - OPTION
+          - BASIS
       - name: contract_expiry_type
         in: query
         description: |-
@@ -8556,7 +8569,13 @@ paths:
               properties:
                 amount:
                   type: string
-                  description: The amount in whole units to convert
+                  description: |-
+                    The amount in whole units to convert. For example, "1.50" represents 1.5 of the source symbol.
+
+                    Examples:
+                     - "100"
+                     - "1.123456" (precision varies by asset; USDC, for example, supports up to 6 decimal places)
+                     - "0.50"
                   example: "50.50"
                 destination:
                   type: string
@@ -9461,7 +9480,14 @@ paths:
               properties:
                 amount:
                   type: string
-                  description: The amount in whole units to send
+                  description: |-
+                    The amount in whole units to transfer. For example, "1.50" represents 1.5 of the wallet's asset.
+
+                    Examples:
+                     - "100"
+                     - "1.123456" (precision varies by asset; USDC, for example, supports up to 6 decimal places)
+                     - "0.50"
+                  example: "1.0001"
                 destination:
                   type: string
                   description: The UUID of the destination wallet
@@ -9647,7 +9673,14 @@ paths:
               properties:
                 amount:
                   type: string
-                  description: The amount in whole units of the withdrawal
+                  description: |-
+                    The amount in whole units to withdraw. For example, "1.50" represents 1.5 of the wallet's asset.
+
+                    Examples:
+                     - "100"
+                     - "1.123456" (precision varies by asset; USDC, for example, supports up to 6 decimal places)
+                     - "0.50"
+                  example: "1.0001"
                 destination_type:
                   $ref: '#/components/schemas/coinbase.public_rest_api.DestinationType'
                 idempotency_key:
@@ -10404,6 +10437,7 @@ components:
       - ADVANCED_TRANSFER_STATE_CANCELLED
       - ADVANCED_TRANSFER_STATE_FAILED
       - ADVANCED_TRANSFER_STATE_EXPIRED
+      - ADVANCED_TRANSFER_STATE_REJECTED
     coinbase.public_rest_api.AdvancedTransferType:
       type: string
       description: AdvancedTransferType specifies the type of advanced transfer.
@@ -11053,7 +11087,13 @@ components:
           example: USDC
         amount:
           type: string
-          description: The amount in whole units to convert
+          description: |-
+            The amount in whole units to convert. For example, "1.50" represents 1.5 of the source symbol.
+
+            Examples:
+             - "100"
+             - "1.123456" (precision varies by asset; USDC, for example, supports up to 6 decimal places)
+             - "0.50"
           example: "50.50"
         destination:
           type: string
@@ -13064,6 +13104,48 @@ components:
       - INVOICE_TYPE_WITHDRAWAL_FEE
       - INVOICE_TYPE_NEW_WALLET_FEE
       - INVOICE_TYPE_STAKING_FEE
+    coinbase.public_rest_api.Leg:
+      title: One leg of a SPREAD order
+      type: object
+      properties:
+        product_id:
+          title: "Product ID of the leg, e.g. BTC-USD for spot or BIT-27JUN25-CDE\
+            \ for futures"
+          type: string
+        side:
+          $ref: '#/components/schemas/coinbase.public_rest_api.OrderSide'
+        support_passive_order:
+          type: boolean
+          description: Whether this leg may rest passively on the book. At least one
+            leg must be true.
+    coinbase.public_rest_api.LegPreview:
+      title: Preview values for one leg of a SPREAD order
+      type: object
+      properties:
+        product_id:
+          type: string
+        side:
+          $ref: '#/components/schemas/coinbase.public_rest_api.OrderSide'
+        support_passive_order:
+          type: boolean
+        leg_commission:
+          title: Estimated commission for this leg
+          type: string
+        quote_value:
+          title: Estimated notional of this leg in quote currency
+          type: string
+        best_bid:
+          title: Current best bid for this leg's order book
+          type: string
+        best_ask:
+          title: Current best ask for this leg's order book
+          type: string
+        average_filled_price:
+          title: Estimated average fill price for this leg
+          type: string
+        slippage:
+          title: Expected slippage for this leg
+          type: string
     coinbase.public_rest_api.LimitPriceType:
       type: string
       description: |-
@@ -13680,6 +13762,18 @@ components:
         settlement_date:
           type: string
           description: The settlement date of the match
+    coinbase.public_rest_api.MaxDeltaType:
+      title: Unit of a SPREAD order's max delta size
+      type: string
+      description: |-
+        - UNKNOWN_MAX_DELTA_TYPE: nil value
+         - MAX_DELTA_TYPE_SPOT: Absolute size in spot base units
+         - MAX_DELTA_TYPE_PERCENT: Percentage of the order size
+         - MAX_DELTA_TYPE_CONTRACT: Absolute number of futures contracts
+      enum:
+      - MAX_DELTA_TYPE_SPOT
+      - MAX_DELTA_TYPE_PERCENT
+      - MAX_DELTA_TYPE_CONTRACT
     coinbase.public_rest_api.NFTCollection:
       type: object
       properties:
@@ -13988,7 +14082,8 @@ components:
         limit_price:
           type: string
           description: "The limit price (required for TWAP, VWAP, LIMIT and STOP_LIMIT\
-            \ orders)"
+            \ orders). Empty for SPREAD orders, which carry a spread limit in `spread_details`\
+            \ instead"
           example: "50.12"
         start_time:
           type: string
@@ -14131,6 +14226,8 @@ components:
           example: false
         limit_price_type:
           $ref: '#/components/schemas/coinbase.public_rest_api.LimitPriceType'
+        spread_details:
+          $ref: '#/components/schemas/coinbase.public_rest_api.SpreadDetails'
     coinbase.public_rest_api.OrderEdit:
       type: object
       properties:
@@ -14620,6 +14717,32 @@ components:
           example: false
         option_greeks:
           $ref: '#/components/schemas/coinbase.public_rest_api.OptionGreeks'
+        spread_preview:
+          $ref: '#/components/schemas/coinbase.public_rest_api.SpreadPreview'
+        current_margin_utilization:
+          type: string
+          description: "Futures and SPREAD orders only: amount of the portfolio's\
+            \ derivatives margin limit used before this order. For cross-margin portfolios,\
+            \ the cross-margin limit consumed."
+          example: "12000.00"
+        current_margin_utilization_ratio:
+          type: string
+          description: "Futures and SPREAD orders only: `current_margin_utilization`\
+            \ as a percentage of the margin limit (0-100, e.g. \"1.2\" means 1.2%,\
+            \ not a 0-1 decimal)"
+          example: "1.2"
+        projected_margin_utilization:
+          type: string
+          description: "Futures and SPREAD orders only: amount of the portfolio's\
+            \ derivatives margin limit used if this order fills. For cross-margin\
+            \ portfolios, the cross-margin limit consumed."
+          example: "36480.00"
+        projected_margin_utilization_ratio:
+          type: string
+          description: "Futures and SPREAD orders only: `projected_margin_utilization`\
+            \ as a percentage of the margin limit (0-100, e.g. \"3.6\" means 3.6%,\
+            \ not a 0-1 decimal)"
+          example: "3.6"
     coinbase.public_rest_api.PostTradeCreditInformation:
       type: object
       properties:
@@ -14927,10 +15050,12 @@ components:
          - SPOT: Spot product
          - FUTURE: Future product
          - OPTION: Option product
+         - BASIS: Basis product: a futures contract traded against its spot underlying (the product of SPREAD orders)
       enum:
       - SPOT
       - FUTURE
       - OPTION
+      - BASIS
     coinbase.public_rest_api.QuoteResponse:
       title: Copied from https://github.cbhq.net/institutional/trading/blob/3e6da61aceb64c7cbe6f0c0f8fbdb98fd3e868dc/proxy/trading/protos/coinbase/brokerage/proxy/trading/api/orderentry.proto#L366-L370
       type: object
@@ -15184,6 +15309,109 @@ components:
       enum:
       - DESC
       - ASC
+    coinbase.public_rest_api.SpreadConfig:
+      title: Configuration of a SPREAD order
+      type: object
+      properties:
+        limit:
+          type: string
+          description: |-
+            Worst acceptable spread (futures - spot), signed decimal. A buy-futures spread executes
+            when the spread is at or below the limit, a sell-futures spread when it is at or above.
+        limit_type:
+          $ref: '#/components/schemas/coinbase.public_rest_api.SpreadLimitType'
+        max_delta_size:
+          title: "Maximum allowed difference between the filled sizes of the two legs,\
+            \ in the unit given by `max_delta_type`"
+          type: string
+        max_delta_type:
+          $ref: '#/components/schemas/coinbase.public_rest_api.MaxDeltaType'
+        primary_leg:
+          $ref: '#/components/schemas/coinbase.public_rest_api.Leg'
+        secondary_leg:
+          $ref: '#/components/schemas/coinbase.public_rest_api.Leg'
+    coinbase.public_rest_api.SpreadDetails:
+      title: "A SPREAD order as placed and executed: the spread configuration, the\
+        \ spread product and each leg's fills"
+      type: object
+      properties:
+        limit:
+          title: "The spread limit the order was placed with, see `SpreadConfig.limit`"
+          type: string
+        limit_type:
+          $ref: '#/components/schemas/coinbase.public_rest_api.SpreadLimitType'
+        max_delta_size:
+          title: "The max delta size the order was placed with, see `SpreadConfig.max_delta_size`"
+          type: string
+        max_delta_type:
+          $ref: '#/components/schemas/coinbase.public_rest_api.MaxDeltaType'
+        group_product_id:
+          title: "Product ID of the spread product the order is placed on, in the\
+            \ form <futures product_id>:<spot product_id> (back month:front month\
+            \ for a futures-futures spread), e.g. BIT-27JUN25-CDE:BTC-USD"
+          type: string
+        realized_spread:
+          title: "Realized spread of the fills so far, as a price difference in the\
+            \ quote currency: the futures leg's average filled price minus the spot\
+            \ leg's (back month minus front month for a futures-futures spread). Empty\
+            \ until both legs have fills"
+          type: string
+        primary_leg:
+          $ref: '#/components/schemas/coinbase.public_rest_api.SpreadLegDetails'
+        secondary_leg:
+          $ref: '#/components/schemas/coinbase.public_rest_api.SpreadLegDetails'
+    coinbase.public_rest_api.SpreadLegDetails:
+      title: One leg of a SPREAD order as placed and executed
+      type: object
+      properties:
+        product_id:
+          title: "Product ID of the leg, e.g. BTC-USD or BIT-27JUN25-CDE"
+          type: string
+        side:
+          $ref: '#/components/schemas/coinbase.public_rest_api.OrderSide'
+        support_passive_order:
+          title: Whether this leg may rest passively on the book
+          type: boolean
+        filled_quantity:
+          title: "Quantity filled on this leg, in its units: contracts for a futures\
+            \ product, base units for spot"
+          type: string
+        average_filled_price:
+          title: "Average price of this leg's fills, per unit of the underlying"
+          type: string
+        commission:
+          title: Commission charged on this leg so far
+          type: string
+    coinbase.public_rest_api.SpreadLimitType:
+      title: Unit of a SPREAD order's spread limit
+      type: string
+      description: |-
+        - UNKNOWN_SPREAD_LIMIT_TYPE: nil value
+         - SPREAD_LIMIT_TYPE_BPS: Limit in basis points of the spot price
+         - SPREAD_LIMIT_TYPE_USD: Limit in USD
+      enum:
+      - SPREAD_LIMIT_TYPE_BPS
+      - SPREAD_LIMIT_TYPE_USD
+    coinbase.public_rest_api.SpreadPreview:
+      title: "SPREAD order preview: the submitted configuration plus per-leg values"
+      type: object
+      properties:
+        limit:
+          type: string
+        limit_type:
+          $ref: '#/components/schemas/coinbase.public_rest_api.SpreadLimitType'
+        max_delta_size:
+          type: string
+        max_delta_type:
+          $ref: '#/components/schemas/coinbase.public_rest_api.MaxDeltaType'
+        group_product_id:
+          title: "Product ID of the spread product, in the form <futures product_id>:<spot\
+            \ product_id>"
+          type: string
+        primary_leg:
+          $ref: '#/components/schemas/coinbase.public_rest_api.LegPreview'
+        secondary_leg:
+          $ref: '#/components/schemas/coinbase.public_rest_api.LegPreview'
     coinbase.public_rest_api.StakeType:
       type: string
       enum:

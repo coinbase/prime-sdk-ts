@@ -22,8 +22,12 @@ import { LimitPriceType } from './enums/LimitPriceType';
 import { OrderSide } from './enums/OrderSide';
 import { OrderType } from './enums/OrderType';
 import { PegOffsetType } from './enums/PegOffsetType';
+import { SpreadConfig } from './SpreadConfig';
 import { TimeInForceType } from './enums/TimeInForceType';
 
+/**
+ * `side` is required for every order type except SPREAD, which must leave it unset: each leg carries its own side in `spread_config`. `spread_config` is required when `type` is SPREAD and must be unset for every other order type.
+ */
 export type OrderPreviewRequest = {
   /**
    * The ID of the product being traded for the order (e.g. `BTC-USD`)
@@ -32,7 +36,7 @@ export type OrderPreviewRequest = {
   /**
    * Order side
    */
-  side: OrderSide;
+  side?: OrderSide;
   /**
    * Strategy (execution algorithm)
    */
@@ -109,4 +113,8 @@ export type OrderPreviewRequest = {
    * LimitPriceType indicates the unit `limit_price` is denominated in. Only meaningful for Deribit options - leave unspecified for every other order type and product, which are always priced in the quote currency.   - UNKNOWN_LIMIT_PRICE_TYPE: nil value - `limit_price` is interpreted in the product\'s default/native unit  - LIMIT_PRICE_TYPE_BASE_ASSET: `limit_price` is denominated in the underlying base asset (e.g. BTC for a BTC option). Only valid for Deribit options settled in the base asset.  - LIMIT_PRICE_TYPE_QUOTE_ASSET: `limit_price` is denominated in the quote asset (e.g. USD/USDC).  - LIMIT_PRICE_TYPE_IMPLIED_VOLATILITY: `limit_price` is an implied volatility percentage rather than a monetary amount (e.g. \"65.5\" means 65.5% implied volatility).
    */
   limitPriceType?: LimitPriceType;
+  /**
+   * Configuration of a SPREAD order
+   */
+  spreadConfig?: SpreadConfig;
 };

@@ -26,6 +26,7 @@ import { OrderSide } from './enums/OrderSide';
 import { OrderStatus } from './enums/OrderStatus';
 import { OrderType } from './enums/OrderType';
 import { ProductType } from './enums/ProductType';
+import { SpreadDetails } from './SpreadDetails';
 import { TimeInForceType } from './enums/TimeInForceType';
 
 export type Order = {
@@ -66,7 +67,7 @@ export type Order = {
    */
   quoteValue?: string;
   /**
-   * The limit price (required for TWAP, VWAP, LIMIT and STOP_LIMIT orders)
+   * The limit price (required for TWAP, VWAP, LIMIT and STOP_LIMIT orders). Empty for SPREAD orders, which carry a spread limit in `spread_details` instead
    */
   limitPrice?: string;
   /**
@@ -182,4 +183,8 @@ export type Order = {
    * LimitPriceType indicates the unit `limit_price` is denominated in. Only meaningful for Deribit options - leave unspecified for every other order type and product, which are always priced in the quote currency.   - UNKNOWN_LIMIT_PRICE_TYPE: nil value - `limit_price` is interpreted in the product\'s default/native unit  - LIMIT_PRICE_TYPE_BASE_ASSET: `limit_price` is denominated in the underlying base asset (e.g. BTC for a BTC option). Only valid for Deribit options settled in the base asset.  - LIMIT_PRICE_TYPE_QUOTE_ASSET: `limit_price` is denominated in the quote asset (e.g. USD/USDC).  - LIMIT_PRICE_TYPE_IMPLIED_VOLATILITY: `limit_price` is an implied volatility percentage rather than a monetary amount (e.g. \"65.5\" means 65.5% implied volatility).
    */
   limitPriceType?: LimitPriceType;
+  /**
+   * A SPREAD order as placed and executed: the spread configuration, the spread product and each leg\'s fills
+   */
+  spreadDetails?: SpreadDetails;
 };

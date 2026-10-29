@@ -21,6 +21,7 @@
 import { OptionGreeks } from './OptionGreeks';
 import { OrderSide } from './enums/OrderSide';
 import { OrderType } from './enums/OrderType';
+import { SpreadPreview } from './SpreadPreview';
 import { TimeInForceType } from './enums/TimeInForceType';
 
 export type PostOrderPreviewResponse = {
@@ -120,4 +121,24 @@ export type PostOrderPreviewResponse = {
    * Greeks of one option contract as quoted by the venue, not scaled by order size or side.
    */
   optionGreeks?: OptionGreeks;
+  /**
+   * SPREAD order preview: the submitted configuration plus per-leg values
+   */
+  spreadPreview?: SpreadPreview;
+  /**
+   * Futures and SPREAD orders only: amount of the portfolio\'s derivatives margin limit used before this order. For cross-margin portfolios, the cross-margin limit consumed.
+   */
+  currentMarginUtilization?: string;
+  /**
+   * Futures and SPREAD orders only: `current_margin_utilization` as a percentage of the margin limit (0-100, e.g. \"1.2\" means 1.2%, not a 0-1 decimal)
+   */
+  currentMarginUtilizationRatio?: string;
+  /**
+   * Futures and SPREAD orders only: amount of the portfolio\'s derivatives margin limit used if this order fills. For cross-margin portfolios, the cross-margin limit consumed.
+   */
+  projectedMarginUtilization?: string;
+  /**
+   * Futures and SPREAD orders only: `projected_margin_utilization` as a percentage of the margin limit (0-100, e.g. \"3.6\" means 3.6%, not a 0-1 decimal)
+   */
+  projectedMarginUtilizationRatio?: string;
 };
