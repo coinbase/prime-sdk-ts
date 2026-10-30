@@ -29,6 +29,7 @@ export type { CancelAdvancedTransferResponse } from './CancelAdvancedTransferRes
 export type { CancelFuturesSweepResponse } from './CancelFuturesSweepResponse';
 export type { CancelOrderResponse } from './CancelOrderResponse';
 export type { Candle } from './Candle';
+export type { CoinbaseFee } from './CoinbaseFee';
 export type { ComboLeg } from './ComboLeg';
 export type { Commission } from './Commission';
 export type { CommissionDetailTotal } from './CommissionDetailTotal';

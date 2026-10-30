@@ -13885,7 +13885,9 @@ components:
       properties:
         signed_transaction:
           type: string
-          description: The signed transaction data
+          description: "The hex-encoded signed transaction. Only returned for transactions\
+            \ created with skip_broadcast set to true; empty for all other transactions,\
+            \ including broadcast transactions that have been signed."
           example: 01ac1872bb2967df00124a7fd15e470a10aab04852e19fc6f...
         risk_assessment:
           $ref: '#/components/schemas/coinbase.public_rest_api.RiskAssessment'
@@ -13918,6 +13920,18 @@ components:
           example: insufficient_funds
         signing_status:
           $ref: '#/components/schemas/coinbase.public_rest_api.SigningStatus'
+        original_unsigned_transaction:
+          type: string
+          description: "The hex-encoded unsigned transaction exactly as submitted\
+            \ when the transaction was created. This value is never updated. Before\
+            \ signing, Prime may set the nonce, network fees, or gas limit on EVM\
+            \ transactions, or refresh the recent blockhash on Solana transactions,\
+            \ so the transaction that is signed and broadcast can differ from this\
+            \ payload. The transfer amount is only changed for EVM transactions initiated\
+            \ as a maximum transfer of the network's native asset, where Prime lowers\
+            \ it so that the amount plus network fees does not exceed the wallet's\
+            \ current balance."
+          example: 02f872818980850db7504633854f33d9a27882c1a4947ceb23fd6bc0add59e62ac25578270cff1b9f61980b844a9059cbb...
     coinbase.public_rest_api.OptionGreeks:
       type: object
       properties:
@@ -15693,6 +15707,30 @@ components:
           $ref: '#/components/schemas/coinbase.public_rest_api.Network'
         process_requirements:
           $ref: '#/components/schemas/coinbase.public_rest_api.ProcessRequirements'
+        coinbase_fees:
+          type: array
+          description: Coinbase fees charged on an Advanced Transfer. Set on the
+            transfer, where fees is 0. The send reports the same charge on fees
+            and fee_symbol and omits this list. Adding the list to the send's
+            fees counts the charge twice. Empty when not applicable.
+          items:
+            $ref: '#/components/schemas/coinbase.public_rest_api.CoinbaseFee'
+    coinbase.public_rest_api.CoinbaseFee:
+      type: object
+      properties:
+        amount:
+          type: string
+          description: The fee amount in whole units of the fee symbol
+          example: "0.05"
+        symbol:
+          type: string
+          description: The asset symbol in which the fee was charged
+          example: USDC
+        wallet_id:
+          type: string
+          description: The wallet that paid the fee
+          example: cde8dd34-b6cf-4c2c-82bc-5f86adacc868
+      description: A Coinbase fee charged on an Advanced Transfer.
     coinbase.public_rest_api.TransactionMetadata:
       type: object
       properties:

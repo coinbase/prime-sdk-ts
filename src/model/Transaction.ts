@@ -19,6 +19,7 @@
  */
 
 import { AssetChange } from './AssetChange';
+import { CoinbaseFee } from './CoinbaseFee';
 import { EstimatedNetworkFees } from './EstimatedNetworkFees';
 import { Network } from './Network';
 import { OnchainTransactionDetails } from './OnchainTransactionDetails';
@@ -111,4 +112,8 @@ export type Transaction = {
    * Represents the status of various process requirements for a transaction
    */
   processRequirements?: ProcessRequirements;
+  /**
+   * Coinbase fees charged on an Advanced Transfer. Set on the transfer, where fees is 0. The send reports the same charge on fees and fee_symbol and omits this list. Adding the list to the send\'s fees counts the charge twice. Empty when not applicable.
+   */
+  coinbaseFees?: Array<CoinbaseFee>;
 };

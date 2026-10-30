@@ -23,7 +23,7 @@ import { SigningStatus } from './enums/SigningStatus';
 
 export type OnchainTransactionDetails = {
   /**
-   * The signed transaction data
+   * The hex-encoded signed transaction. Only returned for transactions created with skip_broadcast set to true; empty for all other transactions, including broadcast transactions that have been signed.
    */
   signedTransaction?: string;
   /**
@@ -58,4 +58,8 @@ export type OnchainTransactionDetails = {
    * - SIGNING_STATUS_UNKNOWN: Unknown signing status  - SIGNED: Transaction has been signed  - UNSIGNED: Transaction is unsigned
    */
   signingStatus?: SigningStatus;
+  /**
+   * The hex-encoded unsigned transaction exactly as submitted when the transaction was created. This value is never updated. Before signing, Prime may set the nonce, network fees, or gas limit on EVM transactions, or refresh the recent blockhash on Solana transactions, so the transaction that is signed and broadcast can differ from this payload. The transfer amount is only changed for EVM transactions initiated as a maximum transfer of the network\'s native asset, where Prime lowers it so that the amount plus network fees does not exceed the wallet\'s current balance.
+   */
+  originalUnsignedTransaction?: string;
 };
