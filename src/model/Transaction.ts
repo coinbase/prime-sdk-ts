@@ -69,15 +69,15 @@ export type Transaction = {
   transferFrom?: TransferLocation;
   transferTo?: TransferLocation;
   /**
-   * The blockchain network fees (in whole units) required in order to broadcast the transaction
+   * The blockchain network fees (in whole units) required in order to broadcast the transaction. Does not carry the Advanced Transfer Coinbase fee.
    */
   networkFees?: string;
   /**
-   * The fees that the customer paid for the transaction (in whole units)
+   * The charged fee (in whole units). On the transfer, coinbase_fees is set and fees is 0. On the send, the same charge is on fees and fee_symbol, and coinbase_fees is omitted. Crypto and fiat sends that belong to the transfer use those transfer and send fields. A bank withdrawal that is not part of the transfer is unchanged.
    */
   fees?: string;
   /**
-   * The asset in which fees will be paid
+   * The asset in which fees is denominated. On the send, the same charge is on fees and fee_symbol, and coinbase_fees is omitted. On the transfer, fee_symbol is empty.
    */
   feeSymbol?: string;
   /**
@@ -113,7 +113,7 @@ export type Transaction = {
    */
   processRequirements?: ProcessRequirements;
   /**
-   * Coinbase fees charged on an Advanced Transfer. Set on the transfer, where fees is 0. The send reports the same charge on fees and fee_symbol and omits this list. Adding the list to the send\'s fees counts the charge twice. Empty when not applicable.
+   * Coinbase fees on the transfer (amount, symbol, wallet_id), where fees is 0. On the send, the same charge is on fees and fee_symbol, and coinbase_fees is omitted. When you total fees, do not add coinbase_fees from the transfer to the send\'s fees, or you will count the charge twice. A wallet transaction list includes the fees paid by that wallet. Get Transaction and the portfolio transaction list include every fee paid in the requesting portfolio. Fees paid in the counterparty\'s portfolio are omitted.
    */
   coinbaseFees?: Array<CoinbaseFee>;
 };

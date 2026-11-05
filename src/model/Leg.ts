@@ -22,7 +22,7 @@ import { OrderSide } from './enums/OrderSide';
 
 export type Leg = {
   /**
-   * Product ID of the leg, e.g. BTC-USD for spot or BIT-27JUN25-CDE for futures
+   * Product ID of the leg, e.g. BTC-USD for spot or BIP-20DEC30-CDE for futures
    */
   productId?: string;
   /**

@@ -141,4 +141,8 @@ export type PostOrderPreviewResponse = {
    * Futures and SPREAD orders only: `projected_margin_utilization` as a percentage of the margin limit (0-100, e.g. \"3.6\" means 3.6%, not a 0-1 decimal)
    */
   projectedMarginUtilizationRatio?: string;
+  /**
+   * The requested `settl_currency`, echoed
+   */
+  settlCurrency?: string;
 };

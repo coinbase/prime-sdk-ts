@@ -40,11 +40,11 @@ export type SpreadDetails = {
    */
   maxDeltaType?: MaxDeltaType;
   /**
-   * Product ID of the spread product the order is placed on, in the form <futures product_id>:<spot product_id> (back month:front month for a futures-futures spread), e.g. BIT-27JUN25-CDE:BTC-USD
+   * Product ID of the spread product the order is placed on, in the form <futures product_id>:<spot product_id> (back month:front month for a futures-futures spread), e.g. BIP-20DEC30-CDE:BTC-USD
    */
   groupProductId?: string;
   /**
-   * Realized spread of the fills so far, as a price difference in the quote currency: the futures leg\'s average filled price minus the spot leg\'s (back month minus front month for a futures-futures spread). Empty until both legs have fills
+   * Realized spread of the fills so far, in the unit of `limit_type`: for SPREAD_LIMIT_TYPE_USD the futures leg\'s average filled price minus the spot leg\'s, in the quote currency; for SPREAD_LIMIT_TYPE_BPS that difference in basis points of the spot leg\'s average filled price ((futures / spot - 1) x 10000). For a futures-futures spread, back month in place of futures and front month in place of spot. Empty until both legs have fills
    */
   realizedSpread?: string;
   /**

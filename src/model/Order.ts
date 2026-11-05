@@ -59,11 +59,11 @@ export type Order = {
    */
   type?: OrderType;
   /**
-   * Order size in base asset units (either `base_quantity` or `quote_value` is required)
+   * Order size in base asset units (either `base_quantity` or `quote_value` is required). For SPREAD orders, in the primary leg\'s units: a whole number of contracts when it is a futures product
    */
   baseQuantity?: string;
   /**
-   * Order size in quote asset units, i.e. the amount the user wants to spend (when buying) or receive (when selling); the quantity in base units will be determined based on the market liquidity and indicated `quote_value`. Either `base_quantity` or `quote_value` is required
+   * Order size in quote asset units, i.e. the amount the user wants to spend (when buying) or receive (when selling); the quantity in base units will be determined based on the market liquidity and indicated `quote_value`. Either `base_quantity` or `quote_value` is required. Not supported for SPREAD orders
    */
   quoteValue?: string;
   /**
@@ -91,23 +91,23 @@ export type Order = {
    */
   createdAt?: Date;
   /**
-   * Size filled (in base asset units)
+   * Size filled (in base asset units). Empty for SPREAD orders, whose legs fill in different units; see `spread_details` for each leg\'s value
    */
   filledQuantity?: string;
   /**
-   * Market value filled (in quote asset units)
+   * Market value filled (in quote asset units). For SPREAD orders, the sum of both legs\' filled values
    */
   filledValue?: string;
   /**
-   * Indicates the average `filled_price`
+   * Indicates the average `filled_price`. Empty for SPREAD orders; see `spread_details` for each leg\'s value
    */
   averageFilledPrice?: string;
   /**
-   * Total commission paid on this order (in quote asset units) -- only applicable for partially- or fully-filled orders
+   * Total commission paid on this order (in quote asset units) -- only applicable for partially- or fully-filled orders. For SPREAD orders, the sum of both legs\' commissions; `commission_detail_total` is empty and each leg\'s breakdown is in `spread_details`
    */
   commission?: string;
   /**
-   * Fee charged by the exchange for Cost Plus commission configurations. Exchange fee will be 0 for All In commission configurations.
+   * Fee charged by the exchange for Cost Plus commission configurations. Exchange fee will be 0 for All In commission configurations. For SPREAD orders, the sum of both legs\' exchange fees (`spread_details.primary_leg.exchange_fee` and `spread_details.secondary_leg.exchange_fee`).
    */
   exchangeFee?: string;
   /**
@@ -119,7 +119,7 @@ export type Order = {
    */
   stopPrice?: string;
   /**
-   * Indicates the average `filled_price` net of commissions and fees
+   * Indicates the average `filled_price` net of commissions and fees. Empty for SPREAD orders; see `spread_details` for each leg\'s value
    */
   netAverageFilledPrice?: string;
   /**

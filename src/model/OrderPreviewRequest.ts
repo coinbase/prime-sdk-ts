@@ -42,11 +42,11 @@ export type OrderPreviewRequest = {
    */
   type: OrderType;
   /**
-   * Order size in base asset units (either `base_quantity` or `quote_value` is required)
+   * Order size in base asset units (either `base_quantity` or `quote_value` is required). For SPREAD orders, required and in the primary leg\'s units: a whole number of contracts when it is a futures product
    */
   baseQuantity?: string;
   /**
-   * Order size in quote asset units, i.e. the amount the user wants to spend (when buying) or receive (when selling); the quantity in base units will be determined based on the market liquidity and indicated `quote_value` (either `base_quantity` or `quote_value` is required)
+   * Order size in quote asset units, i.e. the amount the user wants to spend (when buying) or receive (when selling); the quantity in base units will be determined based on the market liquidity and indicated `quote_value` (either `base_quantity` or `quote_value` is required). Not supported for SPREAD orders
    */
   quoteValue?: string;
   /**

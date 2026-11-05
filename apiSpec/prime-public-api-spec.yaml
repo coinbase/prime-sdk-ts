@@ -4807,11 +4807,13 @@ paths:
            - UNKNOWN_ORDER_SIDE: nil value
            - BUY: Buy order
            - SELL: Sell order
+           - MULTIPLE: Response only: a SPREAD order, whose legs carry their own sides (see `spread_details`); not accepted in requests
         schema:
           type: string
           enum:
           - BUY
           - SELL
+          - MULTIPLE
       - name: start_date
         in: query
         description: A start date for the allocations to be queried from.
@@ -6118,7 +6120,7 @@ paths:
            - STOP_LIMIT: A [conditional order combined of stop order and limit order](https://en.wikipedia.org/wiki/Order_(exchange)#Stop-limit_order)
            - RFQ: A [request for quote](https://en.wikipedia.org/wiki/Request_for_quote)
            - PEG: A pegged order that dynamically adjust based on market conditions while maintaining execution discretion and avoiding adverse selection
-           - SPREAD: A spread order that trades a futures contract against its spot underlying to capture a target basis (futures price - spot price)
+           - SPREAD: A spread order that trades a futures contract against its spot underlying, or against another futures contract of the same underlying (calendar spread), to capture a target spread (futures price - spot price, or back month - front month)
         schema:
           type: string
           enum:
@@ -6168,11 +6170,13 @@ paths:
            - UNKNOWN_ORDER_SIDE: nil value
            - BUY: Buy order
            - SELL: Sell order
+           - MULTIPLE: Response only: a SPREAD order, whose legs carry their own sides (see `spread_details`); not accepted in requests
         schema:
           type: string
           enum:
           - BUY
           - SELL
+          - MULTIPLE
       - name: end_date
         in: query
         description: An end date for the orders to be queried from
@@ -6252,15 +6256,17 @@ paths:
                 type:
                   $ref: '#/components/schemas/coinbase.public_rest_api.OrderType'
                 base_quantity:
-                  title: Order size in base asset units (either `base_quantity` or
-                    `quote_value` is required)
+                  title: "Order size in base asset units (either `base_quantity` or\
+                    \ `quote_value` is required). For SPREAD orders, required and\
+                    \ in the primary leg's units: a whole number of contracts when\
+                    \ it is a futures product"
                   type: string
                 quote_value:
                   title: "Order size in quote asset units, i.e. the amount the user\
                     \ wants to spend (when buying) or receive (when selling); the\
                     \ quantity in base units will be determined based on the market\
                     \ liquidity and indicated `quote_value` (either `base_quantity`\
-                    \ or `quote_value` is required)"
+                    \ or `quote_value` is required). Not supported for SPREAD orders"
                   type: string
                 limit_price:
                   title: "The limit price (required for TWAP, VWAP, LIMIT, and STOP_LIMIT\
@@ -6411,15 +6417,17 @@ paths:
                 type:
                   $ref: '#/components/schemas/coinbase.public_rest_api.OrderType'
                 base_quantity:
-                  title: Order size in base asset units (either `base_quantity` or
-                    `quote_value` is required)
+                  title: "Order size in base asset units (either `base_quantity` or\
+                    \ `quote_value` is required). For SPREAD orders, required and\
+                    \ in the primary leg's units: a whole number of contracts when\
+                    \ it is a futures product"
                   type: string
                 quote_value:
                   title: "Order size in quote asset units, i.e. the amount the user\
                     \ wants to spend (when buying) or receive (when selling); the\
                     \ quantity in base units will be determined based on the market\
                     \ liquidity and indicated `quote_value` (either `base_quantity`\
-                    \ or `quote_value` is required)"
+                    \ or `quote_value` is required). Not supported for SPREAD orders"
                   type: string
                 limit_price:
                   title: "The limit price (required for TWAP, VWAP, LIMIT and STOP_LIMIT\
@@ -6602,7 +6610,7 @@ paths:
            - STOP_LIMIT: A [conditional order combined of stop order and limit order](https://en.wikipedia.org/wiki/Order_(exchange)#Stop-limit_order)
            - RFQ: A [request for quote](https://en.wikipedia.org/wiki/Request_for_quote)
            - PEG: A pegged order that dynamically adjust based on market conditions while maintaining execution discretion and avoiding adverse selection
-           - SPREAD: A spread order that trades a futures contract against its spot underlying to capture a target basis (futures price - spot price)
+           - SPREAD: A spread order that trades a futures contract against its spot underlying, or against another futures contract of the same underlying (calendar spread), to capture a target spread (futures price - spot price, or back month - front month)
         schema:
           type: string
           enum:
@@ -6643,11 +6651,13 @@ paths:
            - UNKNOWN_ORDER_SIDE: nil value
            - BUY: Buy order
            - SELL: Sell order
+           - MULTIPLE: Response only: a SPREAD order, whose legs carry their own sides (see `spread_details`); not accepted in requests
         schema:
           type: string
           enum:
           - BUY
           - SELL
+          - MULTIPLE
       - name: start_date
         in: query
         description: A start date for the orders to be queried from
@@ -7122,7 +7132,7 @@ paths:
            - SPOT: Spot product
            - FUTURE: Future product
            - OPTION: Option product
-           - BASIS: Basis product: a futures contract traded against its spot underlying (the product of SPREAD orders)
+           - BASIS: Basis product: a futures contract traded against its spot underlying, or against another futures contract of the same underlying (calendar spread); the product of SPREAD orders
         schema:
           type: string
           enum:
@@ -10424,6 +10434,12 @@ components:
             $ref: '#/components/schemas/coinbase.public_rest_api.FundMovement'
         blind_match_metadata:
           $ref: '#/components/schemas/coinbase.public_rest_api.BlindMatchMetadata'
+        coinbase_fees:
+          type: array
+          items:
+            $ref: '#/components/schemas/coinbase.public_rest_api.CoinbaseFee'
+          description: Coinbase fees charged to this portfolio's wallets on this Advanced
+            Transfer. Empty on create and when no fee applies.
       description: AdvancedTransfer represents a complex transfer operation such as
         a blind match settlement.
     coinbase.public_rest_api.AdvancedTransferState:
@@ -13109,7 +13125,7 @@ components:
       type: object
       properties:
         product_id:
-          title: "Product ID of the leg, e.g. BTC-USD for spot or BIT-27JUN25-CDE\
+          title: "Product ID of the leg, e.g. BTC-USD for spot or BIP-20DEC30-CDE\
             \ for futures"
           type: string
         side:
@@ -14083,15 +14099,17 @@ components:
           $ref: '#/components/schemas/coinbase.public_rest_api.OrderType'
         base_quantity:
           type: string
-          description: Order size in base asset units (either `base_quantity` or `quote_value`
-            is required)
+          description: "Order size in base asset units (either `base_quantity` or\
+            \ `quote_value` is required). For SPREAD orders, in the primary leg's\
+            \ units: a whole number of contracts when it is a futures product"
           example: "50"
         quote_value:
           type: string
           description: "Order size in quote asset units, i.e. the amount the user\
             \ wants to spend (when buying) or receive (when selling); the quantity\
             \ in base units will be determined based on the market liquidity and indicated\
-            \ `quote_value`. Either `base_quantity` or `quote_value` is required"
+            \ `quote_value`. Either `base_quantity` or `quote_value` is required.\
+            \ Not supported for SPREAD orders"
           example: "100"
         limit_price:
           type: string
@@ -14122,25 +14140,33 @@ components:
           example: 2021-05-31T10:59:59Z
         filled_quantity:
           type: string
-          description: Size filled (in base asset units)
+          description: "Size filled (in base asset units). Empty for SPREAD orders,\
+            \ whose legs fill in different units; see `spread_details` for each leg's\
+            \ value"
           example: "100"
         filled_value:
           type: string
-          description: Market value filled (in quote asset units)
+          description: "Market value filled (in quote asset units). For SPREAD orders,\
+            \ the sum of both legs' filled values"
           example: "100"
         average_filled_price:
           type: string
-          description: Indicates the average `filled_price`
+          description: Indicates the average `filled_price`. Empty for SPREAD orders;
+            see `spread_details` for each leg's value
           example: "50.19"
         commission:
           type: string
-          description: Total commission paid on this order (in quote asset units)
-            -- only applicable for partially- or fully-filled orders
+          description: "Total commission paid on this order (in quote asset units)\
+            \ -- only applicable for partially- or fully-filled orders. For SPREAD\
+            \ orders, the sum of both legs' commissions; `commission_detail_total`\
+            \ is empty and each leg's breakdown is in `spread_details`"
           example: "4.99"
         exchange_fee:
           type: string
-          description: Fee charged by the exchange for Cost Plus commission configurations.
-            Exchange fee will be 0 for All In commission configurations.
+          description: "Fee charged by the exchange for Cost Plus commission configurations.\
+            \ Exchange fee will be 0 for All In commission configurations. For SPREAD\
+            \ orders, the sum of both legs' exchange fees (`spread_details.primary_leg.exchange_fee`\
+            \ and `spread_details.secondary_leg.exchange_fee`)."
           example: "2.50"
         historical_pov:
           type: string
@@ -14155,7 +14181,7 @@ components:
         net_average_filled_price:
           type: string
           description: Indicates the average `filled_price` net of commissions and
-            fees
+            fees. Empty for SPREAD orders; see `spread_details` for each leg's value
           example: "57.68"
         user_context:
           type: string
@@ -14286,9 +14312,11 @@ components:
         - UNKNOWN_ORDER_SIDE: nil value
          - BUY: Buy order
          - SELL: Sell order
+         - MULTIPLE: Response only: a SPREAD order, whose legs carry their own sides (see `spread_details`); not accepted in requests
       enum:
       - BUY
       - SELL
+      - MULTIPLE
     coinbase.public_rest_api.OrderStatus:
       title: Indicates the order status
       type: string
@@ -14320,7 +14348,7 @@ components:
          - STOP_LIMIT: A [conditional order combined of stop order and limit order](https://en.wikipedia.org/wiki/Order_(exchange)#Stop-limit_order)
          - RFQ: A [request for quote](https://en.wikipedia.org/wiki/Request_for_quote)
          - PEG: A pegged order that dynamically adjust based on market conditions while maintaining execution discretion and avoiding adverse selection
-         - SPREAD: A spread order that trades a futures contract against its spot underlying to capture a target basis (futures price - spot price)
+         - SPREAD: A spread order that trades a futures contract against its spot underlying, or against another futures contract of the same underlying (calendar spread), to capture a target spread (futures price - spot price, or back month - front month)
       enum:
       - MARKET
       - LIMIT
@@ -14757,6 +14785,10 @@ components:
             \ as a percentage of the margin limit (0-100, e.g. \"3.6\" means 3.6%,\
             \ not a 0-1 decimal)"
           example: "3.6"
+        settl_currency:
+          type: string
+          description: "The requested `settl_currency`, echoed"
+          example: USDC
     coinbase.public_rest_api.PostTradeCreditInformation:
       type: object
       properties:
@@ -15064,7 +15096,7 @@ components:
          - SPOT: Spot product
          - FUTURE: Future product
          - OPTION: Option product
-         - BASIS: Basis product: a futures contract traded against its spot underlying (the product of SPREAD orders)
+         - BASIS: Basis product: a futures contract traded against its spot underlying, or against another futures contract of the same underlying (calendar spread); the product of SPREAD orders
       enum:
       - SPOT
       - FUTURE
@@ -15344,6 +15376,9 @@ components:
           $ref: '#/components/schemas/coinbase.public_rest_api.Leg'
         secondary_leg:
           $ref: '#/components/schemas/coinbase.public_rest_api.Leg'
+      description: "`primary_leg`: its product_id must equal the order's `product_id`,\
+        \ and `base_quantity` is in its units. For a calendar spread (two futures)\
+        \ it must be the back month."
     coinbase.public_rest_api.SpreadDetails:
       title: "A SPREAD order as placed and executed: the spread configuration, the\
         \ spread product and each leg's fills"
@@ -15362,13 +15397,16 @@ components:
         group_product_id:
           title: "Product ID of the spread product the order is placed on, in the\
             \ form <futures product_id>:<spot product_id> (back month:front month\
-            \ for a futures-futures spread), e.g. BIT-27JUN25-CDE:BTC-USD"
+            \ for a futures-futures spread), e.g. BIP-20DEC30-CDE:BTC-USD"
           type: string
         realized_spread:
-          title: "Realized spread of the fills so far, as a price difference in the\
-            \ quote currency: the futures leg's average filled price minus the spot\
-            \ leg's (back month minus front month for a futures-futures spread). Empty\
-            \ until both legs have fills"
+          title: "Realized spread of the fills so far, in the unit of `limit_type`:\
+            \ for SPREAD_LIMIT_TYPE_USD the futures leg's average filled price minus\
+            \ the spot leg's, in the quote currency; for SPREAD_LIMIT_TYPE_BPS that\
+            \ difference in basis points of the spot leg's average filled price ((futures\
+            \ / spot - 1) x 10000). For a futures-futures spread, back month in place\
+            \ of futures and front month in place of spot. Empty until both legs have\
+            \ fills"
           type: string
         primary_leg:
           $ref: '#/components/schemas/coinbase.public_rest_api.SpreadLegDetails'
@@ -15379,7 +15417,7 @@ components:
       type: object
       properties:
         product_id:
-          title: "Product ID of the leg, e.g. BTC-USD or BIT-27JUN25-CDE"
+          title: "Product ID of the leg, e.g. BTC-USD or BIP-20DEC30-CDE"
           type: string
         side:
           $ref: '#/components/schemas/coinbase.public_rest_api.OrderSide'
@@ -15395,6 +15433,15 @@ components:
           type: string
         commission:
           title: Commission charged on this leg so far
+          type: string
+        commission_detail_total:
+          $ref: '#/components/schemas/coinbase.public_rest_api.CommissionDetailTotal'
+        exchange_fee:
+          title: Fee charged by the exchange on this leg for Cost Plus commission
+            configurations; 0 for All In
+          type: string
+        filled_value:
+          title: "Notional value of this leg's fills so far, in the quote currency"
           type: string
     coinbase.public_rest_api.SpreadLimitType:
       title: Unit of a SPREAD order's spread limit
@@ -15657,16 +15704,22 @@ components:
         network_fees:
           type: string
           description: The blockchain network fees (in whole units) required in order
-            to broadcast the transaction
+            to broadcast the transaction. Does not carry the Advanced Transfer
+            Coinbase fee.
           example: "1.99"
         fees:
           type: string
-          description: The fees that the customer paid for the transaction (in whole
-            units)
+          description: The charged fee (in whole units). On the transfer, coinbase_fees
+            is set and fees is 0. On the send, the same charge is on fees and
+            fee_symbol, and coinbase_fees is omitted. Crypto and fiat sends that
+            belong to the transfer use those transfer and send fields. A bank
+            withdrawal that is not part of the transfer is unchanged.
           example: "4.53"
         fee_symbol:
           type: string
-          description: The asset in which fees will be paid
+          description: The asset in which fees is denominated. On the send, the
+            same charge is on fees and fee_symbol, and coinbase_fees is omitted.
+            On the transfer, fee_symbol is empty.
           example: USD
         blockchain_ids:
           type: array
@@ -15709,10 +15762,14 @@ components:
           $ref: '#/components/schemas/coinbase.public_rest_api.ProcessRequirements'
         coinbase_fees:
           type: array
-          description: Coinbase fees charged on an Advanced Transfer. Set on the
-            transfer, where fees is 0. The send reports the same charge on fees
-            and fee_symbol and omits this list. Adding the list to the send's
-            fees counts the charge twice. Empty when not applicable.
+          description: Coinbase fees on the transfer (amount, symbol, wallet_id),
+            where fees is 0. On the send, the same charge is on fees and fee_symbol,
+            and coinbase_fees is omitted. When you total fees, do not add coinbase_fees
+            from the transfer to the send's fees, or you will count the charge
+            twice. A wallet transaction list includes the fees paid by that wallet.
+            Get Transaction and the portfolio transaction list include every fee
+            paid in the requesting portfolio. Fees paid in the counterparty's
+            portfolio are omitted.
           items:
             $ref: '#/components/schemas/coinbase.public_rest_api.CoinbaseFee'
     coinbase.public_rest_api.CoinbaseFee:

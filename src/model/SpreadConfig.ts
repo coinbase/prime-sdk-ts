@@ -22,6 +22,9 @@ import { Leg } from './Leg';
 import { MaxDeltaType } from './enums/MaxDeltaType';
 import { SpreadLimitType } from './enums/SpreadLimitType';
 
+/**
+ * `primary_leg`: its product_id must equal the order\'s `product_id`, and `base_quantity` is in its units. For a calendar spread (two futures) it must be the back month.
+ */
 export type SpreadConfig = {
   /**
    * Worst acceptable spread (futures - spot), signed decimal. A buy-futures spread executes when the spread is at or below the limit, a sell-futures spread when it is at or above.

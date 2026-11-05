@@ -18,11 +18,12 @@
  *  Do not edit the class manually.
  */
 
+import { CommissionDetailTotal } from './CommissionDetailTotal';
 import { OrderSide } from './enums/OrderSide';
 
 export type SpreadLegDetails = {
   /**
-   * Product ID of the leg, e.g. BTC-USD or BIT-27JUN25-CDE
+   * Product ID of the leg, e.g. BTC-USD or BIP-20DEC30-CDE
    */
   productId?: string;
   /**
@@ -45,4 +46,13 @@ export type SpreadLegDetails = {
    * Commission charged on this leg so far
    */
   commission?: string;
+  commissionDetailTotal?: CommissionDetailTotal;
+  /**
+   * Fee charged by the exchange on this leg for Cost Plus commission configurations; 0 for All In
+   */
+  exchangeFee?: string;
+  /**
+   * Notional value of this leg\'s fills so far, in the quote currency
+   */
+  filledValue?: string;
 };
