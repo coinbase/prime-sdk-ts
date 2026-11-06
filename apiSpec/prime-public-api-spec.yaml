@@ -827,6 +827,52 @@ tags:
     httpStatus: 400
     description: The counterparty_id field is required when destination_type is a
       counterparty destination.
+  - name: WEBHOOK_SUBSCRIPTION_NOT_FOUND
+    errorCode: RESOURCE_NOT_FOUND
+    httpStatus: 404
+    description: No webhook subscription matching the given subscription_id exists
+      for the specified portfolio.
+  - name: WEBHOOK_SUBSCRIPTION_ID_REQUIRED
+    errorCode: REQUIRED_FIELD_MISSING
+    httpStatus: 400
+    description: The subscription_id field is required but was not provided.
+  - name: WEBHOOK_SUBSCRIPTION_ID_INVALID
+    errorCode: VALIDATION_ERROR
+    httpStatus: 400
+    description: The subscription_id provided is not a valid UUID.
+  - name: WEBHOOK_TARGET_URL_INVALID
+    errorCode: VALIDATION_ERROR
+    httpStatus: 400
+    description: "The target_url provided is not an acceptable webhook destination,\
+      \ for example because its scheme or host is disallowed."
+  - name: WEBHOOK_EVENT_TYPE_INVALID
+    errorCode: VALIDATION_ERROR
+    httpStatus: 400
+    description: One or more values in event_types are not recognized or are not available
+      for this portfolio.
+  - name: WEBHOOK_VERSION_CONFLICT
+    errorCode: VALIDATION_ERROR
+    httpStatus: 400
+    description: The subscription was modified by another request since it was last
+      read. Reload the subscription to get its current state and retry the update
+      with the latest expected_version.
+  - name: WEBHOOK_IDEMPOTENCY_CONFLICT
+    errorCode: VALIDATION_ERROR
+    httpStatus: 400
+    description: The same idempotency key was already used to create a subscription
+      with different parameters.
+  - name: WEBHOOK_EVENT_NOT_FOUND
+    errorCode: RESOURCE_NOT_FOUND
+    httpStatus: 404
+    description: No webhook event matching the given event_id exists for this subscription.
+  - name: WEBHOOK_INVALID_ARGUMENT
+    errorCode: VALIDATION_ERROR
+    httpStatus: 400
+    description: One or more fields in the request failed validation.
+  - name: WEBHOOK_FEATURE_DISABLED
+    errorCode: PERMISSION_DENIED
+    httpStatus: 403
+    description: The webhooks API is not enabled for this portfolio.
   - name: ORDER_ID_REQUIRED
     errorCode: REQUIRED_FIELD_MISSING
     httpStatus: 400
@@ -4590,6 +4636,12 @@ paths:
               properties:
                 advanced_transfer:
                   $ref: '#/components/schemas/coinbase.public_rest_api.AdvancedTransfer'
+                idempotency_key:
+                  type: string
+                  description: Optional client-generated idempotency key. A request
+                    with the same key returns the stored transaction ID and reports
+                    CREATED; the request body is not compared. Omit the field to
+                    create a new transfer.
               description: CreateAdvancedTransferRequest is the request to create
                 an advanced transfer.
         required: true
@@ -9878,6 +9930,925 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/coinbase.public_rest_api.ServiceUnavailableErrorResponse'
+  /v1/portfolios/{portfolio_id}/webhooks/subscriptions:
+    get:
+      tags:
+      - Webhooks
+      summary: List Webhook Subscriptions
+      description: Returns cursor-paginated webhook subscriptions for the portfolio
+        in the URL path.
+      operationId: PrimeBeta_ListWebhookSubscriptions
+      parameters:
+      - name: portfolio_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: include_disabled
+        in: query
+        schema:
+          type: boolean
+      - name: event_type_filter
+        in: query
+        schema:
+          type: string
+      - name: cursor
+        in: query
+        schema:
+          type: string
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.beta.ListWebhookSubscriptionsResponse'
+        "400":
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.ListWebhookSubscriptionsBadRequestErrorResponse'
+        "403":
+          description: Permission denied. The API key lacks the required scope for
+            this resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.ListWebhookSubscriptionsForbiddenErrorResponse'
+        "429":
+          description: Too many requests. Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.TooManyRequestsErrorResponse'
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.InternalServerErrorResponse'
+        "503":
+          description: Service unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.ServiceUnavailableErrorResponse'
+    post:
+      tags:
+      - Webhooks
+      summary: Create Webhook Subscription
+      description: Creates a new webhook subscription for the portfolio in the URL
+        path. Returns the HMAC signing secret exactly once; store it securely.
+      operationId: PrimeBeta_CreateWebhookSubscription
+      parameters:
+      - name: portfolio_id
+        in: path
+        description: Populated from the URL path.
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                event_types:
+                  type: array
+                  items:
+                    type: string
+                target_url:
+                  type: string
+                auth_type:
+                  $ref: '#/components/schemas/coinbase.public_rest_api.beta.WebhookAuthType'
+                oauth_config:
+                  $ref: '#/components/schemas/coinbase.public_rest_api.beta.WebhookOAuthConfigInput'
+                custom_headers:
+                  type: object
+                  additionalProperties:
+                    type: string
+                description:
+                  type: string
+                idempotency_key:
+                  type: string
+              description: "CreateWebhookSubscriptionRequest specifies the events,\
+                \ destination, and authentication for a new subscription."
+        required: true
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.beta.CreateWebhookSubscriptionResponse'
+        "400":
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.CreateWebhookSubscriptionBadRequestErrorResponse'
+        "403":
+          description: Permission denied. The API key lacks the required scope for
+            this resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.CreateWebhookSubscriptionForbiddenErrorResponse'
+        "429":
+          description: Too many requests. Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.TooManyRequestsErrorResponse'
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.InternalServerErrorResponse'
+        "503":
+          description: Service unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.ServiceUnavailableErrorResponse'
+      x-codegen-request-body-name: body
+  /v1/portfolios/{portfolio_id}/webhooks/subscriptions/{subscription_id}:
+    get:
+      tags:
+      - Webhooks
+      summary: Get Webhook Subscription
+      description: Returns a single webhook subscription by ID. Auth secrets are never
+        returned.
+      operationId: PrimeBeta_GetWebhookSubscription
+      parameters:
+      - name: portfolio_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: subscription_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.beta.GetWebhookSubscriptionResponse'
+        "400":
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookSubscriptionBadRequestErrorResponse'
+        "403":
+          description: Permission denied. The API key lacks the required scope for
+            this resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookSubscriptionForbiddenErrorResponse'
+        "404":
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookSubscriptionNotFoundErrorResponse'
+        "429":
+          description: Too many requests. Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.TooManyRequestsErrorResponse'
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.InternalServerErrorResponse'
+        "503":
+          description: Service unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.ServiceUnavailableErrorResponse'
+    delete:
+      tags:
+      - Webhooks
+      summary: Delete Webhook Subscription
+      description: Soft-deletes a webhook subscription. The subscription stops matching
+        events immediately but audit history is retained.
+      operationId: PrimeBeta_DeleteWebhookSubscription
+      parameters:
+      - name: portfolio_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: subscription_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.beta.DeleteWebhookSubscriptionResponse'
+        "400":
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.DeleteWebhookSubscriptionBadRequestErrorResponse'
+        "403":
+          description: Permission denied. The API key lacks the required scope for
+            this resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.DeleteWebhookSubscriptionForbiddenErrorResponse'
+        "404":
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.DeleteWebhookSubscriptionNotFoundErrorResponse'
+        "429":
+          description: Too many requests. Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.TooManyRequestsErrorResponse'
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.InternalServerErrorResponse'
+        "503":
+          description: Service unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.ServiceUnavailableErrorResponse'
+    patch:
+      tags:
+      - Webhooks
+      summary: Update Webhook Subscription
+      description: Applies a partial patch to a webhook subscription using FieldMask
+        semantics.
+      operationId: PrimeBeta_UpdateWebhookSubscription
+      parameters:
+      - name: portfolio_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: subscription_id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                event_types:
+                  type: array
+                  items:
+                    type: string
+                target_url:
+                  type: string
+                auth_type:
+                  $ref: '#/components/schemas/coinbase.public_rest_api.beta.WebhookAuthType'
+                oauth_config:
+                  $ref: '#/components/schemas/coinbase.public_rest_api.beta.WebhookOAuthConfigInput'
+                custom_headers:
+                  type: object
+                  additionalProperties:
+                    type: string
+                description:
+                  type: string
+                is_enabled:
+                  type: boolean
+                update_mask:
+                  type: string
+                expected_version:
+                  type: string
+                  format: int64
+              description: UpdateWebhookSubscriptionRequest specifies a partial subscription
+                update using a field mask.
+        required: true
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.beta.UpdateWebhookSubscriptionResponse'
+        "400":
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.UpdateWebhookSubscriptionBadRequestErrorResponse'
+        "403":
+          description: Permission denied. The API key lacks the required scope for
+            this resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.UpdateWebhookSubscriptionForbiddenErrorResponse'
+        "404":
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.UpdateWebhookSubscriptionNotFoundErrorResponse'
+        "429":
+          description: Too many requests. Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.TooManyRequestsErrorResponse'
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.InternalServerErrorResponse'
+        "503":
+          description: Service unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.ServiceUnavailableErrorResponse'
+      x-codegen-request-body-name: body
+  /v1/portfolios/{portfolio_id}/webhooks/subscriptions/{subscription_id}/rotate-hmac-secret:
+    post:
+      tags:
+      - Webhooks
+      summary: Rotate Webhook HMAC Secret
+      description: Issues a new HMAC signing secret for the subscription and returns
+        the plaintext exactly once. By default the previous secret remains valid for
+        a server-configured grace window; set revoke_previous_immediately to invalidate
+        it at once.
+      operationId: PrimeBeta_RotateWebhookHMACSecret
+      parameters:
+      - name: portfolio_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: subscription_id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                revoke_previous_immediately:
+                  type: boolean
+                  description: |-
+                    revoke_previous_immediately invalidates the old secret immediately instead of
+                    keeping it valid for the server grace window. Use when the secret may be compromised.
+              description: |-
+                RotateWebhookHMACSecretRequest is the request message for rotating a webhook
+                HMAC signing secret.
+        required: true
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.beta.RotateWebhookHMACSecretResponse'
+        "400":
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.RotateWebhookHMACSecretBadRequestErrorResponse'
+        "403":
+          description: Permission denied. The API key lacks the required scope for
+            this resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.RotateWebhookHMACSecretForbiddenErrorResponse'
+        "404":
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.RotateWebhookHMACSecretNotFoundErrorResponse'
+        "429":
+          description: Too many requests. Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.TooManyRequestsErrorResponse'
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.InternalServerErrorResponse'
+        "503":
+          description: Service unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.ServiceUnavailableErrorResponse'
+      x-codegen-request-body-name: body
+  /v1/portfolios/{portfolio_id}/webhooks/subscriptions/{subscription_id}/simulate:
+    post:
+      tags:
+      - Webhooks
+      summary: Send Webhook Simulation
+      description: Fires a synthetic simulation event to the subscription's endpoint
+        for integration testing.
+      operationId: PrimeBeta_SendWebhookSimulation
+      parameters:
+      - name: portfolio_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: subscription_id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                event_type:
+                  type: string
+              description: SendWebhookSimulationRequest selects a subscription and
+                event type for a synthetic test delivery.
+        required: true
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.beta.SendWebhookSimulationResponse'
+        "400":
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.SendWebhookSimulationBadRequestErrorResponse'
+        "403":
+          description: Permission denied. The API key lacks the required scope for
+            this resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.SendWebhookSimulationForbiddenErrorResponse'
+        "404":
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.SendWebhookSimulationNotFoundErrorResponse'
+        "429":
+          description: Too many requests. Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.TooManyRequestsErrorResponse'
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.InternalServerErrorResponse'
+        "503":
+          description: Service unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.ServiceUnavailableErrorResponse'
+      x-codegen-request-body-name: body
+  /v1/webhooks/event-types:
+    get:
+      tags:
+      - Webhooks
+      summary: Get Webhook Event Types
+      description: Returns the registered webhook event types available to subscribe
+        to.
+      operationId: PrimeBeta_GetWebhookEventTypes
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.beta.GetWebhookEventTypesResponse'
+        "403":
+          description: Permission denied. The API key lacks the required scope for
+            this resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookEventTypesForbiddenErrorResponse'
+        "429":
+          description: Too many requests. Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.TooManyRequestsErrorResponse'
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.InternalServerErrorResponse'
+        "503":
+          description: Service unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.ServiceUnavailableErrorResponse'
+  /v1/portfolios/{portfolio_id}/webhooks/subscriptions/{subscription_id}/deliveries:
+    get:
+      tags:
+      - Webhooks
+      summary: Get Webhook Delivery Logs
+      description: Returns cursor-paginated delivery logs for a single subscription.
+      operationId: PrimeBeta_GetWebhookDeliveryLogs
+      parameters:
+      - name: portfolio_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: subscription_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: status_filter
+        in: query
+        schema:
+          type: string
+          enum:
+          - WEBHOOK_DELIVERY_STATUS_DELIVERED
+          - WEBHOOK_DELIVERY_STATUS_RETRYING
+          - WEBHOOK_DELIVERY_STATUS_FAILED
+          - WEBHOOK_DELIVERY_STATUS_PENDING
+      - name: event_type_filter
+        in: query
+        schema:
+          type: string
+      - name: cursor
+        in: query
+        schema:
+          type: string
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.beta.GetWebhookDeliveryLogsResponse'
+        "400":
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookDeliveryLogsBadRequestErrorResponse'
+        "403":
+          description: Permission denied. The API key lacks the required scope for
+            this resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookDeliveryLogsForbiddenErrorResponse'
+        "404":
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookDeliveryLogsNotFoundErrorResponse'
+        "429":
+          description: Too many requests. Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.TooManyRequestsErrorResponse'
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.InternalServerErrorResponse'
+        "503":
+          description: Service unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.ServiceUnavailableErrorResponse'
+  /v1/portfolios/{portfolio_id}/webhooks/subscriptions/{subscription_id}/deliveries/{event_id}/attempts:
+    get:
+      tags:
+      - Webhooks
+      summary: Get Webhook Delivery Attempts
+      description: "Returns all HTTP POST attempts for a specific (event_id, subscription_id)\
+        \ pair."
+      operationId: PrimeBeta_GetWebhookDeliveryAttempts
+      parameters:
+      - name: portfolio_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: subscription_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: event_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.beta.GetWebhookDeliveryAttemptsResponse'
+        "400":
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookDeliveryAttemptsBadRequestErrorResponse'
+        "403":
+          description: Permission denied. The API key lacks the required scope for
+            this resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookDeliveryAttemptsForbiddenErrorResponse'
+        "404":
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookDeliveryAttemptsNotFoundErrorResponse'
+        "429":
+          description: Too many requests. Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.TooManyRequestsErrorResponse'
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.InternalServerErrorResponse'
+        "503":
+          description: Service unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.ServiceUnavailableErrorResponse'
+  /v1/portfolios/{portfolio_id}/webhooks/subscriptions/{subscription_id}/stats:
+    get:
+      tags:
+      - Webhooks
+      summary: Get Webhook Subscription Stats
+      description: Returns pre-aggregated delivery statistics for a single subscription
+        over a fixed time window.
+      operationId: PrimeBeta_GetWebhookSubscriptionStats
+      parameters:
+      - name: portfolio_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: subscription_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: period
+        in: query
+        schema:
+          type: string
+          enum:
+          - WEBHOOK_STATS_PERIOD_24H
+          - WEBHOOK_STATS_PERIOD_7D
+          - WEBHOOK_STATS_PERIOD_30D
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.beta.GetWebhookSubscriptionStatsResponse'
+        "400":
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookSubscriptionStatsBadRequestErrorResponse'
+        "403":
+          description: Permission denied. The API key lacks the required scope for
+            this resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookSubscriptionStatsForbiddenErrorResponse'
+        "404":
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookSubscriptionStatsNotFoundErrorResponse'
+        "429":
+          description: Too many requests. Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.TooManyRequestsErrorResponse'
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.InternalServerErrorResponse'
+        "503":
+          description: Service unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.ServiceUnavailableErrorResponse'
+  /v1/portfolios/{portfolio_id}/webhooks/stats:
+    get:
+      tags:
+      - Webhooks
+      summary: Get Webhook Owner Stats
+      description: Returns a dashboard-level rollup of delivery statistics across
+        all subscriptions for the portfolio in the URL path.
+      operationId: PrimeBeta_GetWebhookOwnerStats
+      parameters:
+      - name: portfolio_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: period
+        in: query
+        schema:
+          type: string
+          enum:
+          - WEBHOOK_STATS_PERIOD_24H
+          - WEBHOOK_STATS_PERIOD_7D
+          - WEBHOOK_STATS_PERIOD_30D
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.beta.GetWebhookOwnerStatsResponse'
+        "400":
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookOwnerStatsBadRequestErrorResponse'
+        "403":
+          description: Permission denied. The API key lacks the required scope for
+            this resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookOwnerStatsForbiddenErrorResponse'
+        "429":
+          description: Too many requests. Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.TooManyRequestsErrorResponse'
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.InternalServerErrorResponse'
+        "503":
+          description: Service unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.ServiceUnavailableErrorResponse'
+  /v1/portfolios/{portfolio_id}/webhooks/events/{event_id}/replay:
+    post:
+      tags:
+      - Webhooks
+      summary: Replay Webhook Event
+      description: Replays a previously published event for the portfolio in the URL
+        path. When subscription_id is set the event is re-delivered to that single
+        subscription; otherwise it is re-delivered to every matching subscription
+        owned by the path owner.
+      operationId: PrimeBeta_ReplayWebhookEvent
+      parameters:
+      - name: portfolio_id
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: event_id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                subscription_id:
+                  type: string
+              description: |-
+                ReplayWebhookEventRequest replays a previously published event.
+                portfolio_id is set from the URL path. When subscription_id is non-empty,
+                the event is re-delivered to that single subscription. When subscription_id
+                is empty, the event is re-delivered to every matching subscription owned
+                by the portfolio in the URL path.
+        required: true
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.beta.ReplayWebhookEventResponse'
+        "400":
+          description: Bad request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.ReplayWebhookEventBadRequestErrorResponse'
+        "403":
+          description: Permission denied. The API key lacks the required scope for
+            this resource.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.ReplayWebhookEventForbiddenErrorResponse'
+        "404":
+          description: The requested resource was not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.ReplayWebhookEventNotFoundErrorResponse'
+        "429":
+          description: Too many requests. Rate limit exceeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.TooManyRequestsErrorResponse'
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.InternalServerErrorResponse'
+        "503":
+          description: Service unavailable.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/coinbase.public_rest_api.ServiceUnavailableErrorResponse'
+      x-codegen-request-body-name: body
   /v1/entities/{entity_id}/rewards/rate:
     get:
       tags:
@@ -10436,10 +11407,10 @@ components:
           $ref: '#/components/schemas/coinbase.public_rest_api.BlindMatchMetadata'
         coinbase_fees:
           type: array
-          items:
-            $ref: '#/components/schemas/coinbase.public_rest_api.CoinbaseFee'
           description: Coinbase fees charged to this portfolio's wallets on this Advanced
             Transfer. Empty on create and when no fee applies.
+          items:
+            $ref: '#/components/schemas/coinbase.public_rest_api.CoinbaseFee'
       description: AdvancedTransfer represents a complex transfer operation such as
         a blind match settlement.
     coinbase.public_rest_api.AdvancedTransferState:
@@ -10854,6 +11825,22 @@ components:
       - THIRTY_MINUTES
       - TWO_HOURS
       - FOUR_HOURS
+    coinbase.public_rest_api.CoinbaseFee:
+      type: object
+      properties:
+        amount:
+          type: string
+          description: The fee amount in whole units of the fee symbol
+          example: "0.05"
+        symbol:
+          type: string
+          description: The asset symbol in which the fee was charged
+          example: USDC
+        wallet_id:
+          type: string
+          description: The wallet that paid the fee
+          example: cde8dd34-b6cf-4c2c-82bc-5f86adacc868
+      description: A Coinbase fee charged on an Advanced Transfer.
     coinbase.public_rest_api.ComboLeg:
       type: object
       properties:
@@ -15704,22 +16691,22 @@ components:
         network_fees:
           type: string
           description: The blockchain network fees (in whole units) required in order
-            to broadcast the transaction. Does not carry the Advanced Transfer
-            Coinbase fee.
+            to broadcast the transaction. Does not carry the Advanced Transfer Coinbase
+            fee.
           example: "1.99"
         fees:
           type: string
-          description: The charged fee (in whole units). On the transfer, coinbase_fees
-            is set and fees is 0. On the send, the same charge is on fees and
-            fee_symbol, and coinbase_fees is omitted. Crypto and fiat sends that
-            belong to the transfer use those transfer and send fields. A bank
-            withdrawal that is not part of the transfer is unchanged.
+          description: "The charged fee (in whole units). On the transfer, coinbase_fees\
+            \ is set and fees is 0. On the send, the same charge is on fees and fee_symbol,\
+            \ and coinbase_fees is omitted. Crypto and fiat sends that belong to the\
+            \ transfer use those transfer and send fields. A bank withdrawal that\
+            \ is not part of the transfer is unchanged."
           example: "4.53"
         fee_symbol:
           type: string
-          description: The asset in which fees is denominated. On the send, the
-            same charge is on fees and fee_symbol, and coinbase_fees is omitted.
-            On the transfer, fee_symbol is empty.
+          description: "The asset in which fees is denominated. On the send, the same\
+            \ charge is on fees and fee_symbol, and coinbase_fees is omitted. On the\
+            \ transfer, fee_symbol is empty."
           example: USD
         blockchain_ids:
           type: array
@@ -15762,32 +16749,16 @@ components:
           $ref: '#/components/schemas/coinbase.public_rest_api.ProcessRequirements'
         coinbase_fees:
           type: array
-          description: Coinbase fees on the transfer (amount, symbol, wallet_id),
-            where fees is 0. On the send, the same charge is on fees and fee_symbol,
-            and coinbase_fees is omitted. When you total fees, do not add coinbase_fees
-            from the transfer to the send's fees, or you will count the charge
-            twice. A wallet transaction list includes the fees paid by that wallet.
-            Get Transaction and the portfolio transaction list include every fee
-            paid in the requesting portfolio. Fees paid in the counterparty's
-            portfolio are omitted.
+          description: "Coinbase fees on the transfer (amount, symbol, wallet_id),\
+            \ where fees is 0. On the send, the same charge is on fees and fee_symbol,\
+            \ and coinbase_fees is omitted. When you total fees, do not add coinbase_fees\
+            \ from the transfer to the send's fees, or you will count the charge twice.\
+            \ A wallet transaction list includes the fees paid by that wallet. Get\
+            \ Transaction and the portfolio transaction list include every fee paid\
+            \ in the requesting portfolio. Fees paid in the counterparty's portfolio\
+            \ are omitted."
           items:
             $ref: '#/components/schemas/coinbase.public_rest_api.CoinbaseFee'
-    coinbase.public_rest_api.CoinbaseFee:
-      type: object
-      properties:
-        amount:
-          type: string
-          description: The fee amount in whole units of the fee symbol
-          example: "0.05"
-        symbol:
-          type: string
-          description: The asset symbol in which the fee was charged
-          example: USDC
-        wallet_id:
-          type: string
-          description: The wallet that paid the fee
-          example: cde8dd34-b6cf-4c2c-82bc-5f86adacc868
-      description: A Coinbase fee charged on an Advanced Transfer.
     coinbase.public_rest_api.TransactionMetadata:
       type: object
       properties:
@@ -16985,6 +17956,223 @@ components:
         * [google.type.TimeOfDay][google.type.TimeOfDay]
         * [google.type.DateTime][google.type.DateTime]
         * [google.protobuf.Timestamp][google.protobuf.Timestamp]
+    coinbase.public_rest_api.beta.CreateWebhookSubscriptionResponse:
+      type: object
+      properties:
+        subscription:
+          $ref: '#/components/schemas/coinbase.public_rest_api.beta.WebhookSubscription'
+        hmac_secret:
+          type: string
+          description: |-
+            hmac_secret is the plaintext HMAC signing secret. Returned exactly once
+            on creation; store it securely — it is never surfaced again.
+      description: CreateWebhookSubscriptionResponse returns the created subscription
+        and its one-time HMAC secret.
+    coinbase.public_rest_api.beta.WebhookAuthType:
+      type: string
+      description: WebhookAuthType identifies the authentication method used to deliver
+        webhook events.
+      enum:
+      - WEBHOOK_AUTH_TYPE_HMAC
+      - WEBHOOK_AUTH_TYPE_OAUTH
+      - WEBHOOK_AUTH_TYPE_MTLS
+      - WEBHOOK_AUTH_TYPE_OAUTH_MTLS
+    coinbase.public_rest_api.beta.WebhookOAuthConfigInput:
+      type: object
+      properties:
+        token_url:
+          type: string
+        client_id:
+          type: string
+        client_secret:
+          type: string
+        scopes:
+          type: array
+          items:
+            type: string
+      description: WebhookOAuthConfigInput supplies OAuth credentials and scopes for
+        a subscription.
+    coinbase.public_rest_api.beta.ListWebhookSubscriptionsResponse:
+      type: object
+      properties:
+        subscriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/coinbase.public_rest_api.beta.WebhookSubscription'
+        next_cursor:
+          type: string
+        has_next:
+          type: boolean
+      description: ListWebhookSubscriptionsResponse returns a page of subscriptions
+        and pagination metadata.
+    coinbase.public_rest_api.beta.GetWebhookSubscriptionResponse:
+      type: object
+      properties:
+        subscription:
+          $ref: '#/components/schemas/coinbase.public_rest_api.beta.WebhookSubscription'
+      description: GetWebhookSubscriptionResponse returns the requested subscription
+        without authentication secrets.
+    coinbase.public_rest_api.beta.UpdateWebhookSubscriptionResponse:
+      type: object
+      properties:
+        subscription:
+          $ref: '#/components/schemas/coinbase.public_rest_api.beta.WebhookSubscription'
+      description: UpdateWebhookSubscriptionResponse returns the updated subscription
+        without authentication secrets.
+    coinbase.public_rest_api.beta.DeleteWebhookSubscriptionResponse:
+      type: object
+      description: DeleteWebhookSubscriptionResponse confirms that the subscription
+        was soft-deleted.
+    coinbase.public_rest_api.beta.RotateWebhookHMACSecretResponse:
+      type: object
+      properties:
+        subscription:
+          $ref: '#/components/schemas/coinbase.public_rest_api.beta.WebhookSubscription'
+        hmac_secret:
+          type: string
+          description: |-
+            hmac_secret is the new plaintext HMAC signing secret. Returned exactly once;
+            store it securely — it is never surfaced again.
+        previous_secret_expires_at:
+          type: string
+          description: |-
+            previous_secret_expires_at is when the prior secret stops being accepted.
+            Unset when revoke_previous_immediately was true.
+          format: date-time
+      description: |-
+        RotateWebhookHMACSecretResponse is the response message for rotating a webhook
+        HMAC signing secret.
+    coinbase.public_rest_api.beta.SendWebhookSimulationResponse:
+      type: object
+      properties:
+        event_id:
+          type: string
+      description: SendWebhookSimulationResponse identifies the synthetic event created
+        for the test delivery.
+    coinbase.public_rest_api.beta.GetWebhookEventTypesResponse:
+      type: object
+      properties:
+        event_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/coinbase.public_rest_api.beta.WebhookEventType'
+      description: GetWebhookEventTypesResponse lists the webhook event types available
+        for subscriptions.
+    coinbase.public_rest_api.beta.GetWebhookDeliveryLogsResponse:
+      type: object
+      properties:
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/coinbase.public_rest_api.beta.WebhookDeliveryLogEntry'
+        next_cursor:
+          type: string
+        has_next:
+          type: boolean
+      description: GetWebhookDeliveryLogsResponse returns a page of delivery logs
+        and pagination metadata.
+    coinbase.public_rest_api.beta.GetWebhookDeliveryAttemptsResponse:
+      type: object
+      properties:
+        event_id:
+          type: string
+        event_type:
+          type: string
+        subscription_id:
+          type: string
+        delivery_status:
+          $ref: '#/components/schemas/coinbase.public_rest_api.beta.WebhookDeliveryStatus'
+        attempts:
+          type: array
+          items:
+            $ref: '#/components/schemas/coinbase.public_rest_api.beta.WebhookDeliveryAttempt'
+        event_payload:
+          pattern: "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$"
+          type: string
+          description: event_payload is the raw JSON bytes delivered to the subscriber.
+          format: byte
+      description: "GetWebhookDeliveryAttemptsResponse returns an event's payload,\
+        \ delivery state, and attempts for a subscription."
+    coinbase.public_rest_api.beta.GetWebhookSubscriptionStatsResponse:
+      type: object
+      properties:
+        subscription_id:
+          type: string
+        health_status:
+          $ref: '#/components/schemas/coinbase.public_rest_api.beta.WebhookHealthStatus'
+        total_events:
+          type: string
+          format: int64
+        successful:
+          type: string
+          format: int64
+        failed:
+          type: string
+          format: int64
+        success_rate:
+          type: number
+          format: double
+        avg_latency_ms:
+          type: string
+          format: int64
+        p95_latency_ms:
+          type: string
+          format: int64
+        p99_latency_ms:
+          type: string
+          format: int64
+        event_type_breakdown:
+          type: array
+          items:
+            $ref: '#/components/schemas/coinbase.public_rest_api.beta.WebhookEventTypeStats'
+        recent_failures:
+          type: array
+          items:
+            $ref: '#/components/schemas/coinbase.public_rest_api.beta.WebhookRecentFailure'
+      description: "GetWebhookSubscriptionStatsResponse returns subscription health,\
+        \ delivery statistics, and recent failures."
+    coinbase.public_rest_api.beta.GetWebhookOwnerStatsResponse:
+      type: object
+      properties:
+        total_subscriptions:
+          type: string
+          format: int64
+        active_subscriptions:
+          type: string
+          format: int64
+        total_events:
+          type: string
+          format: int64
+        overall_success_rate:
+          type: number
+          format: double
+        avg_latency_ms:
+          type: string
+          format: int64
+        subscriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/coinbase.public_rest_api.beta.WebhookSubscriptionSummary'
+        recent_failures:
+          type: array
+          items:
+            $ref: '#/components/schemas/coinbase.public_rest_api.beta.WebhookRecentFailure'
+      description: GetWebhookOwnerStatsResponse summarizes delivery statistics across
+        a portfolio's subscriptions.
+    coinbase.public_rest_api.beta.ReplayWebhookEventResponse:
+      type: object
+      properties:
+        deliveries_queued:
+          type: integer
+          format: int32
+        delivery_ids:
+          type: array
+          items:
+            type: string
+        delivery_ids_truncated:
+          type: boolean
+      description: ReplayWebhookEventResponse reports the number and identifiers of
+        queued replay deliveries.
     coinbase.public_rest_api.beta.GetRewardsRateResponse:
       type: object
       properties:
@@ -17000,6 +18188,197 @@ components:
             $ref: '#/components/schemas/coinbase.public_rest_api.beta.RewardsRateTier'
       description: GetRewardsRateResponse returns the current rewards rate and the
         available rates.
+    coinbase.public_rest_api.beta.WebhookSubscription:
+      type: object
+      properties:
+        subscription_id:
+          type: string
+        event_types:
+          type: array
+          items:
+            type: string
+        target_url:
+          type: string
+        auth_type:
+          $ref: '#/components/schemas/coinbase.public_rest_api.beta.WebhookAuthType'
+        oauth_config:
+          $ref: '#/components/schemas/coinbase.public_rest_api.beta.WebhookOAuthConfig'
+        custom_headers:
+          type: object
+          additionalProperties:
+            type: string
+        is_enabled:
+          type: boolean
+        description:
+          type: string
+        created_by:
+          type: string
+        updated_by:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        health_status:
+          $ref: '#/components/schemas/coinbase.public_rest_api.beta.WebhookHealthStatus'
+        version:
+          type: string
+          format: int64
+      description: |-
+        WebhookSubscription is the customer-facing representation of a webhook
+        subscription. auth secrets (hmac_secret, oauth client_secret) are never
+        included; hmac_secret is returned exactly once in CreateWebhookSubscriptionResponse.
+    coinbase.public_rest_api.beta.WebhookEventType:
+      type: object
+      properties:
+        name:
+          type: string
+        domain_object:
+          type: string
+        description:
+          type: string
+      description: WebhookEventType describes a registered webhook event customers
+        can subscribe to.
+    coinbase.public_rest_api.beta.WebhookDeliveryLogEntry:
+      type: object
+      properties:
+        delivery_id:
+          type: string
+        event_id:
+          type: string
+        event_type:
+          type: string
+        delivery_status:
+          $ref: '#/components/schemas/coinbase.public_rest_api.beta.WebhookDeliveryStatus'
+        status_code:
+          type: integer
+          format: int32
+        latency_ms:
+          type: integer
+          format: int32
+        attempt_number:
+          type: integer
+          format: int32
+        max_retries:
+          type: integer
+          format: int32
+        error_type:
+          $ref: '#/components/schemas/coinbase.public_rest_api.beta.WebhookErrorType'
+        error_message:
+          type: string
+        is_test:
+          type: boolean
+        is_replay:
+          type: boolean
+        occurred_at:
+          type: string
+          format: date-time
+        attempted_at:
+          type: string
+          format: date-time
+      description: WebhookDeliveryLogEntry summarizes a webhook event delivery and
+        its latest attempt.
+    coinbase.public_rest_api.beta.WebhookDeliveryStatus:
+      type: string
+      description: WebhookDeliveryStatus describes the delivery state of a webhook
+        event.
+      enum:
+      - WEBHOOK_DELIVERY_STATUS_DELIVERED
+      - WEBHOOK_DELIVERY_STATUS_RETRYING
+      - WEBHOOK_DELIVERY_STATUS_FAILED
+      - WEBHOOK_DELIVERY_STATUS_PENDING
+    coinbase.public_rest_api.beta.WebhookDeliveryAttempt:
+      type: object
+      properties:
+        delivery_attempt_id:
+          type: string
+        delivery_id:
+          type: string
+        attempt_number:
+          type: integer
+          format: int32
+        status_code:
+          type: integer
+          format: int32
+        latency_ms:
+          type: integer
+          format: int32
+        error_type:
+          $ref: '#/components/schemas/coinbase.public_rest_api.beta.WebhookErrorType'
+        error_message:
+          type: string
+        attempted_at:
+          type: string
+          format: date-time
+      description: WebhookDeliveryAttempt records the outcome and timing of an individual
+        delivery attempt.
+    coinbase.public_rest_api.beta.WebhookHealthStatus:
+      type: string
+      description: WebhookHealthStatus describes the current delivery health of a
+        subscription.
+      enum:
+      - WEBHOOK_HEALTH_STATUS_HEALTHY
+      - WEBHOOK_HEALTH_STATUS_DEGRADED
+      - WEBHOOK_HEALTH_STATUS_FAILING
+      - WEBHOOK_HEALTH_STATUS_DISABLED
+    coinbase.public_rest_api.beta.WebhookEventTypeStats:
+      type: object
+      properties:
+        event_type:
+          type: string
+        total:
+          type: string
+          format: int64
+        successful:
+          type: string
+          format: int64
+        success_rate:
+          type: number
+          format: double
+        avg_latency_ms:
+          type: string
+          format: int64
+      description: WebhookEventTypeStats contains aggregated delivery statistics for
+        one event type.
+    coinbase.public_rest_api.beta.WebhookRecentFailure:
+      type: object
+      properties:
+        delivery_id:
+          type: string
+        subscription_id:
+          type: string
+        event_id:
+          type: string
+        event_type:
+          type: string
+        error_type:
+          $ref: '#/components/schemas/coinbase.public_rest_api.beta.WebhookErrorType'
+        attempt_number:
+          type: integer
+          format: int32
+        attempted_at:
+          type: string
+          format: date-time
+      description: WebhookRecentFailure identifies a recent failed delivery attempt.
+    coinbase.public_rest_api.beta.WebhookSubscriptionSummary:
+      type: object
+      properties:
+        subscription_id:
+          type: string
+        description:
+          type: string
+        health_status:
+          $ref: '#/components/schemas/coinbase.public_rest_api.beta.WebhookHealthStatus'
+        events_in_period:
+          type: string
+          format: int64
+        success_rate:
+          type: number
+          format: double
+      description: WebhookSubscriptionSummary summarizes a subscription's health and
+        delivery statistics.
     coinbase.public_rest_api.beta.RewardsRateTier:
       type: object
       properties:
@@ -17019,6 +18398,28 @@ components:
         criteria_type:
           $ref: '#/components/schemas/coinbase.public_rest_api.beta.RewardsRateTierType'
       description: RewardsRateTier is a single tier in the rewards rate card.
+    coinbase.public_rest_api.beta.WebhookOAuthConfig:
+      type: object
+      properties:
+        token_url:
+          type: string
+        client_id:
+          type: string
+        scopes:
+          type: array
+          items:
+            type: string
+      description: WebhookOAuthConfig describes a subscription's OAuth configuration
+        without its client secret.
+    coinbase.public_rest_api.beta.WebhookErrorType:
+      type: string
+      description: WebhookErrorType classifies the outcome of a webhook delivery attempt.
+      enum:
+      - WEBHOOK_ERROR_TYPE_SUCCESS
+      - WEBHOOK_ERROR_TYPE_HTTP_4XX
+      - WEBHOOK_ERROR_TYPE_HTTP_5XX
+      - WEBHOOK_ERROR_TYPE_TIMEOUT
+      - WEBHOOK_ERROR_TYPE_CONNECTION_ERROR
     coinbase.public_rest_api.beta.RewardsRateTierType:
       type: string
       description: RewardsRateTierType describes what a rewards rate tier is scoped
@@ -18212,6 +19613,49 @@ components:
       - AUTH_RESOURCE_NOT_FOUND
       - ASSET_NOT_FOUND
       - WALLET_NOT_FOUND
+    coinbase.public_rest_api.CreateWebhookSubscriptionBadRequestErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.BadRequestErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.CreateWebhookSubscriptionBadRequestSubcode'
+        trace_id:
+          type: string
+      description: CreateWebhookSubscriptionBadRequestErrorResponse documents the
+        HTTP 400 error body.
+    coinbase.public_rest_api.CreateWebhookSubscriptionBadRequestSubcode:
+      type: string
+      enum:
+      - PORTFOLIO_ID_REQUIRED
+      - PORTFOLIO_ID_INVALID
+      - WEBHOOK_TARGET_URL_INVALID
+      - WEBHOOK_EVENT_TYPE_INVALID
+      - WEBHOOK_IDEMPOTENCY_CONFLICT
+      - WEBHOOK_INVALID_ARGUMENT
+    coinbase.public_rest_api.CreateWebhookSubscriptionForbiddenErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.ForbiddenErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.CreateWebhookSubscriptionForbiddenSubcode'
+        trace_id:
+          type: string
+      description: CreateWebhookSubscriptionForbiddenErrorResponse documents the HTTP
+        403 error body.
+    coinbase.public_rest_api.CreateWebhookSubscriptionForbiddenSubcode:
+      type: string
+      enum:
+      - AUTH_RESOURCE_ACCESS_DENIED
+      - MTLS_CERTIFICATE_REQUIRED
+      - MTLS_CERTIFICATE_REVOKED
+      - MTLS_CERTIFICATE_INVALID
+      - WEBHOOK_FEATURE_DISABLED
     coinbase.public_rest_api.DeleteOnchainAddressGroupBadRequestErrorResponse:
       type: object
       properties:
@@ -18268,6 +19712,64 @@ components:
       type: string
       enum:
       - AUTH_RESOURCE_NOT_FOUND
+    coinbase.public_rest_api.DeleteWebhookSubscriptionBadRequestErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.BadRequestErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.DeleteWebhookSubscriptionBadRequestSubcode'
+        trace_id:
+          type: string
+      description: DeleteWebhookSubscriptionBadRequestErrorResponse documents the
+        HTTP 400 error body.
+    coinbase.public_rest_api.DeleteWebhookSubscriptionBadRequestSubcode:
+      type: string
+      enum:
+      - PORTFOLIO_ID_REQUIRED
+      - PORTFOLIO_ID_INVALID
+      - WEBHOOK_SUBSCRIPTION_ID_REQUIRED
+      - WEBHOOK_SUBSCRIPTION_ID_INVALID
+    coinbase.public_rest_api.DeleteWebhookSubscriptionForbiddenErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.ForbiddenErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.DeleteWebhookSubscriptionForbiddenSubcode'
+        trace_id:
+          type: string
+      description: DeleteWebhookSubscriptionForbiddenErrorResponse documents the HTTP
+        403 error body.
+    coinbase.public_rest_api.DeleteWebhookSubscriptionForbiddenSubcode:
+      type: string
+      enum:
+      - AUTH_RESOURCE_ACCESS_DENIED
+      - MTLS_CERTIFICATE_REQUIRED
+      - MTLS_CERTIFICATE_REVOKED
+      - MTLS_CERTIFICATE_INVALID
+      - WEBHOOK_FEATURE_DISABLED
+    coinbase.public_rest_api.DeleteWebhookSubscriptionNotFoundErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.NotFoundErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.DeleteWebhookSubscriptionNotFoundSubcode'
+        trace_id:
+          type: string
+      description: DeleteWebhookSubscriptionNotFoundErrorResponse documents the HTTP
+        404 error body.
+    coinbase.public_rest_api.DeleteWebhookSubscriptionNotFoundSubcode:
+      type: string
+      enum:
+      - WEBHOOK_SUBSCRIPTION_NOT_FOUND
     coinbase.public_rest_api.EditOrderBadRequestErrorResponse:
       type: object
       properties:
@@ -21908,6 +23410,298 @@ components:
       enum:
       - ASSET_NOT_FOUND
       - WALLET_NOT_FOUND
+    coinbase.public_rest_api.GetWebhookDeliveryAttemptsBadRequestErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.BadRequestErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookDeliveryAttemptsBadRequestSubcode'
+        trace_id:
+          type: string
+      description: GetWebhookDeliveryAttemptsBadRequestErrorResponse documents the
+        HTTP 400 error body.
+    coinbase.public_rest_api.GetWebhookDeliveryAttemptsBadRequestSubcode:
+      type: string
+      enum:
+      - PORTFOLIO_ID_REQUIRED
+      - PORTFOLIO_ID_INVALID
+      - WEBHOOK_SUBSCRIPTION_ID_REQUIRED
+      - WEBHOOK_SUBSCRIPTION_ID_INVALID
+    coinbase.public_rest_api.GetWebhookDeliveryAttemptsForbiddenErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.ForbiddenErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookDeliveryAttemptsForbiddenSubcode'
+        trace_id:
+          type: string
+      description: GetWebhookDeliveryAttemptsForbiddenErrorResponse documents the
+        HTTP 403 error body.
+    coinbase.public_rest_api.GetWebhookDeliveryAttemptsForbiddenSubcode:
+      type: string
+      enum:
+      - AUTH_RESOURCE_ACCESS_DENIED
+      - MTLS_CERTIFICATE_REQUIRED
+      - MTLS_CERTIFICATE_REVOKED
+      - MTLS_CERTIFICATE_INVALID
+      - WEBHOOK_FEATURE_DISABLED
+    coinbase.public_rest_api.GetWebhookDeliveryAttemptsNotFoundErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.NotFoundErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookDeliveryAttemptsNotFoundSubcode'
+        trace_id:
+          type: string
+      description: GetWebhookDeliveryAttemptsNotFoundErrorResponse documents the HTTP
+        404 error body.
+    coinbase.public_rest_api.GetWebhookDeliveryAttemptsNotFoundSubcode:
+      type: string
+      enum:
+      - WEBHOOK_SUBSCRIPTION_NOT_FOUND
+      - WEBHOOK_EVENT_NOT_FOUND
+    coinbase.public_rest_api.GetWebhookDeliveryLogsBadRequestErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.BadRequestErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookDeliveryLogsBadRequestSubcode'
+        trace_id:
+          type: string
+      description: GetWebhookDeliveryLogsBadRequestErrorResponse documents the HTTP
+        400 error body.
+    coinbase.public_rest_api.GetWebhookDeliveryLogsBadRequestSubcode:
+      type: string
+      enum:
+      - PORTFOLIO_ID_REQUIRED
+      - PORTFOLIO_ID_INVALID
+      - WEBHOOK_SUBSCRIPTION_ID_REQUIRED
+      - WEBHOOK_SUBSCRIPTION_ID_INVALID
+    coinbase.public_rest_api.GetWebhookDeliveryLogsForbiddenErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.ForbiddenErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookDeliveryLogsForbiddenSubcode'
+        trace_id:
+          type: string
+      description: GetWebhookDeliveryLogsForbiddenErrorResponse documents the HTTP
+        403 error body.
+    coinbase.public_rest_api.GetWebhookDeliveryLogsForbiddenSubcode:
+      type: string
+      enum:
+      - AUTH_RESOURCE_ACCESS_DENIED
+      - MTLS_CERTIFICATE_REQUIRED
+      - MTLS_CERTIFICATE_REVOKED
+      - MTLS_CERTIFICATE_INVALID
+      - WEBHOOK_FEATURE_DISABLED
+    coinbase.public_rest_api.GetWebhookDeliveryLogsNotFoundErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.NotFoundErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookDeliveryLogsNotFoundSubcode'
+        trace_id:
+          type: string
+      description: GetWebhookDeliveryLogsNotFoundErrorResponse documents the HTTP
+        404 error body.
+    coinbase.public_rest_api.GetWebhookDeliveryLogsNotFoundSubcode:
+      type: string
+      enum:
+      - WEBHOOK_SUBSCRIPTION_NOT_FOUND
+    coinbase.public_rest_api.GetWebhookEventTypesForbiddenErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.ForbiddenErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookEventTypesForbiddenSubcode'
+        trace_id:
+          type: string
+      description: GetWebhookEventTypesForbiddenErrorResponse documents the HTTP 403
+        error body.
+    coinbase.public_rest_api.GetWebhookEventTypesForbiddenSubcode:
+      type: string
+      enum:
+      - AUTH_RESOURCE_ACCESS_DENIED
+      - MTLS_CERTIFICATE_REQUIRED
+      - MTLS_CERTIFICATE_REVOKED
+      - MTLS_CERTIFICATE_INVALID
+    coinbase.public_rest_api.GetWebhookOwnerStatsBadRequestErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.BadRequestErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookOwnerStatsBadRequestSubcode'
+        trace_id:
+          type: string
+      description: GetWebhookOwnerStatsBadRequestErrorResponse documents the HTTP
+        400 error body.
+    coinbase.public_rest_api.GetWebhookOwnerStatsBadRequestSubcode:
+      type: string
+      enum:
+      - PORTFOLIO_ID_REQUIRED
+      - PORTFOLIO_ID_INVALID
+    coinbase.public_rest_api.GetWebhookOwnerStatsForbiddenErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.ForbiddenErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookOwnerStatsForbiddenSubcode'
+        trace_id:
+          type: string
+      description: GetWebhookOwnerStatsForbiddenErrorResponse documents the HTTP 403
+        error body.
+    coinbase.public_rest_api.GetWebhookOwnerStatsForbiddenSubcode:
+      type: string
+      enum:
+      - AUTH_RESOURCE_ACCESS_DENIED
+      - MTLS_CERTIFICATE_REQUIRED
+      - MTLS_CERTIFICATE_REVOKED
+      - MTLS_CERTIFICATE_INVALID
+      - WEBHOOK_FEATURE_DISABLED
+    coinbase.public_rest_api.GetWebhookSubscriptionBadRequestErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.BadRequestErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookSubscriptionBadRequestSubcode'
+        trace_id:
+          type: string
+      description: GetWebhookSubscriptionBadRequestErrorResponse documents the HTTP
+        400 error body.
+    coinbase.public_rest_api.GetWebhookSubscriptionBadRequestSubcode:
+      type: string
+      enum:
+      - PORTFOLIO_ID_REQUIRED
+      - PORTFOLIO_ID_INVALID
+      - WEBHOOK_SUBSCRIPTION_ID_REQUIRED
+      - WEBHOOK_SUBSCRIPTION_ID_INVALID
+    coinbase.public_rest_api.GetWebhookSubscriptionForbiddenErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.ForbiddenErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookSubscriptionForbiddenSubcode'
+        trace_id:
+          type: string
+      description: GetWebhookSubscriptionForbiddenErrorResponse documents the HTTP
+        403 error body.
+    coinbase.public_rest_api.GetWebhookSubscriptionForbiddenSubcode:
+      type: string
+      enum:
+      - AUTH_RESOURCE_ACCESS_DENIED
+      - MTLS_CERTIFICATE_REQUIRED
+      - MTLS_CERTIFICATE_REVOKED
+      - MTLS_CERTIFICATE_INVALID
+      - WEBHOOK_FEATURE_DISABLED
+    coinbase.public_rest_api.GetWebhookSubscriptionNotFoundErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.NotFoundErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookSubscriptionNotFoundSubcode'
+        trace_id:
+          type: string
+      description: GetWebhookSubscriptionNotFoundErrorResponse documents the HTTP
+        404 error body.
+    coinbase.public_rest_api.GetWebhookSubscriptionNotFoundSubcode:
+      type: string
+      enum:
+      - WEBHOOK_SUBSCRIPTION_NOT_FOUND
+    coinbase.public_rest_api.GetWebhookSubscriptionStatsBadRequestErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.BadRequestErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookSubscriptionStatsBadRequestSubcode'
+        trace_id:
+          type: string
+      description: GetWebhookSubscriptionStatsBadRequestErrorResponse documents the
+        HTTP 400 error body.
+    coinbase.public_rest_api.GetWebhookSubscriptionStatsBadRequestSubcode:
+      type: string
+      enum:
+      - PORTFOLIO_ID_REQUIRED
+      - PORTFOLIO_ID_INVALID
+      - WEBHOOK_SUBSCRIPTION_ID_REQUIRED
+      - WEBHOOK_SUBSCRIPTION_ID_INVALID
+    coinbase.public_rest_api.GetWebhookSubscriptionStatsForbiddenErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.ForbiddenErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookSubscriptionStatsForbiddenSubcode'
+        trace_id:
+          type: string
+      description: GetWebhookSubscriptionStatsForbiddenErrorResponse documents the
+        HTTP 403 error body.
+    coinbase.public_rest_api.GetWebhookSubscriptionStatsForbiddenSubcode:
+      type: string
+      enum:
+      - AUTH_RESOURCE_ACCESS_DENIED
+      - MTLS_CERTIFICATE_REQUIRED
+      - MTLS_CERTIFICATE_REVOKED
+      - MTLS_CERTIFICATE_INVALID
+      - WEBHOOK_FEATURE_DISABLED
+    coinbase.public_rest_api.GetWebhookSubscriptionStatsNotFoundErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.NotFoundErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookSubscriptionStatsNotFoundSubcode'
+        trace_id:
+          type: string
+      description: GetWebhookSubscriptionStatsNotFoundErrorResponse documents the
+        HTTP 404 error body.
+    coinbase.public_rest_api.GetWebhookSubscriptionStatsNotFoundSubcode:
+      type: string
+      enum:
+      - WEBHOOK_SUBSCRIPTION_NOT_FOUND
     coinbase.public_rest_api.GetWithdrawalPowerBadRequestErrorResponse:
       type: object
       properties:
@@ -22603,6 +24397,45 @@ components:
       enum:
       - AUTH_RESOURCE_NOT_FOUND
       - WALLET_NOT_FOUND
+    coinbase.public_rest_api.ListWebhookSubscriptionsBadRequestErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.BadRequestErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.ListWebhookSubscriptionsBadRequestSubcode'
+        trace_id:
+          type: string
+      description: ListWebhookSubscriptionsBadRequestErrorResponse documents the HTTP
+        400 error body.
+    coinbase.public_rest_api.ListWebhookSubscriptionsBadRequestSubcode:
+      type: string
+      enum:
+      - PORTFOLIO_ID_REQUIRED
+      - PORTFOLIO_ID_INVALID
+    coinbase.public_rest_api.ListWebhookSubscriptionsForbiddenErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.ForbiddenErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.ListWebhookSubscriptionsForbiddenSubcode'
+        trace_id:
+          type: string
+      description: ListWebhookSubscriptionsForbiddenErrorResponse documents the HTTP
+        403 error body.
+    coinbase.public_rest_api.ListWebhookSubscriptionsForbiddenSubcode:
+      type: string
+      enum:
+      - AUTH_RESOURCE_ACCESS_DENIED
+      - MTLS_CERTIFICATE_REQUIRED
+      - MTLS_CERTIFICATE_REVOKED
+      - MTLS_CERTIFICATE_INVALID
+      - WEBHOOK_FEATURE_DISABLED
     coinbase.public_rest_api.ListXMLiquidationsBadRequestErrorResponse:
       type: object
       properties:
@@ -22948,6 +24781,66 @@ components:
       - MTLS_CERTIFICATE_REQUIRED
       - MTLS_CERTIFICATE_REVOKED
       - MTLS_CERTIFICATE_INVALID
+    coinbase.public_rest_api.ReplayWebhookEventBadRequestErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.BadRequestErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.ReplayWebhookEventBadRequestSubcode'
+        trace_id:
+          type: string
+      description: ReplayWebhookEventBadRequestErrorResponse documents the HTTP 400
+        error body.
+    coinbase.public_rest_api.ReplayWebhookEventBadRequestSubcode:
+      type: string
+      enum:
+      - PORTFOLIO_ID_REQUIRED
+      - PORTFOLIO_ID_INVALID
+      - WEBHOOK_SUBSCRIPTION_ID_INVALID
+      - WEBHOOK_IDEMPOTENCY_CONFLICT
+      - WEBHOOK_INVALID_ARGUMENT
+    coinbase.public_rest_api.ReplayWebhookEventForbiddenErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.ForbiddenErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.ReplayWebhookEventForbiddenSubcode'
+        trace_id:
+          type: string
+      description: ReplayWebhookEventForbiddenErrorResponse documents the HTTP 403
+        error body.
+    coinbase.public_rest_api.ReplayWebhookEventForbiddenSubcode:
+      type: string
+      enum:
+      - AUTH_RESOURCE_ACCESS_DENIED
+      - MTLS_CERTIFICATE_REQUIRED
+      - MTLS_CERTIFICATE_REVOKED
+      - MTLS_CERTIFICATE_INVALID
+      - WEBHOOK_FEATURE_DISABLED
+    coinbase.public_rest_api.ReplayWebhookEventNotFoundErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.NotFoundErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.ReplayWebhookEventNotFoundSubcode'
+        trace_id:
+          type: string
+      description: ReplayWebhookEventNotFoundErrorResponse documents the HTTP 404
+        error body.
+    coinbase.public_rest_api.ReplayWebhookEventNotFoundSubcode:
+      type: string
+      enum:
+      - WEBHOOK_SUBSCRIPTION_NOT_FOUND
+      - WEBHOOK_EVENT_NOT_FOUND
     coinbase.public_rest_api.RotateAPIKeyBadRequestErrorResponse:
       type: object
       properties:
@@ -22986,6 +24879,66 @@ components:
       - MTLS_CERTIFICATE_REQUIRED
       - MTLS_CERTIFICATE_REVOKED
       - MTLS_CERTIFICATE_INVALID
+    coinbase.public_rest_api.RotateWebhookHMACSecretBadRequestErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.BadRequestErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.RotateWebhookHMACSecretBadRequestSubcode'
+        trace_id:
+          type: string
+      description: RotateWebhookHMACSecretBadRequestErrorResponse documents the HTTP
+        400 error body.
+    coinbase.public_rest_api.RotateWebhookHMACSecretBadRequestSubcode:
+      type: string
+      enum:
+      - PORTFOLIO_ID_REQUIRED
+      - PORTFOLIO_ID_INVALID
+      - WEBHOOK_SUBSCRIPTION_ID_REQUIRED
+      - WEBHOOK_SUBSCRIPTION_ID_INVALID
+      - WEBHOOK_VERSION_CONFLICT
+      - WEBHOOK_INVALID_ARGUMENT
+    coinbase.public_rest_api.RotateWebhookHMACSecretForbiddenErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.ForbiddenErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.RotateWebhookHMACSecretForbiddenSubcode'
+        trace_id:
+          type: string
+      description: RotateWebhookHMACSecretForbiddenErrorResponse documents the HTTP
+        403 error body.
+    coinbase.public_rest_api.RotateWebhookHMACSecretForbiddenSubcode:
+      type: string
+      enum:
+      - AUTH_RESOURCE_ACCESS_DENIED
+      - MTLS_CERTIFICATE_REQUIRED
+      - MTLS_CERTIFICATE_REVOKED
+      - MTLS_CERTIFICATE_INVALID
+      - WEBHOOK_FEATURE_DISABLED
+    coinbase.public_rest_api.RotateWebhookHMACSecretNotFoundErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.NotFoundErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.RotateWebhookHMACSecretNotFoundSubcode'
+        trace_id:
+          type: string
+      description: RotateWebhookHMACSecretNotFoundErrorResponse documents the HTTP
+        404 error body.
+    coinbase.public_rest_api.RotateWebhookHMACSecretNotFoundSubcode:
+      type: string
+      enum:
+      - WEBHOOK_SUBSCRIPTION_NOT_FOUND
     coinbase.public_rest_api.ScheduleFuturesSweepBadRequestErrorResponse:
       type: object
       properties:
@@ -23042,6 +24995,65 @@ components:
       type: string
       enum:
       - AUTH_RESOURCE_NOT_FOUND
+    coinbase.public_rest_api.SendWebhookSimulationBadRequestErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.BadRequestErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.SendWebhookSimulationBadRequestSubcode'
+        trace_id:
+          type: string
+      description: SendWebhookSimulationBadRequestErrorResponse documents the HTTP
+        400 error body.
+    coinbase.public_rest_api.SendWebhookSimulationBadRequestSubcode:
+      type: string
+      enum:
+      - PORTFOLIO_ID_REQUIRED
+      - PORTFOLIO_ID_INVALID
+      - WEBHOOK_SUBSCRIPTION_ID_REQUIRED
+      - WEBHOOK_SUBSCRIPTION_ID_INVALID
+      - WEBHOOK_EVENT_TYPE_INVALID
+    coinbase.public_rest_api.SendWebhookSimulationForbiddenErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.ForbiddenErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.SendWebhookSimulationForbiddenSubcode'
+        trace_id:
+          type: string
+      description: SendWebhookSimulationForbiddenErrorResponse documents the HTTP
+        403 error body.
+    coinbase.public_rest_api.SendWebhookSimulationForbiddenSubcode:
+      type: string
+      enum:
+      - AUTH_RESOURCE_ACCESS_DENIED
+      - MTLS_CERTIFICATE_REQUIRED
+      - MTLS_CERTIFICATE_REVOKED
+      - MTLS_CERTIFICATE_INVALID
+      - WEBHOOK_FEATURE_DISABLED
+    coinbase.public_rest_api.SendWebhookSimulationNotFoundErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.NotFoundErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.SendWebhookSimulationNotFoundSubcode'
+        trace_id:
+          type: string
+      description: SendWebhookSimulationNotFoundErrorResponse documents the HTTP 404
+        error body.
+    coinbase.public_rest_api.SendWebhookSimulationNotFoundSubcode:
+      type: string
+      enum:
+      - WEBHOOK_SUBSCRIPTION_NOT_FOUND
     coinbase.public_rest_api.ServiceUnavailableErrorCode:
       type: string
       enum:
@@ -23639,6 +25651,68 @@ components:
       type: string
       enum:
       - AUTH_RESOURCE_NOT_FOUND
+    coinbase.public_rest_api.UpdateWebhookSubscriptionBadRequestErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.BadRequestErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.UpdateWebhookSubscriptionBadRequestSubcode'
+        trace_id:
+          type: string
+      description: UpdateWebhookSubscriptionBadRequestErrorResponse documents the
+        HTTP 400 error body.
+    coinbase.public_rest_api.UpdateWebhookSubscriptionBadRequestSubcode:
+      type: string
+      enum:
+      - PORTFOLIO_ID_REQUIRED
+      - PORTFOLIO_ID_INVALID
+      - WEBHOOK_SUBSCRIPTION_ID_REQUIRED
+      - WEBHOOK_SUBSCRIPTION_ID_INVALID
+      - WEBHOOK_TARGET_URL_INVALID
+      - WEBHOOK_EVENT_TYPE_INVALID
+      - WEBHOOK_VERSION_CONFLICT
+      - WEBHOOK_INVALID_ARGUMENT
+    coinbase.public_rest_api.UpdateWebhookSubscriptionForbiddenErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.ForbiddenErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.UpdateWebhookSubscriptionForbiddenSubcode'
+        trace_id:
+          type: string
+      description: UpdateWebhookSubscriptionForbiddenErrorResponse documents the HTTP
+        403 error body.
+    coinbase.public_rest_api.UpdateWebhookSubscriptionForbiddenSubcode:
+      type: string
+      enum:
+      - AUTH_RESOURCE_ACCESS_DENIED
+      - MTLS_CERTIFICATE_REQUIRED
+      - MTLS_CERTIFICATE_REVOKED
+      - MTLS_CERTIFICATE_INVALID
+      - WEBHOOK_FEATURE_DISABLED
+    coinbase.public_rest_api.UpdateWebhookSubscriptionNotFoundErrorResponse:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/coinbase.public_rest_api.NotFoundErrorCode'
+        message:
+          type: string
+        subcode:
+          $ref: '#/components/schemas/coinbase.public_rest_api.UpdateWebhookSubscriptionNotFoundSubcode'
+        trace_id:
+          type: string
+      description: UpdateWebhookSubscriptionNotFoundErrorResponse documents the HTTP
+        404 error body.
+    coinbase.public_rest_api.UpdateWebhookSubscriptionNotFoundSubcode:
+      type: string
+      enum:
+      - WEBHOOK_SUBSCRIPTION_NOT_FOUND
     public_rest_apiCreateAllocationRequest:
       type: object
       properties:
@@ -25730,6 +27804,223 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/coinbase.public_rest_api.GetCrossMarginPrimeOverviewNotFoundErrorResponse'
+    ListWebhookSubscriptionsBadRequest:
+      description: Bad request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.ListWebhookSubscriptionsBadRequestErrorResponse'
+    ListWebhookSubscriptionsForbidden:
+      description: Permission denied. The API key lacks the required scope for this
+        resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.ListWebhookSubscriptionsForbiddenErrorResponse'
+    CreateWebhookSubscriptionBadRequest:
+      description: Bad request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.CreateWebhookSubscriptionBadRequestErrorResponse'
+    CreateWebhookSubscriptionForbidden:
+      description: Permission denied. The API key lacks the required scope for this
+        resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.CreateWebhookSubscriptionForbiddenErrorResponse'
+    GetWebhookSubscriptionBadRequest:
+      description: Bad request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookSubscriptionBadRequestErrorResponse'
+    GetWebhookSubscriptionForbidden:
+      description: Permission denied. The API key lacks the required scope for this
+        resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookSubscriptionForbiddenErrorResponse'
+    GetWebhookSubscriptionNotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookSubscriptionNotFoundErrorResponse'
+    DeleteWebhookSubscriptionBadRequest:
+      description: Bad request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.DeleteWebhookSubscriptionBadRequestErrorResponse'
+    DeleteWebhookSubscriptionForbidden:
+      description: Permission denied. The API key lacks the required scope for this
+        resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.DeleteWebhookSubscriptionForbiddenErrorResponse'
+    DeleteWebhookSubscriptionNotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.DeleteWebhookSubscriptionNotFoundErrorResponse'
+    UpdateWebhookSubscriptionBadRequest:
+      description: Bad request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.UpdateWebhookSubscriptionBadRequestErrorResponse'
+    UpdateWebhookSubscriptionForbidden:
+      description: Permission denied. The API key lacks the required scope for this
+        resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.UpdateWebhookSubscriptionForbiddenErrorResponse'
+    UpdateWebhookSubscriptionNotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.UpdateWebhookSubscriptionNotFoundErrorResponse'
+    RotateWebhookHMACSecretBadRequest:
+      description: Bad request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.RotateWebhookHMACSecretBadRequestErrorResponse'
+    RotateWebhookHMACSecretForbidden:
+      description: Permission denied. The API key lacks the required scope for this
+        resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.RotateWebhookHMACSecretForbiddenErrorResponse'
+    RotateWebhookHMACSecretNotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.RotateWebhookHMACSecretNotFoundErrorResponse'
+    SendWebhookSimulationBadRequest:
+      description: Bad request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.SendWebhookSimulationBadRequestErrorResponse'
+    SendWebhookSimulationForbidden:
+      description: Permission denied. The API key lacks the required scope for this
+        resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.SendWebhookSimulationForbiddenErrorResponse'
+    SendWebhookSimulationNotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.SendWebhookSimulationNotFoundErrorResponse'
+    GetWebhookEventTypesForbidden:
+      description: Permission denied. The API key lacks the required scope for this
+        resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookEventTypesForbiddenErrorResponse'
+    GetWebhookDeliveryLogsBadRequest:
+      description: Bad request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookDeliveryLogsBadRequestErrorResponse'
+    GetWebhookDeliveryLogsForbidden:
+      description: Permission denied. The API key lacks the required scope for this
+        resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookDeliveryLogsForbiddenErrorResponse'
+    GetWebhookDeliveryLogsNotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookDeliveryLogsNotFoundErrorResponse'
+    GetWebhookDeliveryAttemptsBadRequest:
+      description: Bad request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookDeliveryAttemptsBadRequestErrorResponse'
+    GetWebhookDeliveryAttemptsForbidden:
+      description: Permission denied. The API key lacks the required scope for this
+        resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookDeliveryAttemptsForbiddenErrorResponse'
+    GetWebhookDeliveryAttemptsNotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookDeliveryAttemptsNotFoundErrorResponse'
+    GetWebhookSubscriptionStatsBadRequest:
+      description: Bad request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookSubscriptionStatsBadRequestErrorResponse'
+    GetWebhookSubscriptionStatsForbidden:
+      description: Permission denied. The API key lacks the required scope for this
+        resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookSubscriptionStatsForbiddenErrorResponse'
+    GetWebhookSubscriptionStatsNotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookSubscriptionStatsNotFoundErrorResponse'
+    GetWebhookOwnerStatsBadRequest:
+      description: Bad request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookOwnerStatsBadRequestErrorResponse'
+    GetWebhookOwnerStatsForbidden:
+      description: Permission denied. The API key lacks the required scope for this
+        resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.GetWebhookOwnerStatsForbiddenErrorResponse'
+    ReplayWebhookEventBadRequest:
+      description: Bad request.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.ReplayWebhookEventBadRequestErrorResponse'
+    ReplayWebhookEventForbidden:
+      description: Permission denied. The API key lacks the required scope for this
+        resource.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.ReplayWebhookEventForbiddenErrorResponse'
+    ReplayWebhookEventNotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/coinbase.public_rest_api.ReplayWebhookEventNotFoundErrorResponse'
     GetEntityRewardsRateBadRequest:
       description: Bad request.
       content:
