@@ -19,7 +19,7 @@
  */
 
 /**
- * - SECONDARY_PERMISSION_UNKNOWN: nil value  - VIDEO_APPROVER: A video approver  - TEAM_APPROVER: A team approver  - WEB3_SIGNER: A web3 signer
+ * - SECONDARY_PERMISSION_UNKNOWN: nil value  - VIDEO_APPROVER: A video approver  - TEAM_APPROVER: A team approver  - WEB3_SIGNER: A web3/onchain signer
  */
 export enum SecondaryPermission {
   VideoApprover = 'VIDEO_APPROVER',

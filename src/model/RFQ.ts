@@ -56,4 +56,8 @@ export type RFQ = {
    * Optional quote timeout in milliseconds. Defaults to 3000 ms (3 seconds) if not specified. Maximum allowed value is 30000 ms (30 seconds); requests with a larger value are rejected. Mirrors FIX tag 8090 (QuoteRequestGoodForMs).
    */
   quoteDurationMs?: string;
+  /**
+   * Buy Exact order flag. When true, fees for a BUY RFQ sized in quote_value are charged on top of the requested quote_value instead of being carved out of it. Only valid for BUY RFQs sized in quote_value on SPOT products.
+   */
+  isBuyExact?: boolean;
 };

@@ -50,4 +50,8 @@ export type FcmPosition = {
    * Expiration time of position
    */
   expirationTime?: Date;
+  /**
+   * Funding PNL, populated only for perpetual futures positions
+   */
+  fundingPnl?: string;
 };

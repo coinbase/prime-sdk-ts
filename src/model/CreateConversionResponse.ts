@@ -32,7 +32,7 @@ export type CreateConversionResponse = {
    */
   destinationSymbol?: string;
   /**
-   * The amount in whole units to convert
+   * The amount in whole units to convert. For example, \"1.50\" represents 1.5 of the source symbol.  Examples:  - \"100\"  - \"1.123456\" (precision varies by asset; USDC, for example, supports up to 6 decimal places)  - \"0.50\"
    */
   amount?: string;
   /**

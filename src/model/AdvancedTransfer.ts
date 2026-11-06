@@ -21,6 +21,7 @@
 import { AdvancedTransferState } from './enums/AdvancedTransferState';
 import { AdvancedTransferType } from './enums/AdvancedTransferType';
 import { BlindMatchMetadata } from './BlindMatchMetadata';
+import { CoinbaseFee } from './CoinbaseFee';
 import { FundMovement } from './FundMovement';
 
 /**
@@ -41,4 +42,8 @@ export type AdvancedTransfer = {
    * BlindMatchMetadata contains metadata specific to blind match advanced transfers.
    */
   blindMatchMetadata?: BlindMatchMetadata;
+  /**
+   * Coinbase fees charged to this portfolio\'s wallets on this Advanced Transfer. Empty on create and when no fee applies.
+   */
+  coinbaseFees?: Array<CoinbaseFee>;
 };

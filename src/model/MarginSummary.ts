@@ -21,6 +21,11 @@
 import { AssetBalance } from './AssetBalance';
 import { LoanInfo } from './LoanInfo';
 import { MarginAddOn } from './MarginAddOn';
+import { MarginCallThresholds } from './MarginCallThresholds';
+import { MarginControlStatus } from './enums/MarginControlStatus';
+import { MarginEntityCallStatus } from './enums/MarginEntityCallStatus';
+import { MarginHealthStatus } from './enums/MarginHealthStatus';
+import { MarginLevel } from './enums/MarginLevel';
 import { MarketRate } from './MarketRate';
 import { PMAssetInfo } from './PMAssetInfo';
 
@@ -150,4 +155,36 @@ export type MarginSummary = {
    * The amount of the margin limit that is consumed by the excess deficit
    */
   pmMarginConsumed?: string;
+  /**
+   * Signed cash adjustment associated with the short collateral balance in a historical margin summary. Negative amounts move cash into short collateral; positive amounts return cash from short collateral. Add this signed amount to the snapshot\'s cash balance to calculate cash after the transfer. Live margin responses return an empty string for this field.  For example, a cash balance of 60000000 and a short collateral transfer of -20000000 produce a cash balance of 40000000 after the transfer. This calculation doesn\'t determine the amount available to withdraw.
+   */
+  shortCollateralTransfer?: string;
+  /**
+   * Recorded account health state maintained by the margin-management process. Persistence rules filter out short-lived threshold changes. Margin-call and liquidation events also affect this state. A change in the calculated `margin_level` may not immediately change this status. Use `control_status` for trading and withdrawal permissions in live responses. Historical responses contain the recorded health state at the historical evaluation.   - MARGIN_HEALTH_STATUS_UNSPECIFIED: No account health state is provided. Don\'t interpret this value as healthy or as permission to trade or withdraw.  - MARGIN_HEALTH_STATUS_HEALTHY: The account\'s recorded health state is healthy.  - MARGIN_HEALTH_STATUS_WARNING: The account\'s recorded health state is warning. Margin-call issuance follows the applicable margin methodology.  - MARGIN_HEALTH_STATUS_CRITICAL: The account\'s recorded health state is critical, corresponding to an urgent margin-call condition under the applicable margin methodology.  - MARGIN_HEALTH_STATUS_SUSPENDED: The account is recorded as suspended under the applicable margin methodology.  - MARGIN_HEALTH_STATUS_RESTRICTED: The account is recorded as restricted under the applicable margin methodology.  - MARGIN_HEALTH_STATUS_PRE_LIQUIDATION: The account is in a pre-liquidation state. Liquidation may commence under the applicable margin methodology.  - MARGIN_HEALTH_STATUS_LIQUIDATING: Liquidation has commenced.  - MARGIN_HEALTH_STATUS_IN_DEFICIT: The account\'s recorded health state is in deficit. Margin-call issuance follows the applicable margin methodology.
+   */
+  healthStatus?: MarginHealthStatus;
+  /**
+   * Calculated margin level based on the account\'s equity, margin requirement, margin limit, and configured thresholds. This reflects the current calculation for live responses or the recorded calculation for historical responses. It can differ from `health_status`, which is maintained by the margin-management process. The level alone doesn\'t determine whether a margin call is open or whether trading and withdrawals are allowed.   - MARGIN_LEVEL_UNSPECIFIED: No calculated margin level is provided.  - MARGIN_LEVEL_HEALTHY: Account equity is at or above the margin requirement.  - MARGIN_LEVEL_DEFICIT: The calculation places the account in the deficit band. Margin-call issuance follows the applicable margin methodology.  - MARGIN_LEVEL_WARNING: The calculation places the account in the warning band, approaching the critical threshold.  - MARGIN_LEVEL_CRITICAL: The calculation places the account in the critical band.  - MARGIN_LEVEL_LIQUIDATION: The calculation places the account in the liquidation band. This value alone doesn\'t indicate that liquidation has commenced.
+   */
+  marginLevel?: MarginLevel;
+  /**
+   * Configured thresholds used to determine `margin_level`. Each entry identifies a margin level, the ratio used to evaluate it, and its threshold value. Historical responses contain the thresholds recorded with the historical health evaluation.  Equity at or above the margin requirement produces a healthy margin level. Otherwise, the evaluator selects the first matching rule in the configured order. A threshold comparison identifies a matching level; it doesn\'t by itself issue a margin call or change account permissions.
+   */
+  marginThresholds?: MarginCallThresholds;
+  /**
+   * Trading and withdrawal permissions derived from the account\'s recorded health state, outstanding margin calls, and account restrictions. These permissions can remain restricted even when the calculated `margin_level` improves. Returns `MARGIN_CONTROL_STATUS_UNSPECIFIED` when the margin service doesn\'t provide a control status.   - MARGIN_CONTROL_STATUS_UNSPECIFIED: No control status is provided. Don\'t infer permission to trade or withdraw from this value.  - MARGIN_CONTROL_STATUS_TRADES_AND_WITHDRAWALS: Allowed to trade and withdraw under the applicable margin methodology.  - MARGIN_CONTROL_STATUS_TRADES_ONLY: Allowed to trade but not withdraw under the applicable margin methodology.  - MARGIN_CONTROL_STATUS_SESSION_LOCKED: Not allowed to trade or withdraw.
+   */
+  controlStatus?: MarginControlStatus;
+  /**
+   * Account equity divided by margin requirement, expressed as a decimal ratio. For example, \"1.2\" represents equity equal to 120% of the margin requirement. Returns an empty string when either input is unavailable or the margin requirement is zero.
+   */
+  equityRatio?: string;
+  /**
+   * Margin deficit divided by the account\'s margin limit, calculated as `max(0, (margin requirement - account equity) / pm_margin_limit)`. Expressed as a decimal ratio, not a percentage. Returns an empty string when an input is unavailable or the margin limit is zero.
+   */
+  deficitRatio?: string;
+  /**
+   * MarginEntityCallStatus summarizes the entity\'s open margin calls. When several calls are open, it reflects the highest-priority one: aged, then urgent, then standard, then debit. `call_status` describes outstanding calls. Use `margin_level` for calculated margin condition and `control_status` for trading and withdrawal permissions.   - MARGIN_ENTITY_CALL_STATUS_UNSPECIFIED: No call status is provided. Don\'t infer that the entity has no margin calls from this value.  - MARGIN_ENTITY_CALL_STATUS_NO_CALL: The entity has no open margin calls.  - MARGIN_ENTITY_CALL_STATUS_OPEN_STANDARD_CALL: The entity has an open standard margin call and no urgent or aged calls.  - MARGIN_ENTITY_CALL_STATUS_OPEN_URGENT_CALL: The entity has an open urgent margin call and no aged calls.  - MARGIN_ENTITY_CALL_STATUS_AGED_CALL: At least one open margin call is past its due time. This status alone does not indicate a contractual Event of Default or that liquidation has begun.  - MARGIN_ENTITY_CALL_STATUS_OPEN_DEBIT_CALL: The entity has an open debit call and no standard, urgent, or aged calls.
+   */
+  callStatus?: MarginEntityCallStatus;
 };

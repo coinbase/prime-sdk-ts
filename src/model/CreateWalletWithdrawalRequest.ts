@@ -26,7 +26,7 @@ import { TravelRuleData } from './TravelRuleData';
 
 export type CreateWalletWithdrawalRequest = {
   /**
-   * The amount in whole units of the withdrawal
+   * The amount in whole units to withdraw. For example, \"1.50\" represents 1.5 of the wallet\'s asset.  Examples:  - \"100\"  - \"1.123456\" (precision varies by asset; USDC, for example, supports up to 6 decimal places)  - \"0.50\"
    */
   amount: string;
   /**
