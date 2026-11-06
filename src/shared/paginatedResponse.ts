@@ -67,6 +67,12 @@ export interface PaginatedResponseMethods<
   __config: PaginationConfig;
   __currentPage: number;
   __totalItemsFetched: number;
+  /**
+   * Cursor info for endpoints that return `hasNext` / `nextCursor` at the top
+   * level instead of under `pagination` (e.g. webhooks). Captured before the
+   * `hasNext()` helper overwrites the raw `hasNext` field.
+   */
+  __topLevelPagination?: { hasNext?: boolean; nextCursor?: string };
 
   /**
    * Check if there are more pages available
@@ -174,9 +180,16 @@ export function createPaginatedResponse<
     },
     __currentPage: 1,
     __totalItemsFetched: 0,
+    __topLevelPagination: {
+      hasNext:
+        typeof (responseData as any)?.hasNext === 'boolean'
+          ? (responseData as any).hasNext
+          : undefined,
+      nextCursor: (responseData as any)?.nextCursor,
+    },
 
     hasNext(): boolean {
-      const pagination = (this as any).pagination;
+      const pagination = (this as any).pagination ?? this.__topLevelPagination;
       const hasApiNext = pagination?.has_next ?? pagination?.hasNext ?? false;
 
       // Check if API has more pages
@@ -201,7 +214,7 @@ export function createPaginatedResponse<
     },
 
     getNextCursor(): string | undefined {
-      const pagination = (this as any).pagination;
+      const pagination = (this as any).pagination ?? this.__topLevelPagination;
       return pagination?.nextCursor;
     },
 
@@ -330,6 +343,10 @@ export const ResponseExtractors = {
     response.transactions || [],
   users: <T>(response: { users?: T[] }): T[] => response.users || [],
   wallets: <T>(response: { wallets?: T[] }): T[] => response.wallets || [],
+  webhookSubscriptions: <T>(response: { subscriptions?: T[] }): T[] =>
+    response.subscriptions || [],
+  webhookDeliveryLogs: <T>(response: { entries?: T[] }): T[] =>
+    response.entries || [],
 };
 
 /**

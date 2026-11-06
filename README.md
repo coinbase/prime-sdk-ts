@@ -37,6 +37,9 @@ const orders = await client.orders.listPortfolioOrders({
   portfolioId: 'your-id',
 });
 const wallets = await client.wallets.listWallets({ portfolioId: 'your-id' });
+const subscriptions = await client.webhooks.listWebhookSubscriptions({
+  portfolioId: 'your-id',
+});
 ```
 
 ### Environment Setup

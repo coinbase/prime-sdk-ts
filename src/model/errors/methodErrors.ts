@@ -69,9 +69,14 @@ import type { CreateWalletTransferNotFoundErrorResponse } from './CreateWalletTr
 import type { CreateWalletWithdrawalBadRequestErrorResponse } from './CreateWalletWithdrawalBadRequestErrorResponse';
 import type { CreateWalletWithdrawalForbiddenErrorResponse } from './CreateWalletWithdrawalForbiddenErrorResponse';
 import type { CreateWalletWithdrawalNotFoundErrorResponse } from './CreateWalletWithdrawalNotFoundErrorResponse';
+import type { CreateWebhookSubscriptionBadRequestErrorResponse } from './CreateWebhookSubscriptionBadRequestErrorResponse';
+import type { CreateWebhookSubscriptionForbiddenErrorResponse } from './CreateWebhookSubscriptionForbiddenErrorResponse';
 import type { DeleteOnchainAddressGroupBadRequestErrorResponse } from './DeleteOnchainAddressGroupBadRequestErrorResponse';
 import type { DeleteOnchainAddressGroupForbiddenErrorResponse } from './DeleteOnchainAddressGroupForbiddenErrorResponse';
 import type { DeleteOnchainAddressGroupNotFoundErrorResponse } from './DeleteOnchainAddressGroupNotFoundErrorResponse';
+import type { DeleteWebhookSubscriptionBadRequestErrorResponse } from './DeleteWebhookSubscriptionBadRequestErrorResponse';
+import type { DeleteWebhookSubscriptionForbiddenErrorResponse } from './DeleteWebhookSubscriptionForbiddenErrorResponse';
+import type { DeleteWebhookSubscriptionNotFoundErrorResponse } from './DeleteWebhookSubscriptionNotFoundErrorResponse';
 import type { EditOrderBadRequestErrorResponse } from './EditOrderBadRequestErrorResponse';
 import type { EditOrderForbiddenErrorResponse } from './EditOrderForbiddenErrorResponse';
 import type { EditOrderNotFoundErrorResponse } from './EditOrderNotFoundErrorResponse';
@@ -260,6 +265,21 @@ import type { GetWalletTransactionsNotFoundErrorResponse } from './GetWalletTran
 import type { GetWalletsBadRequestErrorResponse } from './GetWalletsBadRequestErrorResponse';
 import type { GetWalletsForbiddenErrorResponse } from './GetWalletsForbiddenErrorResponse';
 import type { GetWalletsNotFoundErrorResponse } from './GetWalletsNotFoundErrorResponse';
+import type { GetWebhookDeliveryAttemptsBadRequestErrorResponse } from './GetWebhookDeliveryAttemptsBadRequestErrorResponse';
+import type { GetWebhookDeliveryAttemptsForbiddenErrorResponse } from './GetWebhookDeliveryAttemptsForbiddenErrorResponse';
+import type { GetWebhookDeliveryAttemptsNotFoundErrorResponse } from './GetWebhookDeliveryAttemptsNotFoundErrorResponse';
+import type { GetWebhookDeliveryLogsBadRequestErrorResponse } from './GetWebhookDeliveryLogsBadRequestErrorResponse';
+import type { GetWebhookDeliveryLogsForbiddenErrorResponse } from './GetWebhookDeliveryLogsForbiddenErrorResponse';
+import type { GetWebhookDeliveryLogsNotFoundErrorResponse } from './GetWebhookDeliveryLogsNotFoundErrorResponse';
+import type { GetWebhookEventTypesForbiddenErrorResponse } from './GetWebhookEventTypesForbiddenErrorResponse';
+import type { GetWebhookOwnerStatsBadRequestErrorResponse } from './GetWebhookOwnerStatsBadRequestErrorResponse';
+import type { GetWebhookOwnerStatsForbiddenErrorResponse } from './GetWebhookOwnerStatsForbiddenErrorResponse';
+import type { GetWebhookSubscriptionBadRequestErrorResponse } from './GetWebhookSubscriptionBadRequestErrorResponse';
+import type { GetWebhookSubscriptionForbiddenErrorResponse } from './GetWebhookSubscriptionForbiddenErrorResponse';
+import type { GetWebhookSubscriptionNotFoundErrorResponse } from './GetWebhookSubscriptionNotFoundErrorResponse';
+import type { GetWebhookSubscriptionStatsBadRequestErrorResponse } from './GetWebhookSubscriptionStatsBadRequestErrorResponse';
+import type { GetWebhookSubscriptionStatsForbiddenErrorResponse } from './GetWebhookSubscriptionStatsForbiddenErrorResponse';
+import type { GetWebhookSubscriptionStatsNotFoundErrorResponse } from './GetWebhookSubscriptionStatsNotFoundErrorResponse';
 import type { GetWithdrawalPowerBadRequestErrorResponse } from './GetWithdrawalPowerBadRequestErrorResponse';
 import type { GetWithdrawalPowerForbiddenErrorResponse } from './GetWithdrawalPowerForbiddenErrorResponse';
 import type { GetWithdrawalPowerNotFoundErrorResponse } from './GetWithdrawalPowerNotFoundErrorResponse';
@@ -296,6 +316,8 @@ import type { ListWalletAddressesNotFoundErrorResponse } from './ListWalletAddre
 import type { ListWeb3WalletBalancesBadRequestErrorResponse } from './ListWeb3WalletBalancesBadRequestErrorResponse';
 import type { ListWeb3WalletBalancesForbiddenErrorResponse } from './ListWeb3WalletBalancesForbiddenErrorResponse';
 import type { ListWeb3WalletBalancesNotFoundErrorResponse } from './ListWeb3WalletBalancesNotFoundErrorResponse';
+import type { ListWebhookSubscriptionsBadRequestErrorResponse } from './ListWebhookSubscriptionsBadRequestErrorResponse';
+import type { ListWebhookSubscriptionsForbiddenErrorResponse } from './ListWebhookSubscriptionsForbiddenErrorResponse';
 import type { ListXMLiquidationsBadRequestErrorResponse } from './ListXMLiquidationsBadRequestErrorResponse';
 import type { ListXMLiquidationsForbiddenErrorResponse } from './ListXMLiquidationsForbiddenErrorResponse';
 import type { ListXMLiquidationsNotFoundErrorResponse } from './ListXMLiquidationsNotFoundErrorResponse';
@@ -311,11 +333,20 @@ import type { PortfolioStakingUnstakeForbiddenErrorResponse } from './PortfolioS
 import type { PortfolioStakingUnstakeNotFoundErrorResponse } from './PortfolioStakingUnstakeNotFoundErrorResponse';
 import type { PreviewUnstakeBadRequestErrorResponse } from './PreviewUnstakeBadRequestErrorResponse';
 import type { PreviewUnstakeForbiddenErrorResponse } from './PreviewUnstakeForbiddenErrorResponse';
+import type { ReplayWebhookEventBadRequestErrorResponse } from './ReplayWebhookEventBadRequestErrorResponse';
+import type { ReplayWebhookEventForbiddenErrorResponse } from './ReplayWebhookEventForbiddenErrorResponse';
+import type { ReplayWebhookEventNotFoundErrorResponse } from './ReplayWebhookEventNotFoundErrorResponse';
 import type { RotateAPIKeyBadRequestErrorResponse } from './RotateAPIKeyBadRequestErrorResponse';
 import type { RotateAPIKeyForbiddenErrorResponse } from './RotateAPIKeyForbiddenErrorResponse';
+import type { RotateWebhookHMACSecretBadRequestErrorResponse } from './RotateWebhookHMACSecretBadRequestErrorResponse';
+import type { RotateWebhookHMACSecretForbiddenErrorResponse } from './RotateWebhookHMACSecretForbiddenErrorResponse';
+import type { RotateWebhookHMACSecretNotFoundErrorResponse } from './RotateWebhookHMACSecretNotFoundErrorResponse';
 import type { ScheduleFuturesSweepBadRequestErrorResponse } from './ScheduleFuturesSweepBadRequestErrorResponse';
 import type { ScheduleFuturesSweepForbiddenErrorResponse } from './ScheduleFuturesSweepForbiddenErrorResponse';
 import type { ScheduleFuturesSweepNotFoundErrorResponse } from './ScheduleFuturesSweepNotFoundErrorResponse';
+import type { SendWebhookSimulationBadRequestErrorResponse } from './SendWebhookSimulationBadRequestErrorResponse';
+import type { SendWebhookSimulationForbiddenErrorResponse } from './SendWebhookSimulationForbiddenErrorResponse';
+import type { SendWebhookSimulationNotFoundErrorResponse } from './SendWebhookSimulationNotFoundErrorResponse';
 import type { ServiceUnavailableErrorResponse } from './ServiceUnavailableErrorResponse';
 import type { SetAutoSweepBadRequestErrorResponse } from './SetAutoSweepBadRequestErrorResponse';
 import type { SetAutoSweepForbiddenErrorResponse } from './SetAutoSweepForbiddenErrorResponse';
@@ -343,6 +374,9 @@ import type { UpdateFundingSettingsNotFoundErrorResponse } from './UpdateFunding
 import type { UpdateOnchainAddressGroupBadRequestErrorResponse } from './UpdateOnchainAddressGroupBadRequestErrorResponse';
 import type { UpdateOnchainAddressGroupForbiddenErrorResponse } from './UpdateOnchainAddressGroupForbiddenErrorResponse';
 import type { UpdateOnchainAddressGroupNotFoundErrorResponse } from './UpdateOnchainAddressGroupNotFoundErrorResponse';
+import type { UpdateWebhookSubscriptionBadRequestErrorResponse } from './UpdateWebhookSubscriptionBadRequestErrorResponse';
+import type { UpdateWebhookSubscriptionForbiddenErrorResponse } from './UpdateWebhookSubscriptionForbiddenErrorResponse';
+import type { UpdateWebhookSubscriptionNotFoundErrorResponse } from './UpdateWebhookSubscriptionNotFoundErrorResponse';
 
 export type AcceptQuoteError =
   | AcceptQuoteBadRequestErrorResponse
@@ -551,6 +585,14 @@ export type CreateWalletError =
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
 
+export type CreateWebhookSubscriptionError =
+  | CreateWebhookSubscriptionBadRequestErrorResponse
+  | CreateWebhookSubscriptionForbiddenErrorResponse
+  | InternalServerErrorResponse
+  | ServiceUnavailableErrorResponse
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
+
 export type CreateWithdrawalError =
   | CreateWalletWithdrawalBadRequestErrorResponse
   | CreateWalletWithdrawalForbiddenErrorResponse
@@ -564,6 +606,15 @@ export type DeleteOnchainAddressBookError =
   | DeleteOnchainAddressGroupBadRequestErrorResponse
   | DeleteOnchainAddressGroupForbiddenErrorResponse
   | DeleteOnchainAddressGroupNotFoundErrorResponse
+  | InternalServerErrorResponse
+  | ServiceUnavailableErrorResponse
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
+
+export type DeleteWebhookSubscriptionError =
+  | DeleteWebhookSubscriptionBadRequestErrorResponse
+  | DeleteWebhookSubscriptionForbiddenErrorResponse
+  | DeleteWebhookSubscriptionNotFoundErrorResponse
   | InternalServerErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
@@ -926,6 +977,57 @@ export type GetWalletError =
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
 
+export type GetWebhookDeliveryAttemptsError =
+  | GetWebhookDeliveryAttemptsBadRequestErrorResponse
+  | GetWebhookDeliveryAttemptsForbiddenErrorResponse
+  | GetWebhookDeliveryAttemptsNotFoundErrorResponse
+  | InternalServerErrorResponse
+  | ServiceUnavailableErrorResponse
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
+
+export type GetWebhookDeliveryLogsError =
+  | GetWebhookDeliveryLogsBadRequestErrorResponse
+  | GetWebhookDeliveryLogsForbiddenErrorResponse
+  | GetWebhookDeliveryLogsNotFoundErrorResponse
+  | InternalServerErrorResponse
+  | ServiceUnavailableErrorResponse
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
+
+export type GetWebhookEventTypesError =
+  | GetWebhookEventTypesForbiddenErrorResponse
+  | InternalServerErrorResponse
+  | ServiceUnavailableErrorResponse
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
+
+export type GetWebhookOwnerStatsError =
+  | GetWebhookOwnerStatsBadRequestErrorResponse
+  | GetWebhookOwnerStatsForbiddenErrorResponse
+  | InternalServerErrorResponse
+  | ServiceUnavailableErrorResponse
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
+
+export type GetWebhookSubscriptionError =
+  | GetWebhookSubscriptionBadRequestErrorResponse
+  | GetWebhookSubscriptionForbiddenErrorResponse
+  | GetWebhookSubscriptionNotFoundErrorResponse
+  | InternalServerErrorResponse
+  | ServiceUnavailableErrorResponse
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
+
+export type GetWebhookSubscriptionStatsError =
+  | GetWebhookSubscriptionStatsBadRequestErrorResponse
+  | GetWebhookSubscriptionStatsForbiddenErrorResponse
+  | GetWebhookSubscriptionStatsNotFoundErrorResponse
+  | InternalServerErrorResponse
+  | ServiceUnavailableErrorResponse
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
+
 export type ListAddressBooksError =
   | GetPortfolioAddressBookBadRequestErrorResponse
   | GetPortfolioAddressBookForbiddenErrorResponse
@@ -1281,6 +1383,14 @@ export type ListWalletTransactionsError =
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
 
+export type ListWebhookSubscriptionsError =
+  | InternalServerErrorResponse
+  | ListWebhookSubscriptionsBadRequestErrorResponse
+  | ListWebhookSubscriptionsForbiddenErrorResponse
+  | ServiceUnavailableErrorResponse
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
+
 export type PreviewUnstakeError =
   | InternalServerErrorResponse
   | PreviewUnstakeBadRequestErrorResponse
@@ -1298,6 +1408,15 @@ export type QueryTransactionValidatorsError =
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
 
+export type ReplayWebhookEventError =
+  | InternalServerErrorResponse
+  | ReplayWebhookEventBadRequestErrorResponse
+  | ReplayWebhookEventForbiddenErrorResponse
+  | ReplayWebhookEventNotFoundErrorResponse
+  | ServiceUnavailableErrorResponse
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
+
 export type RotateApiKeyError =
   | InternalServerErrorResponse
   | NotImplementedErrorResponse
@@ -1307,11 +1426,29 @@ export type RotateApiKeyError =
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
 
+export type RotateWebhookHmacSecretError =
+  | InternalServerErrorResponse
+  | RotateWebhookHMACSecretBadRequestErrorResponse
+  | RotateWebhookHMACSecretForbiddenErrorResponse
+  | RotateWebhookHMACSecretNotFoundErrorResponse
+  | ServiceUnavailableErrorResponse
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
+
 export type ScheduleEntitySweepError =
   | InternalServerErrorResponse
   | ScheduleFuturesSweepBadRequestErrorResponse
   | ScheduleFuturesSweepForbiddenErrorResponse
   | ScheduleFuturesSweepNotFoundErrorResponse
+  | ServiceUnavailableErrorResponse
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse;
+
+export type SendWebhookSimulationError =
+  | InternalServerErrorResponse
+  | SendWebhookSimulationBadRequestErrorResponse
+  | SendWebhookSimulationForbiddenErrorResponse
+  | SendWebhookSimulationNotFoundErrorResponse
   | ServiceUnavailableErrorResponse
   | TooManyRequestsErrorResponse
   | UnauthorizedErrorResponse;
@@ -1369,3 +1506,12 @@ export type UpdateOnchainAddressBookEntryError =
   | UpdateOnchainAddressGroupBadRequestErrorResponse
   | UpdateOnchainAddressGroupForbiddenErrorResponse
   | UpdateOnchainAddressGroupNotFoundErrorResponse;
+
+export type UpdateWebhookSubscriptionError =
+  | InternalServerErrorResponse
+  | ServiceUnavailableErrorResponse
+  | TooManyRequestsErrorResponse
+  | UnauthorizedErrorResponse
+  | UpdateWebhookSubscriptionBadRequestErrorResponse
+  | UpdateWebhookSubscriptionForbiddenErrorResponse
+  | UpdateWebhookSubscriptionNotFoundErrorResponse;

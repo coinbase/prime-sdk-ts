@@ -72,6 +72,7 @@ export type { IStakingService } from './staking';
 export type { ITransactionsService } from './transactions';
 export type { IUsersService } from './users';
 export type { IWalletsService } from './wallets';
+export type { IWebhooksService } from './webhooks';
 
 // NOTE: Service-specific request/response types are NOT exported here.
 // For optimal tree-shaking, import them from their dedicated modules:
