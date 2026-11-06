@@ -28,4 +28,8 @@ export type CreateAdvancedTransferRequest = {
    * AdvancedTransfer represents a complex transfer operation such as a blind match settlement.
    */
   advancedTransfer: AdvancedTransfer;
+  /**
+   * Optional client-generated idempotency key. A request with the same key returns the stored transaction ID and reports CREATED; the request body is not compared. Omit the field to create a new transfer.
+   */
+  idempotencyKey?: string;
 };

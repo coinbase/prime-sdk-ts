@@ -45,6 +45,7 @@ export type { IStakingService } from './staking';
 export type { ITransactionsService } from './transactions';
 export type { IUsersService } from './users';
 export type { IWalletsService } from './wallets';
+export type { IWebhooksService } from './webhooks';
 
 // Export client configuration types
 export {

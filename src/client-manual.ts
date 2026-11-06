@@ -68,6 +68,7 @@ export { StakingService, IStakingService } from './staking';
 export { TransactionsService, ITransactionsService } from './transactions';
 export { UsersService, IUsersService } from './users';
 export { WalletsService, IWalletsService } from './wallets';
+export { WebhooksService, IWebhooksService } from './webhooks';
 
 // Export all model types and enums
 export type * from './model/';
@@ -328,3 +329,32 @@ export type {
   ListWalletsRequest,
   ListWalletsResponse,
 } from './wallets/types';
+export type {
+  ListWebhookSubscriptionsRequest,
+  ListWebhookSubscriptionsResponse,
+  CreateWebhookSubscriptionRequest,
+  CreateWebhookSubscriptionResponse,
+  GetWebhookSubscriptionRequest,
+  GetWebhookSubscriptionResponse,
+  UpdateWebhookSubscriptionRequest,
+  UpdateWebhookSubscriptionResponse,
+  DeleteWebhookSubscriptionRequest,
+  DeleteWebhookSubscriptionResponse,
+  RotateWebhookHMACSecretRequest,
+  RotateWebhookHMACSecretResponse,
+  SendWebhookSimulationRequest,
+  SendWebhookSimulationResponse,
+  GetWebhookEventTypesRequest,
+  GetWebhookEventTypesResponse,
+  GetWebhookDeliveryLogsRequest,
+  GetWebhookDeliveryLogsResponse,
+  GetWebhookDeliveryAttemptsRequest,
+  GetWebhookDeliveryAttemptsResponse,
+  GetWebhookSubscriptionStatsRequest,
+  GetWebhookSubscriptionStatsResponse,
+  GetWebhookOwnerStatsRequest,
+  GetWebhookOwnerStatsResponse,
+  ReplayWebhookEventRequest,
+  ReplayWebhookEventResponse,
+  WebhookStatsPeriod,
+} from './webhooks/types';

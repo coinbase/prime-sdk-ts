@@ -1,5 +1,40 @@
 # Changelog
 
+## [0.15.0] - 2026-NOV-06
+
+### Added
+
+#### New API Endpoints
+
+**Webhooks Service** (`client.webhooks`)
+
+- **`listWebhookSubscriptions()`**: List webhook subscriptions for a portfolio, cursor-paginated (`GET /v1/portfolios/{portfolio_id}/webhooks/subscriptions`)
+- **`createWebhookSubscription()`**: Create a webhook subscription; returns the HMAC secret exactly once (`POST /v1/portfolios/{portfolio_id}/webhooks/subscriptions`)
+- **`getWebhookSubscription()`**: Get a webhook subscription (`GET /v1/portfolios/{portfolio_id}/webhooks/subscriptions/{subscription_id}`)
+- **`updateWebhookSubscription()`**: Partially update a webhook subscription using a field mask (`PATCH /v1/portfolios/{portfolio_id}/webhooks/subscriptions/{subscription_id}`)
+- **`deleteWebhookSubscription()`**: Soft-delete a webhook subscription (`DELETE /v1/portfolios/{portfolio_id}/webhooks/subscriptions/{subscription_id}`)
+- **`rotateWebhookHmacSecret()`**: Rotate the HMAC signing secret (`POST /v1/portfolios/{portfolio_id}/webhooks/subscriptions/{subscription_id}/rotate-hmac-secret`)
+- **`sendWebhookSimulation()`**: Send a synthetic test event to a subscription (`POST /v1/portfolios/{portfolio_id}/webhooks/subscriptions/{subscription_id}/simulate`)
+- **`getWebhookEventTypes()`**: List the registered webhook event types (`GET /v1/webhooks/event-types`)
+- **`getWebhookDeliveryLogs()`**: List delivery logs for a subscription, cursor-paginated (`GET /v1/portfolios/{portfolio_id}/webhooks/subscriptions/{subscription_id}/deliveries`)
+- **`getWebhookDeliveryAttempts()`**: List the delivery attempts for an event (`GET /v1/portfolios/{portfolio_id}/webhooks/subscriptions/{subscription_id}/deliveries/{event_id}/attempts`)
+- **`getWebhookSubscriptionStats()`**: Delivery statistics for a subscription (`GET /v1/portfolios/{portfolio_id}/webhooks/subscriptions/{subscription_id}/stats`)
+- **`getWebhookOwnerStats()`**: Delivery statistics rolled up across a portfolio (`GET /v1/portfolios/{portfolio_id}/webhooks/stats`)
+- **`replayWebhookEvent()`**: Replay a published event to one or all matching subscriptions (`POST /v1/portfolios/{portfolio_id}/webhooks/events/{event_id}/replay`)
+
+`listWebhookSubscriptions()` and `getWebhookDeliveryLogs()` return the standard pagination helpers (`hasNext()`, `next()`, `fetchAll()`, `getNextCursor()`). These endpoints return `hasNext` / `nextCursor` at the top level of the response, so the shared pagination helper now falls back to those fields when no nested `pagination` object is present. The raw `hasNext` boolean on these responses is replaced by the `hasNext()` helper method.
+
+`updateWebhookSubscription()` takes `updateMask` as `{ paths: ['target_url', ...] }` (snake_case field names). The live API decodes the mask as an object, not the string shown in the OpenAPI spec; a comma-separated string is still accepted and converted.
+
+Request/response types for the service are wrapped in `src/webhooks/types.ts`, including a `WebhookStatsPeriod` type for the `period` query parameter and an empty `DeleteWebhookSubscriptionResponse`.
+
+Runnable examples (one per endpoint, key inputs accepted as CLI args) are in `examples/webhooks/`. The HMAC secret returned by create and rotate is redacted in the examples unless `SHOW_HMAC_SECRET=true` is set.
+
+#### New & Updated Models
+
+- Webhook models, enums (`WebhookAuthType`, `WebhookDeliveryStatus`, `WebhookErrorType`, `WebhookHealthStatus`), and per-method `*Error` unions.
+- OpenAPI spec and generated models synced to the latest Prime public API.
+
 ## [0.14.0] - 2026-SEP-09
 
 ### Added

@@ -58,6 +58,7 @@ import type { IStakingService } from '../staking';
 import type { ITransactionsService } from '../transactions';
 import type { IUsersService } from '../users';
 import type { IWalletsService } from '../wallets';
+import type { IWebhooksService } from '../webhooks';
 
 /**
  * Enhanced Coinbase Prime Client with lazy-loaded service getters.
@@ -90,6 +91,7 @@ export class CoinbasePrimeClientWithServices
   private _transactionsService?: ITransactionsService;
   private _usersService?: IUsersService;
   private _walletsService?: IWalletsService;
+  private _webhooksService?: IWebhooksService;
 
   constructor(
     credentials?: CoinbasePrimeCredentials,
@@ -469,5 +471,20 @@ export class CoinbasePrimeClientWithServices
       this._walletsService = new WalletsService(this);
     }
     return this._walletsService!;
+  }
+
+  /**
+   * Lazy getter for WebhooksService
+   * @example
+   * ```typescript
+   * const subscriptions = await client.webhooks.listWebhookSubscriptions({ portfolioId });
+   * ```
+   */
+  get webhooks(): IWebhooksService {
+    if (!this._webhooksService) {
+      const { WebhooksService } = require('../webhooks');
+      this._webhooksService = new WebhooksService(this);
+    }
+    return this._webhooksService!;
   }
 }

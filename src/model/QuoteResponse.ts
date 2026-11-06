@@ -31,4 +31,8 @@ export type QuoteResponse = {
    * Echo of the quote_duration_ms supplied in the request. 0 if the client did not supply a value, in which case the server applies the default of 3000 ms (3 seconds).
    */
   quoteDurationMs?: string;
+  /**
+   * Buy Exact order flag
+   */
+  isBuyExact?: boolean;
 };

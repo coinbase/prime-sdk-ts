@@ -46,6 +46,7 @@ export { StakingService, IStakingService } from './staking';
 export { TransactionsService, ITransactionsService } from './transactions';
 export { UsersService, IUsersService } from './users';
 export { WalletsService, IWalletsService } from './wallets';
+export { WebhooksService, IWebhooksService } from './webhooks';
 
 // Export model types and enums
 export type * from './model/';

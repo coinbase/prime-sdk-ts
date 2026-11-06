@@ -49,7 +49,7 @@ export interface IFuturesService {
   /**
    * List Entity Futures Sweeps
    *
-   * Retrieve fcm sweeps in open status, including pending and processing sweeps.
+   * Retrieve fcm sweeps in open status, including pending and processing sweeps. Note: Exchange clients accessing this endpoint as a Cross-Margin customer, must pass their designated Exchange UUID as the *entity_id* path parameter. If you do not have this value, please reach out to your dedicated Technical Account Manager.
    *
    * @throws CoinbasePrimeException HTTP error. Typed body: {@link ListEntitySweepsError}.
    */
@@ -61,7 +61,7 @@ export interface IFuturesService {
   /**
    * Get Entity FCM Balance
    *
-   * Retrieve fcm balance for a given entity.
+   * Retrieve fcm balance for a given entity. Note: Exchange clients accessing this endpoint as a Cross-Margin customer, must pass their designated Exchange UUID as the *entity_id* path parameter. If you do not have this value, please reach out to your dedicated Technical Account Manager.
    *
    * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetEntityBalanceError}.
    */
@@ -73,7 +73,7 @@ export interface IFuturesService {
   /**
    * Get Entity Positions
    *
-   * Retrieve all active fcm positions for a given entity.
+   * Retrieve all active fcm positions for a given entity. Note: Exchange clients accessing this endpoint as a Cross-Margin customer, must pass their designated Exchange UUID as the *entity_id* path parameter. If you do not have this value, please reach out to your dedicated Technical Account Manager.
    *
    * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetEntityPositionsError}.
    */
@@ -85,7 +85,7 @@ export interface IFuturesService {
   /**
    * Schedule Entity Futures Sweep
    *
-   * Schedule a sweep for a given entity from FCM wallet to USD Spot wallet. Only one pending sweep is allowed at a time per entity.
+   * Schedule a sweep for a given entity from FCM wallet to USD Spot wallet. Only one pending sweep is allowed at a time per entity. Note: Exchange clients accessing this endpoint as a Cross-Margin customer, must pass their designated Exchange UUID as the *entity_id* path parameter. If you do not have this value, please reach out to your dedicated Technical Account Manager.
    *
    * @throws CoinbasePrimeException HTTP error. Typed body: {@link ScheduleEntitySweepError}.
    */
@@ -97,7 +97,7 @@ export interface IFuturesService {
   /**
    * Set Auto Sweep
    *
-   * Set auto sweep for a given entity.
+   * Set auto sweep for a given entity. Note: Exchange clients accessing this endpoint as a Cross-Margin customer, must pass their designated Exchange UUID as the *entity_id* path parameter. If you do not have this value, please reach out to your dedicated Technical Account Manager.
    *
    * @throws CoinbasePrimeException HTTP error. Typed body: {@link UpdateEntityAutoSweepError}.
    */
@@ -109,7 +109,7 @@ export interface IFuturesService {
   /**
    * Cancel Entity Futures Sweep
    *
-   * Cancel the pending sweep for a given entity. A user will only be able to have one pending sweep at a time. If the sweep is not found, a 404 will be returned.
+   * Cancel the pending sweep for a given entity. A user will only be able to have one pending sweep at a time. If the sweep is not found, a 404 will be returned. Note: Exchange clients accessing this endpoint as a Cross-Margin customer, must pass their designated Exchange UUID as the *entity_id* path parameter. If you do not have this value, please reach out to your dedicated Technical Account Manager.
    *
    * @throws CoinbasePrimeException HTTP error. Typed body: {@link CancelEntitySweepError}.
    */
@@ -121,7 +121,7 @@ export interface IFuturesService {
   /**
    * Get FCM Risk Limits
    *
-   * Retrieve the risk limits for a given entity.
+   * Retrieve the risk limits for a given entity. Note: Exchange clients accessing this endpoint as a Cross-Margin customer, must pass their designated Exchange UUID as the *entity_id* path parameter. If you do not have this value, please reach out to your dedicated Technical Account Manager.
    *
    * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetRiskLimitsError}.
    */
@@ -133,7 +133,7 @@ export interface IFuturesService {
   /**
    * Get FCM Margin Call Details
    *
-   * Retrieve the margin call details for a given entity.
+   * Retrieve the margin call details for a given entity. Note: Exchange clients accessing this endpoint as a Cross-Margin customer, must pass their designated Exchange UUID as the *entity_id* path parameter. If you do not have this value, please reach out to your dedicated Technical Account Manager.
    *
    * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetMarginCallDetailsError}.
    */
@@ -145,7 +145,7 @@ export interface IFuturesService {
   /**
    * Get FCM Settings
    *
-   * Get settings related to FCM.
+   * Get settings related to FCM. Note: Exchange clients accessing this endpoint as a Cross-Margin customer, must pass their designated Exchange UUID as the *entity_id* path parameter. If you do not have this value, please reach out to your dedicated Technical Account Manager.
    *
    * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetFcmSettingsError}.
    */
@@ -157,7 +157,7 @@ export interface IFuturesService {
   /**
    * Set FCM Settings
    *
-   * Update settings related to FCM.
+   * Update settings related to FCM. Note: Exchange clients accessing this endpoint as a Cross-Margin customer, must pass their designated Exchange UUID as the *entity_id* path parameter. If you do not have this value, please reach out to your dedicated Technical Account Manager.
    *
    * @throws CoinbasePrimeException HTTP error. Typed body: {@link SetFcmSettingsError}.
    */
@@ -169,7 +169,7 @@ export interface IFuturesService {
   /**
    * Get FCM Equity
    *
-   * Retrieve the equity data for a given entity.
+   * Retrieve the equity data for a given entity. Note: Exchange clients accessing this endpoint as a Cross-Margin customer, must pass their designated Exchange UUID as the *entity_id* path parameter. If you do not have this value, please reach out to your dedicated Technical Account Manager.
    *
    * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetEntityEquityError}.
    */

@@ -25,4 +25,10 @@ export enum ListOnchainAddressGroupsBadRequestSubcode {
    * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
    */
   PortfolioIdRequired = 'PORTFOLIO_ID_REQUIRED',
+  /**
+   * The portfolio_id is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
+  PortfolioIdInvalid = 'PORTFOLIO_ID_INVALID',
 }

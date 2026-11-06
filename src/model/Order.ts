@@ -20,11 +20,13 @@
 
 import { LimitOrderEdit } from './LimitOrderEdit';
 import { CommissionDetailTotal } from './CommissionDetailTotal';
+import { LimitPriceType } from './enums/LimitPriceType';
 import { OrderEdit } from './OrderEdit';
 import { OrderSide } from './enums/OrderSide';
 import { OrderStatus } from './enums/OrderStatus';
 import { OrderType } from './enums/OrderType';
 import { ProductType } from './enums/ProductType';
+import { SpreadDetails } from './SpreadDetails';
 import { TimeInForceType } from './enums/TimeInForceType';
 
 export type Order = {
@@ -57,15 +59,15 @@ export type Order = {
    */
   type?: OrderType;
   /**
-   * Order size in base asset units (either `base_quantity` or `quote_value` is required)
+   * Order size in base asset units (either `base_quantity` or `quote_value` is required). For SPREAD orders, in the primary leg\'s units: a whole number of contracts when it is a futures product
    */
   baseQuantity?: string;
   /**
-   * Order size in quote asset units, i.e. the amount the user wants to spend (when buying) or receive (when selling); the quantity in base units will be determined based on the market liquidity and indicated `quote_value`. Either `base_quantity` or `quote_value` is required
+   * Order size in quote asset units, i.e. the amount the user wants to spend (when buying) or receive (when selling); the quantity in base units will be determined based on the market liquidity and indicated `quote_value`. Either `base_quantity` or `quote_value` is required. Not supported for SPREAD orders
    */
   quoteValue?: string;
   /**
-   * The limit price (required for TWAP, VWAP, LIMIT and STOP_LIMIT orders)
+   * The limit price (required for TWAP, VWAP, LIMIT and STOP_LIMIT orders). Empty for SPREAD orders, which carry a spread limit in `spread_details` instead
    */
   limitPrice?: string;
   /**
@@ -89,23 +91,23 @@ export type Order = {
    */
   createdAt?: Date;
   /**
-   * Size filled (in base asset units)
+   * Size filled (in base asset units). Empty for SPREAD orders, whose legs fill in different units; see `spread_details` for each leg\'s value
    */
   filledQuantity?: string;
   /**
-   * Market value filled (in quote asset units)
+   * Market value filled (in quote asset units). For SPREAD orders, the sum of both legs\' filled values
    */
   filledValue?: string;
   /**
-   * Indicates the average `filled_price`
+   * Indicates the average `filled_price`. Empty for SPREAD orders; see `spread_details` for each leg\'s value
    */
   averageFilledPrice?: string;
   /**
-   * Total commission paid on this order (in quote asset units) -- only applicable for partially- or fully-filled orders
+   * Total commission paid on this order (in quote asset units) -- only applicable for partially- or fully-filled orders. For SPREAD orders, the sum of both legs\' commissions; `commission_detail_total` is empty and each leg\'s breakdown is in `spread_details`
    */
   commission?: string;
   /**
-   * Fee charged by the exchange for Cost Plus commission configurations. Exchange fee will be 0 for All In commission configurations.
+   * Fee charged by the exchange for Cost Plus commission configurations. Exchange fee will be 0 for All In commission configurations. For SPREAD orders, the sum of both legs\' exchange fees (`spread_details.primary_leg.exchange_fee` and `spread_details.secondary_leg.exchange_fee`).
    */
   exchangeFee?: string;
   /**
@@ -117,7 +119,7 @@ export type Order = {
    */
   stopPrice?: string;
   /**
-   * Indicates the average `filled_price` net of commissions and fees
+   * Indicates the average `filled_price` net of commissions and fees. Empty for SPREAD orders; see `spread_details` for each leg\'s value
    */
   netAverageFilledPrice?: string;
   /**
@@ -177,4 +179,12 @@ export type Order = {
    * Indicates if this was a buy exact order (fees charged on top of quote size for BUY orders sized in quote)
    */
   isBuyExact?: boolean;
+  /**
+   * LimitPriceType indicates the unit `limit_price` is denominated in. Only meaningful for Deribit options - leave unspecified for every other order type and product, which are always priced in the quote currency.   - UNKNOWN_LIMIT_PRICE_TYPE: nil value - `limit_price` is interpreted in the product\'s default/native unit  - LIMIT_PRICE_TYPE_BASE_ASSET: `limit_price` is denominated in the underlying base asset (e.g. BTC for a BTC option). Only valid for Deribit options settled in the base asset.  - LIMIT_PRICE_TYPE_QUOTE_ASSET: `limit_price` is denominated in the quote asset (e.g. USD/USDC).  - LIMIT_PRICE_TYPE_IMPLIED_VOLATILITY: `limit_price` is an implied volatility percentage rather than a monetary amount (e.g. \"65.5\" means 65.5% implied volatility).
+   */
+  limitPriceType?: LimitPriceType;
+  /**
+   * A SPREAD order as placed and executed: the spread configuration, the spread product and each leg\'s fills
+   */
+  spreadDetails?: SpreadDetails;
 };

@@ -35,6 +35,7 @@ import type { IStakingService } from '../staking';
 import type { ITransactionsService } from '../transactions';
 import type { IUsersService } from '../users';
 import type { IWalletsService } from '../wallets';
+import type { IWebhooksService } from '../webhooks';
 
 /**
  * Interface defining all lazy service getters for the modular client
@@ -144,4 +145,9 @@ export interface LazyServiceGetters {
    * Wallets service for managing portfolio wallets
    */
   readonly wallets: IWalletsService;
+
+  /**
+   * Webhooks service for managing webhook subscriptions, deliveries, and stats
+   */
+  readonly webhooks: IWebhooksService;
 }

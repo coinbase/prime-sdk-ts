@@ -28,4 +28,5 @@ export enum AdvancedTransferState {
   AdvancedTransferStateCancelled = 'ADVANCED_TRANSFER_STATE_CANCELLED',
   AdvancedTransferStateFailed = 'ADVANCED_TRANSFER_STATE_FAILED',
   AdvancedTransferStateExpired = 'ADVANCED_TRANSFER_STATE_EXPIRED',
+  AdvancedTransferStateRejected = 'ADVANCED_TRANSFER_STATE_REJECTED',
 }
