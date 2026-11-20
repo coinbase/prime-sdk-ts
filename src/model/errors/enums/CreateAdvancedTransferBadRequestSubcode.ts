@@ -61,4 +61,10 @@ export enum CreateAdvancedTransferBadRequestSubcode {
    * Error code: REQUIRED_FIELD_MISSING (HTTP 400)
    */
   AdvancedTransferCounterpartyRequired = 'ADVANCED_TRANSFER_COUNTERPARTY_REQUIRED',
+  /**
+   * The idempotency_key field is present but is not a valid UUID.
+   *
+   * Error code: VALIDATION_ERROR (HTTP 400)
+   */
+  AdvancedTransferIdempotencyKeyInvalid = 'ADVANCED_TRANSFER_IDEMPOTENCY_KEY_INVALID',
 }

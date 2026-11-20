@@ -89,3 +89,4 @@ export { XMEntityCallStatus } from './XMEntityCallStatus';
 export { XMLiquidationStatus } from './XMLiquidationStatus';
 export { XMMarginLevel } from './XMMarginLevel';
 export { XMParty } from './XMParty';
+export { XMPositionType } from './XMPositionType';

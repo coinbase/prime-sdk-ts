@@ -29,7 +29,7 @@ export type CreateAdvancedTransferRequest = {
    */
   advancedTransfer: AdvancedTransfer;
   /**
-   * Optional client-generated idempotency key. A request with the same key returns the stored transaction ID and reports CREATED; the request body is not compared. Omit the field to create a new transfer.
+   * Optional client-generated idempotency key. When set, it must be a UUID. A request with the same key returns the stored transfer (id, legs, and state); the request body is not compared. Omit the field to create a new transfer.
    */
   idempotencyKey?: string;
 };

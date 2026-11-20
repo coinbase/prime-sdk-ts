@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { Method } from '../../clients';
+import { WebhookAuthType } from '../../model/enums/WebhookAuthType';
 import { WebhooksService } from '../index';
 
 const PORTFOLIO_ID = '11111111-1111-4111-8111-111111111111';
@@ -97,6 +98,24 @@ describe('WebhooksService', () => {
 
     expect(page.hasNext()).toBe(false);
     expect(await page.next()).toBeNull();
+  });
+
+  it('sends the signature-only auth type when creating a subscription', async () => {
+    const { service, request } = makeService();
+
+    await service.createWebhookSubscription({
+      portfolioId: PORTFOLIO_ID,
+      targetUrl: 'https://example.com/hook',
+      eventTypes: ['ORDER_FILLED'],
+      authType: WebhookAuthType.WebhookAuthTypeSignatureOnly,
+    });
+
+    expect(request.mock.calls[0][0].bodyParams.authType).toBe(
+      'WEBHOOK_AUTH_TYPE_SIGNATURE_ONLY'
+    );
+    expect(Object.values(WebhookAuthType)).not.toContain(
+      'WEBHOOK_AUTH_TYPE_HMAC'
+    );
   });
 
   it('updates a subscription with PATCH and keeps path params out of the body', async () => {

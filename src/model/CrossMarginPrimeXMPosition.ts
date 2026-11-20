@@ -18,6 +18,7 @@
  *  Do not edit the class manually.
  */
 
+import { CrossMarginPositionBreakdown } from './CrossMarginPositionBreakdown';
 import { CrossMarginPrimeSpotMarginContribution } from './CrossMarginPrimeSpotMarginContribution';
 import { PrimeXMAssetClass } from './enums/PrimeXMAssetClass';
 
@@ -93,4 +94,8 @@ export type CrossMarginPrimeXMPosition = {
    * Breakdown of a position row\'s spot equity contribution. All values are zero when no contribution data is available. If the asset class is unknown, the contribution amounts are still returned.
    */
   spotMarginContribution?: CrossMarginPrimeSpotMarginContribution;
+  /**
+   * Spot balance of this asset by position type. Contains SPOT_TRADING and SPOT_VAULT legs, which sum to spot_balance and spot_balance_notional.
+   */
+  spotPositionBreakdown?: Array<CrossMarginPositionBreakdown>;
 };

@@ -19,7 +19,7 @@
  */
 
 /**
- * - UNKNOWN_MAX_DELTA_TYPE: nil value  - MAX_DELTA_TYPE_SPOT: Absolute size in spot base units  - MAX_DELTA_TYPE_PERCENT: Percentage of the order size  - MAX_DELTA_TYPE_CONTRACT: Absolute number of futures contracts
+ * - UNKNOWN_MAX_DELTA_TYPE: nil value  - MAX_DELTA_TYPE_SPOT: Absolute size in spot base units. Not accepted for a calendar spread (two futures).  - MAX_DELTA_TYPE_PERCENT: Percentage of the order size  - MAX_DELTA_TYPE_CONTRACT: Absolute number of futures contracts
  */
 export enum MaxDeltaType {
   MaxDeltaTypeSpot = 'MAX_DELTA_TYPE_SPOT',

@@ -77,6 +77,7 @@ export type { CreateWalletResponse } from './CreateWalletResponse';
 export type { CreateWalletTransferResponse } from './CreateWalletTransferResponse';
 export type { CreateWalletWithdrawalResponse } from './CreateWalletWithdrawalResponse';
 export type { CrossMarginOverview } from './CrossMarginOverview';
+export type { CrossMarginPositionBreakdown } from './CrossMarginPositionBreakdown';
 export type { CrossMarginPrimeDerivativesEquityBreakdown } from './CrossMarginPrimeDerivativesEquityBreakdown';
 export type { CrossMarginPrimeMarginSummary } from './CrossMarginPrimeMarginSummary';
 export type { CrossMarginPrimeRiskNettingInfo } from './CrossMarginPrimeRiskNettingInfo';

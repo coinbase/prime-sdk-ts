@@ -27,4 +27,7 @@ export enum WebhookErrorType {
   WebhookErrorTypeHttp5Xx = 'WEBHOOK_ERROR_TYPE_HTTP_5XX',
   WebhookErrorTypeTimeout = 'WEBHOOK_ERROR_TYPE_TIMEOUT',
   WebhookErrorTypeConnectionError = 'WEBHOOK_ERROR_TYPE_CONNECTION_ERROR',
+  WebhookErrorTypeHttp3Xx = 'WEBHOOK_ERROR_TYPE_HTTP_3XX',
+  WebhookErrorTypeInvalidEvent = 'WEBHOOK_ERROR_TYPE_INVALID_EVENT',
+  WebhookErrorTypeCanceled = 'WEBHOOK_ERROR_TYPE_CANCELED',
 }

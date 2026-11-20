@@ -27,4 +27,6 @@ export type WebhookEventTypeStats = {
   successful?: string;
   successRate?: number;
   avgLatencyMs?: string;
+  failed?: string;
+  inProgress?: string;
 };

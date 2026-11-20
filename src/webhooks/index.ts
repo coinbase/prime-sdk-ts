@@ -171,7 +171,7 @@ export interface IWebhooksService {
   /**
    * Get Webhook Delivery Logs
    *
-   * Returns cursor-paginated delivery logs for a single subscription.
+   * Returns cursor-paginated delivery logs for a single subscription. Delivery history is retained for up to 30 days from each attempt's `attempted_at` timestamp; older entries may be unavailable.
    *
    * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetWebhookDeliveryLogsError}.
    */
@@ -183,7 +183,7 @@ export interface IWebhooksService {
   /**
    * Get Webhook Delivery Attempts
    *
-   * Returns all HTTP POST attempts for a specific (event_id, subscription_id) pair.
+   * Returns all HTTP POST attempts for a specific (event_id, subscription_id) pair. Attempt history is retained for up to 30 days from each attempt's `attempted_at` timestamp; older records may be unavailable.
    *
    * @throws CoinbasePrimeException HTTP error. Typed body: {@link GetWebhookDeliveryAttemptsError}.
    */

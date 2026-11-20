@@ -19,7 +19,7 @@
  */
 
 /**
- * AdvancedTransferState represents the lifecycle state of an advanced transfer.
+ * AdvancedTransferState represents the lifecycle state of an advanced transfer.   - ADVANCED_TRANSFER_STATE_MATCHED: The counterparties have matched. Settlement has not started. Happy path is CREATED, MATCHED, PROCESSING, DONE.
  */
 export enum AdvancedTransferState {
   AdvancedTransferStateCreated = 'ADVANCED_TRANSFER_STATE_CREATED',
@@ -29,4 +29,5 @@ export enum AdvancedTransferState {
   AdvancedTransferStateFailed = 'ADVANCED_TRANSFER_STATE_FAILED',
   AdvancedTransferStateExpired = 'ADVANCED_TRANSFER_STATE_EXPIRED',
   AdvancedTransferStateRejected = 'ADVANCED_TRANSFER_STATE_REJECTED',
+  AdvancedTransferStateMatched = 'ADVANCED_TRANSFER_STATE_MATCHED',
 }

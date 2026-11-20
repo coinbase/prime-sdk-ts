@@ -34,7 +34,7 @@ export type AdvancedTransfer = {
    */
   type?: AdvancedTransferType;
   /**
-   * AdvancedTransferState represents the lifecycle state of an advanced transfer.
+   * AdvancedTransferState represents the lifecycle state of an advanced transfer.   - ADVANCED_TRANSFER_STATE_MATCHED: The counterparties have matched. Settlement has not started. Happy path is CREATED, MATCHED, PROCESSING, DONE.
    */
   state?: AdvancedTransferState;
   fundMovements?: Array<FundMovement>;
