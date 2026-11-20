@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.16.0]
+
+### Breaking changes
+
+- Replace `WebhookAuthType.WebhookAuthTypeHmac` (`WEBHOOK_AUTH_TYPE_HMAC`) with `WebhookAuthType.WebhookAuthTypeSignatureOnly` (`WEBHOOK_AUTH_TYPE_SIGNATURE_ONLY`). Update explicit `authType` values when creating or updating subscriptions. If `authType` is omitted on creation, Prime defaults to signature-only delivery.
+
+### Changed
+
+- Sync models, typed errors, and endpoint documentation to the published Prime OpenAPI spec, including webhook delivery retention and statistics, advanced transfers, transaction types, and cross-margin position breakdowns.
+
 ## [0.15.0] - 2026-NOV-06
 
 ### Added

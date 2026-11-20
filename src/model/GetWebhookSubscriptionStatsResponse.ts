@@ -40,4 +40,5 @@ export type GetWebhookSubscriptionStatsResponse = {
   p99LatencyMs?: string;
   eventTypeBreakdown?: Array<WebhookEventTypeStats>;
   recentFailures?: Array<WebhookRecentFailure>;
+  inProgress?: string;
 };

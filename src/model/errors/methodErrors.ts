@@ -287,6 +287,7 @@ import type { GetXMLiquidationBadRequestErrorResponse } from './GetXMLiquidation
 import type { GetXMLiquidationForbiddenErrorResponse } from './GetXMLiquidationForbiddenErrorResponse';
 import type { GetXMLiquidationNotFoundErrorResponse } from './GetXMLiquidationNotFoundErrorResponse';
 import type { InternalServerErrorResponse } from './InternalServerErrorResponse';
+import type { ListAdvancedTransferTransactionsBadRequestErrorResponse } from './ListAdvancedTransferTransactionsBadRequestErrorResponse';
 import type { ListAdvancedTransferTransactionsForbiddenErrorResponse } from './ListAdvancedTransferTransactionsForbiddenErrorResponse';
 import type { ListAdvancedTransferTransactionsNotFoundErrorResponse } from './ListAdvancedTransferTransactionsNotFoundErrorResponse';
 import type { ListAdvancedTransfersBadRequestErrorResponse } from './ListAdvancedTransfersBadRequestErrorResponse';
@@ -1048,6 +1049,7 @@ export type ListAdvancedTransfersError =
 
 export type ListAdvancedTransferTransactionsError =
   | InternalServerErrorResponse
+  | ListAdvancedTransferTransactionsBadRequestErrorResponse
   | ListAdvancedTransferTransactionsForbiddenErrorResponse
   | ListAdvancedTransferTransactionsNotFoundErrorResponse
   | ServiceUnavailableErrorResponse

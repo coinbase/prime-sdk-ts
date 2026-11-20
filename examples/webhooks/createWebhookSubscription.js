@@ -31,7 +31,7 @@
  * Arguments:
  *   - eventTypes (required): Comma-separated list of event types to subscribe to
  *   - targetUrl (required): HTTPS URL that will receive webhook deliveries
- *   - authType (optional): WebhookAuthType value (default: WEBHOOK_AUTH_TYPE_HMAC)
+ *   - authType (optional): WebhookAuthType value (default: WEBHOOK_AUTH_TYPE_SIGNATURE_ONLY)
  */
 
 // #docs operationId: PrimeBeta_CreateWebhookSubscription
@@ -50,7 +50,8 @@ const eventTypes = (process.argv[2] || '')
   .map((e) => e.trim())
   .filter(Boolean);
 const targetUrl = process.argv[3];
-const authType = process.argv[4] || WebhookAuthType.WebhookAuthTypeHmac;
+const authType =
+  process.argv[4] || WebhookAuthType.WebhookAuthTypeSignatureOnly;
 
 if (eventTypes.length === 0 || !targetUrl) {
   console.error(

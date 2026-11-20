@@ -30,7 +30,7 @@ export type WebhookSubscription = {
   eventTypes?: Array<string>;
   targetUrl?: string;
   /**
-   * WebhookAuthType identifies the authentication method used to deliver webhook events.
+   * WebhookAuthType is how Prime authenticates to your endpoint, on top of the signatures. Every delivery is signed twice, whatever the auth type: with HMAC-SHA256 in X-Coinbase-Signature, keyed by the subscription\'s hmac_secret, and with Ed25519 in X-Coinbase-Signature-Ed25519, verifiable with the public key named by X-Coinbase-Signature-Key-Id at /.well-known/jwks.json. Verify either one.   - WEBHOOK_AUTH_TYPE_SIGNATURE_ONLY: Signatures only. Used when a subscription is created without auth_type.  - WEBHOOK_AUTH_TYPE_OAUTH: Signatures plus an OAuth 2.0 bearer token, fetched with oauth_config, in the Authorization header.  - WEBHOOK_AUTH_TYPE_MTLS: Signatures plus a Coinbase client certificate (mutual TLS).  - WEBHOOK_AUTH_TYPE_OAUTH_MTLS: Signatures plus both an OAuth 2.0 bearer token and a client certificate.
    */
   authType?: WebhookAuthType;
   /**

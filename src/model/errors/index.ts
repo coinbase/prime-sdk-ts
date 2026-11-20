@@ -270,6 +270,7 @@ export type { GetXMLiquidationBadRequestErrorResponse } from './GetXMLiquidation
 export type { GetXMLiquidationForbiddenErrorResponse } from './GetXMLiquidationForbiddenErrorResponse';
 export type { GetXMLiquidationNotFoundErrorResponse } from './GetXMLiquidationNotFoundErrorResponse';
 export type { InternalServerErrorResponse } from './InternalServerErrorResponse';
+export type { ListAdvancedTransferTransactionsBadRequestErrorResponse } from './ListAdvancedTransferTransactionsBadRequestErrorResponse';
 export type { ListAdvancedTransferTransactionsForbiddenErrorResponse } from './ListAdvancedTransferTransactionsForbiddenErrorResponse';
 export type { ListAdvancedTransferTransactionsNotFoundErrorResponse } from './ListAdvancedTransferTransactionsNotFoundErrorResponse';
 export type { ListAdvancedTransfersBadRequestErrorResponse } from './ListAdvancedTransfersBadRequestErrorResponse';

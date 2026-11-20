@@ -273,6 +273,7 @@ export { GetXMLiquidationForbiddenSubcode } from './GetXMLiquidationForbiddenSub
 export { GetXMLiquidationNotFoundSubcode } from './GetXMLiquidationNotFoundSubcode';
 export { InternalServerErrorCode } from './InternalServerErrorCode';
 export { InternalServerSubcode } from './InternalServerSubcode';
+export { ListAdvancedTransferTransactionsBadRequestSubcode } from './ListAdvancedTransferTransactionsBadRequestSubcode';
 export { ListAdvancedTransferTransactionsForbiddenSubcode } from './ListAdvancedTransferTransactionsForbiddenSubcode';
 export { ListAdvancedTransferTransactionsNotFoundSubcode } from './ListAdvancedTransferTransactionsNotFoundSubcode';
 export { ListAdvancedTransfersBadRequestSubcode } from './ListAdvancedTransfersBadRequestSubcode';
